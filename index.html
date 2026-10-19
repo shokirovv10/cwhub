@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
 :root{
   --bg:#0a0c10; --bg2:#0e1117; --panel:#12151c; --panel2:#181c25; --panel3:#20252f; --line:#232835; --line2:#2e3443;
@@ -224,6 +225,16 @@ tr.left td{opacity:.5}
 .linksteps{text-align:left;display:grid;gap:12px;margin-top:20px}
 .ls{display:flex;gap:14px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px}
 .ls i{font-style:normal;flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-weight:800}
+.authbox{max-width:420px;margin:18px auto 0;text-align:left;display:grid;gap:12px}
+.authbox label{font-size:13px;color:var(--muted);font-weight:600}
+.authbox input{width:100%;padding:13px 15px;border-radius:12px;border:1px solid var(--line2);background:var(--panel2);color:var(--text);font:15px Inter,sans-serif;margin-top:6px}
+.authbox input:focus{outline:2px solid rgba(245,166,35,.5);outline-offset:1px}
+.authtabs{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:4px;max-width:420px;margin:0 auto}
+.authtabs button{flex:1;border:0;background:none;padding:10px;border-radius:9px;cursor:pointer;font-weight:700;color:var(--muted)}
+.authtabs button.on{background:var(--accent);color:var(--accent-ink)}
+.msg{font-size:14px;padding:10px 12px;border-radius:10px}
+.msg.err{background:rgba(239,83,80,.12);color:#ff8a87}.msg.ok{background:rgba(62,207,126,.12);color:#7be2a6}
+.code{font:700 64px Rajdhani,sans-serif;letter-spacing:14px;color:var(--accent);background:var(--panel2);border:2px dashed var(--accent);border-radius:18px;padding:10px 26px 6px 40px;display:inline-block;margin:10px 0}
 .banner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:14px 16px;border-radius:14px;background:rgba(42,171,238,.1);border:1px solid rgba(42,171,238,.35);margin-bottom:16px}
 
 footer{border-top:1px solid var(--line);color:var(--muted);font-size:14px;padding:34px 0 28px;background:var(--bg2)}
@@ -262,6 +273,10 @@ const ADDRESS = "cyberstep.hostin.uz:27045";
 const SEASON = 1;
 const CAL = 5;
 const BOT_DEFAULT = "cwhub_statsbot";
+// Supabase (sayt akkauntlari). anon kalit ochiq — u faqat RLS ruxsat bergan narsani qila oladi.
+const SB_URL = "";
+const SB_ANON = "";
+const sb = (SB_URL && SB_ANON && window.supabase) ? window.supabase.createClient(SB_URL, SB_ANON) : null;
 const DATA_URLS = ["https://raw.githubusercontent.com/shokirovv10/cwhub/data/data.json", "data.json"];
 const MAPS = ["de_dust2","de_inferno","de_nuke","de_train","de_cbble","de_aztec","de_tuscan","de_dust","de_mirage"];
 const RANKS = [[0,"L-"],[850,"L"],[900,"L+"],[950,"M-"],[1000,"M"],[1050,"M+"],[1100,"H-"],[1150,"H"],[1200,"H+"],[1300,"P"]];
@@ -276,7 +291,7 @@ const T = {
     tag: "Toshkentdagi ClanWar 5x5 server. 16 g'alabagacha, PTS reyting, demo yozuvi va adolatli o'yin. Steam va non-steam.",
     nowOn: "Hozir serverda", nobody: "Hozir hech kim yo'q — birinchi bo'ling!", slots: "o'rin band",
     sPlayers: "O'yinchilar", sMatches: "Matchlar", sKills: "Jami kill", sTop: "Eng yuqori PTS",
-    howTitle: "3 qadamda boshlang", how: [["CS 1.6 o'rnating","Steam yoki non-steam — ikkalasi ham kiradi."],["\"Hozir o'ynash\" ni bosing","Yoki konsolga (~): connect "+ADDRESS],["Telegram bilan ro'yxatdan o'ting","Profilingiz tasdiqlanadi va saytda \"Mening profilim\" paydo bo'ladi."]],
+    howTitle: "3 qadamda boshlang", how: [["CS 1.6 o'rnating","Steam yoki non-steam — ikkalasi ham kiradi."],["\"Hozir o'ynash\" ni bosing","Yoki konsolga (~): connect "+ADDRESS],["Saytda ro'yxatdan o'ting","Email va parol bilan. Keyin o'yinda /link KOD yozing — profilingiz ✓ bilan ulanadi."]],
     top: "TOP-3 o'yinchi", allRank: "Butun reyting", lastMatches: "Oxirgi matchlar", all: "Hammasi",
     rating: "Reyting", ratingLead: "Barcha o'yinchilar PTS bo'yicha. Saralash va qidiruv.", search: "Nick yoki SteamID bo'yicha qidirish…", cal: "kalibrovka",
     tabs: ["PTS","K/D","HS%","ADR","Matchlar"], player: "O'yinchi", rank: "Rank", matches: "Match", wins: "G'alaba", form: "Forma",
@@ -296,11 +311,13 @@ const T = {
     appeal: "Razbanga ariza / shikoyat", appealNote: "Ban noto'g'ri bo'lsa — Telegram'ga yozing, konsoldagi (~) ban ma'lumotining skrinshoti bilan.",
     rulesT: "Qoidalar", rulesLead: "Hamma uchun bir xil. Admin o'yinda ustunlik olmaydi.", updated: "Yangilangan",
     about: "CS 1.6 ClanWar 5x5 jamoasi. Adolatli raqobat, PTS reyting va har bir match statistikasi.", f1: "O'yin", f2: "Jamoa",
-    authT: "Ro'yxatdan o'tish / Kirish", authLead: "Telegram akkauntingiz bilan bir bosishda kiring. Parol kerak emas.",
-    authNote: "Agar tugma chiqmasa — sayt administratori bot domenini sozlashi kerak.",
-    linkT: "Akkauntni o'yinga ulash", linkLead: "Profilingiz tasdiqlanishi uchun o'yindagi SteamID'ingizni ulang:",
-    linkSteps: ["Serverga kiring va chatga <span class='mono'>/link</span> yozing — 6 xonali kod chiqadi", "Kodni botga yuboring: <span class='mono'>/link 123456</span>", "Bir necha daqiqada sahifa yangilanadi — profilingiz ✓ bilan chiqadi"],
-    openBot: "Botni ochish", hello: n => `Salom, ${n}!`, linkedAs: "Ulangan o'yinchi", pending: "Ulanish kutilmoqda…",
+    authT: "Ro'yxatdan o'tish / Kirish", authLead: "Email va parol bilan akkaunt oching. Keyin o'yinda /link KOD yozib profilingizni ulaysiz.",
+    signIn: "Kirish", signUp: "Ro'yxatdan o'tish", email: "Email (masalan Gmail)", password: "Parol (kamida 6 belgi)", password2: "Parolni takrorlang",
+    forgot: "Parolni unutdingizmi?", resetSent: "Parolni tiklash havolasi emailingizga yuborildi.", pwMismatch: "Parollar bir xil emas.",
+    signedUp: "Akkaunt yaratildi! Endi kirishingiz mumkin.", notReady: "Ro'yxatdan o'tish tez orada ishga tushadi.",
+    yourCode: "Sizning kodingiz", linkLead: "Profilingizni o'yinga ulash uchun:",
+    linkSteps: c => [`Serverga kiring: <span class='mono'>connect ${ADDRESS}</span>`, `Chatga yozing: <span class='mono'>/link ${c}</span>`, "Bir necha daqiqada sahifa yangilanadi — profilingiz ✓ bilan chiqadi"],
+    linkedAs: "Ulangan o'yinchi", pending: "Ulanish kutilmoqda… (kod har bir akkauntda boshqa)", hello: n => `Salom, ${n}!`, openProfile: "Profilimni ochish",
     achs: [["🎯","Birinchi qadam","1 match o'ynash"],["🏆","Birinchi g'alaba","1 match yutish"],["🔥","Seriya","3 g'alaba ketma-ket"],["💯","Faxriy","25 match"],["🎖","Veteran","100 match"],["💀","Qassob","Bir matchda 30+ kill"],["🧠","Headshot ustasi","HS 50%+ (10+ match)"],["⭐","MVP","Match MVP'si bo'lish"],["💎","P rank","1300+ PTS"]]
   },
   ru: {
@@ -310,7 +327,7 @@ const T = {
     tag: "ClanWar 5x5 сервер в Ташкенте. До 16 побед, рейтинг PTS, запись демо и честная игра. Steam и non-steam.",
     nowOn: "Сейчас на сервере", nobody: "Сейчас никого — будь первым!", slots: "слотов занято",
     sPlayers: "Игроков", sMatches: "Матчей", sKills: "Всего убийств", sTop: "Лучший PTS",
-    howTitle: "Начни за 3 шага", how: [["Установи CS 1.6","Steam или non-steam — заходят обе версии."],["Нажми «Играть сейчас»","Или в консоли (~): connect "+ADDRESS],["Зарегистрируйся через Telegram","Профиль подтвердится, на сайте появится «Мой профиль»."]],
+    howTitle: "Начни за 3 шага", how: [["Установи CS 1.6","Steam или non-steam — заходят обе версии."],["Нажми «Играть сейчас»","Или в консоли (~): connect "+ADDRESS],["Зарегистрируйся на сайте","По email и паролю. Затем в игре /link КОД — профиль привяжется с ✓."]],
     top: "ТОП-3 игрока", allRank: "Весь рейтинг", lastMatches: "Последние матчи", all: "Все",
     rating: "Рейтинг", ratingLead: "Все игроки по PTS. Сортировка и поиск.", search: "Поиск по нику или SteamID…", cal: "калибровка",
     tabs: ["PTS","K/D","HS%","ADR","Матчи"], player: "Игрок", rank: "Ранг", matches: "Матчи", wins: "Победы", form: "Форма",
@@ -330,11 +347,13 @@ const T = {
     appeal: "Заявка на разбан / жалоба", appealNote: "Если бан ошибочный — напишите в Telegram со скриншотом информации о бане из консоли (~).",
     rulesT: "Правила", rulesLead: "Одинаковые для всех. Админка не даёт преимущества в игре.", updated: "Обновлено",
     about: "CS 1.6 ClanWar 5x5 сообщество. Честная конкуренция, рейтинг PTS и статистика каждого матча.", f1: "Игра", f2: "Сообщество",
-    authT: "Регистрация / Вход", authLead: "Войдите через Telegram в один клик. Пароль не нужен.",
-    authNote: "Если кнопка не появилась — администратор сайта должен настроить домен бота.",
-    linkT: "Привязка аккаунта к игре", linkLead: "Чтобы профиль был подтверждён, привяжите свой SteamID:",
-    linkSteps: ["Зайдите на сервер и напишите в чат <span class='mono'>/link</span> — появится 6-значный код", "Отправьте код боту: <span class='mono'>/link 123456</span>", "Через пару минут страница обновится — профиль будет с ✓"],
-    openBot: "Открыть бота", hello: n => `Привет, ${n}!`, linkedAs: "Привязанный игрок", pending: "Ожидание привязки…",
+    authT: "Регистрация / Вход", authLead: "Создайте аккаунт по email и паролю. Затем в игре введите /link КОД — профиль привяжется.",
+    signIn: "Войти", signUp: "Регистрация", email: "Email (например Gmail)", password: "Пароль (минимум 6 символов)", password2: "Повторите пароль",
+    forgot: "Забыли пароль?", resetSent: "Ссылка для сброса пароля отправлена на email.", pwMismatch: "Пароли не совпадают.",
+    signedUp: "Аккаунт создан! Теперь можно войти.", notReady: "Регистрация скоро заработает.",
+    yourCode: "Ваш код", linkLead: "Чтобы привязать профиль к игре:",
+    linkSteps: c => [`Зайдите на сервер: <span class='mono'>connect ${ADDRESS}</span>`, `Напишите в чат: <span class='mono'>/link ${c}</span>`, "Через пару минут страница обновится — профиль будет с ✓"],
+    linkedAs: "Привязанный игрок", pending: "Ожидание привязки… (у каждого аккаунта свой код)", hello: n => `Привет, ${n}!`, openProfile: "Открыть мой профиль",
     achs: [["🎯","Первый шаг","Сыграть 1 матч"],["🏆","Первая победа","Выиграть матч"],["🔥","Серия","3 победы подряд"],["💯","Завсегдатай","25 матчей"],["🎖","Ветеран","100 матчей"],["💀","Мясник","30+ убийств за матч"],["🧠","Хедшотер","HS 50%+ (10+ матчей)"],["⭐","MVP","Стать MVP матча"],["💎","Ранг P","1300+ PTS"]]
   }
 };
@@ -398,7 +417,7 @@ async function sha(s){
 }
 const botName = () => D?.bot || BOT_DEFAULT;
 const verifiedSteam = steam => (D?.accounts || []).some(a => a.steam === steam);
-const mySteam = () => ME && (D?.accounts || []).find(a => a.h === ME.h)?.steam;
+const mySteam = () => ME?.acc?.steam || null;
 
 /* ===================================================================== indekslar */
 function buildIndex(){
@@ -488,7 +507,7 @@ function pageHome(){
   </div>
   <div class="card mt2"><h3>${t("howTitle")}</h3>
     <div class="steps">${t("how").map((h, i) => `<div class="step"><i>${i + 1}</i><b style="display:block;margin-bottom:4px">${h[0]}</b><span class="sub">${esc(h[1])}</span></div>`).join("")}</div>
-    <div class="btns mt"><a class="btn tg" href="#/me">${I.tg} ${t("authT")}</a></div>
+    <div class="btns mt"><a class="btn main" href="#/me">${I.user} ${t("authT")}</a></div>
   </div>`;
 }
 
@@ -597,7 +616,7 @@ function pageProfile(id){
   if (!p) return `<div class="card empty">${t("notFound")}: ${esc(id)}<br><br><a class="btn" href="#/top">${t("back")}</a></div>`;
   const ri = rankIdx(p.pts), next = RANKS[ri + 1], cal = p.matches < CAL, c = TIERC[rankName(p.pts)[0]];
   const lo = ri ? RANKS[ri][0] : 700, frac = next ? Math.max(0, Math.min(1, (p.pts - lo) / (next[0] - lo))) : 1;
-  const online = (D?.server?.players || []).some(x => x.name === p.name), isMe = mySteam() === p.id;
+  const online = (D?.server?.players || []).some(x => x.name === p.name), isMe = !!mySteam() && mySteam() === p.id;
   const games = (p.hist.length ? p.hist : p.ms).slice().reverse().slice(0, 15), pp = people(p);
   return `
   ${isMe ? `<div class="banner"><b>👋 ${t("thisIsYou")}</b><span class="verified">${I.check} ${t("verified")}</span></div>` : ""}
@@ -677,38 +696,73 @@ function pageRules(){
     <p class="sub mt" style="font-size:13px">${uz ? "Demo avtomatik yoziladi. Chat buyruqlari:" : "Демо пишется автоматически. Команды в чате:"} <span class="mono">/score</span> <span class="mono">/pts</span> <span class="mono">/top</span> <span class="mono">/link</span> <span class="mono">/tg</span></p></div>`;
 }
 
-/* ===================================================================== akkaunt (Telegram) */
-async function onTgAuth(user){
-  ME = {id: user.id, first_name: user.first_name || "", username: user.username || "", photo_url: user.photo_url || "", h: await sha("cwhub:" + user.id)};
-  store.set("tg", JSON.stringify(ME));
-  renderAcct(); render(false);
+/* ===================================================================== akkaunt (email + parol, Supabase) */
+let authTab = 0, authMsg = null;   // authMsg: [class, text]
+async function refreshMe(){
+  if (!sb) { ME = null; return; }
+  const { data } = await sb.auth.getSession();
+  const u = data?.session?.user;
+  if (!u) { ME = null; return; }
+  ME = { email: u.email, id: u.id, acc: null };
+  try { const r = await sb.rpc("get_my_code"); if (!r.error) ME.acc = r.data; } catch (e) {}
 }
-window.onTgAuth = onTgAuth;
-function logout(){ ME = null; store.set("tg", null); renderAcct(); location.hash = "#/"; }
 function renderAcct(){
+  const nm = ME ? (ME.acc?.nick || ME.email.split("@")[0]) : "";
   $("#acct").innerHTML = ME
-    ? `<a class="who" href="#/me" title="${esc(ME.first_name)}">${avatar(ME.first_name || ME.username, false, ME.photo_url)}<span>${esc(ME.first_name || ME.username)}</span></a>`
-    : `<a class="btn sm tg" href="#/me">${I.tg} ${t("login")}</a>`;
+    ? `<a class="who" href="#/me" title="${esc(ME.email)}">${avatar(nm)}<span>${esc(nm)}</span></a>`
+    : `<a class="btn sm" href="#/me">${I.user} ${t("login")}</a>`;
 }
-function mountTgWidget(){
-  const w = $("#tgw"); if (!w) return;
-  const s = document.createElement("script");
-  s.async = true; s.src = "https://telegram.org/js/telegram-widget.js?22";
-  s.setAttribute("data-telegram-login", botName()); s.setAttribute("data-size", "large");
-  s.setAttribute("data-radius", "12"); s.setAttribute("data-onauth", "onTgAuth(user)"); s.setAttribute("data-request-access", "write");
-  w.appendChild(s);
+async function doAuth(ev){
+  ev.preventDefault();
+  const email = $("#em").value.trim(), pw = $("#pw").value, pw2 = $("#pw2")?.value;
+  authMsg = null;
+  if (authTab === 1 && pw !== pw2) { authMsg = ["err", t("pwMismatch")]; return render(false); }
+  const btn = $("#authgo"); btn.disabled = true;
+  try {
+    const r = authTab === 0 ? await sb.auth.signInWithPassword({email, password: pw}) : await sb.auth.signUp({email, password: pw});
+    if (r.error) authMsg = ["err", r.error.message];
+    else if (authTab === 1 && !r.data.session) { authMsg = ["ok", t("signedUp")]; authTab = 0; }
+  } catch (e) { authMsg = ["err", String(e)]; }
+  await refreshMe(); renderAcct(); render(false);
 }
+async function forgotPw(){
+  const email = $("#em").value.trim();
+  if (!email) { $("#em").focus(); return; }
+  const r = await sb.auth.resetPasswordForEmail(email, {redirectTo: location.origin + location.pathname + "#/me"});
+  authMsg = r.error ? ["err", r.error.message] : ["ok", t("resetSent")]; render(false);
+}
+async function logout(){ if (sb) await sb.auth.signOut(); ME = null; renderAcct(); location.hash = "#/"; }
 function pageMe(){
-  if (!ME) return `<div class="card auth"><div class="big">${I.tg}</div><h2 class="title">${t("authT")}</h2><p class="lead">${t("authLead")}</p>
-      <div class="tgwrap" id="tgw"></div><p class="dim" style="font-size:12px">${t("authNote")}</p></div>`;
-  const steam = mySteam();
-  if (steam && IDX.byId[steam]) { setTimeout(() => location.hash = "#/p/" + slug(steam), 0); return ""; }
-  return `<div class="card auth">${avatar(ME.first_name || ME.username, true, ME.photo_url)}
-    <h2 class="title mt">${esc(t("hello")(ME.first_name || ME.username))}</h2><p class="lead">${t("linkLead")}</p>
-    <div class="linksteps">${t("linkSteps").map((s, i) => `<div class="ls"><i>${i + 1}</i><div>${s}</div></div>`).join("")}</div>
-    <div class="btns mt" style="justify-content:center"><a class="btn tg" href="https://t.me/${esc(botName())}" target="_blank" rel="noopener">${I.tg} ${t("openBot")} @${esc(botName())}</a>
+  const head = `<div class="big">${I.user}</div><h2 class="title">${t("authT")}</h2><p class="lead">${t("authLead")}</p>`;
+  if (!sb) return `<div class="card auth">${head}<div class="msg ok">${t("notReady")}</div></div>`;
+  if (!ME) return `<div class="card auth">${head}
+    <div class="authtabs"><button class="${authTab === 0 ? "on" : ""}" onclick="authTab=0;authMsg=null;render(false)">${t("signIn")}</button>
+      <button class="${authTab === 1 ? "on" : ""}" onclick="authTab=1;authMsg=null;render(false)">${t("signUp")}</button></div>
+    <form class="authbox" onsubmit="doAuth(event)">
+      ${authMsg ? `<div class="msg ${authMsg[0]}">${esc(authMsg[1])}</div>` : ""}
+      <label>${t("email")}<input id="em" type="email" required autocomplete="email"></label>
+      <label>${t("password")}<input id="pw" type="password" minlength="6" required autocomplete="${authTab ? "new-password" : "current-password"}"></label>
+      ${authTab === 1 ? `<label>${t("password2")}<input id="pw2" type="password" minlength="6" required autocomplete="new-password"></label>` : ""}
+      <button class="btn main" id="authgo" type="submit">${authTab === 0 ? t("signIn") : t("signUp")}</button>
+      ${authTab === 0 ? `<a href="#" class="sub" style="text-align:center;font-size:13px" onclick="forgotPw();return false">${t("forgot")}</a>` : ""}
+    </form></div>`;
+  const acc = ME.acc || {}, steam = acc.steam;
+  if (steam) {
+    const p = IDX.byId[steam];
+    return `<div class="card auth">${avatar(acc.nick || ME.email, true)}
+      <h2 class="title mt">${esc(t("hello")(acc.nick || ME.email.split("@")[0]))}</h2>
+      <p class="lead"><span class="verified">${I.check} ${t("verified")}</span></p>
+      <div class="sub">${t("linkedAs")}: <b>${esc(acc.nick || "")}</b> · ${esc(steam)}<br>${esc(ME.email)}</div>
+      <div class="btns mt" style="justify-content:center">${p ? `<a class="btn main" href="#/p/${slug(steam)}">${t("openProfile")}</a>` : ""}
+        <button class="btn ghost" onclick="logout()">${t("logout")}</button></div></div>`;
+  }
+  return `<div class="card auth">${avatar(ME.email, true)}
+    <h2 class="title mt">${esc(t("hello")(ME.email.split("@")[0]))}</h2><p class="lead">${t("linkLead")}</p>
+    <div class="sub">${t("yourCode")}</div><div class="code">${esc(acc.code || "····")}</div>
+    <div class="linksteps">${t("linkSteps")(acc.code || "KOD").map((x, i) => `<div class="ls"><i>${i + 1}</i><div>${x}</div></div>`).join("")}</div>
+    <div class="btns mt" style="justify-content:center"><a class="btn main" href="steam://connect/${ADDRESS}">${I.play} ${t("connect")}</a>
       <button class="btn ghost" onclick="logout()">${t("logout")}</button></div>
-    <p class="dim mt" style="font-size:12px">${t("pending")}</p></div>`;
+    <p class="dim mt" style="font-size:12px">${t("pending")} · ${esc(ME.email)}</p></div>`;
 }
 
 /* ===================================================================== router */
@@ -738,11 +792,11 @@ function render(scroll = true){
   else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe}[h] || pageHome)();
   $("#app").innerHTML = html;
   if (h === "#/top") bindTop();
-  if (h === "#/me") mountTgWidget();
   $("#upd").textContent = D?.updated ? `${t("updated")}: ${ago(D.updated)}` : "";
   if (scroll) window.scrollTo(0, 0);
 }
 async function load(refresh){
+  if (!refresh || (location.hash || "#/") === "#/me") await refreshMe();
   for (const u of DATA_URLS){
     try { const r = await fetch(u + "?t=" + Math.floor(Date.now() / 60000), {cache: "no-store"}); if (r.ok){ D = await r.json(); break; } } catch (e) {}
   }
@@ -752,11 +806,17 @@ async function load(refresh){
   if (!refresh || h === "#/" || h === "#/me") render(!refresh);
   else $("#upd").textContent = D.updated ? `${t("updated")}: ${ago(D.updated)}` : "";
 }
-try { ME = JSON.parse(store.get("tg") || "null"); } catch (e) { ME = null; }
+if (sb) sb.auth.onAuthStateChange(async (ev) => { if (ev === "SIGNED_IN" || ev === "SIGNED_OUT" || ev === "PASSWORD_RECOVERY") { await refreshMe(); renderAcct(); if ((location.hash || "#/") === "#/me") render(false); } });
 document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { LANG = b.dataset.l; store.set("lang", LANG); render(false); });
 window.addEventListener("hashchange", () => render());
 load(false);
 setInterval(() => load(true), 120000);
+// kod sahifasi ochiq va hali ulanmagan bo'lsa — har 10 soniyada tekshiramiz
+setInterval(async () => {
+  if ((location.hash || "#/") !== "#/me" || !ME || ME.acc?.steam) return;
+  await refreshMe();
+  if (ME?.acc?.steam) { renderAcct(); render(false); toast("✓"); }
+}, 10000);
 </script>
 </body>
 </html>

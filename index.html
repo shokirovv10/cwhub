@@ -2,176 +2,257 @@
 <html lang="uz">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>CwhubUZ ClanWar</title>
 <meta name="description" content="CwhubUZ — CS 1.6 ClanWar 5x5 server (Toshkent): onlayn holat, PTS reyting, ranklar, match statistikasi, o'yinchi profillari.">
+<meta name="theme-color" content="#0a0c10">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23f5a623' stroke-width='3'/%3E%3Cpath d='M16 1v9M16 22v9M1 16h9M22 16h9' stroke='%23f5a623' stroke-width='3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0b0d11; --panel:#13161e; --panel2:#1a1e29; --panel3:#222736; --line:#252a37;
-  --text:#eceef3; --muted:#8a91a4; --accent:#f5a623; --accent-ink:#1d1405;
-  --win:#43c27a; --loss:#e5534b; --draw:#c9a227;
+  --bg:#0a0c10; --bg2:#0e1117; --panel:#12151c; --panel2:#181c25; --panel3:#20252f; --line:#232835; --line2:#2e3443;
+  --text:#eef0f4; --muted:#8890a3; --dim:#5d6477;
+  --accent:#f5a623; --accent2:#ff7a1a; --accent-ink:#1d1405; --red:#ff3b3b;
+  --win:#3ecf7e; --loss:#ef5350; --draw:#d4a72c;
   --tL:#7ccf7c; --tM:#57a6ff; --tH:#c27bff; --tP:#ffc428;
+  --r:16px; --shadow:0 10px 30px rgba(0,0,0,.35);
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
-a{color:inherit}
-button{font:inherit;color:inherit}
-.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
-h1,h2,h3{font-family:Rajdhani,sans-serif;margin:0;letter-spacing:.3px;line-height:1.1}
-h2{font-size:28px;margin-bottom:14px}
-h3{font-size:20px;margin-bottom:10px}
+body{background:var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(1200px 500px at 85% -10%,rgba(245,166,35,.09),transparent 60%),radial-gradient(900px 400px at -10% 10%,rgba(255,59,59,.06),transparent 60%)}
+a{color:inherit} button{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+h1,h2,h3{font-family:Rajdhani,sans-serif;margin:0;letter-spacing:.4px;line-height:1.05}
+h2.title{font-size:34px;margin-bottom:6px}
+.lead{color:var(--muted);margin:0 0 20px}
+h3{font-size:20px;margin-bottom:12px}
+.eyebrow{font:700 12px Rajdhani,sans-serif;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent)}
+.sub{color:var(--muted)} .dim{color:var(--dim)}
+.mt{margin-top:18px} .mt2{margin-top:28px}
 
-/* header */
-header{border-bottom:1px solid var(--line);background:rgba(11,13,17,.9);position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
-.bar{display:flex;align-items:center;gap:14px;height:60px}
-.logo{font:700 23px Rajdhani,sans-serif;letter-spacing:.5px;text-decoration:none;white-space:nowrap}
+/* ---------------- header */
+header{position:sticky;top:0;z-index:30;background:rgba(10,12,16,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;font:700 23px Rajdhani,sans-serif;letter-spacing:.5px;white-space:nowrap}
+.logo svg{width:28px;height:28px}
 .logo b{color:var(--accent)}
-nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1}
-nav::-webkit-scrollbar{display:none}
-nav a{text-decoration:none;color:var(--muted);padding:7px 11px;border-radius:8px;font-weight:500;white-space:nowrap;font-size:14px}
-nav a.on,nav a:hover{color:var(--text);background:var(--panel2)}
-.lang{display:flex;background:var(--panel2);border-radius:8px;padding:3px}
-.lang button{border:0;background:none;padding:4px 9px;border-radius:6px;cursor:pointer;color:var(--muted);font-weight:600;font-size:12px}
+nav.top{display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}
+nav.top::-webkit-scrollbar{display:none}
+nav.top a{text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:9px;font-weight:600;font-size:14px;white-space:nowrap;transition:.15s}
+nav.top a:hover{color:var(--text);background:var(--panel2)}
+nav.top a.on{color:var(--text);background:var(--panel2);box-shadow:inset 0 -2px 0 var(--accent)}
+.hright{display:flex;align-items:center;gap:10px}
+.lang{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:3px}
+.lang button{border:0;background:none;padding:4px 9px;border-radius:6px;cursor:pointer;color:var(--muted);font-weight:700;font-size:12px}
 .lang button.on{background:var(--accent);color:var(--accent-ink)}
-main{padding:26px 0 70px}
+.who{display:flex;align-items:center;gap:9px;text-decoration:none;padding:4px 10px 4px 4px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);font-weight:600;font-size:14px;max-width:190px}
+.who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:820px){nav.top{display:none}.who span{display:none}.who{padding:4px}}
 
-/* cards & basics */
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
-.mt{margin-top:16px}
-.sub{color:var(--muted)}
-.note{color:var(--muted);font-size:13px;margin-top:12px}
+/* mobile bottom nav */
+nav.bottom{display:none}
+@media(max-width:820px){
+  nav.bottom{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(14,17,23,.96);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom));backdrop-filter:blur(12px)}
+  nav.bottom a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--muted);font-size:11px;font-weight:600;padding:4px 0}
+  nav.bottom a svg{width:22px;height:22px}
+  nav.bottom a.on{color:var(--accent)}
+  body{padding-bottom:70px}
+}
+main{padding:30px 0 80px;min-height:60vh}
+
+/* ---------------- primitives */
+.card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:var(--r);padding:22px;min-width:0}
+.card.flat{background:var(--panel)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:18px}
 .btns{display:flex;flex-wrap:wrap;gap:10px}
-.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;text-decoration:none;font-weight:600;font-size:15px;padding:11px 17px;border-radius:10px;background:var(--panel3);color:var(--text)}
-.btn:hover{filter:brightness(1.18)}
-.btn.main{background:var(--accent);color:var(--accent-ink);font-size:16px;padding:13px 22px}
-.btn.sm{padding:7px 12px;font-size:13px}
-.mono{font-family:ui-monospace,Consolas,monospace;background:var(--panel2);padding:2px 7px;border-radius:6px;font-size:13px}
-.pill{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:12px;padding:4px 10px;border-radius:99px;background:var(--panel2);color:var(--muted)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
-.pill.live{color:var(--text)} .pill.live .dot{background:var(--win);box-shadow:0 0 0 4px rgba(67,194,122,.18)}
-.empty{color:var(--muted);padding:22px 0;text-align:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid var(--line2);cursor:pointer;text-decoration:none;font-weight:700;font-size:14px;padding:11px 18px;border-radius:11px;background:var(--panel3);color:var(--text);transition:.15s;white-space:nowrap}
+.btn:hover{border-color:var(--muted);transform:translateY(-1px)}
+.btn svg{width:18px;height:18px}
+.btn.main{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--accent-ink);border:0;font-size:16px;padding:14px 26px;box-shadow:0 8px 24px rgba(245,166,35,.25)}
+.btn.main:hover{box-shadow:0 10px 30px rgba(245,166,35,.4)}
+.btn.tg{background:#2aabee;border-color:#2aabee;color:#fff}
+.btn.sm{padding:8px 13px;font-size:13px}
+.btn.ghost{background:transparent}
+.mono{font-family:ui-monospace,Consolas,monospace;background:var(--panel2);border:1px solid var(--line);padding:2px 8px;border-radius:7px;font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:12px;padding:5px 11px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--dim)}
+.pill.live{color:var(--text)} .pill.live .dot{background:var(--win);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(62,207,126,.55)}70%{box-shadow:0 0 0 8px rgba(62,207,126,0)}100%{box-shadow:0 0 0 0 rgba(62,207,126,0)}}
+.verified{display:inline-flex;align-items:center;gap:5px;color:#2aabee;font-weight:700;font-size:13px}
+.empty{color:var(--muted);padding:26px 0;text-align:center}
+.av{flex:none;width:34px;height:34px;border-radius:10px;display:inline-grid;place-items:center;font:700 15px Rajdhani,sans-serif;color:#fff;overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover}
+.av.lg{width:96px;height:96px;border-radius:22px;font-size:40px}
+.pcell{display:flex;align-items:center;gap:10px;min-width:0}
+.pcell .nm{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+.skel{background:linear-gradient(90deg,var(--panel2),var(--panel3),var(--panel2));background-size:200% 100%;animation:sk 1.2s infinite;border-radius:12px}
+@keyframes sk{to{background-position:-200% 0}}
 
-/* hero */
-.hero{position:relative;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:#10131a;padding:30px;display:grid;grid-template-columns:1.35fr 1fr;gap:26px}
-@media(max-width:860px){.hero{grid-template-columns:1fr;padding:22px}}
-.hero .bgmap{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.22;filter:saturate(.6);mask-image:linear-gradient(90deg,transparent 0%,#000 60%)}
-.hero>*{position:relative}
-.season{font:700 13px Rajdhani,sans-serif;letter-spacing:2px;color:var(--accent);text-transform:uppercase}
-.hero h1{font-size:50px;margin:8px 0 6px}
-@media(max-width:560px){.hero h1{font-size:38px}}
-.kv{display:flex;flex-wrap:wrap;gap:24px;margin:18px 0 20px}
-.kv span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.7px}
-.kv b{font:700 24px Rajdhani,sans-serif}
-.kv b.addr{font:600 15px ui-monospace,Consolas,monospace;display:inline-block;margin-top:5px;word-break:break-all}
-.live-list{background:rgba(19,22,30,.85);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
-.statstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
-@media(max-width:700px){.statstrip{grid-template-columns:repeat(2,1fr)}}
-.ss{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-.ss b{display:block;font:700 28px Rajdhani,sans-serif}
-.ss span{color:var(--muted);font-size:13px}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.step{background:var(--panel2);border-radius:12px;padding:14px}
-.step i{font-style:normal;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:700;margin-bottom:8px}
-
-/* tables */
-.tw{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-th{color:var(--muted);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.6px;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
-td{padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}
-tr.click{cursor:pointer} tr.click:hover td{background:var(--panel2)}
-.num{text-align:right;font-variant-numeric:tabular-nums}
-.name{font-weight:600}
-.badge{display:inline-grid;place-items:center;min-width:36px;height:24px;padding:0 6px;border-radius:7px;font:700 14px Rajdhani,sans-serif;border:2px solid currentColor}
-.badge.cal{opacity:.45;border-style:dashed}
+/* rank shield */
+.rank{display:inline-grid;place-items:center;position:relative;width:34px;height:38px;flex:none}
+.rank svg{position:absolute;inset:0;width:100%;height:100%}
+.rank b{position:relative;font:700 13px Rajdhani,sans-serif;color:#0b0d11;margin-top:-2px}
+.rank.cal{opacity:.4}
+.rank.lg{width:110px;height:124px}.rank.lg b{font-size:42px;margin-top:-6px}
 .tL{color:var(--tL)}.tM{color:var(--tM)}.tH{color:var(--tH)}.tP{color:var(--tP)}
 .W{color:var(--win)}.L{color:var(--loss)}.D{color:var(--draw)}
 .form{display:inline-flex;gap:3px}
-.form i{width:9px;height:9px;border-radius:2px;display:inline-block;background:var(--panel3)}
+.form i{width:10px;height:10px;border-radius:3px;display:inline-block;background:var(--panel3)}
 .form i.W{background:var(--win)}.form i.L{background:var(--loss)}.form i.D{background:var(--draw)}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.tabs button{border:1px solid var(--line);background:var(--panel2);padding:7px 12px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;color:var(--muted)}
+
+/* ---------------- hero */
+.hero{position:relative;overflow:hidden;border-radius:22px;border:1px solid var(--line);background:linear-gradient(135deg,#141822 0%,#0d1016 60%);padding:36px;display:grid;grid-template-columns:1.25fr .9fr;gap:30px;box-shadow:var(--shadow)}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding:24px}}
+.hero .bgmap{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.16;filter:saturate(.5) blur(1px);mask-image:linear-gradient(100deg,transparent 15%,#000 75%)}
+.hero:before{content:"";position:absolute;width:520px;height:520px;right:-160px;top:-220px;background:radial-gradient(circle,rgba(255,59,59,.22),transparent 60%);pointer-events:none}
+.hero>*{position:relative}
+.hero h1{font-size:64px;margin:10px 0 6px;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:var(--red)}
+@media(max-width:560px){.hero h1{font-size:44px}}
+.hero .tag{font-size:16px;color:var(--muted);max-width:520px}
+.srvbox{background:rgba(18,21,28,.86);border:1px solid var(--line2);border-radius:18px;padding:18px;backdrop-filter:blur(6px)}
+.srvtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.slots{height:8px;border-radius:99px;background:var(--panel3);overflow:hidden;margin:10px 0 4px}
+.slots i{display:block;height:100%;background:linear-gradient(90deg,var(--win),var(--accent))}
+.kv{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:8px 26px;margin:22px 0}
+.kv span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.8px;font-weight:600}
+.kv b{font:700 26px Rajdhani,sans-serif}
+.kv b.addr{font:600 14px ui-monospace,Consolas,monospace;display:inline-block;margin-top:6px;word-break:break-all}
+@media(max-width:560px){.kv{grid-template-columns:repeat(2,auto)}}
+.radar{width:100%;max-width:230px;aspect-ratio:1;margin:0 auto 6px;display:block}
+.radar .sweep{transform-origin:100px 100px;animation:spin 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.liveplayers{display:grid;gap:6px;max-height:230px;overflow:auto}
+.lp{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 9px;border-radius:10px;background:var(--panel2);text-decoration:none}
+.lp:hover{background:var(--panel3)}
+
+.statstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+@media(max-width:760px){.statstrip{grid-template-columns:repeat(2,1fr)}}
+.ss{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:center}
+.ss .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(245,166,35,.12);color:var(--accent)}
+.ss .ic svg{width:22px;height:22px}
+.ss b{display:block;font:700 28px Rajdhani,sans-serif;line-height:1}
+.ss span{color:var(--muted);font-size:13px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.step{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:18px}
+.step i{font-style:normal;display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--accent-ink);font-weight:800;margin-bottom:10px}
+
+/* ---------------- tables */
+.tw{overflow-x:auto;margin:0 -6px;padding:0 6px}
+table{width:100%;border-collapse:collapse}
+th{color:var(--dim);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.8px;text-align:left;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tr.click{cursor:pointer;transition:.12s} tr.click:hover td{background:var(--panel2)}
+tr.me td{background:rgba(245,166,35,.07)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.place{font:700 17px Rajdhani,sans-serif;color:var(--dim);width:36px}
+.place.g1{color:#ffc428}.place.g2{color:#c9d1dd}.place.g3{color:#d08b4a}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tabs button{border:1px solid var(--line);background:var(--panel2);padding:8px 14px;border-radius:9px;cursor:pointer;font-weight:700;font-size:13px;color:var(--muted)}
 .tabs button.on{color:var(--accent-ink);background:var(--accent);border-color:var(--accent)}
-.search{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:15px Inter,sans-serif;margin-bottom:12px}
-select.search{margin:0}
+.search{width:100%;padding:13px 15px 13px 42px;border-radius:12px;border:1px solid var(--line2);background:var(--panel2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%238890a3' stroke-width='2'%3E%3Ccircle cx='8' cy='8' r='6'/%3E%3Cpath d='m13 13 4 4'/%3E%3C/svg%3E") 14px center no-repeat;color:var(--text);font:15px Inter,sans-serif;margin-bottom:14px}
+.search:focus{outline:2px solid rgba(245,166,35,.5);outline-offset:1px}
+select.search{padding-left:14px;background-image:none;margin:0}
 
 /* podium */
-.podium{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px}
-.pod{min-width:0}
-.pod{background:var(--panel2);border-radius:14px;padding:16px;text-align:center;cursor:pointer;border:1px solid var(--line)}
-.pod:hover{border-color:var(--accent)}
-.pod .place{font:700 13px Rajdhani,sans-serif;letter-spacing:1.5px;color:var(--muted)}
-.pod .nm{font:700 22px Rajdhani,sans-serif;margin:6px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pod.p1{border-color:rgba(255,196,40,.5)}
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:end}
+.pod{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:16px 10px;text-align:center;cursor:pointer;min-width:0;transition:.15s}
+.pod:hover{transform:translateY(-3px);border-color:var(--accent)}
+.pod.p1{order:2;padding-top:24px;background:linear-gradient(180deg,rgba(255,196,40,.14),var(--panel2));border-color:rgba(255,196,40,.45)}
+.pod.p2{order:1}.pod.p3{order:3}
+.pod .crown{font-size:22px;line-height:1}
+.pod .nm{font:700 20px Rajdhani,sans-serif;margin:8px 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pod .pos{font:700 12px Rajdhani,sans-serif;letter-spacing:1.5px;color:var(--muted)}
 
 /* matches */
-.mcard{display:grid;grid-template-columns:110px 1fr auto;gap:14px;align-items:center;padding:12px;border-radius:12px;background:var(--panel2);text-decoration:none;margin-bottom:8px;border:1px solid transparent}
-.mcard:hover{border-color:var(--line);filter:brightness(1.08)}
-.mthumb{height:64px;border-radius:8px;background:#0f1218 center/cover;display:grid;place-items:end start;padding:6px;font:700 13px Rajdhani,sans-serif}
-.mscore{font:700 26px Rajdhani,sans-serif;font-variant-numeric:tabular-nums}
-@media(max-width:560px){.mcard{grid-template-columns:72px 1fr}.mcard .mscore{grid-column:2}}
-.mhead{position:relative;overflow:hidden;border-radius:16px;border:1px solid var(--line);padding:24px;background:#10131a;text-align:center}
+.mcard{display:grid;grid-template-columns:120px 1fr auto;gap:14px;align-items:center;padding:10px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);text-decoration:none;margin-bottom:10px;transition:.15s}
+.mcard:hover{border-color:var(--line2);transform:translateX(2px)}
+.mthumb{height:66px;border-radius:10px;background:#0f1218 center/cover;display:flex;align-items:flex-end;padding:6px 8px;font:700 13px Rajdhani,sans-serif;text-transform:uppercase;letter-spacing:1px;box-shadow:inset 0 -30px 30px -10px rgba(0,0,0,.7)}
+.mscore{font:700 28px Rajdhani,sans-serif;font-variant-numeric:tabular-nums;padding-right:8px}
+@media(max-width:560px){.mcard{grid-template-columns:80px 1fr}.mcard .mscore{grid-column:2;padding:0}}
+.mhead{position:relative;overflow:hidden;border-radius:20px;border:1px solid var(--line);padding:28px;background:#10131a;text-align:center;box-shadow:var(--shadow)}
 .mhead .bgmap{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.2}
 .mhead>*{position:relative}
-.vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;margin-top:10px}
-.vs .tn{font:700 26px Rajdhani,sans-serif}
-.vs .sc{font:700 56px Rajdhani,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
-@media(max-width:560px){.vs{gap:8px}.vs .sc{font-size:38px}.vs .tn{font-size:19px}}
-.awards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
-.aw{background:var(--panel2);border-radius:12px;padding:14px}
-.aw span{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.6px}
-.aw b{display:block;font:700 20px Rajdhani,sans-serif;margin-top:4px}
-tr.left td{opacity:.55}
+.vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;margin-top:12px}
+.vs .tn{font:700 28px Rajdhani,sans-serif}
+.vs .sc{font:700 64px Rajdhani,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+@media(max-width:560px){.vs{gap:8px}.vs .sc{font-size:40px}.vs .tn{font-size:19px}}
+.awards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.aw{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.aw span{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.8px;font-weight:700}
+.aw b{display:block;font:700 21px Rajdhani,sans-serif;margin:4px 0 2px}
+tr.left td{opacity:.5}
 
 /* profile */
-.prof{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center}
-@media(max-width:760px){.prof{grid-template-columns:1fr}}
-.bigbadge{width:128px;height:128px;border-radius:26px;border:5px solid currentColor;display:grid;place-items:center;font:700 56px Rajdhani,sans-serif;background:var(--panel2)}
-.bigbadge.cal{border-style:dashed;font-size:20px;text-align:center;line-height:1.1}
-.prog{height:12px;border-radius:99px;background:var(--panel2);overflow:hidden;margin:10px 0 6px}
-.prog i{display:block;height:100%;background:currentColor}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:16px}
-.tile{background:var(--panel2);border-radius:12px;padding:13px;text-align:center}
-.tile b{display:block;font:700 25px Rajdhani,sans-serif}
+.phero{position:relative;overflow:hidden;border-radius:22px;border:1px solid var(--line);padding:28px;background:linear-gradient(135deg,#151923,#0d1016);box-shadow:var(--shadow)}
+.phero:before{content:"";position:absolute;width:420px;height:420px;right:-120px;top:-180px;background:radial-gradient(circle,var(--glow,rgba(87,166,255,.2)),transparent 65%)}
+.phero>*{position:relative}
+.prof{display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:center}
+@media(max-width:820px){.prof{grid-template-columns:1fr;text-align:left}}
+.prog{height:10px;border-radius:99px;background:var(--panel3);overflow:hidden;margin:12px 0 6px}
+.prog i{display:block;height:100%;background:currentColor;border-radius:99px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:12px;margin-top:22px}
+.tile{background:rgba(24,28,37,.85);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
+.tile b{display:block;font:700 27px Rajdhani,sans-serif}
 .tile span{color:var(--muted);font-size:12px}
-.chart{width:100%;height:170px;display:block}
+.chart{width:100%;height:190px;display:block}
 .people{display:grid;gap:8px}
-.person{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:10px;background:var(--panel2);text-decoration:none}
-.person:hover{filter:brightness(1.15)}
-.ach{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.a{background:var(--panel2);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center}
-.a .ic{font-size:22px;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--panel3)}
-.a.off{opacity:.38;filter:grayscale(1)}
+.person{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--panel2);text-decoration:none}
+.person:hover{background:var(--panel3)}
+.ach{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.a{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;gap:11px;align-items:center}
+.a .ic{font-size:21px;width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--panel3);flex:none}
+.a.off{opacity:.33;filter:grayscale(1)}
 .a b{display:block;font-size:13px}
 .a span{font-size:12px;color:var(--muted)}
 
 /* ranks */
-.ladder{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.rk{background:var(--panel2);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px}
+.ladder{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.rk{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;align-items:center;gap:14px}
 .rk small{display:block;color:var(--muted)}
-.rk .cnt{margin-left:auto;color:var(--muted);font-size:13px}
+.rk .cnt{margin-left:auto;color:var(--muted);font-size:13px;font-weight:600}
 
-footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;padding:22px 0}
-footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--accent);color:var(--accent-ink);padding:10px 16px;border-radius:10px;font-weight:600;opacity:0;transition:.2s;pointer-events:none;z-index:50}
+/* account */
+.auth{max-width:620px;margin:0 auto;text-align:center}
+.auth .big{width:72px;height:72px;margin:0 auto 16px;border-radius:20px;display:grid;place-items:center;background:rgba(42,171,238,.14);color:#2aabee}
+.auth .big svg{width:38px;height:38px}
+.tgwrap{display:flex;justify-content:center;min-height:48px;margin:20px 0 8px}
+.linksteps{text-align:left;display:grid;gap:12px;margin-top:20px}
+.ls{display:flex;gap:14px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px}
+.ls i{font-style:normal;flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-weight:800}
+.banner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:14px 16px;border-radius:14px;background:rgba(42,171,238,.1);border:1px solid rgba(42,171,238,.35);margin-bottom:16px}
+
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:14px;padding:34px 0 28px;background:var(--bg2)}
+.fgrid{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:24px}
+@media(max-width:760px){.fgrid{grid-template-columns:1fr 1fr}}
+footer h4{color:var(--text);margin:0 0 10px;font:700 15px Rajdhani,sans-serif;letter-spacing:1px;text-transform:uppercase}
+footer a{display:block;text-decoration:none;padding:3px 0} footer a:hover{color:var(--text)}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--accent);color:var(--accent-ink);padding:11px 18px;border-radius:11px;font-weight:700;opacity:0;transition:.2s;pointer-events:none;z-index:60;box-shadow:var(--shadow)}
 .toast.show{opacity:1}
-ol.rules{margin:0;padding-left:22px} ol.rules li{padding:5px 0}
+ol.rules{margin:0;padding:0;list-style:none;counter-reset:r;display:grid;gap:10px}
+ol.rules li{counter-increment:r;display:flex;gap:14px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+ol.rules li:before{content:counter(r);flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--panel3);font-weight:800;color:var(--accent)}
+ol.rules li b{margin-left:auto;white-space:nowrap}
 </style>
 </head>
 <body>
 <header><div class="wrap bar">
-  <a class="logo" href="#/">Cwhub<b>UZ</b></a>
-  <nav id="nav"></nav>
-  <div class="lang"><button data-l="uz">UZ</button><button data-l="ru">RU</button></div>
+  <a class="logo" href="#/"><svg viewBox="0 0 32 32" fill="none" stroke="#f5a623" stroke-width="3"><circle cx="16" cy="16" r="10"/><path d="M16 1v9M16 22v9M1 16h9M22 16h9"/></svg><span>Cwhub<b>UZ</b></span></a>
+  <nav class="top" id="nav"></nav>
+  <div class="hright"><div class="lang"><button data-l="uz">UZ</button><button data-l="ru">RU</button></div><span id="acct"></span></div>
 </div></header>
-<main class="wrap" id="app"><div class="empty">…</div></main>
-<footer><div class="wrap">
-  <span>CS 1.6 ClanWar 5x5 · <a href="https://t.me/CwhubUZ" target="_blank" rel="noopener">Telegram @CwhubUZ</a></span>
-  <span id="upd"></span>
+<main class="wrap" id="app"><div class="skel" style="height:320px"></div><div class="skel mt" style="height:90px"></div></main>
+<nav class="bottom" id="bnav"></nav>
+<footer><div class="wrap fgrid">
+  <div><a class="logo" href="#/" style="display:inline-flex"><svg viewBox="0 0 32 32" fill="none" stroke="#f5a623" stroke-width="3"><circle cx="16" cy="16" r="10"/><path d="M16 1v9M16 22v9M1 16h9M22 16h9"/></svg><span>Cwhub<b>UZ</b></span></a>
+    <p id="fabout" style="margin:10px 0 0;max-width:320px"></p><p id="upd" class="dim" style="font-size:13px"></p></div>
+  <div><h4 id="f1"></h4><div id="fl1"></div></div>
+  <div><h4 id="f2"></h4><div id="fl2"></div></div>
+  <div><h4>Telegram</h4><a href="https://t.me/CwhubUZ" target="_blank" rel="noopener">@CwhubUZ</a><a id="fbot" href="#" target="_blank" rel="noopener"></a></div>
 </div></footer>
 <div class="toast" id="toast"></div>
 
@@ -179,82 +260,102 @@ ol.rules{margin:0;padding-left:22px} ol.rules li{padding:5px 0}
 /* ===================================================================== sozlamalar */
 const ADDRESS = "cyberstep.hostin.uz:27045";
 const SEASON = 1;
-const CAL = 5;                       // shuncha matchgacha rank "kalibrovka"
+const CAL = 5;
+const BOT_DEFAULT = "cwhub_statsbot";
 const DATA_URLS = ["https://raw.githubusercontent.com/shokirovv10/cwhub/data/data.json", "data.json"];
 const MAPS = ["de_dust2","de_inferno","de_nuke","de_train","de_cbble","de_aztec","de_tuscan","de_dust","de_mirage"];
-// server bilan bir xil (src/cw_rank.inc)
 const RANKS = [[0,"L-"],[850,"L"],[900,"L+"],[950,"M-"],[1000,"M"],[1050,"M+"],[1100,"H-"],[1150,"H"],[1200,"H+"],[1300,"P"]];
+const TIERC = {L: ["#9be09b","#4f9e4f"], M: ["#86c1ff","#2f74d6"], H: ["#d9a6ff","#8a3fd1"], P: ["#ffe27a","#e09b00"]};
 
 /* ===================================================================== tarjima */
 const T = {
   uz: {
-    nav: ["Server","Reyting","Matchlar","Ranklar","Banlar","Qoidalar"],
+    nav: ["Server","Reyting","Matchlar","Ranklar","Qoidalar","Banlar"], login: "Kirish", myProfile: "Mening profilim", logout: "Chiqish",
     online: "Server ishlayapti", offline: "Ma'lumot yo'q", season: "Sezon", play: "HOZIR O'YNASH", connect: "Serverga ulanish",
     copyip: "IP nusxalash", copied: "Nusxalandi — konsolga qo'ying", map: "Xarita", players: "O'yinchilar", address: "Manzil",
-    tagline: "Toshkentdagi ClanWar 5x5 server · 16 g'alabagacha · PTS reyting · Steam va non-steam",
-    nowOn: "Hozir serverda", nobody: "Serverda hozir hech kim yo'q — birinchi bo'ling!",
+    tag: "Toshkentdagi ClanWar 5x5 server. 16 g'alabagacha, PTS reyting, demo yozuvi va adolatli o'yin. Steam va non-steam.",
+    nowOn: "Hozir serverda", nobody: "Hozir hech kim yo'q — birinchi bo'ling!", slots: "o'rin band",
     sPlayers: "O'yinchilar", sMatches: "Matchlar", sKills: "Jami kill", sTop: "Eng yuqori PTS",
-    howTitle: "Qanday boshlash", how: [["CS 1.6 o'rnating","Steam yoki non-steam versiya — ikkalasi ham kiradi."],["\"Hozir o'ynash\" ni bosing","Yoki konsolga (~) yozing: connect "+ADDRESS],["Matchda o'ynang","Birinchi matchdan keyin profilingiz va rankingiz shu saytda paydo bo'ladi."]],
-    top: "TOP-3", allRank: "Butun reyting", lastMatches: "Oxirgi matchlar", all: "Hammasi",
-    rating: "Reyting", search: "Nick yoki SteamID bo'yicha qidirish…", cal: "kalibrovka",
+    howTitle: "3 qadamda boshlang", how: [["CS 1.6 o'rnating","Steam yoki non-steam — ikkalasi ham kiradi."],["\"Hozir o'ynash\" ni bosing","Yoki konsolga (~): connect "+ADDRESS],["Telegram bilan ro'yxatdan o'ting","Profilingiz tasdiqlanadi va saytda \"Mening profilim\" paydo bo'ladi."]],
+    top: "TOP-3 o'yinchi", allRank: "Butun reyting", lastMatches: "Oxirgi matchlar", all: "Hammasi",
+    rating: "Reyting", ratingLead: "Barcha o'yinchilar PTS bo'yicha. Saralash va qidiruv.", search: "Nick yoki SteamID bo'yicha qidirish…", cal: "kalibrovka",
     tabs: ["PTS","K/D","HS%","ADR","Matchlar"], player: "O'yinchi", rank: "Rank", matches: "Match", wins: "G'alaba", form: "Forma",
-    rankNote: "Profil SteamID bo'yicha avtomatik yaratiladi. Birinchi "+CAL+" match — kalibrovka (rank xira ko'rinadi).",
+    rankNote: "Profil SteamID bo'yicha avtomatik yaratiladi. Birinchi "+CAL+" match — kalibrovka (rank xira).",
     noRank: "Hali reyting yo'q — birinchi match o'ynalgandan keyin chiqadi",
-    matchesT: "Matchlar", noMatches: "Hali matchlar yo'q", rounds: "raund", win: "G'alaba", loss: "Mag'lubiyat", draw: "Durang",
-    team: "Jamoa", left: "Match o'rtasida chiqib ketgan", mvp: "MVP", mostDmg: "Eng ko'p zarar", mostHs: "Eng ko'p headshot", bestKd: "Eng yaxshi K/D",
+    matchesT: "Matchlar", matchesLead: "Barcha o'ynalgan matchlar va batafsil statistika.", noMatches: "Hali matchlar yo'q", rounds: "raund", win: "G'alaba", loss: "Mag'lubiyat", draw: "Durang",
+    left: "Match o'rtasida chiqib ketganlar", mvp: "MVP", mostDmg: "Eng ko'p zarar", mostHs: "Eng ko'p headshot", bestKd: "Eng yaxshi K/D",
     rt: "Reyt.", ratingNote: "Reyt. — match reytingi (1.00 = o'rtacha) · ADR — raundiga o'rtacha zarar · PTS — reyting o'zgarishi.",
     back: "← Orqaga", notFound: "Topilmadi",
     serverHere: "serverda", lastSeen: "oxirgi o'yin", place: "o'rin", nextRank: r => `Keyingi rank ${r[1]} gacha ${r[0]} PTS`, maxRank: "Eng yuqori rank!",
-    calLeft: n => `Kalibrovka: yana ${n} match`, kills: "Kill", deaths: "O'lim", streak: "Eng uzun g'alaba seriyasi",
+    calLeft: n => `Kalibrovka: yana ${n} match`, streak: "G'alaba seriyasi", verified: "Telegram orqali tasdiqlangan",
     ptsHistory: "PTS tarixi", recent: "Oxirgi matchlari", mates: "Ko'p birga o'ynaydi", rivals: "Raqiblari", ach: "Yutuqlar",
-    together: (n, w) => `${n} match birga · ${w}% g'alaba`, against: (n, w) => `${n} match · ${w}% g'alaba`,
-    compare: "Solishtirish", choose: "O'yinchini tanlang…", linkNote: "Profil o'yinga SteamID orqali bog'langan: nik o'zgarsa ham statistika saqlanadi. Serverda /pts yozing.",
-    ranksT: "Ranklar", ranksNote: "L → M → H → P (eng kuchlisi). Hamma 1000 PTS (M) bilan boshlaydi. Match yutsangiz PTS oshadi, yutqazsangiz kamayadi; kuchli jamoani yutish ko'proq beradi (ELO). O'z o'yiningiz uchun ±10 gacha, MVP'ga +3. Match o'rtasida chiqish — jarima.",
-    bansT: "Banlar", noBans: "Hozir faol banlar yo'q", reason: "Sabab", since: "Berilgan", remain: "Qolgan", admin: "Admin",
+    together: (n, w) => `${n} match · ${w}% g'alaba`, against: (n, w) => `${n} match · ${w}% g'alaba`,
+    compare: "Solishtirish", choose: "O'yinchini tanlang…", thisIsYou: "Bu sizning profilingiz",
+    ranksT: "Ranklar", ranksLead: "L → M → H → P. Eng kuchlisi — P.", ranksNote: "Hamma 1000 PTS (M) bilan boshlaydi. Match yutsangiz PTS oshadi, yutqazsangiz kamayadi; kuchli jamoani yutish ko'proq beradi (ELO). O'z o'yiningiz uchun ±10 gacha, MVP'ga +3. Match o'rtasida chiqish — jarima.",
+    bansT: "Banlar", bansLead: "Faol jazolar. IP va SteamID ko'rsatilmaydi.", noBans: "Hozir faol banlar yo'q", reason: "Sabab", since: "Berilgan", remain: "Qolgan", admin: "Admin",
     appeal: "Razbanga ariza / shikoyat", appealNote: "Ban noto'g'ri bo'lsa — Telegram'ga yozing, konsoldagi (~) ban ma'lumotining skrinshoti bilan.",
-    rulesT: "Qoidalar", updated: "Yangilangan",
-    achs: [["🎯","Birinchi qadam","1 match o'ynash"],["🏆","Birinchi g'alaba","1 match yutish"],["🔥","Seriya","3 ta g'alaba ketma-ket"],["💯","Faxriy","25 match"],["🎖","Veteran","100 match"],["💀","Qassob","Bir matchda 30+ kill"],["🧠","Headshot ustasi","HS 50%+ (10+ match)"],["⭐","MVP","Match MVP'si bo'lish"],["💎","P rank","1300+ PTS"]]
+    rulesT: "Qoidalar", rulesLead: "Hamma uchun bir xil. Admin o'yinda ustunlik olmaydi.", updated: "Yangilangan",
+    about: "CS 1.6 ClanWar 5x5 jamoasi. Adolatli raqobat, PTS reyting va har bir match statistikasi.", f1: "O'yin", f2: "Jamoa",
+    authT: "Ro'yxatdan o'tish / Kirish", authLead: "Telegram akkauntingiz bilan bir bosishda kiring. Parol kerak emas.",
+    authNote: "Agar tugma chiqmasa — sayt administratori bot domenini sozlashi kerak.",
+    linkT: "Akkauntni o'yinga ulash", linkLead: "Profilingiz tasdiqlanishi uchun o'yindagi SteamID'ingizni ulang:",
+    linkSteps: ["Serverga kiring va chatga <span class='mono'>/link</span> yozing — 6 xonali kod chiqadi", "Kodni botga yuboring: <span class='mono'>/link 123456</span>", "Bir necha daqiqada sahifa yangilanadi — profilingiz ✓ bilan chiqadi"],
+    openBot: "Botni ochish", hello: n => `Salom, ${n}!`, linkedAs: "Ulangan o'yinchi", pending: "Ulanish kutilmoqda…",
+    achs: [["🎯","Birinchi qadam","1 match o'ynash"],["🏆","Birinchi g'alaba","1 match yutish"],["🔥","Seriya","3 g'alaba ketma-ket"],["💯","Faxriy","25 match"],["🎖","Veteran","100 match"],["💀","Qassob","Bir matchda 30+ kill"],["🧠","Headshot ustasi","HS 50%+ (10+ match)"],["⭐","MVP","Match MVP'si bo'lish"],["💎","P rank","1300+ PTS"]]
   },
   ru: {
-    nav: ["Сервер","Рейтинг","Матчи","Ранги","Баны","Правила"],
+    nav: ["Сервер","Рейтинг","Матчи","Ранги","Правила","Баны"], login: "Войти", myProfile: "Мой профиль", logout: "Выйти",
     online: "Сервер работает", offline: "Нет данных", season: "Сезон", play: "ИГРАТЬ СЕЙЧАС", connect: "Подключиться",
     copyip: "Скопировать IP", copied: "Скопировано — вставьте в консоль", map: "Карта", players: "Игроки", address: "Адрес",
-    tagline: "ClanWar 5x5 сервер в Ташкенте · до 16 побед · рейтинг PTS · Steam и non-steam",
-    nowOn: "Сейчас на сервере", nobody: "На сервере сейчас никого — будь первым!",
+    tag: "ClanWar 5x5 сервер в Ташкенте. До 16 побед, рейтинг PTS, запись демо и честная игра. Steam и non-steam.",
+    nowOn: "Сейчас на сервере", nobody: "Сейчас никого — будь первым!", slots: "слотов занято",
     sPlayers: "Игроков", sMatches: "Матчей", sKills: "Всего убийств", sTop: "Лучший PTS",
-    howTitle: "Как начать", how: [["Установи CS 1.6","Steam или non-steam — заходят обе версии."],["Нажми «Играть сейчас»","Или в консоли (~): connect "+ADDRESS],["Сыграй матч","После первого матча профиль и ранг появятся на сайте."]],
-    top: "ТОП-3", allRank: "Весь рейтинг", lastMatches: "Последние матчи", all: "Все",
-    rating: "Рейтинг", search: "Поиск по нику или SteamID…", cal: "калибровка",
+    howTitle: "Начни за 3 шага", how: [["Установи CS 1.6","Steam или non-steam — заходят обе версии."],["Нажми «Играть сейчас»","Или в консоли (~): connect "+ADDRESS],["Зарегистрируйся через Telegram","Профиль подтвердится, на сайте появится «Мой профиль»."]],
+    top: "ТОП-3 игрока", allRank: "Весь рейтинг", lastMatches: "Последние матчи", all: "Все",
+    rating: "Рейтинг", ratingLead: "Все игроки по PTS. Сортировка и поиск.", search: "Поиск по нику или SteamID…", cal: "калибровка",
     tabs: ["PTS","K/D","HS%","ADR","Матчи"], player: "Игрок", rank: "Ранг", matches: "Матчи", wins: "Победы", form: "Форма",
     rankNote: "Профиль создаётся автоматически по SteamID. Первые "+CAL+" матчей — калибровка (ранг бледный).",
     noRank: "Рейтинга пока нет — появится после первого матча",
-    matchesT: "Матчи", noMatches: "Матчей пока нет", rounds: "раундов", win: "Победа", loss: "Поражение", draw: "Ничья",
-    team: "Команда", left: "Вышли посреди матча", mvp: "MVP", mostDmg: "Больше всего урона", mostHs: "Больше всего HS", bestKd: "Лучший K/D",
+    matchesT: "Матчи", matchesLead: "Все сыгранные матчи с подробной статистикой.", noMatches: "Матчей пока нет", rounds: "раундов", win: "Победа", loss: "Поражение", draw: "Ничья",
+    left: "Вышли посреди матча", mvp: "MVP", mostDmg: "Больше всего урона", mostHs: "Больше всего HS", bestKd: "Лучший K/D",
     rt: "Рейт.", ratingNote: "Рейт. — рейтинг за матч (1.00 — средний) · ADR — урон за раунд · PTS — изменение рейтинга.",
     back: "← Назад", notFound: "Не найдено",
     serverHere: "на сервере", lastSeen: "последняя игра", place: "место", nextRank: r => `До ранга ${r[1]}: ${r[0]} PTS`, maxRank: "Максимальный ранг!",
-    calLeft: n => `Калибровка: ещё ${n} матч.`, kills: "Убийства", deaths: "Смерти", streak: "Лучшая серия побед",
+    calLeft: n => `Калибровка: ещё ${n} матч.`, streak: "Серия побед", verified: "Подтверждён через Telegram",
     ptsHistory: "История PTS", recent: "Последние матчи", mates: "Часто играет с", rivals: "Соперники", ach: "Достижения",
-    together: (n, w) => `${n} матчей вместе · ${w}% побед`, against: (n, w) => `${n} матчей · ${w}% побед`,
-    compare: "Сравнить", choose: "Выберите игрока…", linkNote: "Профиль привязан к игре по SteamID: смена ника не сбрасывает статистику. На сервере — /pts.",
-    ranksT: "Ранги", ranksNote: "L → M → H → P (сильнейший). Все начинают с 1000 PTS (M). Победа повышает PTS, поражение понижает; победа над сильной командой даёт больше (Эло). За свою игру ±10, MVP +3. Выход посреди матча — штраф.",
-    bansT: "Баны", noBans: "Активных банов нет", reason: "Причина", since: "Выдан", remain: "Осталось", admin: "Админ",
+    together: (n, w) => `${n} матчей · ${w}% побед`, against: (n, w) => `${n} матчей · ${w}% побед`,
+    compare: "Сравнить", choose: "Выберите игрока…", thisIsYou: "Это ваш профиль",
+    ranksT: "Ранги", ranksLead: "L → M → H → P. Сильнейший — P.", ranksNote: "Все начинают с 1000 PTS (M). Победа повышает PTS, поражение понижает; победа над сильной командой даёт больше (Эло). За свою игру ±10, MVP +3. Выход посреди матча — штраф.",
+    bansT: "Баны", bansLead: "Активные наказания. IP и SteamID не показываются.", noBans: "Активных банов нет", reason: "Причина", since: "Выдан", remain: "Осталось", admin: "Админ",
     appeal: "Заявка на разбан / жалоба", appealNote: "Если бан ошибочный — напишите в Telegram со скриншотом информации о бане из консоли (~).",
-    rulesT: "Правила", updated: "Обновлено",
+    rulesT: "Правила", rulesLead: "Одинаковые для всех. Админка не даёт преимущества в игре.", updated: "Обновлено",
+    about: "CS 1.6 ClanWar 5x5 сообщество. Честная конкуренция, рейтинг PTS и статистика каждого матча.", f1: "Игра", f2: "Сообщество",
+    authT: "Регистрация / Вход", authLead: "Войдите через Telegram в один клик. Пароль не нужен.",
+    authNote: "Если кнопка не появилась — администратор сайта должен настроить домен бота.",
+    linkT: "Привязка аккаунта к игре", linkLead: "Чтобы профиль был подтверждён, привяжите свой SteamID:",
+    linkSteps: ["Зайдите на сервер и напишите в чат <span class='mono'>/link</span> — появится 6-значный код", "Отправьте код боту: <span class='mono'>/link 123456</span>", "Через пару минут страница обновится — профиль будет с ✓"],
+    openBot: "Открыть бота", hello: n => `Привет, ${n}!`, linkedAs: "Привязанный игрок", pending: "Ожидание привязки…",
     achs: [["🎯","Первый шаг","Сыграть 1 матч"],["🏆","Первая победа","Выиграть матч"],["🔥","Серия","3 победы подряд"],["💯","Завсегдатай","25 матчей"],["🎖","Ветеран","100 матчей"],["💀","Мясник","30+ убийств за матч"],["🧠","Хедшотер","HS 50%+ (10+ матчей)"],["⭐","MVP","Стать MVP матча"],["💎","Ранг P","1300+ PTS"]]
   }
 };
-let LANG = (() => { try { return localStorage.getItem("lang") || "uz"; } catch (e) { return "uz"; } })();
+const store = { get(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v){ try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
+let LANG = store.get("lang") || "uz";
 const t = k => T[LANG][k];
 
 /* ===================================================================== yordamchilar */
-let D = null, IDX = null;
+let D = null, IDX = null, ME = null;  // ME: Telegram foydalanuvchi {id, first_name, username, photo_url, h}
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const rankIdx = p => RANKS.reduce((a, r, i) => p >= r[0] ? i : a, 0);
 const rankName = p => RANKS[rankIdx(p)][1];
 const tier = p => "t" + rankName(p)[0];
-const badge = (p, m) => `<span class="badge ${tier(p)} ${m !== undefined && m < CAL ? "cal" : ""}" title="${m !== undefined && m < CAL ? t("cal") : ""}">${rankName(p)}</span>`;
+let gid = 0;
+function shield(p, m, lg){
+  const n = rankName(p), c = TIERC[n[0]], id = "g" + (gid++);
+  return `<span class="rank ${lg ? "lg" : ""} ${m !== undefined && m < CAL ? "cal" : ""}" title="${n}${m !== undefined && m < CAL ? " · " + t("cal") : ""}">
+    <svg viewBox="0 0 34 38"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></linearGradient></defs>
+    <path d="M17 1 32 6v12c0 9.5-6.5 15.5-15 19C8.5 33.5 2 27.5 2 18V6Z" fill="url(#${id})" stroke="rgba(255,255,255,.35)" stroke-width="1"/></svg><b>${n}</b></span>`;
+}
 const kd = (k, d) => (k / Math.max(d, 1)).toFixed(2);
 const pct = (a, b) => b ? Math.round(100 * a / b) : 0;
 const slug = id => encodeURIComponent(id);
@@ -267,37 +368,54 @@ function ago(ts){
   if (s < 86400) return Math.round(s / 3600) + (ru ? " ч. назад" : " soat oldin");
   return Math.round(s / 86400) + (ru ? " дн. назад" : " kun oldin");
 }
-function toast(m){ const e = $("#toast"); e.textContent = m; e.classList.add("show"); setTimeout(() => e.classList.remove("show"), 1700); }
+function hue(s){ let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) % 360; return h; }
+function avatar(name, big, photo){
+  const ch = (String(name).replace(/[^\p{L}\p{N}]/gu, "")[0] || "?").toUpperCase(), h = hue(name);
+  return `<span class="av ${big ? "lg" : ""}" style="background:linear-gradient(135deg,hsl(${h} 55% 45%),hsl(${(h + 40) % 360} 60% 32%))">${photo ? `<img src="${esc(photo)}" alt="">` : esc(ch)}</span>`;
+}
+function toast(m){ const e = $("#toast"); e.textContent = m; e.classList.add("show"); setTimeout(() => e.classList.remove("show"), 1800); }
 function copy(txt, msg){ navigator.clipboard?.writeText(txt).then(() => toast(msg || t("copied")), () => toast(txt)); }
-const connectBtns = big => `<a class="btn main" href="steam://connect/${ADDRESS}">▶ ${big ? t("play") : t("connect")}</a>
-  <button class="btn" onclick="copy('connect ${ADDRESS}')">⧉ ${t("copyip")}</button>`;
-// Soddalashtirilgan HLTV 1.0 reytingi (multi-kill qismisiz): o'rtacha o'yinchi ≈ 1.00
+const I = {
+  play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>',
+  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>',
+  tg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.6l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6L20.4 3.1c.9-.3 1.7.2 1.5 1.2z"/></svg>',
+  users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M17 11a4 4 0 0 0 0-8M22 21c0-3-2-5-4-5.5"/></svg>',
+  sword: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/></svg>',
+  skull: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 3 1.5 5 3 6v3h10v-3c1.5-1 3-3 3-6a8 8 0 0 0-8-8Z"/><circle cx="9" cy="11" r="1.5"/><circle cx="15" cy="11" r="1.5"/></svg>',
+  trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4ZM7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11 12 3l9 8v10H3z"/></svg>',
+  list: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>',
+  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>',
+  check: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1.2 14.2-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4z"/></svg>'
+};
+const connectBtns = big => `<a class="btn main" href="steam://connect/${ADDRESS}">${I.play} ${big ? t("play") : t("connect")}</a>
+  <button class="btn" onclick="copy('connect ${ADDRESS}')">${I.copy} ${t("copyip")}</button>`;
 function mRating(s){ const r = Math.max(s.r, 1); return ((s.k / r) / 0.679 + 0.7 * ((r - s.d) / r) / 0.317) / 1.7; }
+async function sha(s){
+  if (!crypto?.subtle) return "";
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("").slice(0, 24);
+}
+const botName = () => D?.bot || BOT_DEFAULT;
+const verifiedSteam = steam => (D?.accounts || []).some(a => a.steam === steam);
+const mySteam = () => ME && (D?.accounts || []).find(a => a.h === ME.h)?.steam;
 
 /* ===================================================================== indekslar */
 function buildIndex(){
   const players = D?.players || [], ms = D?.mstats || [], hist = D?.history || [];
   const byId = {}; players.forEach(p => byId[p.id] = Object.assign({}, p, {ms: [], hist: []}));
-  // matchlar: tugash vaqti (t) bo'yicha guruhlash
   const matches = {};
   ms.forEach(s => {
     const m = matches[s.t] || (matches[s.t] = {t: s.t, map: s.map, sa: s.sa, sb: s.sb, na: s.na, nb: s.nb, rows: []});
-    s.rating = mRating(s);
-    m.rows.push(s);
+    s.rating = mRating(s); m.rows.push(s);
     if (byId[s.id]) byId[s.id].ms.push(s);
   });
   hist.forEach(h => { if (byId[h.id]) byId[h.id].hist.push(h); });
-  // har bir match qatoriga PTS o'zgarishini qo'shish (history bilan vaqt bo'yicha)
   Object.values(matches).forEach(m => {
-    m.rows.forEach(s => {
-      const h = byId[s.id]?.hist.find(x => Math.abs(x.t - m.t) < 900);
-      s.delta = h ? h.delta : null;
-    });
-    const real = m.rows.filter(r => !r.left);
-    m.mvp = real.slice().sort((a, b) => b.rating - a.rating)[0];
+    m.rows.forEach(s => { const h = byId[s.id]?.hist.find(x => Math.abs(x.t - m.t) < 900); s.delta = h ? h.delta : null; });
+    m.mvp = m.rows.filter(r => !r.left).sort((a, b) => b.rating - a.rating)[0];
     m.winner = m.sa > m.sb ? "A" : m.sb > m.sa ? "B" : "D";
   });
-  // o'yinchi bo'yicha qo'shimcha ko'rsatkichlar
   Object.values(byId).forEach(p => {
     p.ms.sort((a, b) => a.t - b.t); p.hist.sort((a, b) => a.t - b.t);
     const games = p.hist.length ? p.hist : p.ms;
@@ -305,20 +423,28 @@ function buildIndex(){
     let cur = 0, best = 0; games.forEach(g => { cur = g.res === "W" ? cur + 1 : 0; best = Math.max(best, cur); }); p.streak = best;
     const k = p.ms.reduce((a, s) => a + s.k, 0), hs = p.ms.reduce((a, s) => a + s.hs, 0);
     const dmg = p.ms.reduce((a, s) => a + s.dmg, 0), rr = p.ms.reduce((a, s) => a + s.r, 0);
-    p.hsp = k ? Math.round(100 * hs / k) : 0;
-    p.adr = rr ? Math.round(dmg / rr) : 0;
+    p.hsp = k ? Math.round(100 * hs / k) : 0; p.adr = rr ? Math.round(dmg / rr) : 0;
     p.mvps = Object.values(matches).filter(m => m.mvp && m.mvp.id === p.id).length;
     p.maxKills = Math.max(0, ...p.ms.map(s => s.k));
     p.lastT = Math.max(0, ...games.map(g => g.t));
+    p.verified = verifiedSteam(p.id);
   });
   const sorted = Object.values(byId).sort((a, b) => b.pts - a.pts || b.matches - a.matches);
   sorted.forEach((p, i) => p.place = i + 1);
   IDX = {byId, sorted, matches: Object.values(matches).sort((a, b) => b.t - a.t)};
 }
+const pcell = (p, name) => `<span class="pcell">${avatar(name || p.name)}<span class="nm">${esc(name || p.name)}</span>${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
 
 /* ===================================================================== sahifalar */
+function radar(n){
+  const dots = Array.from({length: Math.min(n, 10)}, (_, i) => { const a = i * 2.4 + 0.6, r = 30 + (i * 37) % 55; return `<circle cx="${100 + r * Math.cos(a)}" cy="${100 + r * Math.sin(a)}" r="4" fill="var(--win)"/>`; }).join("");
+  return `<svg class="radar" viewBox="0 0 200 200"><defs><radialGradient id="rg"><stop offset="0" stop-color="rgba(255,59,59,.0)"/><stop offset="1" stop-color="rgba(255,59,59,.12)"/></radialGradient>
+    <linearGradient id="sw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="rgba(255,59,59,0)"/><stop offset="1" stop-color="rgba(255,59,59,.45)"/></linearGradient></defs>
+    <circle cx="100" cy="100" r="96" fill="url(#rg)" stroke="var(--line2)"/><circle cx="100" cy="100" r="64" fill="none" stroke="var(--line)"/><circle cx="100" cy="100" r="32" fill="none" stroke="var(--line)"/>
+    <path d="M100 4v192M4 100h192" stroke="var(--line)"/><path class="sweep" d="M100 100 L196 100 A96 96 0 0 0 167.9 32.1 Z" fill="url(#sw)"/>${dots}<circle cx="100" cy="100" r="3" fill="var(--red)"/></svg>`;
+}
 function pageHome(){
-  const s = D?.server || {}, on = !!s.online, pl = s.players || [];
+  const s = D?.server || {}, on = !!s.online, pl = s.players || [], max = s.max || 10;
   const totalKills = (D?.players || []).reduce((a, p) => a + p.kills, 0);
   const totalMatches = IDX.matches.length || (D?.results || []).length;
   const top3 = IDX.sorted.slice(0, 3);
@@ -326,74 +452,74 @@ function pageHome(){
   <section class="hero">
     <div class="bgmap" style="background-image:url('${mapImg(s.map)}')"></div>
     <div>
-      <div class="season">ClanWar · ${t("season")} ${SEASON}</div>
-      <h1>${esc((s.name || "ClanWar 5x5 | CS 1.6").replace(/\s*\|\s*TT.*$/, ""))}</h1>
-      <div class="sub">${t("tagline")}</div>
+      <div class="eyebrow">ClanWar · ${t("season")} ${SEASON} · First Blood</div>
+      <h1>Cwhub<em>UZ</em> ClanWar</h1>
+      <p class="tag">${t("tag")}</p>
       <div class="kv">
         <div><span>${t("map")}</span><b>${esc(s.map || "—")}</b></div>
-        <div><span>${t("players")}</span><b>${on ? `${s.count}/${s.max}` : "—"}</b></div>
+        <div><span>${t("players")}</span><b>${on ? `${s.count}/${max}` : "—"}</b></div>
         <div><span>${t("address")}</span><b class="addr">${ADDRESS}</b></div>
       </div>
-      <div class="btns">${connectBtns(true)}<a class="btn" href="https://t.me/CwhubUZ" target="_blank" rel="noopener">✈ Telegram</a></div>
+      <div class="btns">${connectBtns(true)}<a class="btn tg" href="https://t.me/CwhubUZ" target="_blank" rel="noopener">${I.tg} Telegram</a></div>
     </div>
-    <div class="live-list">
-      <span class="pill ${on ? "live" : ""}"><span class="dot"></span>${on ? t("online") : t("offline")}</span>
-      <h3 style="margin-top:12px">${t("nowOn")}</h3>
-      ${pl.length ? `<table>${pl.map(p => { const pr = IDX.sorted.find(x => x.name === p.name);
-          return `<tr${pr ? ` class="click" onclick="location.hash='#/p/${slug(pr.id)}'"` : ""}><td>${pr ? badge(pr.pts, pr.matches) : ""} <span class="name">${esc(p.name)}</span></td><td class="num">${p.frags}</td><td class="num sub">${p.ping} ms</td></tr>`; }).join("")}</table>`
-        : `<div class="empty">${t("nobody")}</div>`}
+    <div class="srvbox">
+      <div class="srvtop"><span class="pill ${on ? "live" : ""}"><span class="dot"></span>${on ? t("online") : t("offline")}</span><span class="sub" style="font-size:13px">${esc(s.map || "")}</span></div>
+      ${radar(pl.length)}
+      <div class="slots"><i style="width:${pct(s.count || 0, max)}%"></i></div>
+      <div class="sub" style="font-size:12px;margin-bottom:10px">${s.count || 0}/${max} ${t("slots")}</div>
+      ${pl.length ? `<div class="liveplayers">${pl.map(p => { const pr = IDX.sorted.find(x => x.name === p.name);
+          return `<a class="lp" ${pr ? `href="#/p/${slug(pr.id)}"` : ""}><span class="pcell">${pr ? shield(pr.pts, pr.matches) : avatar(p.name)}<span class="nm">${esc(p.name)}</span></span><span class="sub" style="font-size:13px">${p.frags} · ${p.ping}ms</span></a>`; }).join("")}</div>`
+        : `<div class="empty" style="padding:8px 0">${t("nobody")}</div>`}
     </div>
   </section>
   <div class="statstrip">
-    <div class="ss"><b>${IDX.sorted.length}</b><span>${t("sPlayers")}</span></div>
-    <div class="ss"><b>${totalMatches}</b><span>${t("sMatches")}</span></div>
-    <div class="ss"><b>${totalKills}</b><span>${t("sKills")}</span></div>
-    <div class="ss"><b>${IDX.sorted[0]?.pts ?? "—"}</b><span>${t("sTop")}</span></div>
+    <div class="ss"><div class="ic">${I.users}</div><div><b>${IDX.sorted.length}</b><span>${t("sPlayers")}</span></div></div>
+    <div class="ss"><div class="ic">${I.sword}</div><div><b>${totalMatches}</b><span>${t("sMatches")}</span></div></div>
+    <div class="ss"><div class="ic">${I.skull}</div><div><b>${totalKills.toLocaleString()}</b><span>${t("sKills")}</span></div></div>
+    <div class="ss"><div class="ic">${I.trophy}</div><div><b>${IDX.sorted[0]?.pts ?? "—"}</b><span>${t("sTop")}</span></div></div>
   </div>
-  <div class="grid2 mt">
+  <div class="grid2 mt2">
     <div class="card"><h3>${t("top")}</h3>
       ${top3.length ? `<div class="podium">${top3.map((p, i) => `<div class="pod p${i + 1}" onclick="location.hash='#/p/${slug(p.id)}'">
-        <div class="place">#${i + 1}</div><div class="nm">${esc(p.name)}</div>${badge(p.pts, p.matches)}
-        <div class="sub" style="margin-top:6px">${p.pts} PTS</div></div>`).join("")}</div>` : `<div class="empty">${t("noRank")}</div>`}
+        <div class="crown">${["👑","🥈","🥉"][i]}</div>${avatar(p.name, false)}<div class="nm">${esc(p.name)}</div>${shield(p.pts, p.matches)}
+        <div class="sub" style="margin-top:6px;font-weight:700">${p.pts} PTS</div></div>`).join("")}</div>` : `<div class="empty">${t("noRank")}</div>`}
       <a class="btn sm mt" href="#/top">${t("allRank")} →</a></div>
-    <div class="card"><h3>${t("lastMatches")}</h3>${matchList(IDX.matches.slice(0, 4))}
-      <a class="btn sm" href="#/matches">${t("all")} →</a></div>
+    <div class="card"><h3>${t("lastMatches")}</h3>${matchList(IDX.matches.slice(0, 4))}<a class="btn sm" href="#/matches">${t("all")} →</a></div>
   </div>
-  <div class="card mt"><h3>${t("howTitle")}</h3>
-    <div class="steps">${t("how").map((h, i) => `<div class="step"><i>${i + 1}</i><b style="display:block">${h[0]}</b><span class="sub">${esc(h[1])}</span></div>`).join("")}</div>
+  <div class="card mt2"><h3>${t("howTitle")}</h3>
+    <div class="steps">${t("how").map((h, i) => `<div class="step"><i>${i + 1}</i><b style="display:block;margin-bottom:4px">${h[0]}</b><span class="sub">${esc(h[1])}</span></div>`).join("")}</div>
+    <div class="btns mt"><a class="btn tg" href="#/me">${I.tg} ${t("authT")}</a></div>
   </div>`;
 }
 
 let topTab = 0;
+const formDots = f => `<span class="form">${Array.from({length: 5}, (_, i) => `<i class="${f[f.length - 5 + i] || ""}"></i>`).join("")}</span>`;
 function topRows(list){
   if (!list.length) return `<div class="empty">${t("noRank")}</div>`;
+  const me = mySteam();
   return `<div class="tw"><table>
-    <tr><th>#</th><th>${t("rank")}</th><th>${t("player")}</th><th class="num">PTS</th><th class="num">${t("matches")}</th><th class="num">${t("wins")}</th><th class="num">K/D</th><th class="num">HS%</th><th class="num">ADR</th><th>${t("form")}</th></tr>
-    ${list.map(p => `<tr class="click" onclick="location.hash='#/p/${slug(p.id)}'">
-      <td>${p.place}</td><td>${badge(p.pts, p.matches)}</td><td class="name">${esc(p.name)}</td><td class="num"><b>${p.pts}</b></td>
+    <tr><th>#</th><th>${t("player")}</th><th>${t("rank")}</th><th class="num">PTS</th><th class="num">${t("matches")}</th><th class="num">${t("wins")}</th><th class="num">K/D</th><th class="num">HS%</th><th class="num">ADR</th><th>${t("form")}</th></tr>
+    ${list.map(p => `<tr class="click ${p.id === me ? "me" : ""}" onclick="location.hash='#/p/${slug(p.id)}'">
+      <td class="place ${p.place <= 3 ? "g" + p.place : ""}">${p.place}</td><td>${pcell(p)}</td><td>${shield(p.pts, p.matches)}</td><td class="num"><b>${p.pts}</b></td>
       <td class="num">${p.matches}</td><td class="num">${pct(p.wins, p.matches)}%</td><td class="num">${kd(p.kills, p.deaths)}</td>
       <td class="num">${p.hsp}%</td><td class="num">${p.adr}</td><td>${formDots(p.form)}</td></tr>`).join("")}
   </table></div>`;
 }
-const formDots = f => `<span class="form">${Array.from({length: 5}, (_, i) => `<i class="${f[f.length - 5 + i] || ""}"></i>`).join("")}</span>`;
 function topList(){
   const q = ($("#q")?.value || "").trim().toLowerCase();
-  const sorters = [(a, b) => b.pts - a.pts, (a, b) => b.kills / Math.max(b.deaths, 1) - a.kills / Math.max(a.deaths, 1),
-                   (a, b) => b.hsp - a.hsp, (a, b) => b.adr - a.adr, (a, b) => b.matches - a.matches];
+  const sorters = [(a, b) => b.pts - a.pts, (a, b) => b.kills / Math.max(b.deaths, 1) - a.kills / Math.max(a.deaths, 1), (a, b) => b.hsp - a.hsp, (a, b) => b.adr - a.adr, (a, b) => b.matches - a.matches];
   return IDX.sorted.filter(p => !q || p.name.toLowerCase().includes(q) || p.id.toLowerCase().includes(q)).sort(sorters[topTab]);
 }
 function pageTop(){
-  return `<h2>${t("rating")}</h2><div class="card">
+  return `<h2 class="title">${t("rating")}</h2><p class="lead">${t("ratingLead")}</p><div class="card">
     <input class="search" id="q" placeholder="${t("search")}" autocomplete="off">
     <div class="tabs">${t("tabs").map((x, i) => `<button class="${i === topTab ? "on" : ""}" data-tab="${i}">${x}</button>`).join("")}</div>
-    <div id="list">${topRows(topList())}</div><div class="note">${t("rankNote")}</div></div>`;
+    <div id="list">${topRows(topList())}</div><div class="sub mt" style="font-size:13px">${t("rankNote")}</div></div>`;
 }
 function bindTop(){
   $("#q")?.addEventListener("input", () => $("#list").innerHTML = topRows(topList()));
-  document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => {
-    topTab = +b.dataset.tab; document.querySelectorAll("[data-tab]").forEach(x => x.classList.toggle("on", x === b));
-    $("#list").innerHTML = topRows(topList());
-  });
+  document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { topTab = +b.dataset.tab;
+    document.querySelectorAll("[data-tab]").forEach(x => x.classList.toggle("on", x === b)); $("#list").innerHTML = topRows(topList()); });
 }
 
 function matchList(list){
@@ -401,186 +527,218 @@ function matchList(list){
     const r = (D?.results || []).slice().reverse().slice(0, 10);
     if (!r.length) return `<div class="empty">${t("noMatches")}</div>`;
     return r.map(x => `<div class="mcard"><div class="mthumb" style="background-image:url('${mapImg(x.map)}')">${esc(x.map.replace("de_", ""))}</div>
-      <div><b>${esc(x.a)} vs ${esc(x.b)}</b><div class="sub">${esc(x.time)}</div></div><div class="mscore">${x.sa}:${x.sb}</div></div>`).join("");
+      <div><b>${esc(x.a)} vs ${esc(x.b)}</b><div class="sub" style="font-size:13px">${esc(x.time)}</div></div><div class="mscore">${x.sa}:${x.sb}</div></div>`).join("");
   }
   return list.map(m => `<a class="mcard" href="#/m/${m.t}"><div class="mthumb" style="background-image:url('${mapImg(m.map)}')">${esc(m.map.replace("de_", ""))}</div>
-    <div><b>${esc(m.na)} vs ${esc(m.nb)}</b><div class="sub">${fmtDate(m.t)} · ${m.sa + m.sb} ${t("rounds")}${m.mvp ? ` · MVP ${esc(m.mvp.name)}` : ""}</div></div>
-    <div class="mscore"><span class="${m.winner === "A" ? "W" : ""}">${m.sa}</span>:<span class="${m.winner === "B" ? "W" : ""}">${m.sb}</span></div></a>`).join("");
+    <div style="min-width:0"><b>${esc(m.na)} vs ${esc(m.nb)}</b><div class="sub" style="font-size:13px">${fmtDate(m.t)} · ${m.sa + m.sb} ${t("rounds")}${m.mvp ? ` · ⭐ ${esc(m.mvp.name)}` : ""}</div></div>
+    <div class="mscore"><span class="${m.winner === "A" ? "W" : ""}">${m.sa}</span><span class="dim">:</span><span class="${m.winner === "B" ? "W" : ""}">${m.sb}</span></div></a>`).join("");
 }
-function pageMatches(){ return `<h2>${t("matchesT")}</h2><div class="card">${matchList(IDX.matches)}</div>`; }
+function pageMatches(){ return `<h2 class="title">${t("matchesT")}</h2><p class="lead">${t("matchesLead")}</p><div class="card">${matchList(IDX.matches)}</div>`; }
 
 function teamTable(rows){
   return `<div class="tw"><table><tr><th>${t("player")}</th><th class="num">K–D</th><th class="num">A</th><th class="num">ADR</th><th class="num">HS%</th><th class="num">${t("rt")}</th><th class="num">PTS</th></tr>
-    ${rows.sort((a, b) => b.rating - a.rating).map(s => `<tr class="click ${s.left ? "left" : ""}" onclick="location.hash='#/p/${slug(s.id)}'">
-      <td class="name">${IDX.byId[s.id] ? badge(IDX.byId[s.id].pts, IDX.byId[s.id].matches) : ""} ${esc(s.name)}</td>
+    ${rows.sort((a, b) => b.rating - a.rating).map(s => { const p = IDX.byId[s.id];
+      return `<tr class="click ${s.left ? "left" : ""}" onclick="location.hash='#/p/${slug(s.id)}'">
+      <td><span class="pcell">${p ? shield(p.pts, p.matches) : ""}${avatar(s.name)}<span class="nm">${esc(s.name)}</span></span></td>
       <td class="num">${s.k}–${s.d}</td><td class="num">${s.a}</td><td class="num">${Math.round(s.dmg / Math.max(s.r, 1))}</td>
-      <td class="num">${pct(s.hs, s.k)}%</td><td class="num"><b>${s.rating.toFixed(2)}</b></td>
-      <td class="num ${s.delta == null ? "" : s.delta >= 0 ? "W" : "L"}">${s.delta == null ? "—" : (s.delta >= 0 ? "+" : "") + s.delta}</td></tr>`).join("")}</table></div>`;
+      <td class="num">${pct(s.hs, s.k)}%</td><td class="num"><b class="${s.rating >= 1.1 ? "W" : s.rating < 0.85 ? "L" : ""}">${s.rating.toFixed(2)}</b></td>
+      <td class="num ${s.delta == null ? "" : s.delta >= 0 ? "W" : "L"}">${s.delta == null ? "—" : (s.delta >= 0 ? "+" : "") + s.delta}</td></tr>`; }).join("")}</table></div>`;
 }
 function pageMatch(ts){
   const m = IDX.matches.find(x => String(x.t) === ts);
   if (!m) return `<div class="card empty">${t("notFound")}<br><br><a class="btn" href="#/matches">${t("back")}</a></div>`;
   const A = m.rows.filter(r => r.team === "A"), B = m.rows.filter(r => r.team === "B"), X = m.rows.filter(r => r.team === "X");
-  const real = m.rows.filter(r => !r.left);
-  const by = f => real.slice().sort((a, b) => f(b) - f(a))[0];
+  const real = m.rows.filter(r => !r.left), by = f => real.slice().sort((a, b) => f(b) - f(a))[0];
   const dm = by(r => r.dmg), hs = by(r => r.hs), bk = by(r => r.k / Math.max(r.d, 1));
   const res = side => m.winner === "D" ? `<span class="D">${t("draw")}</span>` : m.winner === side ? `<span class="W">${t("win")}</span>` : `<span class="L">${t("loss")}</span>`;
-  return `<a class="btn sm" href="#/matches">${t("back")}</a>
+  return `<a class="btn sm ghost" href="#/matches">${t("back")}</a>
   <div class="mhead mt"><div class="bgmap" style="background-image:url('${mapImg(m.map)}')"></div>
-    <div class="sub">${esc(m.map)} · ${fmtDate(m.t)} · ${m.sa + m.sb} ${t("rounds")}</div>
+    <div class="eyebrow">${esc(m.map)} · ${fmtDate(m.t)} · ${m.sa + m.sb} ${t("rounds")}</div>
     <div class="vs"><div><div class="tn">${esc(m.na)}</div>${res("A")}</div>
       <div class="sc"><span class="${m.winner === "A" ? "W" : ""}">${m.sa}</span> : <span class="${m.winner === "B" ? "W" : ""}">${m.sb}</span></div>
       <div><div class="tn">${esc(m.nb)}</div>${res("B")}</div></div></div>
   ${real.length ? `<div class="awards mt">
-    <div class="aw"><span>⭐ ${t("mvp")}</span><b>${esc(m.mvp?.name)}</b><span>${t("rt")} ${m.mvp?.rating.toFixed(2)}</span></div>
-    <div class="aw"><span>💥 ${t("mostDmg")}</span><b>${esc(dm.name)}</b><span>${dm.dmg} · ADR ${Math.round(dm.dmg / Math.max(dm.r, 1))}</span></div>
-    <div class="aw"><span>🎯 ${t("mostHs")}</span><b>${esc(hs.name)}</b><span>${hs.hs} HS</span></div>
-    <div class="aw"><span>⚔ ${t("bestKd")}</span><b>${esc(bk.name)}</b><span>${bk.k}–${bk.d}</span></div></div>` : ""}
+    <div class="aw"><span>⭐ ${t("mvp")}</span><b>${esc(m.mvp?.name)}</b><span class="sub">${t("rt")} ${m.mvp?.rating.toFixed(2)}</span></div>
+    <div class="aw"><span>💥 ${t("mostDmg")}</span><b>${esc(dm.name)}</b><span class="sub">${dm.dmg} · ADR ${Math.round(dm.dmg / Math.max(dm.r, 1))}</span></div>
+    <div class="aw"><span>🎯 ${t("mostHs")}</span><b>${esc(hs.name)}</b><span class="sub">${hs.hs} HS</span></div>
+    <div class="aw"><span>⚔ ${t("bestKd")}</span><b>${esc(bk.name)}</b><span class="sub">${bk.k}–${bk.d}</span></div></div>` : ""}
   <div class="card mt"><h3>${esc(m.na)} <span class="sub">· ${m.sa}</span></h3>${teamTable(A)}</div>
   <div class="card mt"><h3>${esc(m.nb)} <span class="sub">· ${m.sb}</span></h3>${teamTable(B)}</div>
   ${X.length ? `<div class="card mt"><h3>${t("left")}</h3>${teamTable(X)}</div>` : ""}
-  <div class="note">${t("ratingNote")}</div>`;
+  <p class="sub mt" style="font-size:13px">${t("ratingNote")}</p>`;
 }
 
 function chart(hist){
   if (hist.length < 2) return "";
-  const W = 600, H = 170, P = 22, v = hist.map(h => h.pts), mn = Math.min(...v) - 10, mx = Math.max(...v) + 10;
+  const W = 600, H = 190, P = 24, v = hist.map(h => h.pts), mn = Math.min(...v) - 10, mx = Math.max(...v) + 10;
   const x = i => P + i * (W - 2 * P) / (v.length - 1), y = p => H - P - (p - mn) * (H - 2 * P) / Math.max(mx - mn, 1);
   const pts = v.map((p, i) => `${x(i).toFixed(1)},${y(p).toFixed(1)}`).join(" ");
-  return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(245,166,35,.35)"/><stop offset="1" stop-color="rgba(245,166,35,0)"/></linearGradient></defs>
+    <polygon points="${P},${H - P} ${pts} ${x(v.length - 1)},${H - P}" fill="url(#cf)"/>
     <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
-    ${v.map((p, i) => `<circle cx="${x(i)}" cy="${y(p)}" r="3.5" fill="${hist[i].res === "W" ? "var(--win)" : hist[i].res === "L" ? "var(--loss)" : "var(--draw)"}"><title>${p} PTS</title></circle>`).join("")}
-    <text x="${P}" y="14" fill="var(--muted)" font-size="12">${Math.max(...v)}</text><text x="${P}" y="${H - 4}" fill="var(--muted)" font-size="12">${Math.min(...v)}</text></svg>`;
+    ${v.map((p, i) => `<circle cx="${x(i)}" cy="${y(p)}" r="4" fill="${hist[i].res === "W" ? "var(--win)" : hist[i].res === "L" ? "var(--loss)" : "var(--draw)"}"><title>${p} PTS</title></circle>`).join("")}
+    <text x="${P}" y="15" fill="var(--muted)" font-size="12">${Math.max(...v)}</text><text x="${P}" y="${H - 6}" fill="var(--muted)" font-size="12">${Math.min(...v)}</text></svg>`;
 }
 function people(p){
   const mates = {}, riv = {};
-  p.ms.forEach(s => {
-    const m = IDX.matches.find(x => x.t === s.t); if (!m) return;
-    m.rows.forEach(o => {
-      if (o.id === p.id || o.team === "X" || s.team === "X") return;
-      const bag = o.team === s.team ? mates : riv;
-      const e = bag[o.id] || (bag[o.id] = {id: o.id, name: o.name, n: 0, w: 0});
-      e.n++; if (s.res === "W") e.w++;
-    });
-  });
+  p.ms.forEach(s => { const m = IDX.matches.find(x => x.t === s.t); if (!m) return;
+    m.rows.forEach(o => { if (o.id === p.id || o.team === "X" || s.team === "X") return;
+      const bag = o.team === s.team ? mates : riv, e = bag[o.id] || (bag[o.id] = {id: o.id, name: o.name, n: 0, w: 0}); e.n++; if (s.res === "W") e.w++; }); });
   const list = (bag, f) => { const a = Object.values(bag).sort((x, y) => y.n - x.n).slice(0, 5);
-    return a.length ? `<div class="people">${a.map(e => `<a class="person" href="#/p/${slug(e.id)}"><b>${esc(e.name)}</b><span class="sub">${f(e.n, pct(e.w, e.n))}</span></a>`).join("")}</div>` : `<div class="empty">—</div>`; };
+    return a.length ? `<div class="people">${a.map(e => `<a class="person" href="#/p/${slug(e.id)}">${pcell(IDX.byId[e.id] || {}, e.name)}<span class="sub" style="font-size:13px">${f(e.n, pct(e.w, e.n))}</span></a>`).join("")}</div>` : `<div class="empty">—</div>`; };
   return {mates: list(mates, t("together")), rivals: list(riv, t("against"))};
 }
 function achievements(p){
-  const won = p.wins > 0, conds = [p.matches >= 1, won, p.streak >= 3, p.matches >= 25, p.matches >= 100, p.maxKills >= 30, p.matches >= 10 && p.hsp >= 50, p.mvps > 0, p.pts >= 1300];
-  return `<div class="ach">${t("achs").map((a, i) => `<div class="a ${conds[i] ? "" : "off"}"><div class="ic">${a[0]}</div><div><b>${a[1]}</b><span>${a[2]}</span></div></div>`).join("")}</div>`;
+  const c = [p.matches >= 1, p.wins > 0, p.streak >= 3, p.matches >= 25, p.matches >= 100, p.maxKills >= 30, p.matches >= 10 && p.hsp >= 50, p.mvps > 0, p.pts >= 1300];
+  return `<div class="ach">${t("achs").map((a, i) => `<div class="a ${c[i] ? "" : "off"}"><div class="ic">${a[0]}</div><div><b>${a[1]}</b><span>${a[2]}</span></div></div>`).join("")}</div>`;
 }
 function pageProfile(id){
   const p = IDX.byId[id];
   if (!p) return `<div class="card empty">${t("notFound")}: ${esc(id)}<br><br><a class="btn" href="#/top">${t("back")}</a></div>`;
-  const ri = rankIdx(p.pts), next = RANKS[ri + 1], cal = p.matches < CAL;
+  const ri = rankIdx(p.pts), next = RANKS[ri + 1], cal = p.matches < CAL, c = TIERC[rankName(p.pts)[0]];
   const lo = ri ? RANKS[ri][0] : 700, frac = next ? Math.max(0, Math.min(1, (p.pts - lo) / (next[0] - lo))) : 1;
-  const online = (D?.server?.players || []).some(x => x.name === p.name);
-  const games = (p.hist.length ? p.hist : p.ms).slice().reverse().slice(0, 15);
-  const pp = people(p);
+  const online = (D?.server?.players || []).some(x => x.name === p.name), isMe = mySteam() === p.id;
+  const games = (p.hist.length ? p.hist : p.ms).slice().reverse().slice(0, 15), pp = people(p);
   return `
-  <div class="card"><div class="prof">
-    <div class="bigbadge ${tier(p.pts)} ${cal ? "cal" : ""}">${cal ? t("cal") : rankName(p.pts)}</div>
+  ${isMe ? `<div class="banner"><b>👋 ${t("thisIsYou")}</b><span class="verified">${I.check} ${t("verified")}</span></div>` : ""}
+  <section class="phero" style="--glow:${c[1]}55"><div class="prof">
+    <div style="display:flex;gap:16px;align-items:center">${shield(p.pts, p.matches, true)}</div>
     <div style="min-width:0">
-      <h1 style="font-size:38px;word-break:break-word">${esc(p.name)} ${online ? `<span class="pill live" style="vertical-align:middle"><span class="dot"></span>${t("serverHere")}</span>` : ""}</h1>
-      <div class="sub">${esc(p.id)} · <a href="#" onclick="copy('${esc(p.id)}','SteamID ✓');return false">⧉</a>${p.lastT ? ` · ${t("lastSeen")}: ${ago(p.lastT)}` : ""}</div>
-      <div style="margin-top:8px;font:700 24px Rajdhani,sans-serif" class="${tier(p.pts)}">${p.pts} PTS · #${p.place} ${t("place")}</div>
+      <div class="eyebrow">${cal ? t("calLeft")(CAL - p.matches) : `#${p.place} ${t("place")} · ${t("season")} ${SEASON}`}</div>
+      <h1 style="font-size:44px;word-break:break-word;margin:6px 0">${esc(p.name)}</h1>
+      <div class="sub" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        ${p.verified ? `<span class="verified">${I.check} ${t("verified")}</span>` : ""}
+        ${online ? `<span class="pill live"><span class="dot"></span>${t("serverHere")}</span>` : ""}
+        <span>${esc(p.id)} <a href="#" onclick="copy('${esc(p.id)}','SteamID ✓');return false">⧉</a></span>
+        ${p.lastT ? `<span>· ${t("lastSeen")}: ${ago(p.lastT)}</span>` : ""}</div>
+      <div style="margin-top:12px;font:700 28px Rajdhani,sans-serif" class="${tier(p.pts)}">${p.pts} PTS</div>
       <div class="prog ${tier(p.pts)}"><i style="width:${(frac * 100).toFixed(1)}%"></i></div>
-      <div class="sub">${cal ? t("calLeft")(CAL - p.matches) : next ? t("nextRank")([next[0] - p.pts, next[1]]) : t("maxRank")} · ${formDots(p.form)}</div>
+      <div class="sub" style="font-size:13px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">${next ? t("nextRank")([next[0] - p.pts, next[1]]) : t("maxRank")} ${formDots(p.form)}</div>
     </div>
     <div class="btns" style="flex-direction:column">${connectBtns(false)}<a class="btn" href="#/vs/${slug(p.id)}">⇄ ${t("compare")}</a></div>
   </div>
   <div class="tiles">
     <div class="tile"><b>${p.matches}</b><span>${t("matches")}</span></div>
-    <div class="tile"><b>${pct(p.wins, p.matches)}%</b><span>${t("wins")} (${p.wins})</span></div>
+    <div class="tile"><b class="W">${pct(p.wins, p.matches)}%</b><span>${t("wins")} (${p.wins})</span></div>
     <div class="tile"><b>${kd(p.kills, p.deaths)}</b><span>K/D</span></div>
     <div class="tile"><b>${p.hsp}%</b><span>HS%</span></div>
     <div class="tile"><b>${p.adr}</b><span>ADR</span></div>
     <div class="tile"><b>${p.mvps}</b><span>MVP</span></div>
     <div class="tile"><b>${p.streak}</b><span>${t("streak")}</span></div>
-  </div></div>
-  <div class="grid2 mt">
-    <div class="card"><h3>${t("ptsHistory")}</h3>${chart(p.hist) || `<div class="empty">—</div>`}</div>
-    <div class="card"><h3>${t("ach")}</h3>${achievements(p)}</div>
-  </div>
+  </div></section>
+  <div class="grid2 mt"><div class="card"><h3>${t("ptsHistory")}</h3>${chart(p.hist) || `<div class="empty">—</div>`}</div><div class="card"><h3>${t("ach")}</h3>${achievements(p)}</div></div>
   <div class="card mt"><h3>${t("recent")}</h3>
-    ${games.length ? `<div class="tw"><table><tr><th>${t("map")}</th><th></th><th class="num">K–D</th><th class="num">PTS</th><th></th></tr>
+    ${games.length ? `<div class="tw"><table><tr><th>${t("map")}</th><th></th><th class="num">K–D</th><th class="num">PTS</th><th class="num"></th></tr>
       ${games.map(g => { const m = IDX.matches.find(x => Math.abs(x.t - g.t) < 900);
-        return `<tr${m ? ` class="click" onclick="location.hash='#/m/${m.t}'"` : ""}><td>${esc(g.map)} <span class="sub">· ${fmtDate(g.t)}</span></td>
-        <td class="${g.res}">${{W: t("win"), L: t("loss"), D: t("draw")}[g.res]}${m ? ` <span class="sub">${m.sa}:${m.sb}</span>` : ""}</td>
-        <td class="num">${g.k}–${g.d}</td><td class="num ${g.delta >= 0 ? "W" : "L"}">${g.delta == null ? "—" : (g.delta >= 0 ? "+" : "") + g.delta}</td>
-        <td class="num sub">${g.pts ?? ""}</td></tr>`; }).join("")}</table></div>` : `<div class="empty">${t("noMatches")}</div>`}
-  </div>
-  <div class="grid2 mt"><div class="card"><h3>${t("mates")}</h3>${pp.mates}</div><div class="card"><h3>${t("rivals")}</h3>${pp.rivals}</div></div>
-  <div class="note">${t("linkNote")}</div>`;
+        return `<tr${m ? ` class="click" onclick="location.hash='#/m/${m.t}'"` : ""}><td><b>${esc(g.map)}</b> <span class="sub">· ${fmtDate(g.t)}</span></td>
+        <td class="${g.res}"><b>${{W: t("win"), L: t("loss"), D: t("draw")}[g.res]}</b>${m ? ` <span class="sub">${m.sa}:${m.sb}</span>` : ""}</td>
+        <td class="num">${g.k}–${g.d}</td><td class="num ${g.delta >= 0 ? "W" : "L"}">${g.delta == null ? "—" : (g.delta >= 0 ? "+" : "") + g.delta}</td><td class="num sub">${g.pts ?? ""}</td></tr>`; }).join("")}</table></div>`
+      : `<div class="empty">${t("noMatches")}</div>`}</div>
+  <div class="grid2 mt"><div class="card"><h3>${t("mates")}</h3>${pp.mates}</div><div class="card"><h3>${t("rivals")}</h3>${pp.rivals}</div></div>`;
 }
 
 function pageVs(a, b){
   const A = IDX.byId[a], B = IDX.byId[b];
-  const opts = sel => `<select class="search" onchange="location.hash='#/vs/${slug(a)}/'+encodeURIComponent(this.value)"><option value="">${t("choose")}</option>
-    ${IDX.sorted.filter(p => p.id !== a).map(p => `<option value="${esc(p.id)}" ${p.id === sel ? "selected" : ""}>${esc(p.name)} (${p.pts})</option>`).join("")}</select>`;
   if (!A) return `<div class="card empty">${t("notFound")}</div>`;
-  const row = (label, f, better) => { const x = f(A), y = B ? f(B) : null; const bx = B && better(x, y), by = B && better(y, x);
-    return `<tr><td class="num ${bx ? "W" : ""}"><b>${x}</b></td><td style="text-align:center" class="sub">${label}</td><td class="${by ? "W" : ""}"><b>${B ? y : "—"}</b></td></tr>`; };
+  const sel = `<select class="search" onchange="location.hash='#/vs/${slug(a)}/'+encodeURIComponent(this.value)"><option value="">${t("choose")}</option>
+    ${IDX.sorted.filter(p => p.id !== a).map(p => `<option value="${esc(p.id)}" ${p.id === b ? "selected" : ""}>${esc(p.name)} (${p.pts})</option>`).join("")}</select>`;
   const gt = (x, y) => parseFloat(x) > parseFloat(y);
-  return `<a class="btn sm" href="#/p/${slug(a)}">${t("back")}</a><h2 class="mt">${t("compare")}</h2>
-  <div class="card">${opts(b)}<div class="tw mt"><table>
+  const row = (label, f, better) => { const x = f(A), y = B ? f(B) : null, bx = B && better(x, y), by = B && better(y, x);
+    return `<tr><td class="num ${bx ? "W" : ""}"><b>${x}</b></td><td style="text-align:center" class="sub">${label}</td><td class="${by ? "W" : ""}"><b>${B ? y : "—"}</b></td></tr>`; };
+  return `<a class="btn sm ghost" href="#/p/${slug(a)}">${t("back")}</a><h2 class="title mt">${t("compare")}</h2>
+  <div class="card mt">${sel}<div class="tw mt"><table>
     <tr><th class="num">${esc(A.name)}</th><th></th><th>${B ? esc(B.name) : ""}</th></tr>
     ${row("PTS", p => p.pts, gt)}${row(t("rank"), p => rankName(p.pts), (x, y) => RANKS.findIndex(r => r[1] === x) > RANKS.findIndex(r => r[1] === y))}
-    ${row(t("matches"), p => p.matches, gt)}${row(t("wins") + " %", p => pct(p.wins, p.matches), gt)}
-    ${row("K/D", p => kd(p.kills, p.deaths), gt)}${row("HS%", p => p.hsp, gt)}${row("ADR", p => p.adr, gt)}
-    ${row("MVP", p => p.mvps, gt)}${row(t("streak"), p => p.streak, gt)}</table></div></div>`;
+    ${row(t("matches"), p => p.matches, gt)}${row(t("wins") + " %", p => pct(p.wins, p.matches), gt)}${row("K/D", p => kd(p.kills, p.deaths), gt)}
+    ${row("HS%", p => p.hsp, gt)}${row("ADR", p => p.adr, gt)}${row("MVP", p => p.mvps, gt)}${row(t("streak"), p => p.streak, gt)}</table></div></div>`;
 }
-
 function pageRanks(){
   const cnt = i => IDX.sorted.filter(p => rankIdx(p.pts) === i).length;
-  return `<h2>${t("ranksT")}</h2><div class="card">
-    <div class="ladder">${RANKS.map((r, i) => `<div class="rk"><span class="badge ${"t" + r[1][0]}">${r[1]}</span>
-      <div><b>${r[0]}${RANKS[i + 1] ? "–" + (RANKS[i + 1][0] - 1) : "+"}</b><small>PTS</small></div><span class="cnt">${cnt(i)} 👤</span></div>`).join("")}</div>
-    <p class="sub" style="line-height:1.7;margin:16px 0 0">${t("ranksNote")}</p></div>`;
+  return `<h2 class="title">${t("ranksT")}</h2><p class="lead">${t("ranksLead")}</p><div class="card">
+    <div class="ladder">${RANKS.map((r, i) => `<div class="rk">${shield(r[0])}<div><b>${r[0]}${RANKS[i + 1] ? "–" + (RANKS[i + 1][0] - 1) : "+"}</b><small>PTS</small></div><span class="cnt">${cnt(i)} 👤</span></div>`).join("")}</div>
+    <p class="sub" style="line-height:1.7;margin:18px 0 0">${t("ranksNote")}</p></div>`;
 }
 function pageBans(){
   const b = D?.bans || [];
-  return `<h2>${t("bansT")}</h2><div class="card">
+  return `<h2 class="title">${t("bansT")}</h2><p class="lead">${t("bansLead")}</p><div class="card">
     ${b.length ? `<div class="tw"><table><tr><th>${t("player")}</th><th>${t("reason")}</th><th>${t("since")}</th><th>${t("remain")}</th><th>${t("admin")}</th></tr>
-      ${b.map(x => `<tr><td class="name">${esc(x.name)}</td><td>${esc(x.reason)}</td><td>${esc(x.since)}</td><td>${esc(x.left)}</td><td>${esc(x.admin)}</td></tr>`).join("")}</table></div>`
-      : `<div class="empty">${t("noBans")}</div>`}
-    <div class="btns mt"><a class="btn" href="https://t.me/CwhubUZ" target="_blank" rel="noopener">✈ ${t("appeal")}</a></div>
-    <div class="note">${t("appealNote")}</div></div>`;
+      ${b.map(x => `<tr><td>${pcell({}, x.name)}</td><td>${esc(x.reason)}</td><td class="sub">${esc(x.since)}</td><td><b>${esc(x.left)}</b></td><td class="sub">${esc(x.admin)}</td></tr>`).join("")}</table></div>`
+      : `<div class="empty">✅ ${t("noBans")}</div>`}
+    <div class="btns mt"><a class="btn tg" href="https://t.me/CwhubUZ" target="_blank" rel="noopener">${I.tg} ${t("appeal")}</a></div>
+    <p class="sub" style="font-size:13px">${t("appealNote")}</p></div>`;
 }
 function pageRules(){
   const uz = LANG === "uz";
   const L = uz ? [["Chit (WH, aim, skript)","1 hafta"],["Ota-onani haqorat qilish","1 hafta"],["Reklama","1 hafta"],["Nomaqbul nick","1 soat"],["So'kinish (mat)","30 daqiqa"],["Spam / flood","30 daqiqa"],["Noadekvat xatti-harakat","5 daqiqa"],["To'la 5x5 jamoaga 6-o'yinchi","5 daqiqa"]]
     : [["Читы (WH, aim, скрипты)","1 неделя"],["Оскорбление родных","1 неделя"],["Реклама","1 неделя"],["Недопустимый ник","1 час"],["Мат","30 минут"],["Спам / флуд","30 минут"],["Неадекват","5 минут"],["6-й игрок в полной команде 5x5","5 минут"]];
-  return `<h2>${t("rulesT")}</h2><div class="card"><ol class="rules">
-    ${L.map(r => `<li>${r[0]} — <b>${r[1]}</b> ban</li>`).join("")}
-    <li>${uz ? "Majburiy" : "Обязательно"}: <span class="mono">gl_monolights 0</span> <span class="mono">net_graph 0</span> <span class="mono">developer 0</span></li>
-    <li>${uz ? "Serverda hamma teng — admin o'yinda ustunlik olmaydi. Adminlar va raqiblarni hurmat qiling." : "На сервере все равны — админка не даёт преимущества в игре. Уважайте админов и соперников."}</li></ol>
-    <div class="note">${uz ? "Demo avtomatik yoziladi." : "Демо записывается автоматически."} /score /pts /top /rules /tg</div></div>`;
+  return `<h2 class="title">${t("rulesT")}</h2><p class="lead">${t("rulesLead")}</p><div class="card"><ol class="rules">
+    ${L.map(r => `<li><span>${r[0]}</span><b class="L">${r[1]}</b></li>`).join("")}
+    <li><span>${uz ? "Majburiy sozlamalar" : "Обязательные настройки"}: <span class="mono">gl_monolights 0</span> <span class="mono">net_graph 0</span> <span class="mono">developer 0</span></span></li></ol>
+    <p class="sub mt" style="font-size:13px">${uz ? "Demo avtomatik yoziladi. Chat buyruqlari:" : "Демо пишется автоматически. Команды в чате:"} <span class="mono">/score</span> <span class="mono">/pts</span> <span class="mono">/top</span> <span class="mono">/link</span> <span class="mono">/tg</span></p></div>`;
+}
+
+/* ===================================================================== akkaunt (Telegram) */
+async function onTgAuth(user){
+  ME = {id: user.id, first_name: user.first_name || "", username: user.username || "", photo_url: user.photo_url || "", h: await sha("cwhub:" + user.id)};
+  store.set("tg", JSON.stringify(ME));
+  renderAcct(); render(false);
+}
+window.onTgAuth = onTgAuth;
+function logout(){ ME = null; store.set("tg", null); renderAcct(); location.hash = "#/"; }
+function renderAcct(){
+  $("#acct").innerHTML = ME
+    ? `<a class="who" href="#/me" title="${esc(ME.first_name)}">${avatar(ME.first_name || ME.username, false, ME.photo_url)}<span>${esc(ME.first_name || ME.username)}</span></a>`
+    : `<a class="btn sm tg" href="#/me">${I.tg} ${t("login")}</a>`;
+}
+function mountTgWidget(){
+  const w = $("#tgw"); if (!w) return;
+  const s = document.createElement("script");
+  s.async = true; s.src = "https://telegram.org/js/telegram-widget.js?22";
+  s.setAttribute("data-telegram-login", botName()); s.setAttribute("data-size", "large");
+  s.setAttribute("data-radius", "12"); s.setAttribute("data-onauth", "onTgAuth(user)"); s.setAttribute("data-request-access", "write");
+  w.appendChild(s);
+}
+function pageMe(){
+  if (!ME) return `<div class="card auth"><div class="big">${I.tg}</div><h2 class="title">${t("authT")}</h2><p class="lead">${t("authLead")}</p>
+      <div class="tgwrap" id="tgw"></div><p class="dim" style="font-size:12px">${t("authNote")}</p></div>`;
+  const steam = mySteam();
+  if (steam && IDX.byId[steam]) { setTimeout(() => location.hash = "#/p/" + slug(steam), 0); return ""; }
+  return `<div class="card auth">${avatar(ME.first_name || ME.username, true, ME.photo_url)}
+    <h2 class="title mt">${esc(t("hello")(ME.first_name || ME.username))}</h2><p class="lead">${t("linkLead")}</p>
+    <div class="linksteps">${t("linkSteps").map((s, i) => `<div class="ls"><i>${i + 1}</i><div>${s}</div></div>`).join("")}</div>
+    <div class="btns mt" style="justify-content:center"><a class="btn tg" href="https://t.me/${esc(botName())}" target="_blank" rel="noopener">${I.tg} ${t("openBot")} @${esc(botName())}</a>
+      <button class="btn ghost" onclick="logout()">${t("logout")}</button></div>
+    <p class="dim mt" style="font-size:12px">${t("pending")}</p></div>`;
 }
 
 /* ===================================================================== router */
+const ROUTES = ["#/", "#/top", "#/matches", "#/ranks", "#/rules", "#/bans"];
 function renderNav(){
-  const routes = ["#/", "#/top", "#/matches", "#/ranks", "#/bans", "#/rules"], h = location.hash || "#/";
-  $("#nav").innerHTML = t("nav").map((n, i) => {
-    const on = h === routes[i] || (i === 1 && /^#\/(p|vs)\//.test(h)) || (i === 2 && h.startsWith("#/m/"));
-    return `<a href="${routes[i]}" class="${on ? "on" : ""}">${n}</a>`;
-  }).join("");
+  const h = location.hash || "#/";
+  const isOn = i => h === ROUTES[i] || (i === 1 && /^#\/(p|vs)\//.test(h)) || (i === 2 && h.startsWith("#/m/"));
+  $("#nav").innerHTML = t("nav").map((n, i) => `<a href="${ROUTES[i]}" class="${isOn(i) ? "on" : ""}">${n}</a>`).join("");
+  const bi = [I.home, I.list, I.sword, I.trophy, I.user], br = ["#/", "#/top", "#/matches", "#/ranks", "#/me"];
+  const bl = [t("nav")[0], t("nav")[1], t("nav")[2], t("nav")[3], ME ? t("myProfile").split(" ")[0] : t("login")];
+  $("#bnav").innerHTML = br.map((r, i) => `<a href="${r}" class="${(i < 4 && isOn(i)) || (i === 4 && h === "#/me") ? "on" : ""}">${bi[i]}<span>${bl[i]}</span></a>`).join("");
   document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b.dataset.l === LANG));
   document.documentElement.lang = LANG;
+  $("#fabout").textContent = t("about"); $("#f1").textContent = t("f1"); $("#f2").textContent = t("f2");
+  $("#fl1").innerHTML = [0, 1, 2, 3].map(i => `<a href="${ROUTES[i]}">${t("nav")[i]}</a>`).join("");
+  $("#fl2").innerHTML = `<a href="${ROUTES[4]}">${t("nav")[4]}</a><a href="${ROUTES[5]}">${t("nav")[5]}</a><a href="#/me">${t("authT")}</a>`;
+  $("#fbot").textContent = "@" + botName(); $("#fbot").href = "https://t.me/" + botName();
 }
 function render(scroll = true){
   if (!IDX) return;
   const h = location.hash || "#/";
-  renderNav();
+  renderNav(); renderAcct();
   let html;
   if (h.startsWith("#/p/")) html = pageProfile(decodeURIComponent(h.slice(4)));
   else if (h.startsWith("#/m/")) html = pageMatch(h.slice(4));
   else if (h.startsWith("#/vs/")) { const [a, b] = h.slice(5).split("/").map(decodeURIComponent); html = pageVs(a, b); }
-  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules}[h] || pageHome)();
+  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe}[h] || pageHome)();
   $("#app").innerHTML = html;
   if (h === "#/top") bindTop();
+  if (h === "#/me") mountTgWidget();
   $("#upd").textContent = D?.updated ? `${t("updated")}: ${ago(D.updated)}` : "";
   if (scroll) window.scrollTo(0, 0);
 }
@@ -591,10 +749,11 @@ async function load(refresh){
   D = D || {players: [], results: []};
   buildIndex();
   const h = location.hash || "#/";
-  if (!refresh || h === "#/") render(!refresh);
+  if (!refresh || h === "#/" || h === "#/me") render(!refresh);
   else $("#upd").textContent = D.updated ? `${t("updated")}: ${ago(D.updated)}` : "";
 }
-document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { LANG = b.dataset.l; try { localStorage.setItem("lang", LANG); } catch (e) {} render(false); });
+try { ME = JSON.parse(store.get("tg") || "null"); } catch (e) { ME = null; }
+document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { LANG = b.dataset.l; store.set("lang", LANG); render(false); });
 window.addEventListener("hashchange", () => render());
 load(false);
 setInterval(() => load(true), 120000);

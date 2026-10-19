@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CwhubUZ ClanWar</title>
+<meta name="description" content="CwhubUZ — CS 1.6 ClanWar 5x5 server: onlayn holat, PTS reyting, ranklar, o'yinchi profillari.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0f13; --panel:#151821; --panel2:#1b1f2a; --line:#262b38;
+  --text:#e9ebf1; --muted:#8b92a5; --accent:#f5a623; --accent2:#ffcf6b;
+  --win:#46c37b; --loss:#e5534b; --draw:#c9a227;
+  --tL:#78c878; --tM:#50a0ff; --tH:#be6eff; --tP:#ffc428;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif;min-height:100vh}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);background:rgba(13,15,19,.92);position:sticky;top:0;z-index:5;backdrop-filter:blur(6px)}
+.bar{display:flex;align-items:center;gap:18px;height:60px}
+.logo{font:700 22px Rajdhani,sans-serif;letter-spacing:.5px;text-decoration:none;white-space:nowrap}
+.logo b{color:var(--accent)}
+nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{text-decoration:none;color:var(--muted);padding:7px 11px;border-radius:8px;font-weight:500;white-space:nowrap}
+nav a.on,nav a:hover{color:var(--text);background:var(--panel2)}
+main{padding:28px 0 60px}
+h1,h2,h3{font-family:Rajdhani,sans-serif;margin:0;letter-spacing:.3px}
+h2{font-size:26px;margin-bottom:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.grid{display:grid;gap:16px}
+.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+@media(max-width:820px){.hero{grid-template-columns:1fr}}
+.status{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:13px;padding:4px 10px;border-radius:99px;background:var(--panel2)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.on .dot{background:var(--win);box-shadow:0 0 0 4px rgba(70,195,123,.18)}
+.srvname{font-size:34px;margin:12px 0 4px;line-height:1.1}
+.sub{color:var(--muted)}
+.kv{display:flex;flex-wrap:wrap;gap:22px;margin:18px 0}
+.kv div span{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.6px}
+.kv div b{font:700 22px Rajdhani,sans-serif}
+.kv div b.ip{font:600 15px ui-monospace,Consolas,monospace;display:inline-block;margin-top:4px;word-break:break-all}
+.kv{min-width:0}.hero>.card{min-width:0}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;text-decoration:none;font:600 15px Inter,sans-serif;padding:12px 18px;border-radius:10px;background:var(--panel2);color:var(--text)}
+.btn:hover{filter:brightness(1.15)}
+.btn.main{background:var(--accent);color:#1a1205;font-size:16px}
+.ip{font-family:ui-monospace,Consolas,monospace;background:var(--panel2);padding:3px 8px;border-radius:6px}
+table{width:100%;border-collapse:collapse}
+th{color:var(--muted);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.5px;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line)}
+tr.click{cursor:pointer}
+tr.click:hover td{background:var(--panel2)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto}
+.badge{display:inline-grid;place-items:center;min-width:38px;height:26px;padding:0 6px;border-radius:7px;font:700 15px Rajdhani,sans-serif;border:2px solid currentColor}
+.tL{color:var(--tL)}.tM{color:var(--tM)}.tH{color:var(--tH)}.tP{color:var(--tP)}
+.search{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:15px Inter,sans-serif;margin-bottom:14px}
+.empty{color:var(--muted);padding:18px 0;text-align:center}
+.prof{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+@media(max-width:620px){.prof{grid-template-columns:1fr}}
+.bigbadge{width:130px;height:130px;border-radius:24px;border:5px solid currentColor;display:grid;place-items:center;font:700 58px Rajdhani,sans-serif;background:var(--panel2)}
+.bar2{height:12px;border-radius:99px;background:var(--panel2);overflow:hidden;margin:10px 0 6px}
+.bar2 i{display:block;height:100%;background:currentColor}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:16px}
+.tile{background:var(--panel2);border-radius:12px;padding:14px;text-align:center}
+.tile b{display:block;font:700 26px Rajdhani,sans-serif}
+.tile span{color:var(--muted);font-size:13px}
+.W{color:var(--win)}.L{color:var(--loss)}.D{color:var(--draw)}
+.ranks{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.rk{background:var(--panel2);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px}
+.note{color:var(--muted);font-size:13px;margin-top:10px}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;padding:18px 0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--accent);color:#1a1205;padding:10px 16px;border-radius:10px;font-weight:600;opacity:0;transition:.2s;pointer-events:none}
+.toast.show{opacity:1}
+ol.rules{margin:0;padding-left:20px}
+ol.rules li{padding:4px 0}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <a class="logo" href="#/">Cwhub<b>UZ</b></a>
+  <nav id="nav">
+    <a href="#/">Server</a><a href="#/top">Reyting</a><a href="#/ranks">Ranklar</a>
+    <a href="#/matches">Matchlar</a><a href="#/bans">Banlar</a><a href="#/rules">Qoidalar</a>
+  </nav>
+</div></header>
+<main class="wrap" id="app"><div class="empty">Yuklanmoqda…</div></main>
+<footer><div class="wrap">CS 1.6 ClanWar 5x5 · Telegram: <a href="https://t.me/CwhubUZ" target="_blank" rel="noopener">@CwhubUZ</a> · <span id="upd"></span></div></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const ADDRESS = "cyberstep.hostin.uz:27045";
+const DATA_URLS = [
+  "https://raw.githubusercontent.com/shokirovv10/cwhub/data/data.json",
+  "data.json"
+];
+// server bilan bir xil (src/cw_rank.inc)
+const RANKS = [[0,"L-"],[850,"L"],[900,"L+"],[950,"M-"],[1000,"M"],[1050,"M+"],[1100,"H-"],[1150,"H"],[1200,"H+"],[1300,"P"]];
+let D = null;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rankIdx = p => RANKS.reduce((a, r, i) => p >= r[0] ? i : a, 0);
+const rankName = p => RANKS[rankIdx(p)][1];
+const tier = p => "t" + rankName(p)[0];
+const badge = p => `<span class="badge ${tier(p)}">${rankName(p)}</span>`;
+const kd = (k, d) => (k / Math.max(d, 1)).toFixed(2);
+const pct = (w, m) => m ? Math.round(100 * w / m) + "%" : "—";
+const slug = id => encodeURIComponent(id);
+
+function toast(t){ const e = $("#toast"); e.textContent = t; e.classList.add("show"); setTimeout(() => e.classList.remove("show"), 1600); }
+function copy(t, msg){ navigator.clipboard?.writeText(t).then(() => toast(msg || "Nusxalandi"), () => toast(t)); }
+function ago(ts){
+  const s = Math.max(0, Date.now() / 1000 - ts);
+  if (s < 90) return "hozirgina";
+  if (s < 3600) return Math.round(s / 60) + " daqiqa oldin";
+  if (s < 86400) return Math.round(s / 3600) + " soat oldin";
+  return Math.round(s / 86400) + " kun oldin";
+}
+function fmtDate(ts){ const d = new Date(ts * 1000); return d.toLocaleDateString("uz-UZ") + " " + d.toTimeString().slice(0, 5); }
+const connectBtns = (big) => `
+  <a class="btn main" href="steam://connect/${ADDRESS}">▶ ${big ? "O'YNASH" : "Serverga ulanish"}</a>
+  <button class="btn" onclick="copy('connect ${ADDRESS}','Konsolga qo\\'ying: connect ${ADDRESS}')">⧉ IP nusxalash</button>`;
+
+function sortedPlayers(){ return [...(D?.players || [])].sort((a, b) => b.pts - a.pts || b.matches - a.matches); }
+function placeOf(id){ return sortedPlayers().findIndex(p => p.id === id) + 1; }
+
+// ---------------------------------------------------------------- sahifalar
+function pageHome(){
+  const s = D?.server || {};
+  const online = !!s.online;
+  const pl = s.players || [];
+  const last = (D?.results || []).slice(-5).reverse();
+  return `
+  <div class="hero">
+    <div class="card">
+      <span class="status ${online ? "on" : ""}"><span class="dot"></span>${online ? "Server ishlayapti" : "Ma'lumot yo'q"}</span>
+      <h1 class="srvname">${esc(s.name || "ClanWar 5x5 | CS 1.6")}</h1>
+      <div class="sub">CS 1.6 · ClanWar 5x5 · 16 g'alabagacha · PTS reyting</div>
+      <div class="kv">
+        <div><span>Xarita</span><b>${esc(s.map || "—")}</b></div>
+        <div><span>O'yinchilar</span><b>${online ? `${s.count}/${s.max}` : "—"}</b></div>
+        <div><span>Manzil</span><b class="ip">${ADDRESS}</b></div>
+      </div>
+      <div class="btns">${connectBtns(true)}
+        <a class="btn" href="https://t.me/CwhubUZ" target="_blank" rel="noopener">✈ Telegram</a></div>
+      <div class="note">"O'ynash" tugmasi Steam orqali CS 1.6 ni ochadi va serverga ulaydi. Non-steam bo'lsa: konsolga (~) <span class="ip">connect ${ADDRESS}</span></div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:20px;margin-bottom:8px">Hozir serverda</h3>
+      ${pl.length ? `<table><tr><th>O'yinchi</th><th class="num">Frag</th><th class="num">Ping</th></tr>
+        ${pl.map(p => `<tr><td>${esc(p.name)}</td><td class="num">${p.frags}</td><td class="num">${p.ping}</td></tr>`).join("")}</table>`
+        : `<div class="empty">Serverda hozir hech kim yo'q</div>`}
+    </div>
+  </div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:16px">
+    <div class="card"><h3 style="font-size:20px;margin-bottom:8px">TOP-5</h3>${topTable(sortedPlayers().slice(0, 5), true)}
+      <a class="btn" href="#/top" style="margin-top:12px">Butun reyting →</a></div>
+    <div class="card"><h3 style="font-size:20px;margin-bottom:8px">Oxirgi matchlar</h3>${resultsTable(last)}
+      <a class="btn" href="#/matches" style="margin-top:12px">Hammasi →</a></div>
+  </div>`;
+}
+
+function topTable(list, short){
+  if (!list.length) return `<div class="empty">Hali reyting yo'q — birinchi match o'ynalgandan keyin chiqadi</div>`;
+  return `<div class="tw"><table>
+    <tr><th>#</th><th>Rank</th><th>O'yinchi</th><th class="num">PTS</th>${short ? "" : `<th class="num">Match</th><th class="num">G'alaba</th><th class="num">K/D</th>`}</tr>
+    ${list.map(p => `<tr class="click" onclick="location.hash='#/p/${slug(p.id)}'">
+      <td>${placeOf(p.id)}</td><td>${badge(p.pts)}</td><td>${esc(p.name)}</td><td class="num"><b>${p.pts}</b></td>
+      ${short ? "" : `<td class="num">${p.matches}</td><td class="num">${pct(p.wins, p.matches)}</td><td class="num">${kd(p.kills, p.deaths)}</td>`}</tr>`).join("")}
+  </table></div>`;
+}
+
+function pageTop(){
+  return `<h2>Reyting</h2>
+  <div class="card">
+    <input class="search" id="q" placeholder="Nick yoki SteamID bo'yicha qidirish…" autocomplete="off">
+    <div id="list">${topTable(sortedPlayers())}</div>
+    <div class="note">Profil SteamID bo'yicha avtomatik yaratiladi — serverda bitta match o'ynasangiz shu yerda chiqasiz. O'yinchini bosing — profili ochiladi.</div>
+  </div>`;
+}
+function bindTop(){
+  const q = $("#q"); if (!q) return;
+  q.addEventListener("input", () => {
+    const v = q.value.trim().toLowerCase();
+    const list = sortedPlayers().filter(p => !v || p.name.toLowerCase().includes(v) || p.id.toLowerCase().includes(v));
+    $("#list").innerHTML = topTable(list);
+  });
+  q.focus();
+}
+
+function pageProfile(id){
+  const p = (D?.players || []).find(x => x.id === id);
+  if (!p) return `<div class="card empty">O'yinchi topilmadi: ${esc(id)}<br><br><a class="btn" href="#/top">Reytingga qaytish</a></div>`;
+  const ri = rankIdx(p.pts), next = RANKS[ri + 1];
+  const lo = ri ? RANKS[ri][0] : 700, frac = next ? Math.max(0, Math.min(1, (p.pts - lo) / (next[0] - lo))) : 1;
+  const hist = (D?.history || []).filter(h => h.id === id).reverse().slice(0, 20);
+  const online = (D?.server?.players || []).some(x => x.name === p.name);
+  return `
+  <div class="card">
+    <div class="prof">
+      <div class="bigbadge ${tier(p.pts)}">${rankName(p.pts)}</div>
+      <div>
+        <h1 style="font-size:36px">${esc(p.name)} ${online ? `<span class="status on" style="vertical-align:middle"><span class="dot"></span>serverda</span>` : ""}</h1>
+        <div class="sub">${esc(p.id)} · <a href="#" onclick="copy('${esc(p.id)}','SteamID nusxalandi');return false">nusxalash</a></div>
+        <div style="margin-top:8px;font:700 24px Rajdhani,sans-serif" class="${tier(p.pts)}">${p.pts} PTS · #${placeOf(p.id)} o'rin</div>
+        <div class="bar2 ${tier(p.pts)}"><i style="width:${(frac * 100).toFixed(1)}%"></i></div>
+        <div class="sub">${next ? `Keyingi rank <b class="${"t" + next[1][0]}">${next[1]}</b> gacha ${next[0] - p.pts} PTS` : "Eng yuqori rank!"}</div>
+      </div>
+    </div>
+    <div class="tiles">
+      <div class="tile"><b>${p.matches}</b><span>Matchlar</span></div>
+      <div class="tile"><b>${p.wins}</b><span>G'alaba (${pct(p.wins, p.matches)})</span></div>
+      <div class="tile"><b>${p.kills}</b><span>Kill</span></div>
+      <div class="tile"><b>${p.deaths}</b><span>O'lim</span></div>
+      <div class="tile"><b>${kd(p.kills, p.deaths)}</b><span>K/D</span></div>
+    </div>
+    <div class="btns" style="margin-top:18px">${connectBtns(false)}</div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3 style="font-size:20px;margin-bottom:8px">Oxirgi matchlari</h3>
+    ${hist.length ? `<div class="tw"><table><tr><th>Sana</th><th>Xarita</th><th>Natija</th><th class="num">K</th><th class="num">D</th><th class="num">PTS</th></tr>
+      ${hist.map(h => `<tr><td>${fmtDate(h.t)}</td><td>${esc(h.map)}</td>
+        <td class="${h.res}">${{W: "G'alaba", L: "Mag'lubiyat", D: "Durang"}[h.res] || h.res}</td>
+        <td class="num">${h.k}</td><td class="num">${h.d}</td>
+        <td class="num ${h.delta >= 0 ? "W" : "L"}">${h.delta >= 0 ? "+" : ""}${h.delta}</td></tr>`).join("")}</table></div>`
+      : `<div class="empty">Matchlar tarixi hali yo'q</div>`}
+    <div class="note">Profil o'yinga SteamID orqali bog'langan: o'yinda nik o'zgarsa ham statistika saqlanadi. Serverda <span class="ip">/pts</span> yozib o'z rankingizni ko'rasiz.</div>
+  </div>`;
+}
+
+function pageRanks(){
+  return `<h2>Ranklar</h2>
+  <div class="card">
+    <div class="ranks">${RANKS.map((r, i) => `<div class="rk"><span class="badge ${"t" + r[1][0]}">${r[1]}</span>
+      <div><b>${r[0]}${RANKS[i + 1] ? "–" + (RANKS[i + 1][0] - 1) : "+"}</b><div class="sub" style="font-size:13px">PTS</div></div></div>`).join("")}</div>
+    <div class="note" style="font-size:14px;margin-top:16px;line-height:1.7">
+      <b>L</b> → <b>M</b> → <b>H</b> → <b class="tP">P</b> (eng kuchlisi). Yangi o'yinchi <b>1000 PTS</b> (rank M) bilan boshlaydi.<br>
+      Match yutsangiz PTS oshadi, yutqazsangiz kamayadi. Kuchli jamoani yutish ko'proq PTS beradi (ELO).<br>
+      Qo'shimcha: o'z o'yiningiz (kill − o'lim) uchun ±10 gacha, match MVP'siga +3. Match paytida chiqib ketish — jarima.
+    </div>
+  </div>`;
+}
+
+function resultsTable(list){
+  if (!list.length) return `<div class="empty">Hali matchlar yo'q</div>`;
+  return `<div class="tw"><table><tr><th>Sana</th><th>Xarita</th><th>Hisob</th><th>G'olib</th></tr>
+    ${list.map(r => `<tr><td>${esc(r.time)}</td><td>${esc(r.map)}</td><td><b>${esc(r.a)} ${r.sa} : ${r.sb} ${esc(r.b)}</b></td><td>${esc(r.winner)}</td></tr>`).join("")}</table></div>`;
+}
+function pageMatches(){ return `<h2>Matchlar</h2><div class="card">${resultsTable([...(D?.results || [])].reverse())}</div>`; }
+
+function pageBans(){
+  const b = D?.bans || [];
+  return `<h2>Banlar</h2><div class="card">${b.length ? `<div class="tw"><table><tr><th>O'yinchi</th><th>Sabab</th><th>Berilgan</th><th>Qolgan</th><th>Admin</th></tr>
+    ${b.map(x => `<tr><td>${esc(x.name)}</td><td>${esc(x.reason)}</td><td>${esc(x.since)}</td><td>${esc(x.left)}</td><td>${esc(x.admin)}</td></tr>`).join("")}</table></div>`
+    : `<div class="empty">Hozir faol banlar yo'q</div>`}
+    <div class="note">Ban noto'g'ri berilgan deb hisoblasangiz — Telegram: <a href="https://t.me/CwhubUZ" target="_blank" rel="noopener">@CwhubUZ</a> (konsoldagi ban ma'lumotining skrinshoti bilan).</div></div>`;
+}
+
+function pageRules(){
+  return `<h2>Qoidalar</h2><div class="card"><ol class="rules">
+    <li>Chit (WH, aim, skript) — <b>1 hafta</b> ban</li>
+    <li>Ota-onani haqorat qilish — <b>1 hafta</b></li>
+    <li>Reklama (boshqa serverlar, saytlar) — <b>1 hafta</b></li>
+    <li>Nomaqbul nick — <b>1 soat</b></li>
+    <li>So'kinish (mat) — <b>30 daqiqa</b>; spam / flood — <b>30 daqiqa</b></li>
+    <li>Noadekvat xatti-harakat — <b>5 daqiqa</b></li>
+    <li>To'la 5x5 jamoaga 6-o'yinchi bo'lib kirish — <b>5 daqiqa</b></li>
+    <li>Majburiy sozlamalar: <span class="ip">gl_monolights 0</span>, <span class="ip">net_graph 0</span>, <span class="ip">developer 0</span></li>
+    <li>Adminlar va raqiblarni hurmat qiling. Serverda hamma teng — admin o'yinda ustunlik olmaydi.</li>
+  </ol>
+  <div class="note">Serverda demo avtomatik yoziladi. Chat buyruqlari: /score /pts /top /rules /tg (Telegram guruhga xabar).</div></div>`;
+}
+
+// ---------------------------------------------------------------- router
+function render(){
+  const h = location.hash || "#/";
+  document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === h || (h.startsWith("#/p/") && a.getAttribute("href") === "#/top")));
+  let html;
+  if (h.startsWith("#/p/")) html = pageProfile(decodeURIComponent(h.slice(4)));
+  else html = ({"#/top": pageTop, "#/ranks": pageRanks, "#/matches": pageMatches, "#/bans": pageBans, "#/rules": pageRules}[h] || pageHome)();
+  $("#app").innerHTML = html;
+  if (h === "#/top") bindTop();
+  $("#upd").textContent = D?.updated ? "Ma'lumot yangilangan: " + ago(D.updated) : "";
+  window.scrollTo(0, 0);
+}
+
+async function load(refresh){
+  for (const u of DATA_URLS){
+    try {
+      const r = await fetch(u + "?t=" + Math.floor(Date.now() / 60000), {cache: "no-store"});
+      if (r.ok){ D = await r.json(); break; }
+    } catch (e) {}
+  }
+  // avtoyangilanishda qidiruv va boshqa sahifalarni buzmaslik uchun faqat bosh sahifani qayta chizamiz
+  const h = location.hash || "#/";
+  if (!refresh || h === "#/") render();
+  else $("#upd").textContent = D?.updated ? "Ma'lumot yangilangan: " + ago(D.updated) : "";
+}
+window.addEventListener("hashchange", render);
+load(false);
+setInterval(() => load(true), 120000);
+</script>
+</body>
+</html>

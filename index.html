@@ -76,16 +76,26 @@ header.scrolled .bar{height:60px}
 .logo svg{width:30px;height:30px;transition:transform .6s var(--ease)}
 .logo:hover svg{transform:rotate(180deg)}
 .logo b{color:var(--accent)}
-nav.top{display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none;position:relative}
-nav.top::-webkit-scrollbar{display:none}
-nav.top a{position:relative;text-decoration:none;color:var(--muted);padding:9px 13px;border-radius:10px;font-weight:600;font-size:14px;white-space:nowrap;transition:color .2s}
+nav.top{display:flex;align-items:center;gap:2px;flex:1;min-width:0;position:relative}
+nav.top a{position:relative;text-decoration:none;color:var(--muted);padding:9px 10px;border-radius:10px;font-weight:600;font-size:14px;white-space:nowrap;transition:color .2s}
 nav.top a:after{content:"";position:absolute;left:50%;right:50%;bottom:3px;height:2px;border-radius:2px;background:var(--accent);transition:left .3s var(--ease),right .3s var(--ease)}
 nav.top a:hover{color:var(--text)}
 nav.top a.on{color:var(--text)}
-nav.top a.on:after,nav.top a:hover:after{left:13px;right:13px}
+nav.top a.on:after,nav.top a:hover:after{left:10px;right:10px}
 nav.top a.prem{color:var(--gold)}
 nav.top a.prem:before{content:"";position:absolute;inset:0;border-radius:10px;background:linear-gradient(120deg,rgba(255,209,102,.14),rgba(255,94,26,.1));border:1px solid rgba(255,209,102,.3)}
-.hright{display:flex;align-items:center;gap:10px}
+nav.top .more{position:relative}
+nav.top .more>button{border:0;background:none;cursor:pointer;color:var(--muted);padding:9px 10px;border-radius:10px;font-family:inherit;font-weight:600;font-size:14px;white-space:nowrap;transition:color .2s}
+nav.top .more>button.on,nav.top .more:hover>button{color:var(--text)}
+nav.top .more>button i{display:inline-block;font-style:normal;margin-left:4px;font-size:10px;transition:transform .25s var(--ease)}
+nav.top .more:hover>button i,nav.top .more.open>button i{transform:rotate(180deg)}
+nav.top .menu{position:absolute;top:100%;left:0;min-width:180px;padding:6px;margin-top:6px;border-radius:14px;background:rgba(16,19,26,.97);border:1px solid var(--line2);box-shadow:var(--shadow);backdrop-filter:blur(16px);display:grid;gap:2px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .2s,transform .2s var(--ease),visibility .2s;z-index:40}
+nav.top .menu:before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}
+nav.top .more:hover .menu,nav.top .more.open .menu{opacity:1;visibility:visible;transform:none}
+nav.top .menu a{padding:9px 12px}
+nav.top .menu a:after{display:none}
+nav.top .menu a:hover,nav.top .menu a.on{background:var(--panel2);color:var(--text)}
+.hright{display:flex;align-items:center;gap:10px;flex:none}
 .lang{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:3px}
 .lang button{border:0;background:none;padding:4px 9px;border-radius:7px;cursor:pointer;color:var(--muted);font-weight:700;font-size:12px;transition:.2s}
 .lang button.on{background:var(--accent);color:var(--accent-ink)}
@@ -2017,11 +2027,16 @@ const ROUTES = ["#/", "#/top", "#/matches", "#/ranks", "#/rules", "#/bans", "#/p
 function renderNav(){
   const h = curRoute() || "#/";
   const isOn = i => h === ROUTES[i] || (i === 1 && /^#\/(p|vs)\//.test(h)) || (i === 2 && h.startsWith("#/m/"));
-  $("#nav").innerHTML = t("nav").map((n, i) => `<a href="${ROUTES[i].slice(1)}" class="${isOn(i) ? "on" : ""}">${n}</a>`).join("")
+  // asosiylari ko'rinib turadi, qolgani — "Ko'proq" menyusida (sarlavha bir qatorga sig'sin)
+  const link = (href, label, on) => `<a href="${href}" class="${on ? "on" : ""}">${label}</a>`;
+  const extra = [link("/rules", t("nav")[4], isOn(4)), link("/bans", t("nav")[5], isOn(5)),
+    link("/support", LANG === "ru" ? "Поддержка" : "Yordam", h === "#/support")]
+    .concat(ME?.admin ? [link("/admin", "🛡 Admin", h === "#/admin")] : []);
+  const extraOn = isOn(4) || isOn(5) || h === "#/support" || h === "#/admin";
+  $("#nav").innerHTML = [0, 1, 2, 3].map(i => link(ROUTES[i].slice(1), t("nav")[i], isOn(i))).join("")
     + `<a href="/clans" class="${h === "#/clans" ? "on" : ""}">${t("clansNav")}<span class="badge-soon">${t("soon")}</span></a>`
-    + `<a href="/chat" class="${h === "#/chat" ? "on" : ""}">💬 Chat</a>`
-    + `<a href="/support" class="${h === "#/support" ? "on" : ""}">${LANG === "ru" ? "Поддержка" : "Yordam"}</a>`
-    + (ME?.admin ? `<a href="/admin" class="${h === "#/admin" ? "on" : ""}">🛡 Admin</a>` : "")
+    + link("/chat", "💬 Chat", h === "#/chat")
+    + `<div class="more"><button type="button" class="${extraOn ? "on" : ""}" onclick="this.parentNode.classList.toggle('open')">${LANG === "ru" ? "Ещё" : "Ko'proq"}<i>▾</i></button><div class="menu">${extra.join("")}</div></div>`
     + `<a href="/premium" class="prem ${h === "#/premium" ? "on" : ""}">👑 ${pt("nav")}</a>`;
   const crown = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 7 4.5 4L12 4l4.5 7L21 7l-2 12H5Z"/></svg>';
   const bi = [I.home, I.list, I.sword, crown, I.user], br = ["#/", "#/top", "#/matches", "#/premium", "#/me"];

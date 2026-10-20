@@ -600,6 +600,27 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .ptable th{white-space:normal;font-size:10.5px;line-height:1.3}
 .ptable .pin{width:100%;min-width:90px;padding:11px 12px;border-radius:11px;border:1px solid var(--line2);background:var(--panel2);color:var(--text);font:14px Inter,sans-serif}
 .ptable .pin:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,159,28,.15)}
+
+/* ---------------- umumiy chat */
+.gchat{max-width:900px;margin:0 auto;display:flex;flex-direction:column;height:min(76vh,720px);padding:0;overflow:hidden}
+.gchat .chathead .live2{margin-left:auto;font-size:12px;color:var(--win);display:flex;align-items:center;gap:6px}
+.gchat .chathead .live2 i{width:7px;height:7px;border-radius:50%;background:var(--win);animation:pulse 1.8s infinite}
+.cmsg{display:flex;gap:10px;align-items:flex-start;animation:fadeUp .3s var(--ease)}
+.cmsg .av{width:36px;height:36px;border-radius:11px;flex:none}
+.cmsg .cb{max-width:min(78%,620px);background:var(--panel2);border:1px solid var(--line);border-radius:4px 16px 16px 16px;padding:8px 12px;position:relative}
+.cmsg .cn{font-weight:700;font-size:13px;display:flex;gap:8px;align-items:baseline}
+.cmsg .cn a{text-decoration:none}
+.cmsg .cn small{color:var(--dim);font-weight:500;font-size:11px}
+.cmsg .ct{white-space:pre-wrap;word-break:break-word;margin-top:2px}
+.cmsg.mine{flex-direction:row-reverse}
+.cmsg.mine .cb{border-radius:16px 4px 16px 16px;background:linear-gradient(135deg,rgba(255,159,28,.18),rgba(255,94,26,.1));border-color:rgba(255,159,28,.3)}
+.cmsg.mine .cn{flex-direction:row-reverse}
+.cmsg .del{position:absolute;top:4px;right:6px;border:0;background:none;color:var(--dim);cursor:pointer;opacity:0;transition:.2s;font-size:12px}
+.cmsg:hover .del{opacity:1}
+.cday{align-self:center;font-size:11px;color:var(--dim);background:var(--panel2);padding:3px 10px;border-radius:99px}
+.emo{display:flex;gap:4px;padding:0 14px 10px;flex-wrap:wrap}
+.emo button{border:0;background:var(--panel2);border-radius:8px;cursor:pointer;font-size:16px;padding:3px 7px;transition:.15s}
+.emo button:hover{background:var(--panel3);transform:translateY(-2px)}
 </style>
 </head>
 <body>
@@ -758,9 +779,20 @@ function ago(ts){
   return Math.round(s / 86400) + (ru ? " дн. назад" : " kun oldin");
 }
 function hue(s){ let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) % 360; return h; }
+// CS uslubidagi belgilar: niqobli terrorist, CT dubulg'asi, nishon, pichoq, C4, granata, bosh suyagi, o'q
+const CS_ICONS = [
+  '<path d="M12 3c-4.4 0-7 3.2-7 7.4V16c0 2.6 3 5 7 5s7-2.4 7-5v-5.6C19 6.2 16.4 3 12 3Z" fill="#111a"/><path d="M6.5 10.5h11v2.6h-11z" fill="#fff"/><circle cx="9.3" cy="11.8" r="1.1" fill="#111"/><circle cx="14.7" cy="11.8" r="1.1" fill="#111"/>',
+  '<path d="M4 13a8 8 0 0 1 16 0v2H4z" fill="#fff"/><path d="M7 15h10v2.5a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z" fill="#111a"/><path d="M6 11.5h12" stroke="#111" stroke-width="1.6"/>',
+  '<circle cx="12" cy="12" r="7" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M12 3v5M12 16v5M3 12h5M16 12h5" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="1.4" fill="#ff4d4d"/>',
+  '<path d="M5 19 15.5 8.5l2 2L7 21z" fill="#fff"/><path d="m15.5 8.5 3.5-5 1.5 1.5-3 5.5z" fill="#ddd"/><path d="m4 18 2 2" stroke="#111" stroke-width="2"/>',
+  '<rect x="5" y="8" width="14" height="10" rx="1.5" fill="#fff"/><rect x="7.5" y="10.5" width="6" height="3" rx=".5" fill="#111"/><text x="10.5" y="13.2" font-size="2.6" text-anchor="middle" fill="#3f3" font-family="monospace">0:35</text><path d="M15.5 10v6M17 10v6" stroke="#c33" stroke-width="1.2"/><path d="M9 8c0-2 2-3 4-3" stroke="#fff" stroke-width="1.4" fill="none"/>',
+  '<ellipse cx="12" cy="14" rx="5.5" ry="6.2" fill="#fff"/><rect x="10" y="5" width="4" height="3" rx="1" fill="#ddd"/><circle cx="16.5" cy="6" r="2" fill="none" stroke="#fff" stroke-width="1.4"/><path d="M8 12h8M8 15.5h8" stroke="#111a" stroke-width="1.2"/>',
+  '<path d="M12 3a7 7 0 0 0-7 7c0 2.6 1.3 4.2 2.6 5v3h8.8v-3c1.3-.8 2.6-2.4 2.6-5a7 7 0 0 0-7-7Z" fill="#fff"/><circle cx="9.3" cy="10.5" r="1.8" fill="#111"/><circle cx="14.7" cy="10.5" r="1.8" fill="#111"/><path d="M10 18v2M12 18v2M14 18v2" stroke="#111" stroke-width="1.2"/>',
+  '<path d="M10 4h4l1 4v11a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V8z" fill="#ffd166"/><path d="M10 4c0-1 1-2 2-2s2 1 2 2z" fill="#e6a100"/><path d="M9 15h6" stroke="#111a" stroke-width="1.2"/>'
+];
 function avatar(name, big, photo){
-  const ch = (String(name).replace(/[^\p{L}\p{N}]/gu, "")[0] || "?").toUpperCase(), h = hue(name);
-  return `<span class="av ${big ? "lg" : ""}" style="background:linear-gradient(135deg,hsl(${h} 55% 45%),hsl(${(h + 40) % 360} 60% 32%))">${photo ? `<img src="${esc(photo)}" alt="">` : esc(ch)}</span>`;
+  const h = hue(name), ic = CS_ICONS[h % CS_ICONS.length];
+  return `<span class="av ${big ? "lg" : ""}" style="background:linear-gradient(135deg,hsl(${h} 60% 42%),hsl(${(h + 50) % 360} 65% 24%))">${photo ? `<img src="${esc(photo)}" alt="">` : `<svg viewBox="0 0 24 24" width="74%" height="74%">${ic}</svg>`}</span>`;
 }
 function toast(m){ const e = $("#toast"); e.textContent = m; e.classList.add("show"); setTimeout(() => e.classList.remove("show"), 1800); }
 function copy(txt, msg){ navigator.clipboard?.writeText(txt).then(() => toast(msg || t("copied")), () => toast(txt)); }
@@ -1844,12 +1876,66 @@ async function bindAdmin(){
 }
 async function bindSupport(){ if (!sb || !ME) return; await myChat(); render(false); scrollThread(); }
 
+
+/* ===================================================================== umumiy chat */
+let CH = {list: [], sub: null, loaded: false};
+const CT = {
+  uz: {t: "Umumiy chat", l: "CWhub o'yinchilari bilan suhbat. Hurmat bilan yozing — haqorat va reklama uchun ban.", need: "Chatga yozish uchun akkauntga kiring.", ph: "Xabar yozing…", send: "Yuborish", empty: "Hali xabar yo'q — birinchi bo'ling!", live: "jonli"},
+  ru: {t: "Общий чат", l: "Общение игроков CWhub. Пишите уважительно — за оскорбления и рекламу бан.", need: "Чтобы писать в чат, войдите в аккаунт.", ph: "Напишите сообщение…", send: "Отправить", empty: "Сообщений пока нет — будь первым!", live: "онлайн"}
+};
+const ct = k => CT[LANG][k];
+function chatMsgHTML(m){
+  const mine = ME && m.user_id === ME.id, canDel = ME && (mine || ME.admin);
+  const nm = m.steam ? `<a href="/p/${slug(m.steam)}">${esc(m.nick || "?")}</a>` : esc(m.nick || "?");
+  const tm = new Date(m.created_at).toLocaleTimeString(LANG === "ru" ? "ru-RU" : "uz-UZ", {hour: "2-digit", minute: "2-digit"});
+  return `<div class="cmsg ${mine ? "mine" : ""}" data-id="${m.id}">${avatar(m.nick || "?", false, m.avatar_url)}
+    <div class="cb">${canDel ? `<button class="del" title="✕" onclick="chatDel(${m.id})">✕</button>` : ""}<div class="cn">${nm}${m.steam ? `<span class="verified">${I.check}</span>` : ""}<small>${tm}</small></div><div class="ct">${esc(m.body)}</div></div></div>`;
+}
+function chatListHTML(){
+  if (!CH.list.length) return `<div class="empty">${ct("empty")}</div>`;
+  let out = "", day = "";
+  CH.list.forEach(m => { const d = new Date(m.created_at).toLocaleDateString(LANG === "ru" ? "ru-RU" : "uz-UZ"); if (d !== day) { day = d; out += `<div class="cday">${d}</div>`; } out += chatMsgHTML(m); });
+  return out;
+}
+function pageChat(){
+  const emo = ["🔥", "😂", "👍", "💀", "🎯", "😎", "GG", "EZ", "+", "WP"];
+  const input = (sb && ME) ? `<div class="emo">${emo.map(e => `<button type="button" onclick="chatEmo('${e}')">${e}</button>`).join("")}</div>
+    <form class="chatin" onsubmit="chatPost(event)"><textarea id="gmsg" maxlength="300" placeholder="${ct("ph")}" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();this.form.requestSubmit()}"></textarea><button class="btn main" type="submit">${ct("send")}</button></form>`
+    : `<div class="chatin" style="justify-content:center;align-items:center;gap:12px"><span class="sub">${ct("need")}</span><a class="btn main" href="/login">${t("login")}</a><a class="btn" href="/register">${t("signUp")}</a></div>`;
+  return `<h2 class="title" style="text-align:center">💬 ${ct("t")}</h2><p class="lead" style="text-align:center;margin:0 auto 22px">${ct("l")}</p>
+    <div class="card gchat"><div class="chathead"><div class="ava">💬</div><div><b>CWhub · ${ct("t")}</b><small>ClanWar 5x5</small></div><span class="live2"><i></i>${ct("live")}</span></div>
+      <div class="chatbody" id="gbody">${CH.loaded ? chatListHTML() : `<div class="skel" style="height:60px"></div><div class="skel" style="height:60px;width:70%"></div>`}</div>${input}</div>`;
+}
+function chatScroll(){ const b = $("#gbody"); if (b) b.scrollTop = b.scrollHeight; }
+function chatRedraw(){ const b = $("#gbody"); if (!b) return; const atEnd = b.scrollHeight - b.scrollTop - b.clientHeight < 80; b.innerHTML = chatListHTML(); if (atEnd) chatScroll(); }
+async function bindChat(){
+  if (!sb) return;
+  const r = await sb.from("chat_messages").select("id,user_id,nick,avatar_url,steam,body,created_at").order("id", {ascending: false}).limit(80);
+  CH.list = (r.data || []).reverse(); CH.loaded = true;
+  const b = $("#gbody"); if (b) { b.innerHTML = chatListHTML(); chatScroll(); }
+  if (!CH.sub) CH.sub = sb.channel("cwhub-chat")
+    .on("postgres_changes", {event: "INSERT", schema: "public", table: "chat_messages"}, p => { if (!CH.list.some(m => m.id === p.new.id)) { CH.list.push(p.new); CH.list = CH.list.slice(-150); chatRedraw(); } })
+    .on("postgres_changes", {event: "DELETE", schema: "public", table: "chat_messages"}, p => { CH.list = CH.list.filter(m => m.id !== p.old.id); chatRedraw(); })
+    .subscribe();
+}
+async function chatPost(ev){
+  ev.preventDefault();
+  const body = ($("#gmsg").value || "").trim(); if (!body) return;
+  $("#gmsg").value = "";
+  const r = await sb.from("chat_messages").insert({body}).select("id,user_id,nick,avatar_url,steam,body,created_at").single();
+  if (r.error) { toast(r.error.message); $("#gmsg").value = body; return; }
+  if (!CH.list.some(m => m.id === r.data.id)) { CH.list.push(r.data); chatRedraw(); }
+  chatScroll(); $("#gmsg").focus();
+}
+function chatEmo(e){ const i = $("#gmsg"); if (!i) return; i.value = (i.value ? i.value + " " : "") + e; i.focus(); }
+async function chatDel(id){ const r = await sb.from("chat_messages").delete().eq("id", id); if (r.error) return toast(r.error.message); CH.list = CH.list.filter(m => m.id !== id); chatRedraw(); }
 /* ===================================================================== router */
 const ROUTES = ["#/", "#/top", "#/matches", "#/ranks", "#/rules", "#/bans", "#/premium"];
 function renderNav(){
   const h = curRoute() || "#/";
   const isOn = i => h === ROUTES[i] || (i === 1 && /^#\/(p|vs)\//.test(h)) || (i === 2 && h.startsWith("#/m/"));
   $("#nav").innerHTML = t("nav").map((n, i) => `<a href="${ROUTES[i].slice(1)}" class="${isOn(i) ? "on" : ""}">${n}</a>`).join("")
+    + `<a href="/chat" class="${h === "#/chat" ? "on" : ""}">💬 Chat</a>`
     + `<a href="/support" class="${h === "#/support" ? "on" : ""}">${LANG === "ru" ? "Поддержка" : "Yordam"}</a>`
     + (ME?.admin ? `<a href="/admin" class="${h === "#/admin" ? "on" : ""}">🛡 Admin</a>` : "")
     + `<a href="/premium" class="prem ${h === "#/premium" ? "on" : ""}">👑 ${pt("nav")}</a>`;
@@ -1874,7 +1960,7 @@ function render(scroll = true){
   if (h.startsWith("#/p/")) html = pageProfile(decodeURIComponent(h.slice(4)));
   else if (h.startsWith("#/m/")) html = pageMatch(h.slice(4));
   else if (h.startsWith("#/vs/")) { const [a, b] = h.slice(5).split("/").map(decodeURIComponent); html = pageVs(a, b); }
-  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/support": pageSupport, "#/admin": pageAdmin}[h] || pageHome)();
+  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
   const app = $("#app");
   app.innerHTML = html;
   if (scroll) { app.classList.remove("enter"); void app.offsetWidth; app.classList.add("enter"); }
@@ -1882,6 +1968,7 @@ function render(scroll = true){
   if (h === "#/top") bindTop();
   if (h === "#/premium") bindPremium();
   if (h === "#/support" && scroll) bindSupport();
+  if (h === "#/chat" && scroll) bindChat();
   if ((h === "#/me" || h.startsWith("#/p/")) && scroll && sb && ME) loadFriends().then(() => { const hh = curRoute(); if (hh === h) render(false); });
   if (h === "#/admin" && scroll) bindAdmin();
   renderBanners(); tickCountdown();

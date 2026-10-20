@@ -685,8 +685,8 @@ const SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsIn
 const sb = (SB_URL && SB_ANON && window.supabase) ? window.supabase.createClient(SB_URL, SB_ANON) : null;
 const DATA_URLS = ["https://raw.githubusercontent.com/shokirovv10/cwhub/data/data.json", "/data.json"];
 const MAPS = ["de_dust2","de_inferno","de_nuke","de_train","de_cbble","de_aztec","de_tuscan","de_dust","de_mirage"];
-const RANKS = [[0,"L-"],[850,"L"],[900,"L+"],[950,"M-"],[1000,"M"],[1050,"M+"],[1100,"H-"],[1150,"H"],[1200,"H+"],[1300,"P"]];
-const TIERC = {L: ["#9be09b","#4f9e4f"], M: ["#86c1ff","#2f74d6"], H: ["#d9a6ff","#8a3fd1"], P: ["#ffe27a","#e09b00"]};
+const RANKS = [[0,"L-"],[700,"L"],[800,"L+"],[900,"M-"],[1000,"M"],[1300,"M+"],[1600,"H-"],[1900,"H"],[2200,"H+"],[2500,"P"],[3200,"G"]];
+const TIERC = {L: ["#9be09b","#4f9e4f"], M: ["#86c1ff","#2f74d6"], H: ["#d9a6ff","#8a3fd1"], P: ["#ffe27a","#e09b00"], G: ["#ff7a7a","#d61f1f"]};
 
 /* ===================================================================== tarjima */
 const T = {
@@ -724,7 +724,7 @@ const T = {
     yourCode: "Sizning kodingiz", linkLead: "Profilingizni o'yinga ulash uchun:",
     linkSteps: c => [`Serverga kiring: <span class='mono'>connect ${ADDRESS}</span>`, `Chatga yozing: <span class='mono'>/link ${c}</span>`, "Bir necha daqiqada sahifa yangilanadi — profilingiz ✓ bilan chiqadi"],
     linkedAs: "Ulangan o'yinchi", pending: "Ulanish kutilmoqda… (kod har bir akkauntda boshqa)", hello: n => `Salom, ${n}!`, openProfile: "Profilimni ochish",
-    achs: [["🎯","Birinchi qadam","1 match o'ynash"],["🏆","Birinchi g'alaba","1 match yutish"],["🔥","Seriya","3 g'alaba ketma-ket"],["🔟","O'nlik","10 match"],["💯","Faxriy","25 match"],["🎖","Veteran","100 match"],["🔫","Jallod","Jami 100 kill"],["☠️","Terminator","Jami 500 kill"],["💀","Qassob","Bir matchda 30+ kill"],["💥","Zarba","Bir matchda 2500+ damage"],["🧠","Headshot ustasi","HS 50%+ (10+ match)"],["⭐","MVP","Match MVP'si bo'lish"],["⚡","To'xtovsiz","5 g'alaba ketma-ket"],["🔴","H rank","1150+ PTS"],["💎","P rank","1300+ PTS"]], achOf: "ochildi",
+    achs: [["🎯","Birinchi qadam","1 match o'ynash"],["🏆","Birinchi g'alaba","1 match yutish"],["🔥","Seriya","3 g'alaba ketma-ket"],["🔟","O'nlik","10 match"],["💯","Faxriy","25 match"],["🎖","Veteran","100 match"],["🔫","Jallod","Jami 100 kill"],["☠️","Terminator","Jami 500 kill"],["💀","Qassob","Bir matchda 30+ kill"],["💥","Zarba","Bir matchda 2500+ damage"],["🧠","Headshot ustasi","HS 50%+ (10+ match)"],["⭐","MVP","Match MVP'si bo'lish"],["⚡","To'xtovsiz","5 g'alaba ketma-ket"],["🔴","H rank","1900+ PTS"],["💎","P rank","2500+ PTS"]], achOf: "ochildi",
     clansNav: "Klanlar", soon: "Tez orada", clansT: "Klanlar va turnirlar", clansL: "Klaningizni yarating, tarkib yig'ing va CwhubUZ turnirlarida sovrin uchun kurashing. Bo'lim ishlab chiqilmoqda.",
     clansF: [["🛡 Klan sahifasi","Logo, tarkib, klan reytingi va statistikasi"],["🏆 Turnirlar","Ro'yxatdan o'tish va avtomatik setka (bracket)"],["⚔ Klan matchlari","Natijalar klan reytingiga qo'shiladi"],["🎁 Sovrinlar","Sezon g'oliblariga Premium va sovg'alar"]],
     forever: "Abadiy", connect: "Ulanish"
@@ -763,7 +763,7 @@ const T = {
     yourCode: "Ваш код", linkLead: "Чтобы привязать профиль к игре:",
     linkSteps: c => [`Зайдите на сервер: <span class='mono'>connect ${ADDRESS}</span>`, `Напишите в чат: <span class='mono'>/link ${c}</span>`, "Через пару минут страница обновится — профиль будет с ✓"],
     linkedAs: "Привязанный игрок", pending: "Ожидание привязки… (у каждого аккаунта свой код)", hello: n => `Привет, ${n}!`, openProfile: "Открыть мой профиль",
-    achs: [["🎯","Первый шаг","Сыграть 1 матч"],["🏆","Первая победа","Выиграть матч"],["🔥","Серия","3 победы подряд"],["🔟","Десятка","10 матчей"],["💯","Завсегдатай","25 матчей"],["🎖","Ветеран","100 матчей"],["🔫","Палач","Всего 100 убийств"],["☠️","Терминатор","Всего 500 убийств"],["💀","Мясник","30+ убийств за матч"],["💥","Удар","2500+ урона за матч"],["🧠","Хедшотер","HS 50%+ (10+ матчей)"],["⭐","MVP","Стать MVP матча"],["⚡","Без остановки","5 побед подряд"],["🔴","Ранг H","1150+ PTS"],["💎","Ранг P","1300+ PTS"]], achOf: "открыто",
+    achs: [["🎯","Первый шаг","Сыграть 1 матч"],["🏆","Первая победа","Выиграть матч"],["🔥","Серия","3 победы подряд"],["🔟","Десятка","10 матчей"],["💯","Завсегдатай","25 матчей"],["🎖","Ветеран","100 матчей"],["🔫","Палач","Всего 100 убийств"],["☠️","Терминатор","Всего 500 убийств"],["💀","Мясник","30+ убийств за матч"],["💥","Удар","2500+ урона за матч"],["🧠","Хедшотер","HS 50%+ (10+ матчей)"],["⭐","MVP","Стать MVP матча"],["⚡","Без остановки","5 побед подряд"],["🔴","Ранг H","1900+ PTS"],["💎","Ранг P","2500+ PTS"]], achOf: "открыто",
     clansNav: "Кланы", soon: "Скоро", clansT: "Кланы и турниры", clansL: "Создайте клан, соберите состав и боритесь за призы в турнирах CwhubUZ. Раздел в разработке.",
     clansF: [["🛡 Страница клана","Логотип, состав, рейтинг и статистика клана"],["🏆 Турниры","Регистрация и автоматическая сетка"],["⚔ Клановые матчи","Результаты идут в рейтинг кланов"],["🎁 Призы","Premium и подарки победителям сезона"]],
     forever: "Навсегда", connect: "Подключиться"
@@ -1035,14 +1035,22 @@ function pageMatch(ts){
 
 function chart(hist){
   if (hist.length < 2) return "";
-  const W = 600, H = 190, P = 24, v = hist.map(h => h.pts), mn = Math.min(...v) - 10, mx = Math.max(...v) + 10;
-  const x = i => P + i * (W - 2 * P) / (v.length - 1), y = p => H - P - (p - mn) * (H - 2 * P) / Math.max(mx - mn, 1);
+  const W = 600, H = 260, PX = 34, PT = 34, PB = 30, v = hist.map(h => h.pts), mn = Math.min(...v), mx = Math.max(...v), pad = Math.max(10, (mx - mn) * 0.12);
+  const lo = mn - pad, hi = mx + pad;
+  const x = i => PX + i * (W - 2 * PX) / (v.length - 1), y = p => H - PB - (p - lo) * (H - PT - PB) / Math.max(hi - lo, 1);
   const pts = v.map((p, i) => `${x(i).toFixed(1)},${y(p).toFixed(1)}`).join(" ");
-  return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(245,166,35,.35)"/><stop offset="1" stop-color="rgba(245,166,35,0)"/></linearGradient></defs>
-    <polygon points="${P},${H - P} ${pts} ${x(v.length - 1)},${H - P}" fill="url(#cf)"/>
-    <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
-    ${v.map((p, i) => `<circle cx="${x(i)}" cy="${y(p)}" r="4" fill="${hist[i].res === "W" ? "var(--win)" : hist[i].res === "L" ? "var(--loss)" : "var(--draw)"}"><title>${p} PTS</title></circle>`).join("")}
-    <text x="${P}" y="15" fill="var(--muted)" font-size="12">${Math.max(...v)}</text><text x="${P}" y="${H - 6}" fill="var(--muted)" font-size="12">${Math.min(...v)}</text></svg>`;
+  // kritik nuqtalar: boshi, oxiri, cho'qqi va chuqurlar (yo'nalish o'zgargan joy)
+  const key = v.map((p, i) => i === 0 || i === v.length - 1 || (v[i] - v[i - 1]) * (v[i + 1] - v[i]) < 0 || (v.length <= 12));
+  const lab = v.map((p, i) => { if (!key[i]) return "";
+    const up = i === 0 ? v[1] <= p : i === v.length - 1 ? v[i - 1] <= p : p >= v[i - 1];
+    const ty = up ? y(p) - 12 : y(p) + 22, d = hist[i].delta;
+    return `<text x="${x(i).toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text)">${p}</text>`
+      + (d != null && i > 0 ? `<text x="${x(i).toFixed(1)}" y="${(up ? ty - 15 : ty + 15).toFixed(1)}" text-anchor="middle" font-size="11" fill="${d >= 0 ? "var(--win)" : "var(--loss)"}">${d >= 0 ? "+" : ""}${d}</text>` : ""); }).join("");
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" style="height:auto;aspect-ratio:${W}/${H}"><defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(245,166,35,.35)"/><stop offset="1" stop-color="rgba(245,166,35,0)"/></linearGradient></defs>
+    <polygon points="${PX},${H - PB} ${pts} ${x(v.length - 1)},${H - PB}" fill="url(#cf)"/>
+    <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>
+    ${v.map((p, i) => `<circle cx="${x(i)}" cy="${y(p)}" r="${key[i] ? 5 : 3.5}" fill="${hist[i].res === "W" ? "var(--win)" : hist[i].res === "L" ? "var(--loss)" : "var(--draw)"}" stroke="var(--panel)" stroke-width="2"><title>${p} PTS${hist[i].delta != null ? ` (${hist[i].delta >= 0 ? "+" : ""}${hist[i].delta})` : ""}</title></circle>`).join("")}
+    ${lab}</svg>`;
 }
 function people(p){
   const mates = {}, riv = {};
@@ -1056,7 +1064,7 @@ function people(p){
 // [hozirgi, maqsad] — t("achs") bilan bir xil tartibda
 function achGoals(p){
   return [[p.matches, 1], [p.wins, 1], [p.streak, 3], [p.matches, 10], [p.matches, 25], [p.matches, 100], [p.kills, 100], [p.kills, 500],
-    [p.maxKills, 30], [p.maxDmg || 0, 2500], [p.matches >= 10 ? p.hsp : 0, 50], [p.mvps, 1], [p.streak, 5], [p.pts, 1150], [p.pts, 1300]];
+    [p.maxKills, 30], [p.maxDmg || 0, 2500], [p.matches >= 10 ? p.hsp : 0, 50], [p.mvps, 1], [p.streak, 5], [p.pts, 1900], [p.pts, 2500]];
 }
 function achCount(p){ return achGoals(p).filter(([v, g]) => v >= g).length; }
 function achievements(p){

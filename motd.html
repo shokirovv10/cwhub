@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CWhub — MOTD</title>
+<style>
+/* CS 1.6 MOTD oynasi uchun: kichik, qorong'i, eski brauzerlarda ham ishlaydi (ES5, flex yo'q) */
+*{box-sizing:border-box}
+html,body{margin:0;background:#07080b;color:#e9ecf2;font:13px/1.45 Verdana,Tahoma,Arial,sans-serif}
+body{padding:12px 14px;background:#07080b radial-gradient(500px 220px at 100% 0,rgba(255,120,30,.16),transparent 70%)}
+a{color:#ffb02e}
+.top{overflow:hidden;border-bottom:1px solid #222733;padding-bottom:10px;margin-bottom:10px}
+.logo{float:left;font:bold 24px/1 Arial,sans-serif;letter-spacing:-1px}
+.logo .hub{background:#ff9a00;color:#000;padding:1px 6px 3px;border-radius:5px;margin-left:3px}
+.sub{float:left;margin:6px 0 0 12px;color:#8b93a7;font-size:12px}
+.ip{float:right;margin-top:2px;background:#151922;border:1px solid #2a3040;border-radius:7px;padding:4px 9px;font:bold 13px Consolas,monospace;color:#fff}
+.cols{overflow:hidden}
+.col{float:left;width:50%;padding-right:10px}
+.col + .col{padding:0 0 0 10px}
+.box{background:#11141b;border:1px solid #1f2430;border-radius:9px;padding:9px 11px;margin-bottom:9px}
+h3{margin:0 0 6px;font:bold 12px Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:#ff9f1c}
+ol,ul{margin:0;padding-left:18px}
+li{margin:1px 0}
+.pen{color:#ff6b6b;white-space:nowrap}
+.mono{font-family:Consolas,monospace;background:#1b202b;border-radius:4px;padding:0 4px;color:#fff}
+table{width:100%;border-collapse:collapse}
+td{padding:3px 2px;border-bottom:1px solid #1b202a}
+td.n{color:#8b93a7;width:18px}
+td.p{text-align:right;font-weight:bold;color:#ffd166;white-space:nowrap}
+.r{display:inline-block;min-width:22px;text-align:center;border-radius:4px;font:bold 11px Arial;padding:0 3px;margin-right:5px;color:#0b0d11}
+.rL{background:#7ccf7c}.rM{background:#57a6ff}.rH{background:#c27bff}.rP{background:#ffc428}
+.sale{background:linear-gradient(90deg,rgba(255,61,71,.18),rgba(255,159,28,.12));border-color:rgba(255,99,71,.5)}
+.sale b{color:#ff6b6b}
+.cd{color:#ffd166;font-weight:bold}
+.dim{color:#7a8295}
+.foot{clear:both;text-align:center;color:#7a8295;font-size:11px;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="logo">CW<span class="hub">hub</span></div>
+  <div class="sub">ClanWar 5x5 &middot; Сезон 1</div>
+  <div class="ip">90.156.195.108:27045</div>
+</div>
+
+<div class="cols">
+<div class="col">
+  <div class="box">
+    <h3>Правила</h3>
+    <ol>
+      <li>Читы, WH, aim, макросы <span class="pen">— навсегда</span></li>
+      <li>Баги, текстуры <span class="pen">— 1 неделя</span></li>
+      <li>Оскорбление родных, нации <span class="pen">— 1 неделя</span></li>
+      <li>Реклама <span class="pen">— 1 неделя</span></li>
+      <li>TK / вред своей команде <span class="pen">— 1 день</span></li>
+      <li>Мат <span class="pen">— 30 мин</span>, флуд <span class="pen">— 30 мин</span></li>
+      <li>6-й в полной команде <span class="pen">— 5 мин</span></li>
+      <li>Выход посреди матча <span class="pen">— штраф PTS</span></li>
+    </ol>
+    <div class="dim" style="margin-top:5px">Демо пишется автоматически — без демо разбана нет.</div>
+  </div>
+  <div class="box">
+    <h3>Обязательно</h3>
+    <span class="mono">gl_monolights 0</span> <span class="mono">net_graph 0</span> <span class="mono">developer 0</span> <span class="mono">cl_allow_download 1</span>
+  </div>
+  <div class="box">
+    <h3>Команды</h3>
+    <span class="mono">/score</span> <span class="mono">/pts</span> <span class="mono">/top</span> <span class="mono">/pause</span> <span class="mono">/tech</span> <span class="mono">/link</span>
+  </div>
+</div>
+
+<div class="col">
+  <div class="box sale" id="sale" style="display:none"></div>
+  <div class="box">
+    <h3>TOP-5 игроков</h3>
+    <table id="top"><tr><td class="dim">Загрузка…</td></tr></table>
+  </div>
+  <div class="box" id="prizes" style="display:none"></div>
+  <div class="box">
+    <h3>Профиль на сайте</h3>
+    1. Регистрация: <a href="https://cwhub-6wkk.onrender.com/#/register" target="_blank">cwhub-6wkk.onrender.com</a><br>
+    2. Напишите в чат <span class="mono">/link КОД</span> — статистика привяжется с ✓
+  </div>
+  <div class="box">
+    <h3>Контакты</h3>
+    Telegram: <b>@CwhubUZ</b> &middot; Админка: <b>@cybertripuz</b><br>
+    Ошибочный бан — раздел «Поддержка» на сайте
+  </div>
+</div>
+</div>
+<div class="foot">CWhub · честная игра, рейтинг PTS и статистика каждого матча</div>
+
+<script>
+// ES5: eski MOTD brauzerlari uchun (arrow, fetch, template string ishlatilmaydi)
+var SB = "https://jwvsjtntyajutsuqednk.supabase.co/rest/v1/";
+var KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3dnNqdG50eWFqdXRzdXFlZG5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0NzIwMzMsImV4cCI6MjEwODA0ODAzM30.vT2VzDJT7W9bXAm00Al5lghPjN76ABXDIbzdUP_HNWg";
+var RANKS = [[0,"L-"],[850,"L"],[900,"L+"],[950,"M-"],[1000,"M"],[1050,"M+"],[1100,"H-"],[1150,"H"],[1200,"H+"],[1300,"P"]];
+
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function rank(p){ var r = RANKS[0][1]; for (var i = 0; i < RANKS.length; i++) if (p >= RANKS[i][0]) r = RANKS[i][1]; return r; }
+function get(url, sb, cb){
+  try {
+    var x = new XMLHttpRequest();
+    x.open("GET", url, true);
+    if (sb) { x.setRequestHeader("apikey", KEY); x.setRequestHeader("Authorization", "Bearer " + KEY); }
+    x.onreadystatechange = function(){ if (x.readyState === 4) { var d = null; try { if (x.status === 200) d = JSON.parse(x.responseText); } catch (e) {} cb(d); } };
+    x.send();
+  } catch (e) { cb(null); }
+}
+
+function showTop(data){
+  var ps = (data && data.players) || [], list = [];
+  for (var i = 0; i < ps.length; i++) if (ps[i].matches > 0) list.push(ps[i]);
+  list.sort(function(a, b){ return b.pts - a.pts; });
+  var html = "";
+  for (var j = 0; j < list.length && j < 5; j++) {
+    var p = list[j], r = rank(p.pts);
+    html += "<tr><td class='n'>" + (j + 1) + "</td><td><span class='r r" + r.charAt(0) + "'>" + r + "</span>" + esc(p.name) + "</td><td class='p'>" + p.pts + "</td></tr>";
+  }
+  document.getElementById("top").innerHTML = html || "<tr><td class='dim'>Рейтинг появится после первого матча</td></tr>";
+}
+
+var END = null;
+function tick(){
+  var el = document.getElementById("cd"); if (!el || !END) return;
+  var s = Math.max(0, Math.floor((END - new Date().getTime()) / 1000));
+  var d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
+  el.innerHTML = d + " дн. " + h + " ч. " + m + " мин.";
+}
+
+function showSettings(rows){
+  var S = {};
+  for (var i = 0; rows && i < rows.length; i++) S[rows[i].key] = rows[i].value;
+  // aksiya
+  var d = S.discount || {}, pct = +d.percent || 0, today = new Date().toISOString().slice(0, 10);
+  if (pct && !(d.until && d.until < today)) {
+    var el = document.getElementById("sale");
+    el.innerHTML = "<h3>🔥 Акция</h3><b>-" + pct + "%</b> на Модера, Админа и Гл.Админа" + (d.label ? " — " + esc(d.label) : "") + (d.until ? "<br><span class='dim'>до " + esc(d.until) + "</span>" : "") + "<br>Сайт → раздел Премиум";
+    el.style.display = "block";
+  }
+  // sovrinlar
+  var pr = S.prizes && S.prizes.length ? S.prizes : [{place: 1, prize: "Админ 30 дней + префикс"}, {place: 2, prize: "Админ 7 дней"}, {place: 3, prize: "Модер 30 дней"}];
+  var html = "<h3>🏆 Призы сезона</h3>";
+  var medal = {1: "🥇", 2: "🥈", 3: "🥉", MVP: "⭐"};
+  for (var k = 0; k < pr.length && k < 4; k++) html += (medal[pr[k].place] || "🎁") + " " + esc(pr[k].prize) + "<br>";
+  if (S.season && S.season.ends) { END = new Date(S.season.ends + "T23:59:59").getTime(); html += "<span class='dim'>До конца сезона:</span> <span class='cd' id='cd'></span>"; }
+  var box = document.getElementById("prizes"); box.innerHTML = html; box.style.display = "block";
+  tick(); setInterval(tick, 30000);
+}
+
+get(SB + "site_data?key=eq.data&select=value", true, function(rows){
+  if (rows && rows[0] && rows[0].value) showTop(rows[0].value);
+  else get("data.json?t=" + new Date().getTime(), false, showTop);
+});
+get(SB + "settings?select=key,value", true, showSettings);
+</script>
+</body>
+</html>

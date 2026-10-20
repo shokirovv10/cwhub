@@ -1090,13 +1090,19 @@ function pageVs(a, b){
     ${row("HS%", p => p.hsp, gt)}${row("ADR", p => p.adr, gt)}${row("MVP", p => p.mvps, gt)}${row(t("streak"), p => p.streak, gt)}</table></div></div>`;
 }
 function pageRanks(){
-  const rows = RANKS.map((r, i) => [r, i]).reverse().map(([r, i]) => {
-    const list = IDX.sorted.filter(p => rankIdx(p.pts) === i);
-    return `<div class="rkrow"><div class="hd">${shield(r[0])}<div><b>${r[1]}</b> <span class="sub" style="font-size:13px">${r[0]}${RANKS[i + 1] ? "–" + (RANKS[i + 1][0] - 1) : "+"} PTS</span></div><span class="cnt">${list.length} 👤</span></div>
-      ${list.length ? `<div class="rkp">${list.map(p => `<a href="/p/${slug(p.id)}">${avatar(p.name, false, photoOf(p.id))}${esc(p.name)} <span class="sub">${p.pts}</span></a>`).join("")}</div>` : ""}</div>`;
-  }).join("");
-  return `<h2 class="title">${t("ranksT")}</h2><p class="lead">${t("ranksLead")}</p><div class="card">${rows}
-    <p class="sub" style="line-height:1.7;margin:18px 0 0">${t("ranksNote")}</p></div>`;
+  const ru = LANG === "ru";
+  const rows = IDX.sorted.map(p => `<tr class="click" onclick="go('#/p/${slug(p.id)}')">
+      <td class="place ${p.place <= 3 ? "g" + p.place : ""}">${p.place}</td>
+      <td style="width:100%">${pcell(p)}</td>
+      <td class="num"><b>${p.pts}</b></td>
+      <td class="num" style="padding-left:18px">${shield(p.pts, p.matches)}</td></tr>`).join("");
+  const legend = RANKS.map((r, i) => `<span class="pill" style="gap:6px">${shield(r[0])}<b>${r[1]}</b> ${r[0]}${RANKS[i + 1] ? "–" + (RANKS[i + 1][0] - 1) : "+"}</span>`).join(" ");
+  return `<h2 class="title">${t("ranksT")}</h2><p class="lead">${t("ranksLead")}</p>
+    <div class="card"><div class="tw"><table>
+      <tr><th>#</th><th>${ru ? "Ник" : "Nik"}</th><th class="num">PTS</th><th class="num" style="padding-left:18px">Skill</th></tr>
+      ${rows || `<tr><td colspan="4" class="empty">${t("noRank")}</td></tr>`}</table></div></div>
+    <div class="card mt"><h3>${ru ? "Шкала рангов" : "Rank shkalasi"}</h3><div style="display:flex;flex-wrap:wrap;gap:8px">${legend}</div>
+      <p class="sub" style="line-height:1.7;margin:16px 0 0">${t("ranksNote")}</p></div>`;
 }
 function pageBans(){
   const b = D?.bans || [];

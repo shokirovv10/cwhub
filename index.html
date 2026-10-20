@@ -608,7 +608,7 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 <canvas id="fx" aria-hidden="true"></canvas>
 <div id="prog"></div>
 <header id="hdr"><div class="wrap bar">
-  <a class="logo" href="#/"><span class="cw">CW</span><span class="hub">hub</span></a>
+  <a class="logo" href="/"><span class="cw">CW</span><span class="hub">hub</span></a>
   <nav class="top" id="nav"></nav>
   <div class="hright"><div class="lang"><button data-l="uz">UZ</button><button data-l="ru">RU</button></div><span id="acct"></span></div>
 </div></header>
@@ -616,7 +616,7 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 <main class="wrap" id="app"><div class="skel" style="height:360px"></div><div class="skel mt" style="height:90px"></div></main>
 <nav class="bottom" id="bnav"></nav>
 <footer><div class="wrap fgrid">
-  <div><a class="logo" href="#/" style="display:inline-flex"><span class="cw">CW</span><span class="hub">hub</span></a>
+  <div><a class="logo" href="/" style="display:inline-flex"><span class="cw">CW</span><span class="hub">hub</span></a>
     <p id="fabout" style="margin:10px 0 0;max-width:320px"></p><p id="upd" class="dim" style="font-size:13px"></p></div>
   <div><h4 id="f1"></h4><div id="fl1"></div></div>
   <div><h4 id="f2"></h4><div id="fl2"></div></div>
@@ -637,7 +637,7 @@ const BOT_DEFAULT = "cwhub_statsbot";
 const SB_URL = "https://jwvsjtntyajutsuqednk.supabase.co";
 const SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3dnNqdG50eWFqdXRzdXFlZG5rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0NzIwMzMsImV4cCI6MjEwODA0ODAzM30.vT2VzDJT7W9bXAm00Al5lghPjN76ABXDIbzdUP_HNWg";
 const sb = (SB_URL && SB_ANON && window.supabase) ? window.supabase.createClient(SB_URL, SB_ANON) : null;
-const DATA_URLS = ["https://raw.githubusercontent.com/shokirovv10/cwhub/data/data.json", "data.json"];
+const DATA_URLS = ["https://raw.githubusercontent.com/shokirovv10/cwhub/data/data.json", "/data.json"];
 const MAPS = ["de_dust2","de_inferno","de_nuke","de_train","de_cbble","de_aztec","de_tuscan","de_dust","de_mirage"];
 const RANKS = [[0,"L-"],[850,"L"],[900,"L+"],[950,"M-"],[1000,"M"],[1050,"M+"],[1100,"H-"],[1150,"H"],[1200,"H+"],[1300,"P"]];
 const TIERC = {L: ["#9be09b","#4f9e4f"], M: ["#86c1ff","#2f74d6"], H: ["#d9a6ff","#8a3fd1"], P: ["#ffe27a","#e09b00"]};
@@ -722,6 +722,14 @@ let LANG = store.get("lang") || "uz";
 const t = k => T[LANG][k];
 
 /* ===================================================================== yordamchilar */
+// "#/top" -> "/top" (eski "#" havolalar ham ishlaydi)
+if (/^#\//.test(window.location.hash)) history.replaceState(null, "", window.location.hash.slice(1));
+const curRoute = () => { const ph = window.location.pathname.replace(/\/index\.html$/, "/") || "/"; return "#" + (ph === "" ? "/" : ph); };
+function go(r){
+  const path = String(r).replace(/^#/, "") || "/";
+  if (path !== window.location.pathname) history.pushState(null, "", path);
+  render();
+}
 let D = null, IDX = null, ME = null, PROF = {};   // PROF: SteamID -> {user_id, nick, avatar_url}  // ME: Telegram foydalanuvchi {id, first_name, username, photo_url, h}
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -740,7 +748,7 @@ const pct = (a, b) => b ? Math.round(100 * a / b) : 0;
 const slug = id => encodeURIComponent(id);
 // o'yin ichidan olingan rasmlar (shots/); aim_* xaritalarining hammasiga bitta rasm
 const SHOTS = ["de_dust2", "de_nuke", "de_cbble", "de_train", "de_inferno", "de_tuscan", "de_mirage"];
-const mapImg = m => !m ? "" : m.startsWith("aim_") ? "shots/aim.jpg" : SHOTS.includes(m) ? `shots/${m}.jpg` : MAPS.includes(m) ? `maps/${m}.jpg` : "";
+const mapImg = m => !m ? "" : m.startsWith("aim_") ? "/shots/aim.jpg" : SHOTS.includes(m) ? `/shots/${m}.jpg` : MAPS.includes(m) ? `/maps/${m}.jpg` : "";
 const fmtDate = ts => { const d = new Date(ts * 1000); return d.toLocaleDateString(LANG === "ru" ? "ru-RU" : "uz-UZ", {day: "2-digit", month: "2-digit"}) + " " + d.toTimeString().slice(0, 5); };
 function ago(ts){
   const s = Math.max(0, Date.now() / 1000 - ts), ru = LANG === "ru";
@@ -856,25 +864,25 @@ function pageHome(){
   </div>
   <div class="grid2 mt2">
     <div class="card"><h3>${t("top")}</h3>
-      ${top3.length ? `<div class="podium">${top3.map((p, i) => `<div class="pod p${i + 1}" onclick="location.hash='#/p/${slug(p.id)}'">
+      ${top3.length ? `<div class="podium">${top3.map((p, i) => `<div class="pod p${i + 1}" onclick="go('#/p/${slug(p.id)}')">
         <div class="crown">${["👑","🥈","🥉"][i]}</div>${avatar(p.name, false)}<div class="nm">${esc(p.name)}</div>${shield(p.pts, p.matches)}
         <div class="sub" style="margin-top:6px;font-weight:700">${p.pts} PTS</div></div>`).join("")}</div>` : `<div class="empty">${t("noRank")}</div>`}
-      <a class="btn sm mt" href="#/top">${t("allRank")} →</a></div>
-    <div class="card"><h3>${t("lastMatches")}</h3>${matchList(IDX.matches.slice(0, 4))}<a class="btn sm" href="#/matches">${t("all")} →</a></div>
+      <a class="btn sm mt" href="/top">${t("allRank")} →</a></div>
+    <div class="card"><h3>${t("lastMatches")}</h3>${matchList(IDX.matches.slice(0, 4))}<a class="btn sm" href="/matches">${t("all")} →</a></div>
   </div>
   <div class="card mt2"><h3>${t("howTitle")}</h3>
     <div class="steps">${t("how").map((h, i) => `<div class="step"><i>${i + 1}</i><b style="display:block;margin-bottom:4px">${h[0]}</b><span class="sub">${esc(h[1])}</span></div>`).join("")}</div>
-    <div class="btns mt"><a class="btn main" href="#/me">${I.user} ${t("authT")}</a></div>
+    <div class="btns mt"><a class="btn main" href="/me">${I.user} ${t("authT")}</a></div>
   </div>
   ${prizesBlock()}
-  <a class="pteaser mt2" href="#/premium" style="text-decoration:none"><div><div class="eyebrow" style="color:var(--gold)">CwhubUZ Premium</div>
+  <a class="pteaser mt2" href="/premium" style="text-decoration:none"><div><div class="eyebrow" style="color:var(--gold)">CwhubUZ Premium</div>
     <h2 class="grad" style="margin:8px 0 6px">${pt("teaserT")}</h2><p class="sub" style="margin:0 0 16px">${pt("teaserL")}</p>
     <span class="btn gold">${pt("teaserB")} →</span></div><div class="crownic">👑</div></a>`;
 }
 function ticker(){
   const it = [];
   (D?.results || []).slice(-8).reverse().forEach(r => it.push(`<span class="ti">⚔ <b>${esc(r.a)}</b> <i>${r.sa}:${r.sb}</i> <b>${esc(r.b)}</b> · ${esc(r.map)}</span>`));
-  IDX.sorted.slice(0, 5).forEach(p => it.push(`<a class="ti" href="#/p/${slug(p.id)}">🏆 #${p.place} <b>${esc(p.name)}</b> <i>${p.pts} PTS</i></a>`));
+  IDX.sorted.slice(0, 5).forEach(p => it.push(`<a class="ti" href="/p/${slug(p.id)}">🏆 #${p.place} <b>${esc(p.name)}</b> <i>${p.pts} PTS</i></a>`));
   if (!it.length) return "";
   const row = it.join("");
   return `<div class="ticker"><div class="tr">${row}${row}</div></div>`;
@@ -887,7 +895,7 @@ function topRows(list){
   const me = mySteam();
   return `<div class="tw"><table>
     <tr><th>#</th><th>${t("player")}</th><th>${t("rank")}</th><th class="num">PTS</th><th class="num">${t("matches")}</th><th class="num">${t("wins")}</th><th class="num">K/D</th><th class="num">HS%</th><th class="num">ADR</th><th>${t("form")}</th></tr>
-    ${list.map(p => `<tr class="click ${p.id === me ? "me" : ""}" onclick="location.hash='#/p/${slug(p.id)}'">
+    ${list.map(p => `<tr class="click ${p.id === me ? "me" : ""}" onclick="go('#/p/${slug(p.id)}')">
       <td class="place ${p.place <= 3 ? "g" + p.place : ""}">${p.place}</td><td>${pcell(p)}</td><td>${shield(p.pts, p.matches)}</td><td class="num"><b>${p.pts}</b></td>
       <td class="num">${p.matches}</td><td class="num">${pct(p.wins, p.matches)}%</td><td class="num">${kd(p.kills, p.deaths)}</td>
       <td class="num">${p.hsp}%</td><td class="num">${p.adr}</td><td>${formDots(p.form)}</td></tr>`).join("")}
@@ -917,7 +925,7 @@ function matchList(list){
     return r.map(x => `<div class="mcard"><div class="mthumb" style="background-image:url('${mapImg(x.map)}')">${esc(x.map.replace("de_", ""))}</div>
       <div><b>${esc(x.a)} vs ${esc(x.b)}</b><div class="sub" style="font-size:13px">${esc(x.time)}</div></div><div class="mscore">${x.sa}:${x.sb}</div></div>`).join("");
   }
-  return list.map(m => `<a class="mcard" href="#/m/${m.t}"><div class="mthumb" style="background-image:url('${mapImg(m.map)}')">${esc(m.map.replace("de_", ""))}</div>
+  return list.map(m => `<a class="mcard" href="/m/${m.t}"><div class="mthumb" style="background-image:url('${mapImg(m.map)}')">${esc(m.map.replace("de_", ""))}</div>
     <div style="min-width:0"><b>${esc(m.na)} vs ${esc(m.nb)}</b><div class="sub" style="font-size:13px">${fmtDate(m.t)} · ${m.sa + m.sb} ${t("rounds")}${m.mvp ? ` · ⭐ ${esc(m.mvp.name)}` : ""}</div></div>
     <div class="mscore"><span class="${m.winner === "A" ? "W" : ""}">${m.sa}</span><span class="dim">:</span><span class="${m.winner === "B" ? "W" : ""}">${m.sb}</span></div></a>`).join("");
 }
@@ -926,7 +934,7 @@ function pageMatches(){ return `<h2 class="title">${t("matchesT")}</h2><p class=
 function teamTable(rows){
   return `<div class="tw"><table><tr><th>${t("player")}</th><th class="num">K–D</th><th class="num">A</th><th class="num">ADR</th><th class="num">HS%</th><th class="num">${t("rt")}</th><th class="num">PTS</th></tr>
     ${rows.sort((a, b) => b.rating - a.rating).map(s => { const p = IDX.byId[s.id];
-      return `<tr class="click ${s.left ? "left" : ""}" onclick="location.hash='#/p/${slug(s.id)}'">
+      return `<tr class="click ${s.left ? "left" : ""}" onclick="go('#/p/${slug(s.id)}')">
       <td><span class="pcell">${p ? shield(p.pts, p.matches) : ""}${avatar(s.name)}<span class="nm">${esc(s.name)}</span></span></td>
       <td class="num">${s.k}–${s.d}</td><td class="num">${s.a}</td><td class="num">${Math.round(s.dmg / Math.max(s.r, 1))}</td>
       <td class="num">${pct(s.hs, s.k)}%</td><td class="num"><b class="${s.rating >= 1.1 ? "W" : s.rating < 0.85 ? "L" : ""}">${s.rating.toFixed(2)}</b></td>
@@ -934,12 +942,12 @@ function teamTable(rows){
 }
 function pageMatch(ts){
   const m = IDX.matches.find(x => String(x.t) === ts);
-  if (!m) return `<div class="card empty">${t("notFound")}<br><br><a class="btn" href="#/matches">${t("back")}</a></div>`;
+  if (!m) return `<div class="card empty">${t("notFound")}<br><br><a class="btn" href="/matches">${t("back")}</a></div>`;
   const A = m.rows.filter(r => r.team === "A"), B = m.rows.filter(r => r.team === "B"), X = m.rows.filter(r => r.team === "X");
   const real = m.rows.filter(r => !r.left), by = f => real.slice().sort((a, b) => f(b) - f(a))[0];
   const dm = by(r => r.dmg), hs = by(r => r.hs), bk = by(r => r.k / Math.max(r.d, 1));
   const res = side => m.winner === "D" ? `<span class="D">${t("draw")}</span>` : m.winner === side ? `<span class="W">${t("win")}</span>` : `<span class="L">${t("loss")}</span>`;
-  return `<a class="btn sm ghost" href="#/matches">${t("back")}</a>
+  return `<a class="btn sm ghost" href="/matches">${t("back")}</a>
   <div class="mhead mt"><div class="bgmap" style="background-image:url('${mapImg(m.map)}')"></div>
     <div class="eyebrow">${esc(m.map)} · ${fmtDate(m.t)} · ${m.sa + m.sb} ${t("rounds")}</div>
     <div class="vs"><div><div class="tn">${esc(m.na)}</div>${res("A")}</div>
@@ -973,7 +981,7 @@ function people(p){
     m.rows.forEach(o => { if (o.id === p.id || o.team === "X" || s.team === "X") return;
       const bag = o.team === s.team ? mates : riv, e = bag[o.id] || (bag[o.id] = {id: o.id, name: o.name, n: 0, w: 0}); e.n++; if (s.res === "W") e.w++; }); });
   const list = (bag, f) => { const a = Object.values(bag).sort((x, y) => y.n - x.n).slice(0, 5);
-    return a.length ? `<div class="people">${a.map(e => `<a class="person" href="#/p/${slug(e.id)}">${pcell(IDX.byId[e.id] || {}, e.name)}<span class="sub" style="font-size:13px">${f(e.n, pct(e.w, e.n))}</span></a>`).join("")}</div>` : `<div class="empty">—</div>`; };
+    return a.length ? `<div class="people">${a.map(e => `<a class="person" href="/p/${slug(e.id)}">${pcell(IDX.byId[e.id] || {}, e.name)}<span class="sub" style="font-size:13px">${f(e.n, pct(e.w, e.n))}</span></a>`).join("")}</div>` : `<div class="empty">—</div>`; };
   return {mates: list(mates, t("together")), rivals: list(riv, t("against"))};
 }
 function achievements(p){
@@ -991,7 +999,7 @@ function friendBtn(steam){
 }
 function pageProfile(id){
   const p = IDX.byId[id];
-  if (!p) return `<div class="card empty">${t("notFound")}: ${esc(id)}<br><br><a class="btn" href="#/top">${t("back")}</a></div>`;
+  if (!p) return `<div class="card empty">${t("notFound")}: ${esc(id)}<br><br><a class="btn" href="/top">${t("back")}</a></div>`;
   const ri = rankIdx(p.pts), next = RANKS[ri + 1], cal = p.matches < CAL, c = TIERC[rankName(p.pts)[0]];
   const lo = ri ? RANKS[ri][0] : 700, frac = next ? Math.max(0, Math.min(1, (p.pts - lo) / (next[0] - lo))) : 1;
   const online = (D?.server?.players || []).some(x => x.name === p.name), isMe = !!mySteam() && mySteam() === p.id;
@@ -1012,7 +1020,7 @@ function pageProfile(id){
       <div class="prog ${tier(p.pts)}"><i style="width:${(frac * 100).toFixed(1)}%"></i></div>
       <div class="sub" style="font-size:13px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">${next ? t("nextRank")([next[0] - p.pts, next[1]]) : t("maxRank")} ${formDots(p.form)}</div>
     </div>
-    <div class="btns" style="flex-direction:column">${connectBtns(false)}<a class="btn" href="#/vs/${slug(p.id)}">⇄ ${t("compare")}</a>${friendBtn(p.id)}</div>
+    <div class="btns" style="flex-direction:column">${connectBtns(false)}<a class="btn" href="/vs/${slug(p.id)}">⇄ ${t("compare")}</a>${friendBtn(p.id)}</div>
   </div>
   <div class="tiles">
     <div class="tile"><b>${p.matches}</b><span>${t("matches")}</span></div>
@@ -1027,7 +1035,7 @@ function pageProfile(id){
   <div class="card mt"><h3>${t("recent")}</h3>
     ${games.length ? `<div class="tw"><table><tr><th>${t("map")}</th><th></th><th class="num">K–D</th><th class="num">PTS</th><th class="num"></th></tr>
       ${games.map(g => { const m = IDX.matches.find(x => Math.abs(x.t - g.t) < 900);
-        return `<tr${m ? ` class="click" onclick="location.hash='#/m/${m.t}'"` : ""}><td><b>${esc(g.map)}</b> <span class="sub">· ${fmtDate(g.t)}</span></td>
+        return `<tr${m ? ` class="click" onclick="go('#/m/${m.t}')"` : ""}><td><b>${esc(g.map)}</b> <span class="sub">· ${fmtDate(g.t)}</span></td>
         <td class="${g.res}"><b>${{W: t("win"), L: t("loss"), D: t("draw")}[g.res]}</b>${m ? ` <span class="sub">${m.sa}:${m.sb}</span>` : ""}</td>
         <td class="num">${g.k}–${g.d}</td><td class="num ${g.delta >= 0 ? "W" : "L"}">${g.delta == null ? "—" : (g.delta >= 0 ? "+" : "") + g.delta}</td><td class="num sub">${g.pts ?? ""}</td></tr>`; }).join("")}</table></div>`
       : `<div class="empty">${t("noMatches")}</div>`}</div>
@@ -1037,12 +1045,12 @@ function pageProfile(id){
 function pageVs(a, b){
   const A = IDX.byId[a], B = IDX.byId[b];
   if (!A) return `<div class="card empty">${t("notFound")}</div>`;
-  const sel = `<select class="search" onchange="location.hash='#/vs/${slug(a)}/'+encodeURIComponent(this.value)"><option value="">${t("choose")}</option>
+  const sel = `<select class="search" onchange="go('#/vs/${slug(a)}/'+encodeURIComponent(this.value))"><option value="">${t("choose")}</option>
     ${IDX.sorted.filter(p => p.id !== a).map(p => `<option value="${esc(p.id)}" ${p.id === b ? "selected" : ""}>${esc(p.name)} (${p.pts})</option>`).join("")}</select>`;
   const gt = (x, y) => parseFloat(x) > parseFloat(y);
   const row = (label, f, better) => { const x = f(A), y = B ? f(B) : null, bx = B && better(x, y), by = B && better(y, x);
     return `<tr><td class="num ${bx ? "W" : ""}"><b>${x}</b></td><td style="text-align:center" class="sub">${label}</td><td class="${by ? "W" : ""}"><b>${B ? y : "—"}</b></td></tr>`; };
-  return `<a class="btn sm ghost" href="#/p/${slug(a)}">${t("back")}</a><h2 class="title mt">${t("compare")}</h2>
+  return `<a class="btn sm ghost" href="/p/${slug(a)}">${t("back")}</a><h2 class="title mt">${t("compare")}</h2>
   <div class="card mt">${sel}<div class="tw mt"><table>
     <tr><th class="num">${esc(A.name)}</th><th></th><th>${B ? esc(B.name) : ""}</th></tr>
     ${row("PTS", p => p.pts, gt)}${row(t("rank"), p => rankName(p.pts), (x, y) => RANKS.findIndex(r => r[1] === x) > RANKS.findIndex(r => r[1] === y))}
@@ -1053,7 +1061,7 @@ function pageRanks(){
   const rows = RANKS.map((r, i) => [r, i]).reverse().map(([r, i]) => {
     const list = IDX.sorted.filter(p => rankIdx(p.pts) === i);
     return `<div class="rkrow"><div class="hd">${shield(r[0])}<div><b>${r[1]}</b> <span class="sub" style="font-size:13px">${r[0]}${RANKS[i + 1] ? "–" + (RANKS[i + 1][0] - 1) : "+"} PTS</span></div><span class="cnt">${list.length} 👤</span></div>
-      ${list.length ? `<div class="rkp">${list.map(p => `<a href="#/p/${slug(p.id)}">${avatar(p.name, false, photoOf(p.id))}${esc(p.name)} <span class="sub">${p.pts}</span></a>`).join("")}</div>` : ""}</div>`;
+      ${list.length ? `<div class="rkp">${list.map(p => `<a href="/p/${slug(p.id)}">${avatar(p.name, false, photoOf(p.id))}${esc(p.name)} <span class="sub">${p.pts}</span></a>`).join("")}</div>` : ""}</div>`;
   }).join("");
   return `<h2 class="title">${t("ranksT")}</h2><p class="lead">${t("ranksLead")}</p><div class="card">${rows}
     <p class="sub" style="line-height:1.7;margin:18px 0 0">${t("ranksNote")}</p></div>`;
@@ -1064,7 +1072,7 @@ function pageBans(){
     ${b.length ? `<div class="tw"><table><tr><th>${t("player")}</th><th>${t("reason")}</th><th>${t("since")}</th><th>${t("remain")}</th><th>${t("admin")}</th></tr>
       ${b.map(x => `<tr><td>${pcell({}, x.name)}</td><td>${esc(x.reason)}</td><td class="sub">${esc(x.since)}</td><td><b>${esc(x.left)}</b></td><td class="sub">${esc(x.admin)}</td></tr>`).join("")}</table></div>`
       : `<div class="empty">✅ ${t("noBans")}</div>`}
-    <div class="btns mt"><a class="btn main" href="#/support">💬 ${t("appeal")}</a></div>
+    <div class="btns mt"><a class="btn main" href="/support">💬 ${t("appeal")}</a></div>
     <p class="sub" style="font-size:13px;margin-top:14px">${t("appealNote")}</p></div>`;
 }
 function pageRules(){
@@ -1104,8 +1112,8 @@ async function refreshMe(){
 function renderAcct(){
   const nm = ME ? myNick() : "";
   $("#acct").innerHTML = ME
-    ? `<a class="who" href="#/me" title="${esc(ME.email)}">${avatar(nm, false, ME.acc?.avatar_url)}<span>${esc(nm)}</span></a>`
-    : `<a class="btn sm" href="#/login">${I.user} ${t("login")}</a> <a class="btn sm main" style="padding:8px 13px;font-size:13px" href="#/register">${t("signUp")}</a>`;
+    ? `<a class="who" href="/me" title="${esc(ME.email)}">${avatar(nm, false, ME.acc?.avatar_url)}<span>${esc(nm)}</span></a>`
+    : `<a class="btn sm" href="/login">${I.user} ${t("login")}</a> <a class="btn sm main" style="padding:8px 13px;font-size:13px" href="/register">${t("signUp")}</a>`;
 }
 async function doAuth(ev){
   ev.preventDefault();
@@ -1116,18 +1124,18 @@ async function doAuth(ev){
   try {
     const r = authTab === 0 ? await sb.auth.signInWithPassword({email, password: pw}) : await sb.auth.signUp({email, password: pw, options: {data: {nick: ($("#nk")?.value || "").trim().slice(0, 31)}}});
     if (r.error) authMsg = ["err", r.error.message];
-    else if (authTab === 1 && !r.data.session) { authMsg = ["ok", t("signedUp")]; authTab = 0; location.hash = "#/login"; }
+    else if (authTab === 1 && !r.data.session) { authMsg = ["ok", t("signedUp")]; authTab = 0; go("#/login"); }
   } catch (e) { authMsg = ["err", String(e)]; }
   await refreshMe(); renderAcct();
-  if (ME && (location.hash === "#/login" || location.hash === "#/register")) location.hash = "#/me"; else render(false);
+  if (ME && (curRoute() === "#/login" || curRoute() === "#/register")) go("#/me"); else render(false);
 }
 async function forgotPw(){
   const email = $("#em").value.trim();
   if (!email) { $("#em").focus(); return; }
-  const r = await sb.auth.resetPasswordForEmail(email, {redirectTo: location.origin + location.pathname + "#/me"});
+  const r = await sb.auth.resetPasswordForEmail(email, {redirectTo: location.origin + "/me"});
   authMsg = r.error ? ["err", r.error.message] : ["ok", t("resetSent")]; render(false);
 }
-async function logout(){ if (sb) await sb.auth.signOut(); ME = null; renderAcct(); location.hash = "#/"; }
+async function logout(){ if (sb) await sb.auth.signOut(); ME = null; renderAcct(); go("#/"); }
 
 const AT = {
   uz: {inT: "Xush kelibsiz", inL: "Akkauntingizga kiring", upT: "Ro'yxatdan o'tish", upL: "Bir daqiqada akkaunt oching",
@@ -1158,7 +1166,7 @@ function authPage(){
       <div class="sub" style="font-size:13px">${esc(ADDRESS)}</div></div>
     <div class="authform">
       <div class="eyebrow">${up ? at("upL") : at("inL")}</div><h2 style="margin:8px 0 18px">${up ? at("upT") : at("inT")}</h2>
-      <div class="authtabs" style="margin:0 0 18px;max-width:none"><button class="${!up ? "on" : ""}" onclick="location.hash='#/login'">${t("signIn")}</button><button class="${up ? "on" : ""}" onclick="location.hash='#/register'">${t("signUp")}</button></div>
+      <div class="authtabs" style="margin:0 0 18px;max-width:none"><button class="${!up ? "on" : ""}" onclick="go('#/login')">${t("signIn")}</button><button class="${up ? "on" : ""}" onclick="go('#/register')">${t("signUp")}</button></div>
       ${!sb ? `<div class="msg ok" style="margin-bottom:12px">${at("notCfg")}</div>` : ""}
       <form class="authbox" style="margin:0;max-width:none" onsubmit="doAuth(event)">
         ${authMsg ? `<div class="msg ${authMsg[0]}">${esc(authMsg[1])}</div>` : ""}
@@ -1167,11 +1175,11 @@ function authPage(){
         <label>${t("password")}<span class="pwbox" style="display:block"><input id="pw" type="password" minlength="6" required autocomplete="${up ? "new-password" : "current-password"}" ${up ? `oninput="pwStrength(this.value)"` : ""}><button type="button" title="${at("show")}" onclick="const i=$('#pw');i.type=i.type==='password'?'text':'password'">👁</button></span></label>
         ${up ? `<div class="meter" id="pwm"><i></i></div><div class="sub" id="pwl" style="font-size:12px;margin-top:-6px"></div>
           <label>${t("password2")}<input id="pw2" type="password" minlength="6" required autocomplete="new-password"></label>
-          <label class="chk"><input type="checkbox" required> <span>${at("agree")} — <a href="#/rules" style="color:var(--accent)">${t("nav")[4]}</a></span></label>` : ""}
+          <label class="chk"><input type="checkbox" required> <span>${at("agree")} — <a href="/rules" style="color:var(--accent)">${t("nav")[4]}</a></span></label>` : ""}
         <button class="btn main wide" id="authgo" type="submit" ${!sb ? "disabled" : ""}>${up ? t("signUp") : t("signIn")} →</button>
         ${!up ? `<a href="#" class="sub" style="text-align:center;font-size:13px" onclick="forgotPw();return false">${t("forgot")}</a>` : ""}
       </form>
-      <div class="swap">${up ? at("haveAcc") : at("noAcc")} <a href="${up ? "#/login" : "#/register"}">${up ? at("toIn") : at("toUp")}</a></div>
+      <div class="swap">${up ? at("haveAcc") : at("noAcc")} <a href="${up ? "/login" : "/register"}">${up ? at("toIn") : at("toUp")}</a></div>
     </div></div>`;
 }
 const myNick = () => ME?.acc?.site_nick || ME?.acc?.nick || (ME?.email || "").split("@")[0];
@@ -1190,7 +1198,7 @@ const profByUid = uid => Object.values(PROF).find(x => x.user_id === uid) || {ni
 function friendsCard(){
   const inc = FR.filter(f => f.status === "pending" && f.addressee === ME.id);
   const acc = FR.filter(f => f.status === "accepted");
-  const row = (uid, btns) => { const pr = profByUid(uid); return `<div class="frow"><a class="pcell" ${pr.steam ? `href="#/p/${slug(pr.steam)}"` : ""} style="text-decoration:none">${avatar(pr.nick || "?", false, pr.avatar_url)}<span class="nm">${esc(pr.nick || "—")}</span></a><div class="btns">${btns}</div></div>`; };
+  const row = (uid, btns) => { const pr = profByUid(uid); return `<div class="frow"><a class="pcell" ${pr.steam ? `href="/p/${slug(pr.steam)}"` : ""} style="text-decoration:none">${avatar(pr.nick || "?", false, pr.avatar_url)}<span class="nm">${esc(pr.nick || "—")}</span></a><div class="btns">${btns}</div></div>`; };
   return `<div class="card"><h3>👥 ${mt("friends")} <span class="sub" style="font-size:14px">${acc.length}</span></h3>
     ${inc.length ? `<div class="sub" style="margin-bottom:8px">${mt("reqs")}</div><div class="flist">${inc.map(f => row(f.requester, `<button class="btn sm main" onclick="frAccept('${f.requester}')">${mt("accept")}</button><button class="btn sm ghost" onclick="frRemove('${f.requester}','${ME.id}')">✕</button>`)).join("")}</div><div class="mt"></div>` : ""}
     ${acc.length ? `<div class="flist">${acc.map(f => { const o = f.requester === ME.id ? f.addressee : f.requester; return row(o, `<button class="btn sm ghost" onclick="frRemove('${f.requester}','${f.addressee}')">${mt("remove")}</button>`); }).join("")}</div>` : `<div class="empty">${mt("noFr")}</div>`}</div>`;
@@ -1224,7 +1232,7 @@ function pageMe(){
       <div style="flex:1;min-width:220px"><div class="eyebrow">${mt("prof")}</div><h2 class="title" style="margin:6px 0">${esc(t("hello")(myNick()))}</h2>
         <div class="sub">${esc(ME.email)}${steam ? ` · <span class="verified">${I.check} ${esc(steam)}</span>` : ""}</div>
         <form class="btns mt" onsubmit="saveProfile(event)" style="align-items:flex-end"><div class="field" style="flex:1;min-width:180px"><label>${mt("nickL")}<input id="mynick" maxlength="31" value="${esc(myNick())}"></label></div><button class="btn main" type="submit">${mt("save")}</button></form></div>
-      <div class="btns" style="flex-direction:column">${p ? `<a class="btn" href="#/p/${slug(steam)}">📊 ${mt("stats")}</a>` : ""}<button class="btn ghost" onclick="logout()">${t("logout")}</button></div></div></div>`;
+      <div class="btns" style="flex-direction:column">${p ? `<a class="btn" href="/p/${slug(steam)}">📊 ${mt("stats")}</a>` : ""}<button class="btn ghost" onclick="logout()">${t("logout")}</button></div></div></div>`;
   const link = steam ? "" : `<div class="card mt"><h3>🔗 ${mt("linkT")}</h3><p class="sub" style="margin-top:-4px">${t("linkLead")}</p>
     <div style="text-align:center"><div class="sub">${t("yourCode")}</div><div class="code">${esc(acc.code || "····")}</div></div>
     <div class="linksteps">${t("linkSteps")(acc.code || "KOD").map((s2, i) => `<div class="ls"><i>${i + 1}</i><div>${s2}</div></div>`).join("")}</div>
@@ -1390,7 +1398,7 @@ function drawBuy(){
   } else if (buy.step === 4) body = `<div style="text-align:center"><div class="okbig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m5 12 5 5L20 7"/></svg></div>
       <h2 class="title" style="font-size:32px">${pt("done")}</h2><p class="lead" style="margin:8px auto 18px">${pt("doneLead")}</p>
       <div class="note" style="text-align:left">${pt("activateNote")}</div>
-      <div class="btns mt"><a class="btn main" style="flex:1" href="#/support" onclick="closeBuy()">💬 ${pt("toSupport")}</a><button class="btn ghost" onclick="closeBuy()">OK</button></div></div>`;
+      <div class="btns mt"><a class="btn main" style="flex:1" href="/support" onclick="closeBuy()">💬 ${pt("toSupport")}</a><button class="btn ghost" onclick="closeBuy()">OK</button></div></div>`;
   else { buy.step = 2; return drawBuy(); }
   $("#modal").innerHTML = `<div class="modal" onclick="if(event.target===this)closeBuy()"><div class="mbox" role="dialog" aria-modal="true">
     <button class="mclose" onclick="closeBuy()" aria-label="close">✕</button>
@@ -1552,7 +1560,7 @@ function livePanel(){
     <div class="lmeta">${active && L.half ? `<span>${x("half")(L.half)}</span>` : ""}${L.paused ? `<span style="color:var(--accent)">⏸ ${x("paused")}</span>` : ""}<span>${s.count || 0}/${max} ${x("seats")}</span></div>
     <div class="seats">${Array.from({length: max}, (_, i) => `<i class="${i < (s.count || 0) ? "on" : ""}" style="animation-delay:${i * .06}s"></i>`).join("")}</div>
     ${pl.length ? `<div class="lplayers">${pl.map(p => { const pr = IDX.sorted.find(q => q.name === p.name);
-        return `<a class="lprow" ${pr ? `href="#/p/${slug(pr.id)}"` : ""}><span class="pcell">${pr ? shield(pr.pts, pr.matches) : avatar(p.name)}<span class="nm">${esc(p.name)}</span></span><b class="num">${p.frags}</b>${pingBars(p.ping)}</a>`; }).join("")}</div>`
+        return `<a class="lprow" ${pr ? `href="/p/${slug(pr.id)}"` : ""}><span class="pcell">${pr ? shield(pr.pts, pr.matches) : avatar(p.name)}<span class="nm">${esc(p.name)}</span></span><b class="num">${p.frags}</b>${pingBars(p.ping)}</a>`; }).join("")}</div>`
       : `<div class="empty" style="padding:14px 0 4px">${x("noOne")}</div>`}
     <div class="lfoot"><span>${esc(IP_ADDR)}</span><span>${D?.updated ? x("upd") + " " + ago(D.updated) : ""}</span></div>
   </div>`;
@@ -1579,7 +1587,7 @@ function prizesBlock(){
     ${SET.season?.ends ? `<div class="sub" style="text-align:center;font-size:13px">${x("endsIn")}</div>${countdownHTML()}` : ""}
     <div class="prizes">${list.map(p => { const lead = typeof p.place === "number" || /^\d+$/.test(p.place) ? IDX.sorted[+p.place - 1] : null;
       return `<div class="prize p${p.place}"><div class="medal">${medal(p.place)}</div><div class="pl">${x("place")(isNaN(+p.place) ? p.place : +p.place)}</div><b>${esc(p.prize)}</b>
-        ${lead ? `<div class="who2">${x("now")}: <a href="#/p/${slug(lead.id)}"><b style="display:inline;font:inherit;color:var(--text)">${esc(lead.name)}</b></a> · ${lead.pts} PTS</div>` : ""}</div>`; }).join("")}</div></div>`;
+        ${lead ? `<div class="who2">${x("now")}: <a href="/p/${slug(lead.id)}"><b style="display:inline;font:inherit;color:var(--text)">${esc(lead.name)}</b></a> · ${lead.pts} PTS</div>` : ""}</div>`; }).join("")}</div></div>`;
 }
 
 /* --- umumiy bannerlar: e'lon va "akkaunt ulanmagan" */
@@ -1589,9 +1597,9 @@ function renderBanners(){
   const ann = SET.announce?.text;
   if (ann) out.push(`<div class="gb info"><span>📣 ${esc(ann)}</span></div>`);
   const p = discountPct();
-  if (p && (location.hash || "#/") !== "#/premium") out.push(`<div class="gb warn"><span><span class="sale">-${p}%</span> ${esc(SET.discount?.label || "Premium")}</span><a class="btn sm gold" href="#/premium">👑 ${pt("nav")} →</a></div>`);
-  if (ME && !ME.acc?.steam && (location.hash || "#/") !== "#/me")
-    out.push(`<div class="gb warn"><div><b>⚠ ${x("notLinked")}</b><div class="sub" style="font-size:13px;margin-top:2px">${x("notLinkedL")(esc(ME.acc?.code || "····"))}</div></div><span class="code2">${esc(ME.acc?.code || "····")}</span><a class="btn sm" href="#/me">${x("howLink")}</a></div>`);
+  if (p && (curRoute() || "#/") !== "#/premium") out.push(`<div class="gb warn"><span><span class="sale">-${p}%</span> ${esc(SET.discount?.label || "Premium")}</span><a class="btn sm gold" href="/premium">👑 ${pt("nav")} →</a></div>`);
+  if (ME && !ME.acc?.steam && (curRoute() || "#/") !== "#/me")
+    out.push(`<div class="gb warn"><div><b>⚠ ${x("notLinked")}</b><div class="sub" style="font-size:13px;margin-top:2px">${x("notLinkedL")(esc(ME.acc?.code || "····"))}</div></div><span class="code2">${esc(ME.acc?.code || "····")}</span><a class="btn sm" href="/me">${x("howLink")}</a></div>`);
   g.innerHTML = out.join("");
 }
 
@@ -1600,7 +1608,7 @@ let TK = {list: [], cur: null, msgs: [], msg: null};
 async function loadTickets(){
   if (!sb || !ME) return;
   const q = sb.from("tickets").select("id,subject,status,email,updated_at,user_id").order("updated_at", {ascending: false}).limit(100);
-  const r = ME.admin && (location.hash || "").startsWith("#/admin") ? await q : await q.eq("user_id", ME.id);
+  const r = ME.admin && (curRoute() || "").startsWith("#/admin") ? await q : await q.eq("user_id", ME.id);
   TK.list = r.data || [];
 }
 async function loadThread(id){
@@ -1629,7 +1637,7 @@ function pageSupport(){
   if (!sb || !ME) {
     body = `<div class="sysmsg">${uz ? "Bugun" : "Сегодня"}</div><div class="bub">${uz ? "Salom! 👋 Savolingizni shu yerga yozing — admin javob beradi." : "Привет! 👋 Напишите вопрос здесь — админ ответит."}<small>🛡 ${x("admin")}</small></div>
       <div class="bub">${x("needLogin")}<small>🛡 ${x("admin")}</small></div>`;
-    input = `<div class="chatin" style="justify-content:center"><a class="btn main" href="#/login">${t("login")}</a><a class="btn" href="#/register">${t("signUp")}</a></div>`;
+    input = `<div class="chatin" style="justify-content:center"><a class="btn main" href="/login">${t("login")}</a><a class="btn" href="/register">${t("signUp")}</a></div>`;
   } else {
     const msgs = TK.msgs;
     body = `<div class="bub">${uz ? "Salom! 👋 Savolingizni yozing — admin shu yerda javob beradi." : "Привет! 👋 Напишите вопрос — админ ответит здесь."}<small>🛡 ${x("admin")}</small></div>`
@@ -1681,13 +1689,13 @@ async function sendReply(ev, adminView){
 }
 async function closeTicket(){
   await sb.from("tickets").update({status: "closed", updated_at: new Date().toISOString()}).eq("id", TK.cur);
-  const adminView = (location.hash || "").startsWith("#/admin");
+  const adminView = (curRoute() || "").startsWith("#/admin");
   await loadTickets(); await openTicket(TK.cur, adminView);
   const tl = $(adminView ? "#atl" : "#tl"); if (tl) tl.innerHTML = ticketList(adminView);
 }
 // ochiq suhbat bo'lsa — har 8 soniyada yangi xabarlar
 setInterval(async () => {
-  const h = location.hash || "#/"; if (!sb || !ME || !TK.cur || !(h === "#/support" || h === "#/admin")) return;
+  const h = curRoute() || "#/"; if (!sb || !ME || !TK.cur || !(h === "#/support" || h === "#/admin")) return;
   const n = TK.msgs.length; await loadThread(TK.cur);
   if (TK.msgs.length !== n) {
     if (h === "#/support") { const keep = $("#chatmsg")?.value || ""; render(false); if ($("#chatmsg")) $("#chatmsg").value = keep; scrollThread(); }
@@ -1714,7 +1722,7 @@ async function saveSetting(key, value){
   SET[key] = value; toast("✓ " + x("saved")); renderBanners();
 }
 function pageAdmin(){
-  if (!sb || !ME) return `<div class="card auth"><div class="big">🛡</div><h2 class="title">${x("aT")}</h2><p class="lead" style="margin:0 auto 16px">${x("needLogin")}</p><a class="btn main" href="#/me">${t("login")}</a></div>`;
+  if (!sb || !ME) return `<div class="card auth"><div class="big">🛡</div><h2 class="title">${x("aT")}</h2><p class="lead" style="margin:0 auto 16px">${x("needLogin")}</p><a class="btn main" href="/me">${t("login")}</a></div>`;
   if (!ME.admin) return `<div class="card empty">${x("noAccess")}</div>`;
   const tabs = `<div class="atabs">${x("tabs").map((n, i) => `<button class="${i === aTab ? "on" : ""}" onclick="aTab=${i};render(false)">${n}</button>`).join("")}</div>`;
   const d = SET.discount || {}, pr = (SET.prizes && SET.prizes.length ? SET.prizes : PRIZES_DEFAULT[LANG]);
@@ -1839,28 +1847,28 @@ async function bindSupport(){ if (!sb || !ME) return; await myChat(); render(fal
 /* ===================================================================== router */
 const ROUTES = ["#/", "#/top", "#/matches", "#/ranks", "#/rules", "#/bans", "#/premium"];
 function renderNav(){
-  const h = location.hash || "#/";
+  const h = curRoute() || "#/";
   const isOn = i => h === ROUTES[i] || (i === 1 && /^#\/(p|vs)\//.test(h)) || (i === 2 && h.startsWith("#/m/"));
-  $("#nav").innerHTML = t("nav").map((n, i) => `<a href="${ROUTES[i]}" class="${isOn(i) ? "on" : ""}">${n}</a>`).join("")
-    + `<a href="#/support" class="${h === "#/support" ? "on" : ""}">${LANG === "ru" ? "Поддержка" : "Yordam"}</a>`
-    + (ME?.admin ? `<a href="#/admin" class="${h === "#/admin" ? "on" : ""}">🛡 Admin</a>` : "")
-    + `<a href="#/premium" class="prem ${h === "#/premium" ? "on" : ""}">👑 ${pt("nav")}</a>`;
+  $("#nav").innerHTML = t("nav").map((n, i) => `<a href="${ROUTES[i].slice(1)}" class="${isOn(i) ? "on" : ""}">${n}</a>`).join("")
+    + `<a href="/support" class="${h === "#/support" ? "on" : ""}">${LANG === "ru" ? "Поддержка" : "Yordam"}</a>`
+    + (ME?.admin ? `<a href="/admin" class="${h === "#/admin" ? "on" : ""}">🛡 Admin</a>` : "")
+    + `<a href="/premium" class="prem ${h === "#/premium" ? "on" : ""}">👑 ${pt("nav")}</a>`;
   const crown = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 7 4.5 4L12 4l4.5 7L21 7l-2 12H5Z"/></svg>';
   const bi = [I.home, I.list, I.sword, crown, I.user], br = ["#/", "#/top", "#/matches", "#/premium", "#/me"];
   const bl = [t("nav")[0], t("nav")[1], t("nav")[2], pt("nav"), ME ? t("myProfile").split(" ")[0] : t("login")];
   if (!ME) br[4] = "#/login";
-  $("#bnav").innerHTML = br.map((r, i) => `<a href="${r}" class="${i === 3 ? "prem " : ""}${(i < 3 && isOn(i)) || h === r && i >= 3 ? "on" : ""}">${bi[i]}<span>${bl[i]}</span></a>`).join("");
+  $("#bnav").innerHTML = br.map((r, i) => `<a href="${r.slice(1)}" class="${i === 3 ? "prem " : ""}${(i < 3 && isOn(i)) || h === r && i >= 3 ? "on" : ""}">${bi[i]}<span>${bl[i]}</span></a>`).join("");
   document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b.dataset.l === LANG));
   document.documentElement.lang = LANG;
   $("#fabout").textContent = t("about"); $("#f1").textContent = t("f1"); $("#f2").textContent = t("f2");
-  $("#fl1").innerHTML = [0, 1, 2, 3].map(i => `<a href="${ROUTES[i]}">${t("nav")[i]}</a>`).join("");
-  $("#fl2").innerHTML = `<a href="${ROUTES[4]}">${t("nav")[4]}</a><a href="${ROUTES[5]}">${t("nav")[5]}</a><a href="#/premium">👑 ${pt("nav")}</a><a href="#/support">${x("supT")}</a><a href="#/register">${t("authT")}</a>`;
+  $("#fl1").innerHTML = [0, 1, 2, 3].map(i => `<a href="${ROUTES[i].slice(1)}">${t("nav")[i]}</a>`).join("");
+  $("#fl2").innerHTML = `<a href="${ROUTES[4].slice(1)}">${t("nav")[4]}</a><a href="${ROUTES[5].slice(1)}">${t("nav")[5]}</a><a href="/premium">👑 ${pt("nav")}</a><a href="/support">${x("supT")}</a><a href="/register">${t("authT")}</a>`;
   const shopBot = SHOP().bot || SHOP_DEFAULT.bot; $("#fshop").textContent = "@" + shopBot; $("#fshop").href = "https://t.me/" + shopBot;
   $("#fbot").textContent = "@" + botName(); $("#fbot").href = "https://t.me/" + botName();
 }
 function render(scroll = true){
   if (!IDX) return;
-  const h = location.hash || "#/";
+  const h = curRoute() || "#/";
   renderNav(); renderAcct();
   let html;
   if (h.startsWith("#/p/")) html = pageProfile(decodeURIComponent(h.slice(4)));
@@ -1874,7 +1882,7 @@ function render(scroll = true){
   if (h === "#/top") bindTop();
   if (h === "#/premium") bindPremium();
   if (h === "#/support" && scroll) bindSupport();
-  if ((h === "#/me" || h.startsWith("#/p/")) && scroll && sb && ME) loadFriends().then(() => { const hh = location.hash; if (hh === h) render(false); });
+  if ((h === "#/me" || h.startsWith("#/p/")) && scroll && sb && ME) loadFriends().then(() => { const hh = curRoute(); if (hh === h) render(false); });
   if (h === "#/admin" && scroll) bindAdmin();
   renderBanners(); tickCountdown();
   onScroll();
@@ -1894,7 +1902,7 @@ async function load(refresh){
     await withTimeout(loadProfiles(), 5000);
   }
   buildIndex();
-  const h = location.hash || "#/";
+  const h = curRoute() || "#/";
   // avval ma'lumot bilan chizamiz, akkaunt va sozlamalar — keyin
   if (!refresh) { render(true); setTimeout(() => $("#pre").classList.add("done"), 250); }
   else if (h === "#/" || h === "#/me") render(false);
@@ -1902,21 +1910,27 @@ async function load(refresh){
   if (!refresh || h === "#/me") await withTimeout(refreshMe(), 8000);
   await withTimeout(loadSettings(), 8000);
   renderAcct(); renderNav(); renderBanners();
-  if (!refresh && /^#\/(me|login|register|support|admin|premium)$/.test(location.hash || "")) { render(false); if (location.hash === "#/support") bindSupport(); if (location.hash === "#/admin") bindAdmin(); }
+  if (!refresh && /^#\/(me|login|register|support|admin|premium)$/.test(curRoute() || "")) { render(false); if (curRoute() === "#/support") bindSupport(); if (curRoute() === "#/admin") bindAdmin(); }
 }
 // Diqqat: bu callback ichida Supabase'ni kutish (await) deadlock beradi — shuning uchun setTimeout
 if (sb) sb.auth.onAuthStateChange((ev) => {
   if (ev !== "SIGNED_IN" && ev !== "SIGNED_OUT" && ev !== "PASSWORD_RECOVERY") return;
-  setTimeout(async () => { await refreshMe(); renderAcct(); renderNav(); renderBanners(); const hh = location.hash || "#/"; if (hh === "#/me" || hh === "#/login" || hh === "#/register") render(false); }, 0);
+  setTimeout(async () => { await refreshMe(); renderAcct(); renderNav(); renderBanners(); const hh = curRoute() || "#/"; if (hh === "#/me" || hh === "#/login" || hh === "#/register") render(false); }, 0);
 });
 document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { LANG = b.dataset.l; store.set("lang", LANG); render(false); });
-window.addEventListener("hashchange", () => render());
+// toza manzillar (/top, /me): ichki yo'nalish "#/..." ko'rinishida qoladi, URL'da esa "#" yo'q
+window.addEventListener("popstate", () => render());
+document.addEventListener("click", e => {
+  const a2 = e.target.closest && e.target.closest('a[href^="/"]:not([href^="//"])');
+  if (!a2 || e.ctrlKey || e.metaKey || e.shiftKey || a2.target === "_blank" || /\.(html|jpg|png|sql|json)$/.test(a2.getAttribute("href"))) return;
+  e.preventDefault(); go(a2.getAttribute("href"));
+});
 load(false);
 setTimeout(() => $("#pre").classList.add("done"), 1500);   // ma'lumot sekin kelsa ham kutib qolmaydi
 setInterval(() => load(true), 120000);
 // kod sahifasi ochiq va hali ulanmagan bo'lsa — har 10 soniyada tekshiramiz
 setInterval(async () => {
-  if ((location.hash || "#/") !== "#/me" || !ME || ME.acc?.steam) return;
+  if ((curRoute() || "#/") !== "#/me" || !ME || ME.acc?.steam) return;
   await refreshMe();
   if (ME?.acc?.steam) { renderAcct(); render(false); toast("✓"); }
 }, 10000);

@@ -1693,20 +1693,29 @@ function render(scroll = true){
   $("#upd").textContent = D?.updated ? `${t("updated")}: ${ago(D.updated)}` : "";
   if (scroll) window.scrollTo(0, 0);
 }
+// Supabase javob bermasa ham sayt qotib qolmasin
+const withTimeout = (p, ms) => Promise.race([p, new Promise(r => setTimeout(r, ms))]);
 async function load(refresh){
-  if (!refresh || (location.hash || "#/") === "#/me") await refreshMe();
   for (const u of DATA_URLS){
     try { const r = await fetch(u + "?t=" + Math.floor(Date.now() / 60000), {cache: "no-store"}); if (r.ok){ D = await r.json(); break; } } catch (e) {}
   }
   D = D || {players: [], results: []};
-  await loadSettings();
   buildIndex();
   const h = location.hash || "#/";
-  if (!refresh || h === "#/" || h === "#/me") render(!refresh);
-  if (!refresh) setTimeout(() => $("#pre").classList.add("done"), 250);
+  // avval ma'lumot bilan chizamiz, akkaunt va sozlamalar — keyin
+  if (!refresh) { render(true); setTimeout(() => $("#pre").classList.add("done"), 250); }
+  else if (h === "#/" || h === "#/me") render(false);
   else $("#upd").textContent = D.updated ? `${t("updated")}: ${ago(D.updated)}` : "";
+  if (!refresh || h === "#/me") await withTimeout(refreshMe(), 8000);
+  await withTimeout(loadSettings(), 8000);
+  renderAcct(); renderNav(); renderBanners();
+  if (!refresh && /^#\/(me|login|register|support|admin|premium)$/.test(location.hash || "")) { render(false); if (location.hash === "#/support") bindSupport(); if (location.hash === "#/admin") bindAdmin(); }
 }
-if (sb) sb.auth.onAuthStateChange(async (ev) => { if (ev === "SIGNED_IN" || ev === "SIGNED_OUT" || ev === "PASSWORD_RECOVERY") { await refreshMe(); renderAcct(); if ((location.hash || "#/") === "#/me") render(false); } });
+// Diqqat: bu callback ichida Supabase'ni kutish (await) deadlock beradi — shuning uchun setTimeout
+if (sb) sb.auth.onAuthStateChange((ev) => {
+  if (ev !== "SIGNED_IN" && ev !== "SIGNED_OUT" && ev !== "PASSWORD_RECOVERY") return;
+  setTimeout(async () => { await refreshMe(); renderAcct(); renderNav(); renderBanners(); const hh = location.hash || "#/"; if (hh === "#/me" || hh === "#/login" || hh === "#/register") render(false); }, 0);
+});
 document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { LANG = b.dataset.l; store.set("lang", LANG); render(false); });
 window.addEventListener("hashchange", () => render());
 load(false);

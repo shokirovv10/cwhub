@@ -791,8 +791,10 @@ const CS_ICONS = [
   '<path d="M10 4h4l1 4v11a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V8z" fill="#ffd166"/><path d="M10 4c0-1 1-2 2-2s2 1 2 2z" fill="#e6a100"/><path d="M9 15h6" stroke="#111a" stroke-width="1.2"/>'
 ];
 function avatar(name, big, photo){
-  const h = hue(name), ic = CS_ICONS[h % CS_ICONS.length];
-  return `<span class="av ${big ? "lg" : ""}" style="background:linear-gradient(135deg,hsl(${h} 60% 42%),hsl(${(h + 50) % 360} 65% 24%))">${photo ? `<img src="${esc(photo)}" alt="">` : `<svg viewBox="0 0 24 24" width="74%" height="74%">${ic}</svg>`}</span>`;
+  // rasm yo'q bo'lsa — oddiy foydalanuvchi siluet rasmi (harf emas)
+  const h = hue(name);
+  const user = '<circle cx="12" cy="8.6" r="4.4" fill="#fff" fill-opacity=".92"/><path d="M3.6 22c.6-4.6 4.2-7.6 8.4-7.6s7.8 3 8.4 7.6z" fill="#fff" fill-opacity=".92"/>';
+  return `<span class="av ${big ? "lg" : ""}" style="background:linear-gradient(135deg,hsl(${h} 45% 40%),hsl(${(h + 40) % 360} 50% 22%))">${photo ? `<img src="${esc(photo)}" alt="">` : `<svg viewBox="0 0 24 24" width="100%" height="100%" style="margin-top:18%">${user}</svg>`}</span>`;
 }
 function toast(m){ const e = $("#toast"); e.textContent = m; e.classList.add("show"); setTimeout(() => e.classList.remove("show"), 1800); }
 function copy(txt, msg){ navigator.clipboard?.writeText(txt).then(() => toast(msg || t("copied")), () => toast(txt)); }

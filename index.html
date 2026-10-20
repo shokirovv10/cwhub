@@ -1232,19 +1232,22 @@ function pageMe(){
 // Tariflar va karta rekvizitlari data.json -> shop dan keladi (telegram/shop_config.json). Yo'q bo'lsa — standart.
 const SHOP_DEFAULT = {bot: "cwhub_adminbot", card: "", owner: "", plans: [
   {id: "moder7", level: "moder", days: 7, price: "15 000 so'm"}, {id: "moder30", level: "moder", days: 30, price: "40 000 so'm"},
-  {id: "admin7", level: "admin", days: 7, price: "30 000 so'm"}, {id: "admin30", level: "admin", days: 30, price: "80 000 so'm"}]};
+  {id: "admin7", level: "admin", days: 7, price: "30 000 so'm"}, {id: "admin30", level: "admin", days: 30, price: "80 000 so'm"},
+  {id: "gladmin7", level: "gladmin", days: 7, price: "70 000 so'm"}, {id: "gladmin30", level: "gladmin", days: 30, price: "180 000 so'm"}]};
 const PT = {
   uz: {
     nav: "Premium", eyebrow: "CwhubUZ Premium", title: "Serverda <span class='grad'>kuchingizni</span> ko'rsating",
-    lead: "Moder yoki Admin huquqi — prefiks, boshqaruv menyusi va hurmat. Karta orqali to'lang, tasdiqlangach huquq serverga avtomatik beriladi.",
+    lead: "Moder, Admin yoki Gl.Admin huquqi — prefiks, boshqaruv menyusi va hurmat. Karta orqali to'lang, tasdiqlangach huquq serverga avtomatik beriladi.",
     perks: ["<b>⚡</b> Avtomatik berish", "<b>💳</b> Uzcard / Humo", "<b>🔒</b> Muddati tugasa o'zi olinadi", "<b>🛟</b> Saytda yordam"],
     d7: "7 kun", d30: "30 kun", per: d => `${d} kunga · bir martalik to'lov`, popular: "Mashhur", buy: "Sotib olish",
-    moder: "Moder", admin: "Admin",
+    moder: "Moder", admin: "Admin", gladmin: "Gl.Admin",
+    fGl: ["[Гл.Админ] prefiksi chatda", "Admin huquqlarining hammasi", "Razban (unban)", "Sozlamalar menyusi (cvar)", "O'yinchilarga prefiks berish", "Kirganda maxsus e'lon"],
+    noAdmA: ["Razban — faqat Gl.Admin"],
     fMod: ["[Модер] prefiksi chatda", "Ban va offban", "Mute / gag, kick", "Start, knife, pauza, spec", "Karta almashtirish"],
     fAdm: ["[Админ] prefiksi chatda", "Ban va offban", "Slap / slay, mute, kick", "Start, knife, pauza, spec", "Karta almashtirish", "Kirganda maxsus e'lon"],
     noAdm: ["Slap / slay", "Kirish e'loni"],
     trust: [["⚡","Tez faollashtirish","Chek tekshirilgach — bir necha daqiqada serverda."],["🔁","Halol muddat","Muddat tugasa huquq avtomatik olinadi, yashirin to'lov yo'q."],["🧾","Chek orqali","Har bir to'lov Telegram'da tasdiqlanadi."],["⚖️","Qoidalar","Huquqni suiiste'mol qilish — pulsiz olib qo'yiladi."]],
-    cmpT: "Taqqoslash", cmp: [["Chat prefiksi","[Модер]","[Админ]"],["Ban / offban","✓","✓"],["Mute / gag, kick","✓","✓"],["Start, knife, pauza, spec","✓","✓"],["Karta almashtirish","✓","✓"],["Slap / slay","—","✓"],["Kirish e'loni","—","✓"],["Razban","—","—"]],
+    cmpT: "Taqqoslash", cmp: [["Chat prefiksi","[Модер]","[Админ]","[Гл.Админ]"],["Ban / offban","✓","✓","✓"],["Mute / gag, kick","✓","✓","✓"],["Start, knife, pauza, spec","✓","✓","✓"],["Karta almashtirish","✓","✓","✓"],["Slap / slay","—","✓","✓"],["Kirish e'loni","—","✓","✓"],["Razban","—","—","✓"],["Sozlamalar, prefikslar","—","—","✓"]],
     faqT: "Ko'p so'raladigan savollar", unbanNote: "Razbanni faqat Gl.Admin qiladi — noto'g'ri ban bo'lsa, Yordam bo'limiga yozing.",
     faq: [["Qanday to'layman?","Tarifni tanlang, SteamID kiriting. Ko'rsatilgan kartaga summani o'tkazing va chek skrinshotini Telegram botga yuboring."],
           ["Qachon faollashadi?","Chek tasdiqlangach huquq RCON orqali serverga avtomatik yoziladi. Odatda bir necha daqiqa."],
@@ -1265,12 +1268,14 @@ const PT = {
     lead: "Права Модера или Админа — префикс, меню управления и уважение. Оплата картой, после проверки права выдаются на сервер автоматически.",
     perks: ["<b>⚡</b> Автовыдача", "<b>💳</b> Uzcard / Humo", "<b>🔒</b> Снимается по окончании срока", "<b>🛟</b> Поддержка на сайте"],
     d7: "7 дней", d30: "30 дней", per: d => `на ${d} дн. · разовый платёж`, popular: "Популярный", buy: "Купить",
-    moder: "Модер", admin: "Админ",
+    moder: "Модер", admin: "Админ", gladmin: "Гл.Админ",
+    fGl: ["Префикс [Гл.Админ] в чате", "Все права админа", "Разбан", "Меню настроек (cvar)", "Выдача префиксов игрокам", "Особое приветствие при входе"],
+    noAdmA: ["Разбан — только Гл.Админ"],
     fMod: ["Префикс [Модер] в чате", "Бан и оффбан", "Мут / гаг, кик", "Старт, нож, пауза, спек", "Смена карты"],
     fAdm: ["Префикс [Админ] в чате", "Бан и оффбан", "Slap / slay, мут, кик", "Старт, нож, пауза, спек", "Смена карты", "Особое приветствие при входе"],
     noAdm: ["Slap / slay", "Приветствие при входе"],
     trust: [["⚡","Быстрая активация","После проверки чека — за пару минут на сервере."],["🔁","Честный срок","По окончании срока права снимаются сами, скрытых платежей нет."],["🧾","По чеку","Каждый платёж подтверждается в Telegram."],["⚖️","Правила","За злоупотребление права снимаются без возврата."]],
-    cmpT: "Сравнение", cmp: [["Префикс в чате","[Модер]","[Админ]"],["Бан / оффбан","✓","✓"],["Мут / гаг, кик","✓","✓"],["Старт, нож, пауза, спек","✓","✓"],["Смена карты","✓","✓"],["Slap / slay","—","✓"],["Приветствие при входе","—","✓"],["Разбан","—","—"]],
+    cmpT: "Сравнение", cmp: [["Префикс в чате","[Модер]","[Админ]","[Гл.Админ]"],["Бан / оффбан","✓","✓","✓"],["Мут / гаг, кик","✓","✓","✓"],["Старт, нож, пауза, спек","✓","✓","✓"],["Смена карты","✓","✓","✓"],["Slap / slay","—","✓","✓"],["Приветствие при входе","—","✓","✓"],["Разбан","—","—","✓"],["Настройки, префиксы","—","—","✓"]],
     faqT: "Частые вопросы", unbanNote: "Разбан делает только Гл.Админ — если бан ошибочный, напишите в Поддержку.",
     faq: [["Как оплатить?","Выберите тариф и введите SteamID. Переведите сумму на указанную карту и отправьте скриншот чека боту в Telegram."],
           ["Когда активируется?","После подтверждения чека права автоматически записываются на сервер через RCON. Обычно пара минут."],
@@ -1288,23 +1293,39 @@ const PT = {
   }
 };
 const pt = k => PT[LANG][k];
-const SHOP = () => Object.assign({}, SHOP_DEFAULT, D?.shop || {}, {plans: (D?.shop?.plans?.length ? D.shop.plans : SHOP_DEFAULT.plans)});
+// admin paneldagi tariflar/karta (Supabase settings.shop) > bot ma'lumoti (data.shop) > standart
+const SHOP = () => { const st = SET.shop || {}, base = Object.assign({}, SHOP_DEFAULT, D?.shop || {});
+  return Object.assign(base, {card: st.card || base.card || "", owner: st.owner || base.owner || "",
+    plans: st.plans?.length ? st.plans : (D?.shop?.plans?.length ? D.shop.plans : SHOP_DEFAULT.plans)}); };
+const digitsOf = v => +String(v || "").replace(/\D/g, "");
+const fmtSum = n => n.toLocaleString("ru-RU").replace(/[,\u00a0]/g, " ");
+// tarif narxi: alohida yangi narx (sale) > tarif foizi (discount) > umumiy chegirma
+function effPrice(p){
+  const base = digitsOf(p.price);
+  if (digitsOf(p.sale)) return {now: fmtSum(digitsOf(p.sale)), old: fmtSum(base), badge: LANG === "ru" ? "Акция" : "Aksiya"};
+  const pct = Math.min(+p.discount || discountPct(), 90);
+  if (pct && base) { const v = Math.floor(base * (100 - pct) / 100 / 1000) * 1000 || Math.floor(base * (100 - pct) / 100); return {now: fmtSum(v), old: fmtSum(base), badge: "-" + pct + "%"}; }
+  return {now: fmtSum(base), old: null, badge: null};
+}
 let pDays = 30, buy = null;   // buy: {plan, step, steam}
 const STEAM_OK = s => /^STEAM_[0-5]:[01]:\d+$/i.test(s.trim());
 const fmtCard = c => String(c).replace(/\D/g, "").replace(/(\d{4})(?=\d)/g, "$1 ");
 const planOf = (lvl, d) => SHOP().plans.find(p => p.level === lvl && +p.days === d) || SHOP().plans.find(p => p.level === lvl);
 const priceNum = p => String(p.price).replace(/\s*so'?m/i, "");
-const payPrice = p => discounted(p.price) ? discounted(p.price) + " so'm" : p.price;
+const payPrice = p => effPrice(p).now + " so'm";
 
 function planCard(lvl, hot){
   const p = planOf(lvl, pDays); if (!p) return "";
-  const feats = lvl === "admin" ? pt("fAdm").map(f => `<li>${f}</li>`).join("") : pt("fMod").map(f => `<li>${f}</li>`).join("") + pt("noAdm").map(f => `<li class="no">${f}</li>`).join("");
+  const li = (a, cls) => a.map(f => `<li class="${cls || ""}">${f}</li>`).join("");
+  const feats = lvl === "gladmin" ? li(pt("fGl")) : lvl === "admin" ? li(pt("fAdm")) + li(pt("noAdmA"), "no") : li(pt("fMod")) + li(pt("noAdm"), "no");
+  const ep = effPrice(p), icon = {moder: "🛡 ", admin: "⚔ ", gladmin: "👑 "}[lvl];
   return `<div class="plan tilt rv ${hot ? "hot" : ""}"><div class="glare"></div>
-    <div class="tier"><b>${lvl === "admin" ? "👑 " : "🛡 "}<span class="${hot ? "grad" : ""}">${pt(lvl)}</span></b>${hot ? `<span class="badge">${pt("popular")}</span>` : ""}</div>
-    <div>${discounted(p.price) ? `<span class="oldp">${esc(priceNum(p))}</span><span class="sale">-${discountPct()}%</span>` : ""}<div class="price" data-price>${esc(discounted(p.price) || priceNum(p))} <small>so'm</small></div></div><div class="per">${pt("per")(p.days)}</div>
+    <div class="tier"><b>${icon}<span class="${hot ? "grad" : ""}">${pt(lvl)}</span></b>${hot ? `<span class="badge">${pt("popular")}</span>` : lvl === "gladmin" ? `<span class="badge" style="background:linear-gradient(135deg,#c084fc,#7c3aed);color:#fff">VIP</span>` : ""}</div>
+    <div>${ep.old ? `<span class="oldp">${esc(ep.old)}</span><span class="sale">${esc(ep.badge)}</span>` : ""}<div class="price" data-price>${esc(ep.now)} <small>so'm</small></div></div><div class="per">${pt("per")(p.days)}</div>
     <ul>${feats}</ul>
     <button class="btn ${hot ? "gold" : "main"} wide" onclick="openBuy('${esc(p.id)}')">${pt("buy")} →</button></div>`;
 }
+const allPlans = () => planCard("moder", false) + planCard("admin", true) + planCard("gladmin", false);
 function pagePremium(){
   const both = [7, 30].every(d => SHOP().plans.some(p => +p.days === d));
   return `<section class="phead">
@@ -1314,12 +1335,12 @@ function pagePremium(){
     <div class="perks">${pt("perks").map(x => `<span>${x}</span>`).join("")}</div>
     ${both ? `<div class="ptoggle" id="ptog"><span class="knob"></span><button data-d="7" class="${pDays === 7 ? "on" : ""}">${pt("d7")}</button><button data-d="30" class="${pDays === 30 ? "on" : ""}">${pt("d30")}</button></div>` : ""}
   </section>
-  <div class="plans" id="plans" style="max-width:820px;margin-left:auto;margin-right:auto">${planCard("moder", false)}${planCard("admin", true)}</div>
+  <div class="plans" id="plans" style="max-width:1200px;margin-left:auto;margin-right:auto">${allPlans()}</div>
   <p class="sub" style="text-align:center;font-size:13px;margin-top:14px">ℹ ${pt("unbanNote")}</p>
   <div class="trust">${pt("trust").map(x => `<div class="rv"><i>${x[0]}</i><div><b>${x[1]}</b><span>${x[2]}</span></div></div>`).join("")}</div>
   <div class="grid2 mt2">
-    <div class="card spot rv"><h3>${pt("cmpT")}</h3><div class="tw"><table class="cmptbl"><tr><th></th><th>${pt("moder")}</th><th style="color:var(--gold)">${pt("admin")}</th></tr>
-      ${pt("cmp").map(r => `<tr><td>${r[0]}</td><td class="${r[1] === "✓" ? "W" : r[1] === "—" ? "dim" : ""}">${r[1]}</td><td class="${r[2] === "✓" ? "W" : r[2] === "—" ? "dim" : ""}"><b>${r[2]}</b></td></tr>`).join("")}</table></div></div>
+    <div class="card spot rv"><h3>${pt("cmpT")}</h3><div class="tw"><table class="cmptbl"><tr><th></th><th>${pt("moder")}</th><th style="color:var(--gold)">${pt("admin")}</th><th style="color:#c084fc">${pt("gladmin")}</th></tr>
+      ${pt("cmp").map(r => `<tr><td>${r[0]}</td>${[1, 2, 3].map(k => `<td class="${r[k] === "✓" ? "W" : r[k] === "—" ? "dim" : ""}"><b>${r[k]}</b></td>`).join("")}</tr>`).join("")}</table></div></div>
     <div class="card spot rv"><h3>${pt("faqT")}</h3><div class="faq">${pt("faq").map((f, i) => `<details ${i ? "" : "open"}><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join("")}</div></div>
   </div>`;
 }
@@ -1330,7 +1351,7 @@ function bindPremium(){
   place();
   tog.querySelectorAll("button").forEach(b => b.onclick = () => {
     pDays = +b.dataset.d; tog.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); place();
-    $("#plans").innerHTML = planCard("moder", false) + planCard("admin", true); fxBind($("#plans"));
+    $("#plans").innerHTML = allPlans(); fxBind($("#plans"));
     document.querySelectorAll("#plans [data-price]").forEach(e => { e.animate([{opacity: 0, transform: "translateY(-10px)"}, {opacity: 1, transform: "none"}], {duration: 450, easing: "cubic-bezier(.2,.8,.2,1)"}); });
   });
 }
@@ -1470,7 +1491,7 @@ const X = {
     myT: "Murojaatlarim", noT: "Hali murojaat yo'q", needLogin: "Yordam uchun avval akkauntga kiring.", reply: "Javob yozing…", close: "Yopish", closed: "Yopilgan",
     stt: {open: "ochiq", answered: "javob berildi", closed: "yopilgan"}, admin: "Admin", you: "Siz", pick: "Chapdan murojaatni tanlang",
     aT: "Admin panel", aL: "Chegirma, huquq berish, ban, sovrinlar, support va e'lon.", noAccess: "Bu sahifa faqat sayt adminlari uchun.",
-    tabs: ["Panel", "Chegirma", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati"],
+    tabs: ["Panel", "Tariflar va to'lov", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati"],
     loadBans: "Banlarni yuklash", rebans: "Qayta ban", noBansA: "Faol ban yo'q", accs: "Saytdagi akkauntlar", pend: "Kutilayotgan buyruqlar",
     disc: "Chegirma (%)", until: "Tugash sanasi", label: "Yozuv (masalan: Sezon ochilishi!)", save: "Saqlash", saved: "Saqlandi", off: "Chegirmani o'chirish",
     steam: "SteamID", level: "Daraja", days: "Kun (0 = abadiy)", nick: "Nik", grant: "Huquq berish", remove: "Huquqni olish", list: "Adminlar ro'yxati",
@@ -1484,7 +1505,7 @@ const X = {
     myT: "Мои обращения", noT: "Обращений пока нет", needLogin: "Чтобы написать в поддержку, войдите в аккаунт.", reply: "Напишите ответ…", close: "Закрыть", closed: "Закрыто",
     stt: {open: "открыто", answered: "есть ответ", closed: "закрыто"}, admin: "Админ", you: "Вы", pick: "Выберите обращение слева",
     aT: "Админ-панель", aL: "Скидки, выдача прав, баны, призы, поддержка и объявления.", noAccess: "Страница только для админов сайта.",
-    tabs: ["Панель", "Скидка", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов"],
+    tabs: ["Панель", "Тарифы и оплата", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов"],
     loadBans: "Загрузить баны", rebans: "Перебанить", noBansA: "Активных банов нет", accs: "Аккаунтов на сайте", pend: "Ожидают выполнения",
     disc: "Скидка (%)", until: "Действует до", label: "Подпись (например: Открытие сезона!)", save: "Сохранить", saved: "Сохранено", off: "Выключить скидку",
     steam: "SteamID", level: "Уровень", days: "Дней (0 = навсегда)", nick: "Ник", grant: "Выдать права", remove: "Снять права", list: "Список админов",
@@ -1698,16 +1719,8 @@ function pageAdmin(){
       <div class="tile"><b>${TK.list.filter(t2 => t2.status === "open").length}</b><span>${x("kOpen")}</span></div><div class="tile"><b>${D?.server?.count || 0}</b><span>${x("kOnline")}</span></div>
       <div class="tile"><b>${Object.keys(PROF).length}</b><span>${x("accs")}</span></div><div class="tile"><b>${ALOG.filter(a => a.status === "pending").length}</b><span>${x("pend")}</span></div></div>
       <h3 class="mt2">${x("log")}</h3><div class="alog" id="alog">${logHTML()}</div><p class="sub mt" style="font-size:13px">${x("needBot")}</p>`,
-    () => `<form class="form2" onsubmit="event.preventDefault();saveSetting('discount',{percent:+$('#dp').value,until:$('#du').value,label:$('#dl').value.trim()})">
-      <div class="row2"><div class="field"><label>${x("disc")}<input id="dp" type="number" min="0" max="90" value="${+d.percent || 0}"></label></div><div class="field"><label>${x("until")}<input id="du" type="date" value="${esc(d.until || "")}"></label></div></div>
-      <div class="field"><label>${x("label")}<input id="dl" maxlength="60" value="${esc(d.label || "")}"></label></div>
-      <div class="btns"><button class="btn main" type="submit">${x("save")}</button><button class="btn ghost" type="button" onclick="saveSetting('discount',{percent:0})">${x("off")}</button></div></form>
-      <p class="sub mt" style="font-size:13px">${discountPct() ? `<span class="sale">-${discountPct()}%</span>` : "—"}</p>`,
-    () => `<form class="form2" onsubmit="event.preventDefault();act('grant',{steam:$('#gs').value.trim(),level:$('#gl').value,days:+$('#gd').value,nick:$('#gn').value.trim()})">
-      ${steamIn("gs")}<div class="row2"><div class="field"><label>${x("level")}<select id="gl"><option value="moder">Moder</option><option value="admin">Admin</option></select></label></div>
-      <div class="field"><label>${x("days")}<input id="gd" type="number" min="0" max="3650" value="30"></label></div><div class="field"><label>${x("nick")}<input id="gn" maxlength="31"></label></div></div>
-      <div class="btns"><button class="btn main" type="submit">${x("grant")}</button><button class="btn" type="button" onclick="const s=$('#gs').value.trim();if(s)act('remove',{steam:s})">${x("remove")}</button><button class="btn ghost" type="button" onclick="act('list',{})">${x("list")}</button></div></form>
-      <h3 class="mt2">${x("log")}</h3><div class="alog" id="alog">${logHTML()}</div>`,
+    () => shopEditor(),
+    () => grantForm(),
     () => `<form class="form2" onsubmit="event.preventDefault();act('ban',{steam:$('#bs').value.trim(),minutes:+$('#bm').value,reason:$('#br').value.trim()})">
       ${steamIn("bs")}<div class="row2"><div class="field"><label>${x("mins")}<input id="bm" type="number" min="0" value="10080"></label></div><div class="field"><label>${x("reason")}<input id="br" maxlength="60"></label></div></div>
       <div class="btns"><button class="btn main" type="submit">${x("ban")}</button><button class="btn" type="button" onclick="const s=$('#bs').value.trim();if(s)act('unban',{steam:s})">${x("unban")}</button></div></form>
@@ -1744,6 +1757,64 @@ function banListHTML(){
         ${/^STEAM_/i.test(id) ? `<select onchange="if(this.value!=='')act('ban',{steam:'${esc(id)}',minutes:+this.value,reason:'${esc((pr[4] || "sayt").replace(/'/g, ""))}'});this.value=''"><option value="">${x("rebans")}…</option>${T.map(o => `<option value="${o[0]}">${o[1]}</option>`).join("")}</select>` : ""}</div></div>`; }).join("");
 }
 async function loadBanList(){ await act("banlist", {}); const b = $("#banl"); if (b) b.innerHTML = banListHTML(); }
+const SE = {
+  uz: {plans: "Tariflar", lvl: "Daraja", days: "Kun", price: "Narx (so'm)", disc: "Foiz %", sale: "Yangi narx", add: "+ Tarif", del: "O'chirish", card: "Karta raqami (Uzcard/Humo)", owner: "Karta egasi (ism familiya)",
+    pay: "Kartaga to'lov", global: "Umumiy chegirma (hamma tariflarga)", save: "Saqlash", hint: "Yangi narx yozilsa — o'sha ishlatiladi; bo'lmasa tarif foizi; bo'lmasa umumiy chegirma. Bot ham shu narxlarni oladi.",
+    by: "Kim orqali", bySteam: "SteamID bo'yicha", byPw: "Nik + parol", pw: "Parol (o'yinchi konsolda: setinfo _pw parol)", nickReq: "Nik (serverdagi aniq nik)", rmHint: "Olish uchun: SteamID yoki nik yozing"},
+  ru: {plans: "Тарифы", lvl: "Уровень", days: "Дней", price: "Цена (сум)", disc: "Скидка %", sale: "Новая цена", add: "+ Тариф", del: "Удалить", card: "Номер карты (Uzcard/Humo)", owner: "Владелец карты (имя фамилия)",
+    pay: "Оплата картой", global: "Общая скидка (на все тарифы)", save: "Сохранить", hint: "Если указана новая цена — берётся она; иначе скидка тарифа; иначе общая скидка. Бот берёт те же цены.",
+    by: "Способ", bySteam: "По SteamID", byPw: "Ник + пароль", pw: "Пароль (игрок в консоли: setinfo _pw пароль)", nickReq: "Ник (точный ник на сервере)", rmHint: "Чтобы снять: укажите SteamID или ник"}
+};
+const se = k => SE[LANG][k];
+const LVLS = [["moder", "Moder"], ["admin", "Admin"], ["gladmin", "Gl.Admin"]];
+const planRow = p => `<div class="row2" data-plan style="grid-template-columns:1.1fr .7fr 1fr .7fr 1fr auto;align-items:end">
+  <div class="field"><label>${se("lvl")}<select>${LVLS.map(l => `<option value="${l[0]}" ${p.level === l[0] ? "selected" : ""}>${l[1]}</option>`).join("")}</select></label></div>
+  <div class="field"><label>${se("days")}<input type="number" min="1" max="3650" value="${+p.days || 30}"></label></div>
+  <div class="field"><label>${se("price")}<input inputmode="numeric" value="${esc(digitsOf(p.price) || "")}"></label></div>
+  <div class="field"><label>${se("disc")}<input type="number" min="0" max="90" value="${+p.discount || 0}"></label></div>
+  <div class="field"><label>${se("sale")}<input inputmode="numeric" value="${esc(digitsOf(p.sale) || "")}" placeholder="—"></label></div>
+  <button class="btn ghost" type="button" onclick="this.closest('[data-plan]').remove()">✕</button></div>`;
+function shopEditor(){
+  const S = SHOP(), d = SET.discount || {};
+  return `<form class="form2" onsubmit="event.preventDefault();saveShop()">
+    <h3>💳 ${se("pay")}</h3>
+    <div class="row2"><div class="field"><label>${se("card")}<input id="scard" inputmode="numeric" maxlength="23" value="${esc(fmtCard(S.card || ""))}" placeholder="8600 0000 0000 0000"></label></div>
+      <div class="field"><label>${se("owner")}<input id="sowner" maxlength="40" value="${esc(S.owner || "")}"></label></div></div>
+    <h3 class="mt2">🏷 ${se("plans")}</h3>
+    <div id="splans" class="form2">${S.plans.map(planRow).join("")}</div>
+    <div class="btns"><button class="btn ghost" type="button" onclick="$('#splans').insertAdjacentHTML('beforeend',planRow({level:'admin',days:30}))">${se("add")}</button></div>
+    <p class="sub" style="font-size:13px">${se("hint")}</p>
+    <h3 class="mt2">🔥 ${se("global")}</h3>
+    <div class="row2"><div class="field"><label>${x("disc")}<input id="dp" type="number" min="0" max="90" value="${+d.percent || 0}"></label></div><div class="field"><label>${x("until")}<input id="du" type="date" value="${esc(d.until || "")}"></label></div>
+      <div class="field"><label>${x("label")}<input id="dl" maxlength="60" value="${esc(d.label || "")}"></label></div></div>
+    <div class="btns"><button class="btn main" type="submit">💾 ${se("save")}</button></div></form>`;
+}
+async function saveShop(){
+  const plans = [...document.querySelectorAll("[data-plan]")].map(r => { const f = r.querySelectorAll("select,input");
+    const level = f[0].value, days = +f[1].value || 30, price = digitsOf(f[2].value), disc = Math.min(+f[3].value || 0, 90), sale = digitsOf(f[4].value);
+    return price ? {id: level + days, level, days, price: fmtSum(price) + " so'm", discount: disc || undefined, sale: sale ? fmtSum(sale) + " so'm" : undefined} : null; }).filter(Boolean);
+  await saveSetting("shop", {plans, card: $("#scard").value.replace(/\D/g, ""), owner: $("#sowner").value.trim()});
+  await saveSetting("discount", {percent: +$("#dp").value || 0, until: $("#du").value, label: $("#dl").value.trim()});
+  render(false);
+}
+let gMode = "steam";
+function grantForm(){
+  const pwMode = gMode === "pw";
+  return `<form class="form2" onsubmit="event.preventDefault();doGrant()">
+    <div class="authtabs" style="margin:0;max-width:420px"><button type="button" class="${!pwMode ? "on" : ""}" onclick="gMode='steam';render(false)">${se("bySteam")}</button><button type="button" class="${pwMode ? "on" : ""}" onclick="gMode='pw';render(false)">${se("byPw")}</button></div>
+    ${pwMode ? `<div class="row2"><div class="field"><label>${se("nickReq")}<input id="gn" maxlength="31" required></label></div><div class="field"><label>${se("pw")}<input id="gp" minlength="3" maxlength="31" required autocomplete="off"></label></div></div>`
+      : `<div class="field"><label>${x("steam")}<input id="gs" placeholder="STEAM_0:1:123456789" required pattern="^[Ss][Tt][Ee][Aa][Mm]_[0-5]:[01]:\\d+$"></label></div>
+         <div class="field"><label>${x("nick")}<input id="gn" maxlength="31"></label></div>`}
+    <div class="row2"><div class="field"><label>${x("level")}<select id="gl">${LVLS.map(l => `<option value="${l[0]}">${l[1]}</option>`).join("")}</select></label></div>
+      <div class="field"><label>${x("days")}<input id="gd" type="number" min="0" max="3650" value="30"></label></div></div>
+    <div class="btns"><button class="btn main" type="submit">${x("grant")}</button><button class="btn" type="button" onclick="const v=prompt('${se("rmHint")}');if(v)act('remove',{steam:v.trim()})">${x("remove")}</button><button class="btn ghost" type="button" onclick="act('list',{})">${x("list")}</button></div></form>
+    <h3 class="mt2">${x("log")}</h3><div class="alog" id="alog">${logHTML()}</div>`;
+}
+function doGrant(){
+  const base = {level: $("#gl").value, days: +$("#gd").value, nick: ($("#gn")?.value || "").trim()};
+  if (gMode === "pw") act("grant", Object.assign(base, {password: $("#gp").value.trim()}));
+  else act("grant", Object.assign(base, {steam: $("#gs").value.trim()}));
+}
 async function bindAdmin(){
   if (!sb || !ME?.admin) return;
   await Promise.all([loadLog(), loadTickets()]);

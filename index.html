@@ -717,7 +717,7 @@ const T = {
     rt: "Reyt.", ratingNote: "Reyt. — match reytingi (1.00 = o'rtacha) · ADR — raundiga o'rtacha zarar · PTS — reyting o'zgarishi.",
     back: "← Orqaga", notFound: "Topilmadi",
     serverHere: "serverda", lastSeen: "oxirgi o'yin", place: "o'rin", nextRank: r => `Keyingi rank ${r[1]} gacha ${r[0]} PTS`, maxRank: "Eng yuqori rank!",
-    calLeft: n => `Kalibrovka: yana ${n} match`, streak: "G'alaba seriyasi", verified: "Telegram orqali tasdiqlangan",
+    calLeft: n => `Kalibrovka: yana ${n} match`, streak: "G'alaba seriyasi", verified: "Serverda /link orqali tasdiqlangan",
     ptsHistory: "PTS tarixi", recent: "Oxirgi matchlari", mates: "Ko'p birga o'ynaydi", rivals: "Raqiblari", ach: "Yutuqlar",
     together: (n, w) => `${n} match · ${w}% g'alaba`, against: (n, w) => `${n} match · ${w}% g'alaba`,
     compare: "Solishtirish", choose: "O'yinchini tanlang…", thisIsYou: "Bu sizning profilingiz",
@@ -756,7 +756,7 @@ const T = {
     rt: "Рейт.", ratingNote: "Рейт. — рейтинг за матч (1.00 — средний) · ADR — урон за раунд · PTS — изменение рейтинга.",
     back: "← Назад", notFound: "Не найдено",
     serverHere: "на сервере", lastSeen: "последняя игра", place: "место", nextRank: r => `До ранга ${r[1]}: ${r[0]} PTS`, maxRank: "Максимальный ранг!",
-    calLeft: n => `Калибровка: ещё ${n} матч.`, streak: "Серия побед", verified: "Подтверждён через Telegram",
+    calLeft: n => `Калибровка: ещё ${n} матч.`, streak: "Серия побед", verified: "Подтверждён на сервере через /link",
     ptsHistory: "История PTS", recent: "Последние матчи", mates: "Часто играет с", rivals: "Соперники", ach: "Достижения",
     together: (n, w) => `${n} матчей · ${w}% побед`, against: (n, w) => `${n} матчей · ${w}% побед`,
     compare: "Сравнить", choose: "Выберите игрока…", thisIsYou: "Это ваш профиль",
@@ -901,7 +901,9 @@ function buildIndex(){
   });
   const sorted = Object.values(byId).filter(p => !HIDDEN_STEAM.includes(p.id) && (p.matches > 0 || p.hist.length || p.ms.length)).sort((a, b) => b.pts - a.pts || b.matches - a.matches);
   sorted.forEach((p, i) => p.place = i + 1);
-  IDX = {byId, sorted, matches: Object.values(matches).sort((a, b) => b.t - a.t)};
+  // "Ranklar" sahifasi uchun — server egasi ham (sezon reytingida o'rin olmaydi)
+  const ranked = Object.values(byId).filter(p => p.matches > 0 || p.hist.length || p.ms.length || HIDDEN_STEAM.includes(p.id)).sort((a, b) => b.pts - a.pts || b.matches - a.matches);
+  IDX = {byId, sorted, ranked, matches: Object.values(matches).sort((a, b) => b.t - a.t)};
 }
 const pcell = (p, name) => `<span class="pcell">${avatar(name || p.name, false, photoOf(p?.id))}<span class="nm">${esc(name || p.name)}</span>${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
 
@@ -1152,11 +1154,13 @@ function pageVs(a, b){
 }
 function pageRanks(){
   const ru = LANG === "ru";
-  const rows = IDX.sorted.map(p => `<tr class="click" onclick="go('#/p/${slug(p.id)}')">
-      <td class="place ${p.place <= 3 ? "g" + p.place : ""}">${p.place}</td>
+  let n = 0;
+  const rows = IDX.ranked.map(p => { const own = HIDDEN_STEAM.includes(p.id), pl = own ? "👑" : ++n;
+    return `<tr class="click" onclick="go('#/p/${slug(p.id)}')">
+      <td class="place ${!own && pl <= 3 ? "g" + pl : ""}">${pl}</td>
       <td style="width:100%">${pcell(p)}</td>
       <td class="num"><b>${p.pts}</b></td>
-      <td class="num" style="padding-left:18px">${shield(p.pts, p.matches)}</td></tr>`).join("");
+      <td class="num" style="padding-left:18px">${shield(p.pts, p.matches)}</td></tr>`; }).join("");
   const myPts = IDX.byId[mySteam()]?.pts, myR = myPts != null ? rankName(myPts) : null;
   const legend = RANKS.map((r, i) => { const c = RANKC[r[1]];
     return `<div class="rr ${r[1] === myR ? "me" : ""}"><div class="sq" style="background:${c[0]};color:${c[1]}">${r[1].replace("-", "−")}</div>
@@ -1624,7 +1628,7 @@ const X = {
     disc: "Chegirma (%)", until: "Tugash sanasi", label: "Yozuv (masalan: Sezon ochilishi!)", save: "Saqlash", saved: "Saqlandi", off: "Chegirmani o'chirish",
     steam: "SteamID", level: "Daraja", days: "Kun (0 = abadiy)", nick: "Nik", grant: "Huquq berish", remove: "Huquqni olish", list: "Adminlar ro'yxati",
     mins: "Daqiqa (0 = abadiy)", reason: "Sabab", ban: "Ban berish", unban: "Razban", prizeL: "Sovrin", addRow: "+ Qator", seasonEnd: "Sezon tugash sanasi",
-    ann: "Saytdagi e'lon (bo'sh = o'chiq)", annSay: "Serverga xabar (say)", sendSrv: "Serverga yuborish", log: "Oxirgi buyruqlar", pending: "kutilmoqda", done: "bajarildi", error: "xato",
+    ann: "Saytdagi e'lon (bo'sh = o'chiq)", annSay: "Serverga xabar (say)", sendSrv: "Serverga yuborish", log: "Oxirgi buyruqlar", pending: "kutilmoqda", running: "bajarilmoqda", done: "bajarildi", error: "xato",
     kPlayers: "O'yinchilar", kMatches: "Matchlar", kOpen: "Ochiq murojaatlar", kOnline: "Hozir serverda", needBot: "Buyruqlar kompyuteringizdagi bot (start_bots.bat) ishlayotganda bajariladi."},
   ru: {liveT: "LIVE", idle: "Пусто", warm: "Разминка", half: n => `${n}-й тайм`, paused: "Пауза", seats: "мест", noOne: "Сейчас никого — будь первым!",
     upd: "обновлено", prizesT: "Призы 1 сезона", prizesL: "В конце сезона лучшие игроки рейтинга получат награды.", place: n => n === "MVP" ? "MVP сезона" : `${n} место`, endsIn: "До конца сезона",
@@ -1638,7 +1642,7 @@ const X = {
     disc: "Скидка (%)", until: "Действует до", label: "Подпись (например: Открытие сезона!)", save: "Сохранить", saved: "Сохранено", off: "Выключить скидку",
     steam: "SteamID", level: "Уровень", days: "Дней (0 = навсегда)", nick: "Ник", grant: "Выдать права", remove: "Снять права", list: "Список админов",
     mins: "Минут (0 = навсегда)", reason: "Причина", ban: "Забанить", unban: "Разбанить", prizeL: "Приз", addRow: "+ Строка", seasonEnd: "Дата конца сезона",
-    ann: "Объявление на сайте (пусто = выкл.)", annSay: "Сообщение на сервер (say)", sendSrv: "Отправить на сервер", log: "Последние команды", pending: "ожидает", done: "выполнено", error: "ошибка",
+    ann: "Объявление на сайте (пусто = выкл.)", annSay: "Сообщение на сервер (say)", sendSrv: "Отправить на сервер", log: "Последние команды", pending: "ожидает", running: "выполняется", done: "выполнено", error: "ошибка",
     kPlayers: "Игроков", kMatches: "Матчей", kOpen: "Открытых обращений", kOnline: "Сейчас на сервере", needBot: "Команды выполняются, пока на компьютере работает бот (start_bots.bat)."}
 };
 const x = k => X[LANG][k];
@@ -1825,7 +1829,7 @@ async function act(action, payload){
   if (r.error) { toast(r.error.message); return; }
   toast("✓ " + x("pending")); await loadLog(); const l = $("#alog"); if (l) l.innerHTML = logHTML();
   // natijani kutamiz
-  for (let i = 0; i < 8; i++) { await new Promise(res => setTimeout(res, 3000)); await loadLog(); const l2 = $("#alog"); if (l2) l2.innerHTML = logHTML(); const it = ALOG.find(a => a.id === r.data.id); if (it && it.status !== "pending") { toast((it.status === "done" ? "✓ " : "✕ ") + (it.result || "").split("\n")[0].slice(0, 80)); break; } }
+  for (let i = 0; i < 8; i++) { await new Promise(res => setTimeout(res, 3000)); await loadLog(); const l2 = $("#alog"); if (l2) l2.innerHTML = logHTML(); const it = ALOG.find(a => a.id === r.data.id); if (it && it.status !== "pending" && it.status !== "running") { toast((it.status === "done" ? "✓ " : "✕ ") + (it.result || "").split("\n")[0].slice(0, 80)); break; } }
 }
 async function loadLog(){ const r = await sb.from("admin_actions").select("id,action,payload,status,result,created_at").order("id", {ascending: false}).limit(30); ALOG = r.data || []; }
 function logHTML(){

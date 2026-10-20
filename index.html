@@ -570,6 +570,31 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .quick{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}
 .quick button{border:1px solid var(--line2);background:var(--panel2);color:var(--text);padding:8px 13px;border-radius:99px;cursor:pointer;font-size:13px;font-weight:600;transition:.2s}
 .quick button:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ---------------- v4: oraliqlar, profil, do'stlar */
+.card .btns.mt{margin-top:20px}
+.card > p.sub, .card > .sub{margin-top:14px}
+.card .empty + .btns{margin-top:22px}
+.rkp{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.rkp a{display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 4px;border-radius:99px;background:var(--panel3);text-decoration:none;font-size:13px;font-weight:600;transition:.2s}
+.rkp a:hover{background:var(--line2)}
+.rkp .av{width:24px;height:24px;border-radius:50%;font-size:11px}
+.rkrow{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:10px}
+.rkrow .hd{display:flex;align-items:center;gap:14px}
+.rkrow .hd .cnt{margin-left:auto;color:var(--muted);font-size:13px;font-weight:600}
+.avedit{position:relative;width:110px;height:110px;flex:none}
+.avedit .av{width:110px;height:110px;border-radius:28px;font-size:44px}
+.avedit label{position:absolute;right:-6px;bottom:-6px;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--accent-ink);cursor:pointer;box-shadow:var(--shadow);font-size:17px}
+.avedit input{display:none}
+.mehead{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.flist{display:grid;gap:8px}
+.frow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--panel2)}
+.rules2{display:grid;gap:18px}
+.rules2 h3{margin-bottom:8px}
+.note{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:13px;background:rgba(255,159,28,.1);border:1px solid rgba(255,159,28,.35);font-size:13.5px;line-height:1.5;margin-top:12px}
+.banrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px 14px;border-radius:13px;background:var(--panel2);border:1px solid var(--line);margin-bottom:8px}
+.banrow small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.banrow select{padding:8px 10px;border-radius:10px;border:1px solid var(--line2);background:var(--panel3);color:var(--text)}
 </style>
 </head>
 <body>
@@ -638,7 +663,7 @@ const T = {
     compare: "Solishtirish", choose: "O'yinchini tanlang…", thisIsYou: "Bu sizning profilingiz",
     ranksT: "Ranklar", ranksLead: "L → M → H → P. Eng kuchlisi — P.", ranksNote: "Hamma 1000 PTS (M) bilan boshlaydi. Match yutsangiz PTS oshadi, yutqazsangiz kamayadi; kuchli jamoani yutish ko'proq beradi (ELO). O'z o'yiningiz uchun ±10 gacha, MVP'ga +3. Match o'rtasida chiqish — jarima.",
     bansT: "Banlar", bansLead: "Faol jazolar. IP va SteamID ko'rsatilmaydi.", noBans: "Hozir faol banlar yo'q", reason: "Sabab", since: "Berilgan", remain: "Qolgan", admin: "Admin",
-    appeal: "Razbanga ariza / shikoyat", appealNote: "Ban noto'g'ri bo'lsa — Telegram'ga yozing, konsoldagi (~) ban ma'lumotining skrinshoti bilan.",
+    appeal: "Razbanga ariza / shikoyat", appealNote: "Ban noto'g'ri bo'lsa — Yordam bo'limiga yozing: konsoldagi (~) ban ma'lumoti skrinshoti va demo bilan.",
     rulesT: "Qoidalar", rulesLead: "Hamma uchun bir xil. Admin o'yinda ustunlik olmaydi.", updated: "Yangilangan",
     about: "CS 1.6 ClanWar 5x5 jamoasi. Adolatli raqobat, PTS reyting va har bir match statistikasi.", f1: "O'yin", f2: "Jamoa",
     authT: "Ro'yxatdan o'tish / Kirish", authLead: "Email va parol bilan akkaunt oching. Keyin o'yinda /link KOD yozib profilingizni ulaysiz.",
@@ -674,7 +699,7 @@ const T = {
     compare: "Сравнить", choose: "Выберите игрока…", thisIsYou: "Это ваш профиль",
     ranksT: "Ранги", ranksLead: "L → M → H → P. Сильнейший — P.", ranksNote: "Все начинают с 1000 PTS (M). Победа повышает PTS, поражение понижает; победа над сильной командой даёт больше (Эло). За свою игру ±10, MVP +3. Выход посреди матча — штраф.",
     bansT: "Баны", bansLead: "Активные наказания. IP и SteamID не показываются.", noBans: "Активных банов нет", reason: "Причина", since: "Выдан", remain: "Осталось", admin: "Админ",
-    appeal: "Заявка на разбан / жалоба", appealNote: "Если бан ошибочный — напишите в Telegram со скриншотом информации о бане из консоли (~).",
+    appeal: "Заявка на разбан / жалоба", appealNote: "Если бан ошибочный — напишите в Поддержку: скриншот информации о бане из консоли (~) и демо.",
     rulesT: "Правила", rulesLead: "Одинаковые для всех. Админка не даёт преимущества в игре.", updated: "Обновлено",
     about: "CS 1.6 ClanWar 5x5 сообщество. Честная конкуренция, рейтинг PTS и статистика каждого матча.", f1: "Игра", f2: "Сообщество",
     authT: "Регистрация / Вход", authLead: "Создайте аккаунт по email и паролю. Затем в игре введите /link КОД — профиль привяжется.",
@@ -692,7 +717,7 @@ let LANG = store.get("lang") || "uz";
 const t = k => T[LANG][k];
 
 /* ===================================================================== yordamchilar */
-let D = null, IDX = null, ME = null;  // ME: Telegram foydalanuvchi {id, first_name, username, photo_url, h}
+let D = null, IDX = null, ME = null, PROF = {};   // PROF: SteamID -> {user_id, nick, avatar_url}  // ME: Telegram foydalanuvchi {id, first_name, username, photo_url, h}
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const rankIdx = p => RANKS.reduce((a, r, i) => p >= r[0] ? i : a, 0);
@@ -751,6 +776,10 @@ const botName = () => D?.bot || BOT_DEFAULT;
 const verifiedSteam = steam => (D?.accounts || []).some(a => a.steam === steam);
 const mySteam = () => ME?.acc?.steam || null;
 
+async function loadProfiles(){
+  try { const r = await sb.rpc("public_profiles"); if (!r.error) { PROF = {}; (r.data || []).forEach(x => { if (x.steam) PROF[x.steam] = x; }); } } catch (e) {}
+}
+const photoOf = steam => PROF[steam]?.avatar_url || null;
 /* ===================================================================== indekslar */
 function buildIndex(){
   const players = D?.players || [], ms = D?.mstats || [], hist = D?.history || [];
@@ -780,11 +809,11 @@ function buildIndex(){
     p.lastT = Math.max(0, ...games.map(g => g.t));
     p.verified = verifiedSteam(p.id);
   });
-  const sorted = Object.values(byId).sort((a, b) => b.pts - a.pts || b.matches - a.matches);
+  const sorted = Object.values(byId).filter(p => p.matches > 0 || p.hist.length || p.ms.length).sort((a, b) => b.pts - a.pts || b.matches - a.matches);
   sorted.forEach((p, i) => p.place = i + 1);
   IDX = {byId, sorted, matches: Object.values(matches).sort((a, b) => b.t - a.t)};
 }
-const pcell = (p, name) => `<span class="pcell">${avatar(name || p.name)}<span class="nm">${esc(name || p.name)}</span>${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
+const pcell = (p, name) => `<span class="pcell">${avatar(name || p.name, false, photoOf(p?.id))}<span class="nm">${esc(name || p.name)}</span>${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
 
 /* ===================================================================== sahifalar */
 function radar(n){
@@ -946,6 +975,15 @@ function achievements(p){
   const c = [p.matches >= 1, p.wins > 0, p.streak >= 3, p.matches >= 25, p.matches >= 100, p.maxKills >= 30, p.matches >= 10 && p.hsp >= 50, p.mvps > 0, p.pts >= 1300];
   return `<div class="ach">${t("achs").map((a, i) => `<div class="a ${c[i] ? "" : "off"}"><div class="ic">${a[0]}</div><div><b>${a[1]}</b><span>${a[2]}</span></div></div>`).join("")}</div>`;
 }
+function friendBtn(steam){
+  if (!sb || !ME) return "";
+  const pr = PROF[steam];
+  if (!pr || pr.user_id === ME.id) return "";
+  const f = FR.find(x => (x.requester === ME.id && x.addressee === pr.user_id) || (x.addressee === ME.id && x.requester === pr.user_id));
+  if (f && f.status === "accepted") return `<span class="btn ghost" style="pointer-events:none">✓ ${mt("isFr")}</span>`;
+  if (f) return `<span class="btn ghost" style="pointer-events:none">⏳ ${mt("sent")}</span>`;
+  return `<button class="btn" onclick="frAdd('${pr.user_id}')">👥 ${mt("add")}</button>`;
+}
 function pageProfile(id){
   const p = IDX.byId[id];
   if (!p) return `<div class="card empty">${t("notFound")}: ${esc(id)}<br><br><a class="btn" href="#/top">${t("back")}</a></div>`;
@@ -956,7 +994,7 @@ function pageProfile(id){
   return `
   ${isMe ? `<div class="banner"><b>👋 ${t("thisIsYou")}</b><span class="verified">${I.check} ${t("verified")}</span></div>` : ""}
   <section class="phero" style="--glow:${c[1]}55"><div class="prof">
-    <div style="display:flex;gap:16px;align-items:center">${shield(p.pts, p.matches, true)}</div>
+    <div style="display:flex;gap:16px;align-items:center">${photoOf(p.id) ? avatar(p.name, true, photoOf(p.id)) : ""}${shield(p.pts, p.matches, true)}</div>
     <div style="min-width:0">
       <div class="eyebrow">${cal ? t("calLeft")(CAL - p.matches) : `#${p.place} ${t("place")} · ${t("season")} ${SEASON}`}</div>
       <h1 style="font-size:44px;word-break:break-word;margin:6px 0">${esc(p.name)}</h1>
@@ -969,7 +1007,7 @@ function pageProfile(id){
       <div class="prog ${tier(p.pts)}"><i style="width:${(frac * 100).toFixed(1)}%"></i></div>
       <div class="sub" style="font-size:13px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">${next ? t("nextRank")([next[0] - p.pts, next[1]]) : t("maxRank")} ${formDots(p.form)}</div>
     </div>
-    <div class="btns" style="flex-direction:column">${connectBtns(false)}<a class="btn" href="#/vs/${slug(p.id)}">⇄ ${t("compare")}</a></div>
+    <div class="btns" style="flex-direction:column">${connectBtns(false)}<a class="btn" href="#/vs/${slug(p.id)}">⇄ ${t("compare")}</a>${friendBtn(p.id)}</div>
   </div>
   <div class="tiles">
     <div class="tile"><b>${p.matches}</b><span>${t("matches")}</span></div>
@@ -1007,9 +1045,12 @@ function pageVs(a, b){
     ${row("HS%", p => p.hsp, gt)}${row("ADR", p => p.adr, gt)}${row("MVP", p => p.mvps, gt)}${row(t("streak"), p => p.streak, gt)}</table></div></div>`;
 }
 function pageRanks(){
-  const cnt = i => IDX.sorted.filter(p => rankIdx(p.pts) === i).length;
-  return `<h2 class="title">${t("ranksT")}</h2><p class="lead">${t("ranksLead")}</p><div class="card">
-    <div class="ladder">${RANKS.map((r, i) => `<div class="rk">${shield(r[0])}<div><b>${r[0]}${RANKS[i + 1] ? "–" + (RANKS[i + 1][0] - 1) : "+"}</b><small>PTS</small></div><span class="cnt">${cnt(i)} 👤</span></div>`).join("")}</div>
+  const rows = RANKS.map((r, i) => [r, i]).reverse().map(([r, i]) => {
+    const list = IDX.sorted.filter(p => rankIdx(p.pts) === i);
+    return `<div class="rkrow"><div class="hd">${shield(r[0])}<div><b>${r[1]}</b> <span class="sub" style="font-size:13px">${r[0]}${RANKS[i + 1] ? "–" + (RANKS[i + 1][0] - 1) : "+"} PTS</span></div><span class="cnt">${list.length} 👤</span></div>
+      ${list.length ? `<div class="rkp">${list.map(p => `<a href="#/p/${slug(p.id)}">${avatar(p.name, false, photoOf(p.id))}${esc(p.name)} <span class="sub">${p.pts}</span></a>`).join("")}</div>` : ""}</div>`;
+  }).join("");
+  return `<h2 class="title">${t("ranksT")}</h2><p class="lead">${t("ranksLead")}</p><div class="card">${rows}
     <p class="sub" style="line-height:1.7;margin:18px 0 0">${t("ranksNote")}</p></div>`;
 }
 function pageBans(){
@@ -1018,17 +1059,30 @@ function pageBans(){
     ${b.length ? `<div class="tw"><table><tr><th>${t("player")}</th><th>${t("reason")}</th><th>${t("since")}</th><th>${t("remain")}</th><th>${t("admin")}</th></tr>
       ${b.map(x => `<tr><td>${pcell({}, x.name)}</td><td>${esc(x.reason)}</td><td class="sub">${esc(x.since)}</td><td><b>${esc(x.left)}</b></td><td class="sub">${esc(x.admin)}</td></tr>`).join("")}</table></div>`
       : `<div class="empty">✅ ${t("noBans")}</div>`}
-    <div class="btns mt"><a class="btn tg" href="https://t.me/CwhubUZ" target="_blank" rel="noopener">${I.tg} ${t("appeal")}</a></div>
-    <p class="sub" style="font-size:13px">${t("appealNote")}</p></div>`;
+    <div class="btns mt"><a class="btn main" href="#/support">💬 ${t("appeal")}</a></div>
+    <p class="sub" style="font-size:13px;margin-top:14px">${t("appealNote")}</p></div>`;
 }
 function pageRules(){
   const uz = LANG === "uz";
-  const L = uz ? [["Chit (WH, aim, skript)","1 hafta"],["Ota-onani haqorat qilish","1 hafta"],["Reklama","1 hafta"],["Nomaqbul nick","1 soat"],["So'kinish (mat)","30 daqiqa"],["Spam / flood","30 daqiqa"],["Noadekvat xatti-harakat","5 daqiqa"],["To'la 5x5 jamoaga 6-o'yinchi","5 daqiqa"]]
-    : [["Читы (WH, aim, скрипты)","1 неделя"],["Оскорбление родных","1 неделя"],["Реклама","1 неделя"],["Недопустимый ник","1 час"],["Мат","30 минут"],["Спам / флуд","30 минут"],["Неадекват","5 минут"],["6-й игрок в полной команде 5x5","5 минут"]];
-  return `<h2 class="title">${t("rulesT")}</h2><p class="lead">${t("rulesLead")}</p><div class="card"><ol class="rules">
-    ${L.map(r => `<li><span>${r[0]}</span><b class="L">${r[1]}</b></li>`).join("")}
-    <li><span>${uz ? "Majburiy sozlamalar" : "Обязательные настройки"}: <span class="mono">gl_monolights 0</span> <span class="mono">net_graph 0</span> <span class="mono">developer 0</span></span></li></ol>
-    <p class="sub mt" style="font-size:13px">${uz ? "Demo avtomatik yoziladi. Chat buyruqlari:" : "Демо пишется автоматически. Команды в чате:"} <span class="mono">/score</span> <span class="mono">/pts</span> <span class="mono">/top</span> <span class="mono">/link</span> <span class="mono">/tg</span></p></div>`;
+  const G = uz ? [
+    ["🛡 Adolatli o'yin", [["Chit, WH, aim, makros, skript, bind-spam", "abadiy"], ["Bag (xato) dan foydalanish, devor ichiga kirish", "1 hafta"], ["Gl_monolights / net_graph / developer o'zgartirish", "ogohlantirish → kick"], ["Demo yozishni to'xtatish yoki o'chirish (ban bo'lsa)", "razban yo'q"]]],
+    ["💬 Muloqot", [["Ota-onani haqorat qilish", "1 hafta"], ["Millat, din bo'yicha haqorat", "1 hafta"], ["So'kinish (mat)", "30 daqiqa"], ["Spam / flood, ovozda shovqin", "30 daqiqa"], ["Reklama (serverlar, kanallar)", "1 hafta"]]],
+    ["⚔ Match", [["Match o'rtasida ataylab chiqib ketish", "PTS jarima"], ["To'la 5x5 jamoaga 6-o'yinchi", "5 daqiqa"], ["Ataylab o'z jamoasiga zarar (TK, flash)", "1 kun"], ["Pauzani suiiste'mol qilish", "ogohlantirish"], ["Kimdir uchun o'ynash / akkaunt almashish", "1 hafta"]]],
+    ["👤 Nik va profil", [["Nomaqbul, haqoratli nik", "1 soat"], ["Admin yoki boshqa o'yinchi nomini olish", "1 kun"], ["Nik orqali reklama", "1 hafta"]]],
+    ["👑 Adminlar uchun", [["Huquqni shaxsiy maqsadda ishlatish", "huquq olinadi"], ["Asossiz ban/mute", "huquq olinadi"], ["Razban — faqat Gl.Admin", "—"], ["Har ban uchun demo/skrinshot saqlansin", "—"]]]
+  ] : [
+    ["🛡 Честная игра", [["Читы, WH, aim, макросы, скрипты, бинды-спам", "навсегда"], ["Использование багов, залезание в текстуры", "1 неделя"], ["Изменение gl_monolights / net_graph / developer", "предупр. → кик"], ["Остановка/удаление демо (при бане)", "без разбана"]]],
+    ["💬 Общение", [["Оскорбление родных", "1 неделя"], ["Оскорбления по нации, религии", "1 неделя"], ["Мат", "30 минут"], ["Спам / флуд, шум в микрофон", "30 минут"], ["Реклама (серверы, каналы)", "1 неделя"]]],
+    ["⚔ Матч", [["Намеренный выход посреди матча", "штраф PTS"], ["6-й игрок в полной команде 5x5", "5 минут"], ["Намеренный вред своей команде (TK, флеш)", "1 день"], ["Злоупотребление паузой", "предупреждение"], ["Игра за другого / передача аккаунта", "1 неделя"]]],
+    ["👤 Ник и профиль", [["Недопустимый, оскорбительный ник", "1 час"], ["Ник админа или другого игрока", "1 день"], ["Реклама в нике", "1 неделя"]]],
+    ["👑 Для админов", [["Использование прав в личных целях", "снятие прав"], ["Необоснованный бан/мут", "снятие прав"], ["Разбан — только Гл.Админ", "—"], ["Хранить демо/скрин для каждого бана", "—"]]]
+  ];
+  return `<h2 class="title">${t("rulesT")}</h2><p class="lead">${t("rulesLead")}</p><div class="rules2">
+    ${G.map(g => `<div class="card"><h3>${g[0]}</h3><ol class="rules">${g[1].map(r => `<li><span>${r[0]}</span><b class="${r[1] === "—" ? "dim" : "L"}">${r[1]}</b></li>`).join("")}</ol></div>`).join("")}
+    <div class="card"><h3>📌 ${uz ? "Muhim" : "Важно"}</h3>
+      <div class="note">🎥 ${uz ? "Demo avtomatik yoziladi. Ban bo'lsa, demo va konsoldagi (~) ban ma'lumoti bilan Yordam bo'limiga yozing — demosiz razban yo'q." : "Демо пишется автоматически. При бане пишите в Поддержку с демо и информацией о бане из консоли (~) — без демо разбана нет."}</div>
+      <div class="note">⚙ ${uz ? "Majburiy sozlamalar" : "Обязательные настройки"}: <span class="mono">gl_monolights 0</span> <span class="mono">net_graph 0</span> <span class="mono">developer 0</span></div>
+      <div class="note">⌨ ${uz ? "Chat buyruqlari" : "Команды в чате"}: <span class="mono">/score</span> <span class="mono">/pts</span> <span class="mono">/top</span> <span class="mono">/pause</span> <span class="mono">/link</span></div></div></div>`;
 }
 
 /* ===================================================================== akkaunt (email + parol, Supabase) */
@@ -1043,9 +1097,9 @@ async function refreshMe(){
   try { const a = await sb.rpc("is_site_admin"); ME.admin = a.data === true; } catch (e) { ME.admin = false; }
 }
 function renderAcct(){
-  const nm = ME ? (ME.acc?.nick || ME.email.split("@")[0]) : "";
+  const nm = ME ? myNick() : "";
   $("#acct").innerHTML = ME
-    ? `<a class="who" href="#/me" title="${esc(ME.email)}">${avatar(nm)}<span>${esc(nm)}</span></a>`
+    ? `<a class="who" href="#/me" title="${esc(ME.email)}">${avatar(nm, false, ME.acc?.avatar_url)}<span>${esc(nm)}</span></a>`
     : `<a class="btn sm" href="#/login">${I.user} ${t("login")}</a> <a class="btn sm main" style="padding:8px 13px;font-size:13px" href="#/register">${t("signUp")}</a>`;
 }
 async function doAuth(ev){
@@ -1055,7 +1109,7 @@ async function doAuth(ev){
   if (authTab === 1 && pw !== pw2) { authMsg = ["err", t("pwMismatch")]; return render(false); }
   const btn = $("#authgo"); btn.disabled = true;
   try {
-    const r = authTab === 0 ? await sb.auth.signInWithPassword({email, password: pw}) : await sb.auth.signUp({email, password: pw});
+    const r = authTab === 0 ? await sb.auth.signInWithPassword({email, password: pw}) : await sb.auth.signUp({email, password: pw, options: {data: {nick: ($("#nk")?.value || "").trim().slice(0, 31)}}});
     if (r.error) authMsg = ["err", r.error.message];
     else if (authTab === 1 && !r.data.session) { authMsg = ["ok", t("signedUp")]; authTab = 0; location.hash = "#/login"; }
   } catch (e) { authMsg = ["err", String(e)]; }
@@ -1103,6 +1157,7 @@ function authPage(){
       ${!sb ? `<div class="msg ok" style="margin-bottom:12px">${at("notCfg")}</div>` : ""}
       <form class="authbox" style="margin:0;max-width:none" onsubmit="doAuth(event)">
         ${authMsg ? `<div class="msg ${authMsg[0]}">${esc(authMsg[1])}</div>` : ""}
+        ${up ? `<label>${LANG === "ru" ? "Ник (как на сервере или любой)" : "Nik (serverdagidek yoki xohlagan)"}<input id="nk" maxlength="31" required autocomplete="nickname" placeholder="Frogi"></label>` : ""}
         <label>${t("email")}<input id="em" type="email" required autocomplete="email" placeholder="name@gmail.com"></label>
         <label>${t("password")}<span class="pwbox" style="display:block"><input id="pw" type="password" minlength="6" required autocomplete="${up ? "new-password" : "current-password"}" ${up ? `oninput="pwStrength(this.value)"` : ""}><button type="button" title="${at("show")}" onclick="const i=$('#pw');i.type=i.type==='password'?'text':'password'">👁</button></span></label>
         ${up ? `<div class="meter" id="pwm"><i></i></div><div class="sub" id="pwl" style="font-size:12px;margin-top:-6px"></div>
@@ -1114,37 +1169,63 @@ function authPage(){
       <div class="swap">${up ? at("haveAcc") : at("noAcc")} <a href="${up ? "#/login" : "#/register"}">${up ? at("toIn") : at("toUp")}</a></div>
     </div></div>`;
 }
+const myNick = () => ME?.acc?.site_nick || ME?.acc?.nick || (ME?.email || "").split("@")[0];
+const MT = {
+  uz: {prof: "Profil", nickL: "Nik", save: "Saqlash", saved: "Saqlandi", photo: "Rasm yuklash (PNG/JPG/WEBP, 2 MB gacha)", tooBig: "Rasm 2 MB dan katta",
+    friends: "Do'stlar", reqs: "Do'stlik so'rovlari", noFr: "Hali do'stlar yo'q. O'yinchi profilida «Do'st qo'shish» ni bosing.", accept: "Qabul qilish", remove: "O'chirish",
+    add: "Do'st qo'shish", sent: "So'rov yuborildi", isFr: "Do'stingiz", noAcc: "Bu o'yinchi saytda ro'yxatdan o'tmagan", linkT: "O'yinga ulash", stats: "Statistikam"},
+  ru: {prof: "Профиль", nickL: "Ник", save: "Сохранить", saved: "Сохранено", photo: "Загрузить фото (PNG/JPG/WEBP, до 2 МБ)", tooBig: "Фото больше 2 МБ",
+    friends: "Друзья", reqs: "Заявки в друзья", noFr: "Пока нет друзей. Нажмите «Добавить в друзья» в профиле игрока.", accept: "Принять", remove: "Удалить",
+    add: "Добавить в друзья", sent: "Заявка отправлена", isFr: "Ваш друг", noAcc: "Игрок не зарегистрирован на сайте", linkT: "Привязка к игре", stats: "Моя статистика"}
+};
+const mt = k => MT[LANG][k];
+let FR = [];   // do'stlik qatorlari
+async function loadFriends(){ if (!sb || !ME) return; const r = await sb.from("friendships").select("requester,addressee,status"); FR = r.data || []; }
+const profByUid = uid => Object.values(PROF).find(x => x.user_id === uid) || {nick: "—"};
+function friendsCard(){
+  const inc = FR.filter(f => f.status === "pending" && f.addressee === ME.id);
+  const acc = FR.filter(f => f.status === "accepted");
+  const row = (uid, btns) => { const pr = profByUid(uid); return `<div class="frow"><a class="pcell" ${pr.steam ? `href="#/p/${slug(pr.steam)}"` : ""} style="text-decoration:none">${avatar(pr.nick || "?", false, pr.avatar_url)}<span class="nm">${esc(pr.nick || "—")}</span></a><div class="btns">${btns}</div></div>`; };
+  return `<div class="card"><h3>👥 ${mt("friends")} <span class="sub" style="font-size:14px">${acc.length}</span></h3>
+    ${inc.length ? `<div class="sub" style="margin-bottom:8px">${mt("reqs")}</div><div class="flist">${inc.map(f => row(f.requester, `<button class="btn sm main" onclick="frAccept('${f.requester}')">${mt("accept")}</button><button class="btn sm ghost" onclick="frRemove('${f.requester}','${ME.id}')">✕</button>`)).join("")}</div><div class="mt"></div>` : ""}
+    ${acc.length ? `<div class="flist">${acc.map(f => { const o = f.requester === ME.id ? f.addressee : f.requester; return row(o, `<button class="btn sm ghost" onclick="frRemove('${f.requester}','${f.addressee}')">${mt("remove")}</button>`); }).join("")}</div>` : `<div class="empty">${mt("noFr")}</div>`}</div>`;
+}
+async function frAdd(uid){ const r = await sb.from("friendships").insert({requester: ME.id, addressee: uid}); toast(r.error ? r.error.message : mt("sent")); await loadFriends(); render(false); }
+async function frAccept(uid){ await sb.from("friendships").update({status: "accepted"}).eq("requester", uid).eq("addressee", ME.id); await loadFriends(); render(false); }
+async function frRemove(a, b){ await sb.from("friendships").delete().eq("requester", a).eq("addressee", b); await loadFriends(); render(false); }
+async function saveProfile(ev){
+  ev.preventDefault();
+  const r = await sb.rpc("update_profile", {p_nick: $("#mynick").value, p_avatar: ME.acc?.avatar_url || ""});
+  if (r.error) return toast(r.error.message);
+  await refreshMe(); await loadProfiles(); renderAcct(); render(false); toast("✓ " + mt("saved"));
+}
+async function uploadAvatar(input){
+  const f = input.files[0]; if (!f) return;
+  if (f.size > 2 * 1024 * 1024) return toast(mt("tooBig"));
+  const ext = (f.name.split(".").pop() || "png").toLowerCase().replace(/[^a-z]/g, "");
+  const path = `${ME.id}/avatar-${Date.now()}.${ext}`;
+  const up = await sb.storage.from("avatars").upload(path, f, {upsert: true, contentType: f.type});
+  if (up.error) return toast(up.error.message);
+  const url = sb.storage.from("avatars").getPublicUrl(path).data.publicUrl;
+  const r = await sb.rpc("update_profile", {p_nick: myNick(), p_avatar: url});
+  if (r.error) return toast(r.error.message);
+  await refreshMe(); await loadProfiles(); renderAcct(); render(false); toast("✓");
+}
 function pageMe(){
-  const head = `<div class="big">${I.user}</div><h2 class="title">${t("authT")}</h2><p class="lead">${t("authLead")}</p>`;
   if (!sb || !ME) return authPage();
-  if (false) return `<div class="card auth">${head}
-    <div class="authtabs"><button class="${authTab === 0 ? "on" : ""}" onclick="authTab=0;authMsg=null;render(false)">${t("signIn")}</button>
-      <button class="${authTab === 1 ? "on" : ""}" onclick="authTab=1;authMsg=null;render(false)">${t("signUp")}</button></div>
-    <form class="authbox" onsubmit="doAuth(event)">
-      ${authMsg ? `<div class="msg ${authMsg[0]}">${esc(authMsg[1])}</div>` : ""}
-      <label>${t("email")}<input id="em" type="email" required autocomplete="email"></label>
-      <label>${t("password")}<input id="pw" type="password" minlength="6" required autocomplete="${authTab ? "new-password" : "current-password"}"></label>
-      ${authTab === 1 ? `<label>${t("password2")}<input id="pw2" type="password" minlength="6" required autocomplete="new-password"></label>` : ""}
-      <button class="btn main" id="authgo" type="submit">${authTab === 0 ? t("signIn") : t("signUp")}</button>
-      ${authTab === 0 ? `<a href="#" class="sub" style="text-align:center;font-size:13px" onclick="forgotPw();return false">${t("forgot")}</a>` : ""}
-    </form></div>`;
-  const acc = ME.acc || {}, steam = acc.steam;
-  if (steam) {
-    const p = IDX.byId[steam];
-    return `<div class="card auth">${avatar(acc.nick || ME.email, true)}
-      <h2 class="title mt">${esc(t("hello")(acc.nick || ME.email.split("@")[0]))}</h2>
-      <p class="lead"><span class="verified">${I.check} ${t("verified")}</span></p>
-      <div class="sub">${t("linkedAs")}: <b>${esc(acc.nick || "")}</b> · ${esc(steam)}<br>${esc(ME.email)}</div>
-      <div class="btns mt" style="justify-content:center">${p ? `<a class="btn main" href="#/p/${slug(steam)}">${t("openProfile")}</a>` : ""}
-        <button class="btn ghost" onclick="logout()">${t("logout")}</button></div></div>`;
-  }
-  return `<div class="card auth">${avatar(ME.email, true)}
-    <h2 class="title mt">${esc(t("hello")(ME.email.split("@")[0]))}</h2><p class="lead">${t("linkLead")}</p>
-    <div class="sub">${t("yourCode")}</div><div class="code">${esc(acc.code || "····")}</div>
-    <div class="linksteps">${t("linkSteps")(acc.code || "KOD").map((x, i) => `<div class="ls"><i>${i + 1}</i><div>${x}</div></div>`).join("")}</div>
-    <div class="btns mt" style="justify-content:center"><a class="btn main" href="steam://connect/${ADDRESS}">${I.play} ${t("connect")}</a>
-      <button class="btn ghost" onclick="logout()">${t("logout")}</button></div>
-    <p class="dim mt" style="font-size:12px">${t("pending")} · ${esc(ME.email)}</p></div>`;
+  const acc = ME.acc || {}, steam = acc.steam, p = steam ? IDX.byId[steam] : null;
+  const head = `<div class="card"><div class="mehead">
+      <div class="avedit">${avatar(myNick(), true, acc.avatar_url)}<label title="${mt("photo")}">📷<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" onchange="uploadAvatar(this)"></label></div>
+      <div style="flex:1;min-width:220px"><div class="eyebrow">${mt("prof")}</div><h2 class="title" style="margin:6px 0">${esc(t("hello")(myNick()))}</h2>
+        <div class="sub">${esc(ME.email)}${steam ? ` · <span class="verified">${I.check} ${esc(steam)}</span>` : ""}</div>
+        <form class="btns mt" onsubmit="saveProfile(event)" style="align-items:flex-end"><div class="field" style="flex:1;min-width:180px"><label>${mt("nickL")}<input id="mynick" maxlength="31" value="${esc(myNick())}"></label></div><button class="btn main" type="submit">${mt("save")}</button></form></div>
+      <div class="btns" style="flex-direction:column">${p ? `<a class="btn" href="#/p/${slug(steam)}">📊 ${mt("stats")}</a>` : ""}<button class="btn ghost" onclick="logout()">${t("logout")}</button></div></div></div>`;
+  const link = steam ? "" : `<div class="card mt"><h3>🔗 ${mt("linkT")}</h3><p class="sub" style="margin-top:-4px">${t("linkLead")}</p>
+    <div style="text-align:center"><div class="sub">${t("yourCode")}</div><div class="code">${esc(acc.code || "····")}</div></div>
+    <div class="linksteps">${t("linkSteps")(acc.code || "KOD").map((s2, i) => `<div class="ls"><i>${i + 1}</i><div>${s2}</div></div>`).join("")}</div>
+    <div class="btns mt"><a class="btn main" href="steam://connect/${ADDRESS}">${I.play} ${t("connect")}</a></div>
+    <p class="dim" style="font-size:12px;margin-top:12px">${t("pending")}</p></div>`;
+  return `${head}${link}<div class="mt">${friendsCard()}</div>`;
 }
 
 /* ===================================================================== premium (karta orqali to'lov) */
@@ -1173,6 +1254,7 @@ const PT = {
     s1: "Tarif", s2: "SteamID", s3: "To'lov", steamL: "SteamID (masalan STEAM_0:1:123456789)", steamBad: "SteamID noto'g'ri. Misol: STEAM_0:1:123456789",
     steamHint: "Serverda konsolga (~) <span class='mono'>status</span> yozing — nikingiz yonida chiqadi.", next: "Davom etish", back: "Orqaga",
     total: "Jami", plan: "Tarif", card: "Karta raqami", owner: "Karta egasi", copyCard: "Kartani nusxalash", cardCopied: "Karta raqami nusxalandi",
+    activateNote: "⚠ Diqqat: huquq tasdiqlangach serverda keyingi xarita almashganda ishga tushadi. Savol bo'lsa — Yordam bo'limiga yozing.", toSupport: "Yordamga yozish",
     payHint: "1) Summani shu kartaga o'tkazing.  2) Pastdagi tugma bilan botni oching va chek skrinshotini yuboring.  3) Tasdiqlangach huquq avtomatik beriladi.",
     noCard: "Karta raqami botda beriladi — pastdagi tugma bilan botni oching.",
     sendCheck: "Chekni Telegram'ga yuborish", done: "Bot ochildi!", doneLead: "Botda chek skrinshotini yuboring. Tasdiqlangach huquq serverga avtomatik yoziladi.",
@@ -1198,6 +1280,7 @@ const PT = {
     s1: "Тариф", s2: "SteamID", s3: "Оплата", steamL: "SteamID (например STEAM_0:1:123456789)", steamBad: "Неверный SteamID. Пример: STEAM_0:1:123456789",
     steamHint: "На сервере введите в консоли (~) <span class='mono'>status</span> — он рядом с ником.", next: "Продолжить", back: "Назад",
     total: "Итого", plan: "Тариф", card: "Номер карты", owner: "Владелец карты", copyCard: "Скопировать карту", cardCopied: "Номер карты скопирован",
+    activateNote: "⚠ Внимание: права начинают работать на сервере после ближайшей смены карты. Вопросы — в Поддержку.", toSupport: "Написать в поддержку",
     payHint: "1) Переведите сумму на эту карту.  2) Откройте бота кнопкой ниже и отправьте скриншот чека.  3) После подтверждения права выдаются автоматически.",
     noCard: "Номер карты выдаст бот — откройте его кнопкой ниже.",
     sendCheck: "Отправить чек в Telegram", done: "Бот открыт!", doneLead: "Отправьте боту скриншот чека. После подтверждения права запишутся на сервер автоматически.",
@@ -1258,6 +1341,7 @@ function closeBuy(){ const m = $("#modal .modal"); if (!m) return; m.classList.a
 function drawBuy(){
   if (!buy?.plan) return;
   const p = buy.plan, S = SHOP(), lvl = pt(p.level);
+  if (buy.step === 1) alert(pt("activateNote"));
   const steps = `<div class="stepper">${[1, 2, 3].map(i => `<i class="${i <= buy.step ? "on" : ""}"></i>`).join("")}</div>`;
   const sum = `<div class="sumrow"><span class="sub">${pt("plan")}</span><b>${lvl} · ${p.days} ${LANG === "ru" ? "дн." : "kun"}</b></div>`;
   let body;
@@ -1274,11 +1358,13 @@ function drawBuy(){
         <div class="num">${esc(fmtCard(S.card))}</div><div class="own"><div>${pt("owner")}<b>${esc(S.owner || "—")}</b></div><div style="text-align:right">${pt("total")}<b>${esc(payPrice(p))}</b></div></div></div>
         <button class="btn wide" onclick="copy('${esc(String(S.card).replace(/\D/g, ""))}', pt('cardCopied'))">${I.copy} ${pt("copyCard")}</button>
         <p class="hint mt">${pt("payHint")}</p>` : `<p class="hint">${pt("noCard")}</p>`}
+      <div class="note">${pt("activateNote")}</div>
       <a class="btn tg wide mt" href="${deep}" target="_blank" rel="noopener" onclick="setTimeout(()=>{buy.step=4;drawBuy()},400)">${I.tg} ${pt("sendCheck")}</a>
       <button class="btn ghost wide mt" onclick="buy.step=2;drawBuy()">${pt("back")}</button>`;
   } else if (buy.step === 4) body = `<div style="text-align:center"><div class="okbig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m5 12 5 5L20 7"/></svg></div>
       <h2 class="title" style="font-size:32px">${pt("done")}</h2><p class="lead" style="margin:8px auto 18px">${pt("doneLead")}</p>
-      <button class="btn main wide" onclick="closeBuy()">OK</button></div>`;
+      <div class="note" style="text-align:left">${pt("activateNote")}</div>
+      <div class="btns mt"><a class="btn main" style="flex:1" href="#/support" onclick="closeBuy()">💬 ${pt("toSupport")}</a><button class="btn ghost" onclick="closeBuy()">OK</button></div></div>`;
   else { buy.step = 2; return drawBuy(); }
   $("#modal").innerHTML = `<div class="modal" onclick="if(event.target===this)closeBuy()"><div class="mbox" role="dialog" aria-modal="true">
     <button class="mclose" onclick="closeBuy()" aria-label="close">✕</button>
@@ -1384,7 +1470,8 @@ const X = {
     myT: "Murojaatlarim", noT: "Hali murojaat yo'q", needLogin: "Yordam uchun avval akkauntga kiring.", reply: "Javob yozing…", close: "Yopish", closed: "Yopilgan",
     stt: {open: "ochiq", answered: "javob berildi", closed: "yopilgan"}, admin: "Admin", you: "Siz", pick: "Chapdan murojaatni tanlang",
     aT: "Admin panel", aL: "Chegirma, huquq berish, ban, sovrinlar, support va e'lon.", noAccess: "Bu sahifa faqat sayt adminlari uchun.",
-    tabs: ["Panel", "Chegirma", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon"],
+    tabs: ["Panel", "Chegirma", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati"],
+    loadBans: "Banlarni yuklash", rebans: "Qayta ban", noBansA: "Faol ban yo'q", accs: "Saytdagi akkauntlar", pend: "Kutilayotgan buyruqlar",
     disc: "Chegirma (%)", until: "Tugash sanasi", label: "Yozuv (masalan: Sezon ochilishi!)", save: "Saqlash", saved: "Saqlandi", off: "Chegirmani o'chirish",
     steam: "SteamID", level: "Daraja", days: "Kun (0 = abadiy)", nick: "Nik", grant: "Huquq berish", remove: "Huquqni olish", list: "Adminlar ro'yxati",
     mins: "Daqiqa (0 = abadiy)", reason: "Sabab", ban: "Ban berish", unban: "Razban", prizeL: "Sovrin", addRow: "+ Qator", seasonEnd: "Sezon tugash sanasi",
@@ -1397,7 +1484,8 @@ const X = {
     myT: "Мои обращения", noT: "Обращений пока нет", needLogin: "Чтобы написать в поддержку, войдите в аккаунт.", reply: "Напишите ответ…", close: "Закрыть", closed: "Закрыто",
     stt: {open: "открыто", answered: "есть ответ", closed: "закрыто"}, admin: "Админ", you: "Вы", pick: "Выберите обращение слева",
     aT: "Админ-панель", aL: "Скидки, выдача прав, баны, призы, поддержка и объявления.", noAccess: "Страница только для админов сайта.",
-    tabs: ["Панель", "Скидка", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление"],
+    tabs: ["Панель", "Скидка", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов"],
+    loadBans: "Загрузить баны", rebans: "Перебанить", noBansA: "Активных банов нет", accs: "Аккаунтов на сайте", pend: "Ожидают выполнения",
     disc: "Скидка (%)", until: "Действует до", label: "Подпись (например: Открытие сезона!)", save: "Сохранить", saved: "Сохранено", off: "Выключить скидку",
     steam: "SteamID", level: "Уровень", days: "Дней (0 = навсегда)", nick: "Ник", grant: "Выдать права", remove: "Снять права", list: "Список админов",
     mins: "Минут (0 = навсегда)", reason: "Причина", ban: "Забанить", unban: "Разбанить", prizeL: "Приз", addRow: "+ Строка", seasonEnd: "Дата конца сезона",
@@ -1607,7 +1695,8 @@ function pageAdmin(){
   const steamIn = id => `<div class="field"><label>${x("steam")}<input id="${id}" placeholder="STEAM_0:1:123456789" required pattern="^[Ss][Tt][Ee][Aa][Mm]_[0-5]:[01]:\\d+$"></label></div>`;
   const body = [
     () => `<div class="kpis"><div class="tile"><b>${IDX.sorted.length}</b><span>${x("kPlayers")}</span></div><div class="tile"><b>${IDX.matches.length || (D?.results || []).length}</b><span>${x("kMatches")}</span></div>
-      <div class="tile"><b>${TK.list.filter(t2 => t2.status === "open").length}</b><span>${x("kOpen")}</span></div><div class="tile"><b>${D?.server?.count || 0}</b><span>${x("kOnline")}</span></div></div>
+      <div class="tile"><b>${TK.list.filter(t2 => t2.status === "open").length}</b><span>${x("kOpen")}</span></div><div class="tile"><b>${D?.server?.count || 0}</b><span>${x("kOnline")}</span></div>
+      <div class="tile"><b>${Object.keys(PROF).length}</b><span>${x("accs")}</span></div><div class="tile"><b>${ALOG.filter(a => a.status === "pending").length}</b><span>${x("pend")}</span></div></div>
       <h3 class="mt2">${x("log")}</h3><div class="alog" id="alog">${logHTML()}</div><p class="sub mt" style="font-size:13px">${x("needBot")}</p>`,
     () => `<form class="form2" onsubmit="event.preventDefault();saveSetting('discount',{percent:+$('#dp').value,until:$('#du').value,label:$('#dl').value.trim()})">
       <div class="row2"><div class="field"><label>${x("disc")}<input id="dp" type="number" min="0" max="90" value="${+d.percent || 0}"></label></div><div class="field"><label>${x("until")}<input id="du" type="date" value="${esc(d.until || "")}"></label></div></div>
@@ -1631,6 +1720,8 @@ function pageAdmin(){
     () => `<form class="form2" onsubmit="event.preventDefault();saveSetting('announce',{text:$('#an').value.trim()})">
       <div class="field"><label>${x("ann")}<textarea id="an" rows="2" maxlength="200">${esc(SET.announce?.text || "")}</textarea></label></div><button class="btn main" type="submit">${x("save")}</button></form>
       <form class="form2 mt2" onsubmit="event.preventDefault();act('say',{text:$('#sy').value.trim()})"><div class="field"><label>${x("annSay")}<input id="sy" maxlength="120" required></label></div><button class="btn" type="submit">${x("sendSrv")}</button></form>`
+,
+    () => `<div class="btns"><button class="btn main" onclick="loadBanList()">🔄 ${x("loadBans")}</button></div><div id="banl" class="mt">${banListHTML()}</div>`
   ][aTab]();
   return `<h2 class="title">🛡 ${x("aT")}</h2><p class="lead">${x("aL")}</p>${tabs}<div class="card">${body}</div>`;
 }
@@ -1640,12 +1731,26 @@ async function savePrizes(){
   await saveSetting("prizes", rows);
   await saveSetting("season", {ends: $("#se").value});
 }
+let BANS = null;
+function banListHTML(){
+  const last = ALOG.find(a => a.action === "banlist" && a.status === "done");
+  const rows = (last?.result || "").split("\n").filter(l => /^\d+\.\s/.test(l));
+  if (!last) return `<div class="empty">—</div>`;
+  if (!rows.length) return `<div class="empty">✅ ${x("noBansA")}</div>`;
+  const T = [[60, "1 soat"], [1440, "1 kun"], [10080, "1 hafta"], [43200, "1 oy"], [0, "∞"]];
+  return rows.map(l => { const pr = l.replace(/^\d+\.\s*/, "").split(" | "); const id = (pr[1] || "").trim();
+    return `<div class="banrow"><div><b>${esc(pr[0])}</b> <span class="mono">${esc(id)}</span><small>${esc(pr.slice(2).join(" · "))}</small></div>
+      <div class="btns"><button class="btn sm main" onclick="act('unban',{steam:'${esc(id)}'})">Unban</button>
+        ${/^STEAM_/i.test(id) ? `<select onchange="if(this.value!=='')act('ban',{steam:'${esc(id)}',minutes:+this.value,reason:'${esc((pr[4] || "sayt").replace(/'/g, ""))}'});this.value=''"><option value="">${x("rebans")}…</option>${T.map(o => `<option value="${o[0]}">${o[1]}</option>`).join("")}</select>` : ""}</div></div>`; }).join("");
+}
+async function loadBanList(){ await act("banlist", {}); const b = $("#banl"); if (b) b.innerHTML = banListHTML(); }
 async function bindAdmin(){
   if (!sb || !ME?.admin) return;
   await Promise.all([loadLog(), loadTickets()]);
   const l = $("#alog"); if (l) l.innerHTML = logHTML();
   if (aTab === 0) { const k = document.querySelectorAll(".kpis .tile b")[2]; if (k) k.textContent = TK.list.filter(t2 => t2.status === "open").length; }
   if (aTab === 5) { $("#atl").innerHTML = ticketList(true); }
+  if (aTab === 7) { const b = $("#banl"); if (b) b.innerHTML = banListHTML(); }
 }
 async function bindSupport(){ if (!sb || !ME) return; await myChat(); render(false); scrollThread(); }
 
@@ -1687,6 +1792,7 @@ function render(scroll = true){
   if (h === "#/top") bindTop();
   if (h === "#/premium") bindPremium();
   if (h === "#/support" && scroll) bindSupport();
+  if ((h === "#/me" || h.startsWith("#/p/")) && scroll && sb && ME) loadFriends().then(() => { const hh = location.hash; if (hh === h) render(false); });
   if (h === "#/admin" && scroll) bindAdmin();
   renderBanners(); tickCountdown();
   onScroll();
@@ -1700,6 +1806,11 @@ async function load(refresh){
     try { const r = await fetch(u + "?t=" + Math.floor(Date.now() / 60000), {cache: "no-store"}); if (r.ok){ D = await r.json(); break; } } catch (e) {}
   }
   D = D || {players: [], results: []};
+  if (sb) {   // bot har daqiqada yozadigan jonli ma'lumot (GitHub'dagidan yangi bo'lsa — shuni olamiz)
+    try { const r = await withTimeout(sb.from("site_data").select("value").eq("key", "data").maybeSingle(), 5000);
+      if (r?.data?.value && (r.data.value.updated || 0) >= (D.updated || 0)) D = r.data.value; } catch (e) {}
+    await withTimeout(loadProfiles(), 5000);
+  }
   buildIndex();
   const h = location.hash || "#/";
   // avval ma'lumot bilan chizamiz, akkaunt va sozlamalar — keyin

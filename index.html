@@ -309,7 +309,22 @@ tr.left td{opacity:.5}
 .a{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;gap:11px;align-items:center;transition:transform .3s var(--ease)}
 .a:not(.off):hover{transform:translateY(-3px) scale(1.02)}
 .a .ic{font-size:21px;width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:var(--panel3);flex:none}
-.a.off{opacity:.33;filter:grayscale(1)}
+.a.off{opacity:.45;filter:grayscale(1)}
+.a .apr{height:4px;border-radius:3px;background:var(--panel3);margin-top:6px;overflow:hidden}
+.a .apr i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:3px}
+.a>div:last-child{min-width:0;flex:1}
+.achhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.achhead .cnt{font:700 15px Rajdhani,sans-serif;color:var(--gold)}
+.soon{position:relative;text-align:center;padding:56px 22px;border-radius:24px;background:radial-gradient(600px 220px at 50% 0,rgba(255,159,28,.16),transparent),var(--panel);border:1px solid var(--line2);overflow:hidden}
+.soon .big{font-size:64px;line-height:1;animation:floaty 3.2s ease-in-out infinite}
+.soon h2{margin:14px 0 8px}
+.soon .feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:26px;text-align:left}
+.soon .feat div{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px}
+.soon .feat b{display:block;margin-bottom:4px}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.badge-soon{font-size:9.5px;font-weight:800;letter-spacing:.04em;padding:2px 6px;border-radius:6px;background:rgba(255,159,28,.16);color:var(--accent);margin-left:5px;vertical-align:2px}
+.livewrap{margin-top:18px}
+.live .lfoot{align-items:center}
 .a b{display:block;font-size:13px}
 .a span{font-size:12px;color:var(--muted)}
 
@@ -699,7 +714,10 @@ const T = {
     yourCode: "Sizning kodingiz", linkLead: "Profilingizni o'yinga ulash uchun:",
     linkSteps: c => [`Serverga kiring: <span class='mono'>connect ${ADDRESS}</span>`, `Chatga yozing: <span class='mono'>/link ${c}</span>`, "Bir necha daqiqada sahifa yangilanadi — profilingiz ✓ bilan chiqadi"],
     linkedAs: "Ulangan o'yinchi", pending: "Ulanish kutilmoqda… (kod har bir akkauntda boshqa)", hello: n => `Salom, ${n}!`, openProfile: "Profilimni ochish",
-    achs: [["🎯","Birinchi qadam","1 match o'ynash"],["🏆","Birinchi g'alaba","1 match yutish"],["🔥","Seriya","3 g'alaba ketma-ket"],["💯","Faxriy","25 match"],["🎖","Veteran","100 match"],["💀","Qassob","Bir matchda 30+ kill"],["🧠","Headshot ustasi","HS 50%+ (10+ match)"],["⭐","MVP","Match MVP'si bo'lish"],["💎","P rank","1300+ PTS"]]
+    achs: [["🎯","Birinchi qadam","1 match o'ynash"],["🏆","Birinchi g'alaba","1 match yutish"],["🔥","Seriya","3 g'alaba ketma-ket"],["🔟","O'nlik","10 match"],["💯","Faxriy","25 match"],["🎖","Veteran","100 match"],["🔫","Jallod","Jami 100 kill"],["☠️","Terminator","Jami 500 kill"],["💀","Qassob","Bir matchda 30+ kill"],["💥","Zarba","Bir matchda 2500+ damage"],["🧠","Headshot ustasi","HS 50%+ (10+ match)"],["⭐","MVP","Match MVP'si bo'lish"],["⚡","To'xtovsiz","5 g'alaba ketma-ket"],["🔴","H rank","1150+ PTS"],["💎","P rank","1300+ PTS"]], achOf: "ochildi",
+    clansNav: "Klanlar", soon: "Tez orada", clansT: "Klanlar va turnirlar", clansL: "Klaningizni yarating, tarkib yig'ing va CwhubUZ turnirlarida sovrin uchun kurashing. Bo'lim ishlab chiqilmoqda.",
+    clansF: [["🛡 Klan sahifasi","Logo, tarkib, klan reytingi va statistikasi"],["🏆 Turnirlar","Ro'yxatdan o'tish va avtomatik setka (bracket)"],["⚔ Klan matchlari","Natijalar klan reytingiga qo'shiladi"],["🎁 Sovrinlar","Sezon g'oliblariga Premium va sovg'alar"]],
+    forever: "Abadiy", connect: "Ulanish"
   },
   ru: {
     nav: ["Сервер","Рейтинг","Матчи","Ранги","Правила","Баны"], login: "Войти", myProfile: "Мой профиль", logout: "Выйти",
@@ -735,7 +753,10 @@ const T = {
     yourCode: "Ваш код", linkLead: "Чтобы привязать профиль к игре:",
     linkSteps: c => [`Зайдите на сервер: <span class='mono'>connect ${ADDRESS}</span>`, `Напишите в чат: <span class='mono'>/link ${c}</span>`, "Через пару минут страница обновится — профиль будет с ✓"],
     linkedAs: "Привязанный игрок", pending: "Ожидание привязки… (у каждого аккаунта свой код)", hello: n => `Привет, ${n}!`, openProfile: "Открыть мой профиль",
-    achs: [["🎯","Первый шаг","Сыграть 1 матч"],["🏆","Первая победа","Выиграть матч"],["🔥","Серия","3 победы подряд"],["💯","Завсегдатай","25 матчей"],["🎖","Ветеран","100 матчей"],["💀","Мясник","30+ убийств за матч"],["🧠","Хедшотер","HS 50%+ (10+ матчей)"],["⭐","MVP","Стать MVP матча"],["💎","Ранг P","1300+ PTS"]]
+    achs: [["🎯","Первый шаг","Сыграть 1 матч"],["🏆","Первая победа","Выиграть матч"],["🔥","Серия","3 победы подряд"],["🔟","Десятка","10 матчей"],["💯","Завсегдатай","25 матчей"],["🎖","Ветеран","100 матчей"],["🔫","Палач","Всего 100 убийств"],["☠️","Терминатор","Всего 500 убийств"],["💀","Мясник","30+ убийств за матч"],["💥","Удар","2500+ урона за матч"],["🧠","Хедшотер","HS 50%+ (10+ матчей)"],["⭐","MVP","Стать MVP матча"],["⚡","Без остановки","5 побед подряд"],["🔴","Ранг H","1150+ PTS"],["💎","Ранг P","1300+ PTS"]], achOf: "открыто",
+    clansNav: "Кланы", soon: "Скоро", clansT: "Кланы и турниры", clansL: "Создайте клан, соберите состав и боритесь за призы в турнирах CwhubUZ. Раздел в разработке.",
+    clansF: [["🛡 Страница клана","Логотип, состав, рейтинг и статистика клана"],["🏆 Турниры","Регистрация и автоматическая сетка"],["⚔ Клановые матчи","Результаты идут в рейтинг кланов"],["🎁 Призы","Premium и подарки победителям сезона"]],
+    forever: "Навсегда", connect: "Подключиться"
   }
 };
 const store = { get(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v){ try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
@@ -820,7 +841,7 @@ async function sha(s){
   return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("").slice(0, 24);
 }
 const botName = () => D?.bot || BOT_DEFAULT;
-const verifiedSteam = steam => (D?.accounts || []).some(a => a.steam === steam);
+const verifiedSteam = steam => !!PROF[steam] || (D?.accounts || []).some(a => a.steam === steam);
 const mySteam = () => ME?.acc?.steam || null;
 
 async function loadProfiles(){
@@ -855,6 +876,7 @@ function buildIndex(){
     p.hsp = k ? Math.round(100 * hs / k) : 0; p.adr = rr ? Math.round(dmg / rr) : 0;
     p.mvps = Object.values(matches).filter(m => m.mvp && m.mvp.id === p.id).length;
     p.maxKills = Math.max(0, ...p.ms.map(s => s.k));
+    p.maxDmg = Math.max(0, ...p.ms.map(s => s.dmg));
     p.lastT = Math.max(0, ...games.map(g => g.t));
     p.verified = verifiedSteam(p.id);
   });
@@ -898,6 +920,7 @@ function pageHome(){
     <div class="ss"><div class="ic">${I.skull}</div><div><b data-count="${totalKills}">0</b><span>${t("sKills")}</span></div></div>
     <div class="ss"><div class="ic">${I.trophy}</div><div><b ${IDX.sorted[0] ? `data-count="${IDX.sorted[0].pts}"` : ""}>${IDX.sorted[0] ? 0 : "—"}</b><span>${t("sTop")}</span></div></div>
   </div>
+  <div class="livewrap" id="livebox">${livePanel()}</div>
   <div class="grid2 mt2">
     <div class="card"><h3>${t("top")}</h3>
       ${top3.length ? `<div class="podium">${top3.map((p, i) => `<div class="pod p${i + 1}" onclick="go('#/p/${slug(p.id)}')">
@@ -1020,9 +1043,16 @@ function people(p){
     return a.length ? `<div class="people">${a.map(e => `<a class="person" href="/p/${slug(e.id)}">${pcell(IDX.byId[e.id] || {}, e.name)}<span class="sub" style="font-size:13px">${f(e.n, pct(e.w, e.n))}</span></a>`).join("")}</div>` : `<div class="empty">—</div>`; };
   return {mates: list(mates, t("together")), rivals: list(riv, t("against"))};
 }
+// [hozirgi, maqsad] — t("achs") bilan bir xil tartibda
+function achGoals(p){
+  return [[p.matches, 1], [p.wins, 1], [p.streak, 3], [p.matches, 10], [p.matches, 25], [p.matches, 100], [p.kills, 100], [p.kills, 500],
+    [p.maxKills, 30], [p.maxDmg || 0, 2500], [p.matches >= 10 ? p.hsp : 0, 50], [p.mvps, 1], [p.streak, 5], [p.pts, 1150], [p.pts, 1300]];
+}
+function achCount(p){ return achGoals(p).filter(([v, g]) => v >= g).length; }
 function achievements(p){
-  const c = [p.matches >= 1, p.wins > 0, p.streak >= 3, p.matches >= 25, p.matches >= 100, p.maxKills >= 30, p.matches >= 10 && p.hsp >= 50, p.mvps > 0, p.pts >= 1300];
-  return `<div class="ach">${t("achs").map((a, i) => `<div class="a ${c[i] ? "" : "off"}"><div class="ic">${a[0]}</div><div><b>${a[1]}</b><span>${a[2]}</span></div></div>`).join("")}</div>`;
+  const c = achGoals(p);
+  return `<div class="ach">${t("achs").map((a, i) => { const [v, g] = c[i], ok = v >= g, f = Math.max(0, Math.min(1, v / g));
+    return `<div class="a ${ok ? "" : "off"}" title="${esc(a[2])}"><div class="ic">${a[0]}</div><div><b>${a[1]}</b><span>${a[2]}</span>${ok ? "" : `<div class="apr"><i style="width:${(f * 100).toFixed(0)}%"></i></div>`}</div></div>`; }).join("")}</div>`;
 }
 function friendBtn(steam){
   if (!sb || !ME) return "";
@@ -1067,7 +1097,7 @@ function pageProfile(id){
     <div class="tile"><b>${p.mvps}</b><span>MVP</span></div>
     <div class="tile"><b>${p.streak}</b><span>${t("streak")}</span></div>
   </div></section>
-  <div class="grid2 mt"><div class="card"><h3>${t("ptsHistory")}</h3>${chart(p.hist) || `<div class="empty">—</div>`}</div><div class="card"><h3>${t("ach")}</h3>${achievements(p)}</div></div>
+  <div class="grid2 mt"><div class="card"><h3>${t("ptsHistory")}</h3>${chart(p.hist) || `<div class="empty">—</div>`}</div><div class="card"><div class="achhead"><h3>${t("ach")}</h3><span class="cnt">🏅 ${achCount(p)}/${t("achs").length} ${t("achOf")}</span></div>${achievements(p)}</div></div>
   <div class="card mt"><h3>${t("recent")}</h3>
     ${games.length ? `<div class="tw"><table><tr><th>${t("map")}</th><th></th><th class="num">K–D</th><th class="num">PTS</th><th class="num"></th></tr>
       ${games.map(g => { const m = IDX.matches.find(x => Math.abs(x.t - g.t) < 900);
@@ -1108,11 +1138,24 @@ function pageRanks(){
     <div class="card mt"><h3>${ru ? "Шкала рангов" : "Rank shkalasi"}</h3><div style="display:flex;flex-wrap:wrap;gap:8px">${legend}</div>
       <p class="sub" style="line-height:1.7;margin:16px 0 0">${t("ranksNote")}</p></div>`;
 }
+function banLeft(x){
+  if (x.expires == null) return x.left || "";
+  if (!x.expires) return "♾ " + t("forever");
+  const s = x.expires - Date.now() / 1000; if (s <= 0) return "—";
+  const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.ceil(s % 3600 / 60), ru = LANG === "ru";
+  return d ? `${d}${ru ? "д" : "k"} ${h}${ru ? "ч" : "s"}` : h ? `${h}${ru ? "ч" : "s"} ${m}${ru ? "м" : "d"}` : `${m} ${ru ? "мин" : "daq"}`;
+}
+function pageClans(){
+  return `<section class="soon"><div class="big">🛡</div><span class="badge-soon" style="font-size:12px">${t("soon").toUpperCase()}</span>
+    <h2 class="title">${t("clansT")}</h2><p class="lead" style="max-width:620px;margin:0 auto">${t("clansL")}</p>
+    <div class="feat">${t("clansF").map(f => `<div><b>${f[0]}</b><span class="sub" style="font-size:13px">${f[1]}</span></div>`).join("")}</div>
+    <div class="btns mt2" style="justify-content:center"><a class="btn tg" href="https://t.me/CwhubUZ" target="_blank" rel="noopener">${I.tg} Telegram</a><a class="btn" href="/top">${t("allRank")} →</a></div></section>`;
+}
 function pageBans(){
-  const b = D?.bans || [];
+  const b = (D?.bans || []).filter(x => !x.expires || x.expires > Date.now() / 1000);
   return `<h2 class="title">${t("bansT")}</h2><p class="lead">${t("bansLead")}</p><div class="card">
     ${b.length ? `<div class="tw"><table><tr><th>${t("player")}</th><th>${t("reason")}</th><th>${t("since")}</th><th>${t("remain")}</th><th>${t("admin")}</th></tr>
-      ${b.map(x => `<tr><td>${pcell({}, x.name)}</td><td>${esc(x.reason)}</td><td class="sub">${esc(x.since)}</td><td><b>${esc(x.left)}</b></td><td class="sub">${esc(x.admin)}</td></tr>`).join("")}</table></div>`
+      ${b.map(x => `<tr><td>${pcell({}, x.name)}</td><td>${esc(x.reason)}</td><td class="sub">${esc(x.since)}</td><td><b>${esc(banLeft(x))}</b></td><td class="sub">${esc(x.admin)}</td></tr>`).join("")}</table></div>`
       : `<div class="empty">✅ ${t("noBans")}</div>`}
     <div class="btns mt"><a class="btn main" href="/support">💬 ${t("appeal")}</a></div>
     <p class="sub" style="font-size:13px;margin-top:14px">${t("appealNote")}</p></div>`;
@@ -1604,7 +1647,7 @@ function livePanel(){
     ${pl.length ? `<div class="lplayers">${pl.map(p => { const pr = IDX.sorted.find(q => q.name === p.name);
         return `<a class="lprow" ${pr ? `href="/p/${slug(pr.id)}"` : ""}><span class="pcell">${pr ? shield(pr.pts, pr.matches) : avatar(p.name)}<span class="nm">${esc(p.name)}</span></span><b class="num">${p.frags}</b>${pingBars(p.ping)}</a>`; }).join("")}</div>`
       : `<div class="empty" style="padding:14px 0 4px">${x("noOne")}</div>`}
-    <div class="lfoot"><span>${esc(IP_ADDR)}</span><span>${D?.updated ? x("upd") + " " + ago(D.updated) : ""}</span></div>
+    <div class="lfoot"><span>${esc(IP_ADDR)}</span>${on ? `<a class="btn sm main" href="steam://connect/${IP_ADDR}">▶ ${t("connect")}</a>` : ""}<span>${s.updated ? x("upd") + " " + ago(s.updated) : ""}</span></div>
   </div>`;
 }
 
@@ -1975,6 +2018,7 @@ function renderNav(){
   const h = curRoute() || "#/";
   const isOn = i => h === ROUTES[i] || (i === 1 && /^#\/(p|vs)\//.test(h)) || (i === 2 && h.startsWith("#/m/"));
   $("#nav").innerHTML = t("nav").map((n, i) => `<a href="${ROUTES[i].slice(1)}" class="${isOn(i) ? "on" : ""}">${n}</a>`).join("")
+    + `<a href="/clans" class="${h === "#/clans" ? "on" : ""}">${t("clansNav")}<span class="badge-soon">${t("soon")}</span></a>`
     + `<a href="/chat" class="${h === "#/chat" ? "on" : ""}">💬 Chat</a>`
     + `<a href="/support" class="${h === "#/support" ? "on" : ""}">${LANG === "ru" ? "Поддержка" : "Yordam"}</a>`
     + (ME?.admin ? `<a href="/admin" class="${h === "#/admin" ? "on" : ""}">🛡 Admin</a>` : "")
@@ -2000,7 +2044,7 @@ function render(scroll = true){
   if (h.startsWith("#/p/")) html = pageProfile(decodeURIComponent(h.slice(4)));
   else if (h.startsWith("#/m/")) html = pageMatch(h.slice(4));
   else if (h.startsWith("#/vs/")) { const [a, b] = h.slice(5).split("/").map(decodeURIComponent); html = pageVs(a, b); }
-  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
+  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/clans": pageClans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
   const app = $("#app");
   app.innerHTML = html;
   if (scroll) { app.classList.remove("enter"); void app.offsetWidth; app.classList.add("enter"); }
@@ -2016,6 +2060,33 @@ function render(scroll = true){
   $("#upd").textContent = D?.updated ? `${t("updated")}: ${ago(D.updated)}` : "";
   if (scroll) window.scrollTo(0, 0);
 }
+// Server (cw_web.amxx) botsiz yozadigan jadval: o'yinchilar, matchlar, PTS tarixi, jonli holat, banlar
+function feedServer(row){
+  const s = Object.assign({}, row);
+  if (Date.now() / 1000 - (row.updated || 0) > 150) { s.online = false; s.players = []; s.count = 0; }
+  return s;
+}
+async function loadFeed(){
+  const q = (kind, n) => sb.from("cw_feed").select("row,t").eq("kind", kind).order("t", {ascending: false}).limit(n);
+  const [pl, hi, ms, rs, sv] = await Promise.all([q("player", 2000), q("hist", 2000), q("mstat", 2000), q("result", 30), sb.from("cw_feed").select("kind,row,t").in("kind", ["server", "bans"])]);
+  if (pl.error) return;
+  const rows = r => (r.data || []).map(x => x.row);
+  if (pl.data?.length) D.players = rows(pl);
+  if (hi.data?.length) D.history = rows(hi).reverse();
+  if (ms.data?.length) D.mstats = rows(ms).reverse();
+  if (rs.data?.length) D.results = rows(rs).reverse();
+  (sv.data || []).forEach(x => {
+    if (x.kind === "bans") D.bans = x.row.list || [];
+    if (x.kind === "server") D.server = feedServer(x.row);
+  });
+  D.updated = Math.max(D.updated || 0, ...(sv.data || []).map(x => x.t || 0));
+}
+async function refreshLive(){
+  if (!sb || !IDX || (curRoute() || "#/") !== "#/") return;
+  try { const r = await sb.from("cw_feed").select("row").eq("kind", "server").maybeSingle();
+    if (r.data?.row) { D.server = feedServer(r.data.row); const el = $("#livebox"); if (el) el.innerHTML = livePanel(); } } catch (e) {}
+}
+setInterval(refreshLive, 20000);
 // Supabase javob bermasa ham sayt qotib qolmasin
 const withTimeout = (p, ms) => Promise.race([p, new Promise(r => setTimeout(r, ms))]);
 async function load(refresh){
@@ -2026,6 +2097,8 @@ async function load(refresh){
   if (sb) {   // bot har daqiqada yozadigan jonli ma'lumot (GitHub'dagidan yangi bo'lsa — shuni olamiz)
     try { const r = await withTimeout(sb.from("site_data").select("value").eq("key", "data").maybeSingle(), 5000);
       if (r?.data?.value && (r.data.value.updated || 0) >= (D.updated || 0)) D = r.data.value; } catch (e) {}
+    D = Object.assign({}, D);
+    try { await withTimeout(loadFeed(), 6000); } catch (e) {}
     await withTimeout(loadProfiles(), 5000);
   }
   buildIndex();

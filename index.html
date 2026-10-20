@@ -1536,7 +1536,7 @@ const X = {
     myT: "Murojaatlarim", noT: "Hali murojaat yo'q", needLogin: "Yordam uchun avval akkauntga kiring.", reply: "Javob yozing…", close: "Yopish", closed: "Yopilgan",
     stt: {open: "ochiq", answered: "javob berildi", closed: "yopilgan"}, admin: "Admin", you: "Siz", pick: "Chapdan murojaatni tanlang",
     aT: "Admin panel", aL: "Chegirma, huquq berish, ban, sovrinlar, support va e'lon.", noAccess: "Bu sahifa faqat sayt adminlari uchun.",
-    tabs: ["Panel", "Tariflar va to'lov", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati"],
+    tabs: ["Panel", "Tariflar va to'lov", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati", "Sayt adminlari"],
     loadBans: "Banlarni yuklash", rebans: "Qayta ban", noBansA: "Faol ban yo'q", accs: "Saytdagi akkauntlar", pend: "Kutilayotgan buyruqlar",
     disc: "Chegirma (%)", until: "Tugash sanasi", label: "Yozuv (masalan: Sezon ochilishi!)", save: "Saqlash", saved: "Saqlandi", off: "Chegirmani o'chirish",
     steam: "SteamID", level: "Daraja", days: "Kun (0 = abadiy)", nick: "Nik", grant: "Huquq berish", remove: "Huquqni olish", list: "Adminlar ro'yxati",
@@ -1550,7 +1550,7 @@ const X = {
     myT: "Мои обращения", noT: "Обращений пока нет", needLogin: "Чтобы написать в поддержку, войдите в аккаунт.", reply: "Напишите ответ…", close: "Закрыть", closed: "Закрыто",
     stt: {open: "открыто", answered: "есть ответ", closed: "закрыто"}, admin: "Админ", you: "Вы", pick: "Выберите обращение слева",
     aT: "Админ-панель", aL: "Скидки, выдача прав, баны, призы, поддержка и объявления.", noAccess: "Страница только для админов сайта.",
-    tabs: ["Панель", "Тарифы и оплата", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов"],
+    tabs: ["Панель", "Тарифы и оплата", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов", "Админы сайта"],
     loadBans: "Загрузить баны", rebans: "Перебанить", noBansA: "Активных банов нет", accs: "Аккаунтов на сайте", pend: "Ожидают выполнения",
     disc: "Скидка (%)", until: "Действует до", label: "Подпись (например: Открытие сезона!)", save: "Сохранить", saved: "Сохранено", off: "Выключить скидку",
     steam: "SteamID", level: "Уровень", days: "Дней (0 = навсегда)", nick: "Ник", grant: "Выдать права", remove: "Снять права", list: "Список админов",
@@ -1780,6 +1780,8 @@ function pageAdmin(){
       <form class="form2 mt2" onsubmit="event.preventDefault();act('say',{text:$('#sy').value.trim()})"><div class="field"><label>${x("annSay")}<input id="sy" maxlength="120" required></label></div><button class="btn" type="submit">${x("sendSrv")}</button></form>`
 ,
     () => `<div class="btns"><button class="btn main" onclick="loadBanList()">🔄 ${x("loadBans")}</button></div><div id="banl" class="mt">${banListHTML()}</div>`
+,
+    () => siteAdminsHTML()
   ][aTab]();
   return `<h2 class="title">🛡 ${x("aT")}</h2><p class="lead">${x("aL")}</p>${tabs}<div class="card">${body}</div>`;
 }
@@ -1789,7 +1791,34 @@ async function savePrizes(){
   await saveSetting("prizes", rows);
   await saveSetting("season", {ends: $("#se").value});
 }
-let BANS = null;
+let BANS = null, SA = {q: "", list: null};
+const SAT = {
+  uz: {find: "Email, nik yoki SteamID bo'yicha qidirish…", make: "Admin qilish", take: "Adminlikdan olish", adm: "Admin", none: "Hech kim topilmadi", hint: "Sayt adminlari admin panelga kiradi: tariflar, huquq berish, ban, support, chat moderatsiyasi. Faqat ishonchli odamlarga bering.", you: "siz"},
+  ru: {find: "Поиск по email, нику или SteamID…", make: "Сделать админом", take: "Снять админку", adm: "Админ", none: "Никого не найдено", hint: "Админы сайта получают доступ к админ-панели: тарифы, выдача прав, баны, поддержка, модерация чата. Давайте только надёжным людям.", you: "вы"}
+};
+const sat = k => SAT[LANG][k];
+function siteAdminsHTML(){
+  const rows = SA.list == null ? `<div class="skel" style="height:54px"></div>`
+    : SA.list.length ? SA.list.map(u => `<div class="banrow"><div class="pcell">${avatar(u.nick || u.email, false, null)}<div style="min-width:0"><b>${esc(u.nick || u.email.split("@")[0])}</b>${u.is_admin ? ` <span class="st answered">🛡 ${sat("adm")}</span>` : ""}${u.user_id === ME.id ? ` <span class="sub">(${sat("you")})</span>` : ""}
+        <small>${esc(u.email)}${u.steam ? " · " + esc(u.steam) : ""}</small></div></div>
+        <div class="btns">${u.is_admin ? (u.user_id === ME.id ? "" : `<button class="btn sm ghost" onclick="setSiteAdmin('${u.user_id}',false)">${sat("take")}</button>`) : `<button class="btn sm main" onclick="setSiteAdmin('${u.user_id}',true)">🛡 ${sat("make")}</button>`}</div></div>`).join("")
+    : `<div class="empty">${sat("none")}</div>`;
+  return `<p class="sub" style="margin-top:0">${sat("hint")}</p>
+    <input class="search" id="saq" placeholder="${sat("find")}" value="${esc(SA.q)}" oninput="clearTimeout(window.__saT);window.__saT=setTimeout(()=>loadSiteAdmins(this.value),350)">
+    <div id="sal">${rows}</div>`;
+}
+async function loadSiteAdmins(q){
+  SA.q = q != null ? q : SA.q;
+  const r = await sb.rpc("admin_find_users", {p_q: SA.q});
+  if (r.error) { toast(r.error.message); return; }
+  SA.list = r.data || [];
+  const el = $("#sal"); if (el) { const tmp = document.createElement("div"); tmp.innerHTML = siteAdminsHTML(); el.innerHTML = tmp.querySelector("#sal").innerHTML; }
+}
+async function setSiteAdmin(uid, on){
+  const r = await sb.rpc("admin_set_site_admin", {p_user: uid, p_on: on});
+  if (r.error) return toast(r.error.message);
+  toast("✓"); await loadSiteAdmins();
+}
 function banListHTML(){
   const last = ALOG.find(a => a.action === "banlist" && a.status === "done");
   const rows = (last?.result || "").split("\n").filter(l => /^\d+\.\s/.test(l));
@@ -1873,6 +1902,7 @@ async function bindAdmin(){
   if (aTab === 0) { const k = document.querySelectorAll(".kpis .tile b")[2]; if (k) k.textContent = TK.list.filter(t2 => t2.status === "open").length; }
   if (aTab === 5) { $("#atl").innerHTML = ticketList(true); }
   if (aTab === 7) { const b = $("#banl"); if (b) b.innerHTML = banListHTML(); }
+  if (aTab === 8) loadSiteAdmins();
 }
 async function bindSupport(){ if (!sb || !ME) return; await myChat(); render(false); scrollThread(); }
 
@@ -1889,7 +1919,7 @@ function chatMsgHTML(m){
   const nm = m.steam ? `<a href="/p/${slug(m.steam)}">${esc(m.nick || "?")}</a>` : esc(m.nick || "?");
   const tm = new Date(m.created_at).toLocaleTimeString(LANG === "ru" ? "ru-RU" : "uz-UZ", {hour: "2-digit", minute: "2-digit"});
   return `<div class="cmsg ${mine ? "mine" : ""}" data-id="${m.id}">${avatar(m.nick || "?", false, m.avatar_url)}
-    <div class="cb">${canDel ? `<button class="del" title="✕" onclick="chatDel(${m.id})">✕</button>` : ""}<div class="cn">${nm}${m.steam ? `<span class="verified">${I.check}</span>` : ""}<small>${tm}</small></div><div class="ct">${esc(m.body)}</div></div></div>`;
+    <div class="cb">${canDel ? `<button class="del" title="✕" onclick="chatDel(${m.id})">✕</button>` : ""}<div class="cn">${nm}${m.steam ? `<span class="verified">${I.check}</span>` : ""}${m.is_admin ? `<span class="st answered" style="font-size:9px">🛡 Admin</span>` : ""}<small>${tm}</small></div><div class="ct">${esc(m.body)}</div></div></div>`;
 }
 function chatListHTML(){
   if (!CH.list.length) return `<div class="empty">${ct("empty")}</div>`;
@@ -1910,7 +1940,7 @@ function chatScroll(){ const b = $("#gbody"); if (b) b.scrollTop = b.scrollHeigh
 function chatRedraw(){ const b = $("#gbody"); if (!b) return; const atEnd = b.scrollHeight - b.scrollTop - b.clientHeight < 80; b.innerHTML = chatListHTML(); if (atEnd) chatScroll(); }
 async function bindChat(){
   if (!sb) return;
-  const r = await sb.from("chat_messages").select("id,user_id,nick,avatar_url,steam,body,created_at").order("id", {ascending: false}).limit(80);
+  const r = await sb.from("chat_messages").select("id,user_id,nick,avatar_url,steam,body,created_at,is_admin").order("id", {ascending: false}).limit(80);
   CH.list = (r.data || []).reverse(); CH.loaded = true;
   const b = $("#gbody"); if (b) { b.innerHTML = chatListHTML(); chatScroll(); }
   if (!CH.sub) CH.sub = sb.channel("cwhub-chat")
@@ -1922,7 +1952,7 @@ async function chatPost(ev){
   ev.preventDefault();
   const body = ($("#gmsg").value || "").trim(); if (!body) return;
   $("#gmsg").value = "";
-  const r = await sb.from("chat_messages").insert({body}).select("id,user_id,nick,avatar_url,steam,body,created_at").single();
+  const r = await sb.from("chat_messages").insert({body}).select("id,user_id,nick,avatar_url,steam,body,created_at,is_admin").single();
   if (r.error) { toast(r.error.message); $("#gmsg").value = body; return; }
   if (!CH.list.some(m => m.id === r.data.id)) { CH.list.push(r.data); chatRedraw(); }
   chatScroll(); $("#gmsg").focus();

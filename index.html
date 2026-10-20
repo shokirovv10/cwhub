@@ -595,6 +595,11 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .banrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px 14px;border-radius:13px;background:var(--panel2);border:1px solid var(--line);margin-bottom:8px}
 .banrow small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
 .banrow select{padding:8px 10px;border-radius:10px;border:1px solid var(--line2);background:var(--panel3);color:var(--text)}
+
+.ptable td{padding:8px 6px}
+.ptable th{white-space:normal;font-size:10.5px;line-height:1.3}
+.ptable .pin{width:100%;min-width:90px;padding:11px 12px;border-radius:11px;border:1px solid var(--line2);background:var(--panel2);color:var(--text);font:14px Inter,sans-serif}
+.ptable .pin:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,159,28,.15)}
 </style>
 </head>
 <body>
@@ -1767,32 +1772,38 @@ const SE = {
 };
 const se = k => SE[LANG][k];
 const LVLS = [["moder", "Moder"], ["admin", "Admin"], ["gladmin", "Gl.Admin"]];
-const planRow = p => `<div class="row2" data-plan style="grid-template-columns:1.1fr .7fr 1fr .7fr 1fr auto;align-items:end">
-  <div class="field"><label>${se("lvl")}<select>${LVLS.map(l => `<option value="${l[0]}" ${p.level === l[0] ? "selected" : ""}>${l[1]}</option>`).join("")}</select></label></div>
-  <div class="field"><label>${se("days")}<input type="number" min="1" max="3650" value="${+p.days || 30}"></label></div>
-  <div class="field"><label>${se("price")}<input inputmode="numeric" value="${esc(digitsOf(p.price) || "")}"></label></div>
-  <div class="field"><label>${se("disc")}<input type="number" min="0" max="90" value="${+p.discount || 0}"></label></div>
-  <div class="field"><label>${se("sale")}<input inputmode="numeric" value="${esc(digitsOf(p.sale) || "")}" placeholder="—"></label></div>
-  <button class="btn ghost" type="button" onclick="this.closest('[data-plan]').remove()">✕</button></div>`;
+// har daraja — bitta qator: 7 kun va 30 kun narxi yonma-yon
+const DUR = [7, 30];
+function levelRow(lvl, label, plans){
+  const pl = d => plans.find(p => p.level === lvl && +p.days === d) || {};
+  const disc = +(pl(30).discount || pl(7).discount || 0);
+  return `<tr data-lvl="${lvl}"><td><b>${label}</b></td>
+    ${DUR.map(d => `<td><input class="pin" data-k="price${d}" inputmode="numeric" value="${esc(digitsOf(pl(d).price) || "")}" placeholder="—"></td>`).join("")}
+    <td><input class="pin" data-k="disc" type="number" min="0" max="90" value="${disc}"></td>
+    ${DUR.map(d => `<td><input class="pin" data-k="sale${d}" inputmode="numeric" value="${esc(digitsOf(pl(d).sale) || "")}" placeholder="—"></td>`).join("")}</tr>`;
+}
 function shopEditor(){
-  const S = SHOP(), d = SET.discount || {};
+  const S = SHOP(), d = SET.discount || {}, ru = LANG === "ru", dn = ru ? "дн." : "kun";
   return `<form class="form2" onsubmit="event.preventDefault();saveShop()">
     <h3>💳 ${se("pay")}</h3>
     <div class="row2"><div class="field"><label>${se("card")}<input id="scard" inputmode="numeric" maxlength="23" value="${esc(fmtCard(S.card || ""))}" placeholder="8600 0000 0000 0000"></label></div>
       <div class="field"><label>${se("owner")}<input id="sowner" maxlength="40" value="${esc(S.owner || "")}"></label></div></div>
     <h3 class="mt2">🏷 ${se("plans")}</h3>
-    <div id="splans" class="form2">${S.plans.map(planRow).join("")}</div>
-    <div class="btns"><button class="btn ghost" type="button" onclick="$('#splans').insertAdjacentHTML('beforeend',planRow({level:'admin',days:30}))">${se("add")}</button></div>
-    <p class="sub" style="font-size:13px">${se("hint")}</p>
+    <div class="tw"><table class="ptable"><tr><th>${se("lvl")}</th>${DUR.map(x2 => `<th>${se("price")} · ${x2} ${dn}</th>`).join("")}<th>${se("disc")}</th>${DUR.map(x2 => `<th>${se("sale")} · ${x2} ${dn}</th>`).join("")}</tr>
+      ${LVLS.map(l => levelRow(l[0], l[1], S.plans)).join("")}</table></div>
+    <p class="sub" style="font-size:13px">${se("hint")} ${ru ? "Пустая цена — тариф не продаётся." : "Narx bo'sh bo'lsa — bu tarif sotilmaydi."}</p>
     <h3 class="mt2">🔥 ${se("global")}</h3>
     <div class="row2"><div class="field"><label>${x("disc")}<input id="dp" type="number" min="0" max="90" value="${+d.percent || 0}"></label></div><div class="field"><label>${x("until")}<input id="du" type="date" value="${esc(d.until || "")}"></label></div>
       <div class="field"><label>${x("label")}<input id="dl" maxlength="60" value="${esc(d.label || "")}"></label></div></div>
     <div class="btns"><button class="btn main" type="submit">💾 ${se("save")}</button></div></form>`;
 }
 async function saveShop(){
-  const plans = [...document.querySelectorAll("[data-plan]")].map(r => { const f = r.querySelectorAll("select,input");
-    const level = f[0].value, days = +f[1].value || 30, price = digitsOf(f[2].value), disc = Math.min(+f[3].value || 0, 90), sale = digitsOf(f[4].value);
-    return price ? {id: level + days, level, days, price: fmtSum(price) + " so'm", discount: disc || undefined, sale: sale ? fmtSum(sale) + " so'm" : undefined} : null; }).filter(Boolean);
+  const plans = [];
+  document.querySelectorAll("tr[data-lvl]").forEach(r => {
+    const v = k => r.querySelector(`[data-k="${k}"]`).value, level = r.dataset.lvl, disc = Math.min(+v("disc") || 0, 90);
+    DUR.forEach(days => { const price = digitsOf(v("price" + days)), sale = digitsOf(v("sale" + days));
+      if (price) plans.push({id: level + days, level, days, price: fmtSum(price) + " so'm", discount: disc || undefined, sale: sale ? fmtSum(sale) + " so'm" : undefined}); });
+  });
   await saveSetting("shop", {plans, card: $("#scard").value.replace(/\D/g, ""), owner: $("#sowner").value.trim()});
   await saveSetting("discount", {percent: +$("#dp").value || 0, until: $("#du").value, label: $("#dl").value.trim()});
   render(false);

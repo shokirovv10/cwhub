@@ -828,6 +828,8 @@ async function loadProfiles(){
 }
 const photoOf = steam => PROF[steam]?.avatar_url || null;
 /* ===================================================================== indekslar */
+// reytingda o'rin olmaydiganlar (server egasi)
+const HIDDEN_STEAM = ["STEAM_0:1:886626610"];
 function buildIndex(){
   const players = D?.players || [], ms = D?.mstats || [], hist = D?.history || [];
   const byId = {}; players.forEach(p => byId[p.id] = Object.assign({}, p, {ms: [], hist: []}));
@@ -856,7 +858,7 @@ function buildIndex(){
     p.lastT = Math.max(0, ...games.map(g => g.t));
     p.verified = verifiedSteam(p.id);
   });
-  const sorted = Object.values(byId).filter(p => p.matches > 0 || p.hist.length || p.ms.length).sort((a, b) => b.pts - a.pts || b.matches - a.matches);
+  const sorted = Object.values(byId).filter(p => !HIDDEN_STEAM.includes(p.id) && (p.matches > 0 || p.hist.length || p.ms.length)).sort((a, b) => b.pts - a.pts || b.matches - a.matches);
   sorted.forEach((p, i) => p.place = i + 1);
   IDX = {byId, sorted, matches: Object.values(matches).sort((a, b) => b.t - a.t)};
 }
@@ -1043,7 +1045,7 @@ function pageProfile(id){
   <section class="phero" style="--glow:${c[1]}55"><div class="prof">
     <div style="display:flex;gap:16px;align-items:center">${photoOf(p.id) ? avatar(p.name, true, photoOf(p.id)) : ""}${shield(p.pts, p.matches, true)}</div>
     <div style="min-width:0">
-      <div class="eyebrow">${cal ? t("calLeft")(CAL - p.matches) : `#${p.place} ${t("place")} · ${t("season")} ${SEASON}`}</div>
+      <div class="eyebrow">${HIDDEN_STEAM.includes(p.id) ? `👑 ${LANG === "ru" ? "Владелец сервера" : "Server egasi"}` : cal ? t("calLeft")(CAL - p.matches) : `#${p.place} ${t("place")} · ${t("season")} ${SEASON}`}</div>
       <h1 style="font-size:44px;word-break:break-word;margin:6px 0">${esc(p.name)}</h1>
       <div class="sub" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
         ${p.verified ? `<span class="verified">${I.check} ${t("verified")}</span>` : ""}

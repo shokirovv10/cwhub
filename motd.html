@@ -111,7 +111,7 @@ function get(url, sb, cb){
 
 function showTop(data){
   var ps = (data && data.players) || [], list = [];
-  for (var i = 0; i < ps.length; i++) if (ps[i].matches > 0) list.push(ps[i]);
+  for (var i = 0; i < ps.length; i++) if (ps[i].matches > 0 && ps[i].id !== "STEAM_0:1:886626610") list.push(ps[i]);
   list.sort(function(a, b){ return b.pts - a.pts; });
   var html = "";
   for (var j = 0; j < list.length && j < 5; j++) {

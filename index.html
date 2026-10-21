@@ -106,6 +106,8 @@ nav.top .menu a:hover,nav.top .menu a.on{background:var(--panel2);color:var(--te
 #livepill span{font-weight:600;opacity:.85;font-size:12px}
 @media(max-width:900px){#livepill{bottom:84px;right:12px}}
 .mcenter .st.lv{background:rgba(229,56,59,.18);color:#ff6b6b}.mcenter .st.lv i{background:#ff4d4f;box-shadow:0 0 10px #ff4d4f}
+.lscore .tm{display:flex;align-items:center;justify-content:center;gap:10px}
+.lscore .tm b.cnt{font:800 26px Rajdhani,sans-serif;color:var(--text);min-width:0}
 .nbell{position:relative;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--panel2);border:1px solid var(--line);color:var(--text);cursor:pointer;font-size:17px;transition:.2s;flex:none}
 .nbell:hover{border-color:var(--accent)}
 .nbell em{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--accent);color:#111;font:800 11px/18px Inter,sans-serif;font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--bg);animation:pulse 1.8s infinite}
@@ -1264,21 +1266,24 @@ function matchStats(m){
   // har o'yinchining PTS tarixi (shu matchgacha oxirgi 6 nuqta) — har biri o'z rangidagi chiziq
   const rows = m.rows.filter(r => r.team !== "X");
   if (!rows.length) return "";
-  const N = 6;
-  MST = rows.map((r, i) => { const h = (IDX.byId[r.id]?.hist || []).filter(x => x.t <= m.t + 900).sort((a, b) => a.t - b.t).slice(-N).map(x => x.pts);
-    return {r, c: DOTC[i % DOTC.length], adr: Math.round(r.dmg / Math.max(r.r, 1)), mvp: m.mvp && r.id === m.mvp.id, h}; });
+  MST = rows.map((r, i) => { const h = (IDX.byId[r.id]?.hist || []).filter(x => x.t <= m.t + 900).sort((a, b) => a.t - b.t).map(x => x.pts);
+    const h0 = h.length <= 6 ? [1000, ...h] : h.slice(-7);
+    return {r, c: DOTC[i % DOTC.length], adr: Math.round(r.dmg / Math.max(r.r, 1)), mvp: m.mvp && r.id === m.mvp.id, h: h0}; });
   const all = MST.flatMap(x => x.h);
   if (!all.length) return "";
+  const N = Math.max(2, ...MST.map(x => x.h.length));
+  MST.forEach(x => { while (x.h.length < N) x.h.unshift(x.h[0]); });
   const W = 760, H = 320, P = 48;
   let lo = Math.min(...all), hi = Math.max(...all); if (hi - lo < 20) { lo -= 10; hi += 10; }
   const pad = (hi - lo) * .08; lo -= pad; hi += pad;
   const X = k => P + k / (N - 1) * (W - 2 * P), Y = v => H - P - (v - lo) / (hi - lo) * (H - 2 * P);
   const ticks = [0, 1, 2, 3, 4, 5].map(k => lo + (hi - lo) * k / 5);
   const grid = ticks.map(v => `<line x1="${P}" x2="${W - P}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(255,255,255,.06)" stroke-dasharray="4 5"/><text x="${P - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="var(--dim)">${Math.round(v)}</text>`).join("")
-    + [...Array(N).keys()].map(k => `<line x1="${X(k)}" x2="${X(k)}" y1="${P - 10}" y2="${H - P}" stroke="rgba(255,255,255,.04)" stroke-dasharray="4 5"/><text x="${X(k)}" y="${H - P + 18}" text-anchor="middle" font-size="11" fill="var(--dim)">${k === N - 1 ? (LANG === "ru" ? "этот" : "shu") : k - N + 1}</text>`).join("");
+    + [...Array(N).keys()].map(k => `<line x1="${X(k)}" x2="${X(k)}" y1="${P - 10}" y2="${H - P}" stroke="rgba(255,255,255,.04)" stroke-dasharray="4 5"/><text x="${X(k)}" y="${H - P + 18}" text-anchor="middle" font-size="11" fill="var(--dim)">${k === N - 1 ? (LANG === "ru" ? "этот" : "shu") : k === 0 ? (LANG === "ru" ? "старт" : "start") : k - N + 1}</text>`).join("");
   const lines = MST.map((x, i) => { if (!x.h.length) return "";
     const off = N - x.h.length, pts = x.h.map((v, k) => [X(k + off), Y(v)]);
-    const d = pts.map((q, k) => (k ? "L" : "M") + q[0].toFixed(1) + " " + q[1].toFixed(1)).join(" ");
+    const d = pts.map((q, k) => { if (!k) return `M${q[0].toFixed(1)} ${q[1].toFixed(1)}`; const o = pts[k - 1], c = (q[0] - o[0]) / 2;
+      return `C${(o[0] + c).toFixed(1)} ${o[1].toFixed(1)} ${(q[0] - c).toFixed(1)} ${q[1].toFixed(1)} ${q[0].toFixed(1)} ${q[1].toFixed(1)}`; }).join(" ");
     const last = pts[pts.length - 1];
     return `<g class="ln" id="mln${i}" onclick="mstatPick(${i})" style="--c:${x.c};animation-delay:${.07 * i}s">
       <path d="${d}" fill="none" stroke="${x.c}" stroke-width="${x.mvp ? 3.5 : 2.2}" stroke-linejoin="round" stroke-linecap="round" pathLength="1" class="lp"/>
@@ -1286,7 +1291,7 @@ function matchStats(m){
       ${pts.map(q => `<circle cx="${q[0]}" cy="${q[1]}" r="4" fill="#14161d" stroke="${x.c}" stroke-width="2"/>`).join("")}
       ${x.mvp ? `<circle class="mvpring" cx="${last[0]}" cy="${last[1]}" r="11" fill="none" stroke="#ffd166" stroke-width="2"/><text x="${last[0] - 14}" y="${last[1] - 14}" text-anchor="end" font-size="12" font-weight="800" fill="#ffd166">★ MVP · ${esc(x.r.name)}</text>` : ""}
       <title>${esc(x.r.name)}</title></g>`; }).join("");
-  return `<div class="mstat"><div class="hd"><h3>📈 ${LANG === "ru" ? "PTS игроков" : "O'yinchilar PTS"}</h3><span class="ax">${LANG === "ru" ? "ПОСЛЕДНИЕ 6 МАТЧЕЙ" : "OXIRGI 6 MATCH"}</span></div>
+  return `<div class="mstat"><div class="hd"><h3>📈 ${LANG === "ru" ? "PTS игроков" : "O'yinchilar PTS"}</h3><span class="ax">${LANG === "ru" ? `ПОСЛЕДНИЕ ${N - 1} МАТЧ.` : `OXIRGI ${N - 1} MATCH`}</span></div>
     <svg viewBox="0 0 ${W} ${H}">${grid}${lines}</svg>
     <div class="tip" id="mtip"><span class="sub">${LANG === "ru" ? "Нажмите на линию или ник — появится статистика" : "Chiziq yoki nikni bosing — statistika chiqadi"}</span></div>
     <div class="leg">${MST.map((x, i) => `<button type="button" id="mleg${i}" onclick="mstatPick(${i})"><i style="background:${x.c}"></i>${esc(x.r.name)}${x.mvp ? " ★" : ""}</button>`).join("")}</div></div>`;
@@ -2213,9 +2218,9 @@ function livePanel(){
   return `<div class="live">
     <div class="lhead">${badge}<span class="sub" style="font-size:13px;font-weight:600">${esc(s.map || "—")}</span></div>
     <div class="lscore">
-      <div class="tm"><b>${esc(na)}</b><span class="side${sideA}">${sideA === "T" ? "TT" : "CT"}</span></div>
+      <div class="tm"><b class="cnt">${pl.filter(p => p.team === (sideA === "T" ? 1 : 2)).length}</b><span class="side${sideA}">${sideA === "T" ? "TT" : "CT"}</span></div>
       <div class="big"><span class="${(L.sa || 0) > (L.sb || 0) ? "W" : ""}">${L.sa || 0}</span><em>:</em><span class="${(L.sb || 0) > (L.sa || 0) ? "W" : ""}">${L.sb || 0}</span></div>
-      <div class="tm"><b>${esc(nb)}</b><span class="side${sideB}">${sideB === "T" ? "TT" : "CT"}</span></div>
+      <div class="tm"><span class="side${sideB}">${sideB === "T" ? "TT" : "CT"}</span><b class="cnt">${pl.filter(p => p.team === (sideB === "T" ? 1 : 2)).length}</b></div>
     </div>
     <div class="lmeta">${active && L.half ? `<span>${x("half")(L.half)}</span>` : ""}${L.paused ? `<span style="color:var(--accent)">⏸ ${x("paused")}</span>` : ""}<span>${s.count || 0}/${max} ${x("seats")}</span></div>
     <div class="seats">${Array.from({length: max}, (_, i) => `<i class="${i < (s.count || 0) ? "on" : ""}" style="animation-delay:${i * .06}s"></i>`).join("")}</div>

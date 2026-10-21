@@ -653,12 +653,17 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .cmsg.mine .cn{flex-direction:row-reverse}
 .cmsg .del{position:absolute;top:4px;right:6px;border:0;background:none;color:var(--dim);cursor:pointer;opacity:0;transition:.2s;font-size:12px}
 .cmsg:hover .del{opacity:1}
-.gbadge{display:inline-flex;align-items:center;gap:3px;margin-left:6px;padding:1px 7px;border-radius:7px;font:800 11px Rajdhani,sans-serif;letter-spacing:.5px;color:#fff;
-  background:linear-gradient(135deg,#a855f7,#6d28d9);box-shadow:0 0 12px rgba(168,85,247,.75),inset 0 0 0 1px rgba(255,255,255,.25);animation:gglow 2.2s ease-in-out infinite;vertical-align:1px}
-@keyframes gglow{0%,100%{box-shadow:0 0 8px rgba(168,85,247,.55),inset 0 0 0 1px rgba(255,255,255,.2)}50%{box-shadow:0 0 18px rgba(192,132,252,.95),inset 0 0 0 1px rgba(255,255,255,.35)}}
+.gbadge{--g1:#a855f7;--g2:#6d28d9;--gl:168,85,247;display:inline-flex;align-items:center;gap:3px;margin-left:6px;padding:1px 7px;border-radius:7px;font:800 11px Rajdhani,sans-serif;letter-spacing:.5px;color:#fff;
+  background:linear-gradient(135deg,var(--g1),var(--g2));box-shadow:0 0 12px rgba(var(--gl),.75),inset 0 0 0 1px rgba(255,255,255,.25);animation:gglow 2.2s ease-in-out infinite;vertical-align:1px}
+.gbadge.bH{--g1:#22c55e;--g2:#15803d;--gl:34,197,94}
+.gbadge.bP{--g1:#fb923c;--g2:#ea580c;--gl:251,146,60}
+@keyframes gglow{0%,100%{box-shadow:0 0 8px rgba(var(--gl),.55),inset 0 0 0 1px rgba(255,255,255,.2)}50%{box-shadow:0 0 18px rgba(var(--gl),.95),inset 0 0 0 1px rgba(255,255,255,.35)}}
 .pcell.gn .nm{background:linear-gradient(90deg,#e9d5ff,#c084fc,#f5d0fe);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
-tr.elite td{background:linear-gradient(90deg,rgba(168,85,247,.16),rgba(168,85,247,.02))}
-tr.elite td:first-child{box-shadow:inset 3px 0 0 #a855f7}
+.pcell.gn.bH .nm{background-image:linear-gradient(90deg,#dcfce7,#4ade80,#bbf7d0)}
+.pcell.gn.bP .nm{background-image:linear-gradient(90deg,#ffedd5,#fb923c,#fed7aa)}
+tr.elite td{background:linear-gradient(90deg,rgba(var(--el,168,85,247),.16),rgba(var(--el,168,85,247),.02))}
+tr.elite td:first-child{box-shadow:inset 3px 0 0 rgb(var(--el,168,85,247))}
+tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 .badgecard{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .badgecard .sw{margin-left:auto}
 .cmsg .cact{display:flex;gap:4px;margin-top:4px;opacity:.55;transition:opacity .2s}
@@ -897,9 +902,11 @@ async function loadProfiles(){
 }
 const photoOf = steam => PROF[steam]?.avatar_url || null;
 // G yutug'i: G rank (3300+ PTS) va o'yinchi uni yoqqan bo'lsa — nik yonida porloq belgi
-const G_MIN = 3300;
+const G_MIN = 1600;     // H rankdan boshlab (H, H+, P-, P, P+, G-, G, G+)
 const hasG = p => !!p && (p.pts || 0) >= G_MIN && !!PROF[p.id]?.show_badge;
-const gBadge = p => hasG(p) ? `<span class="gbadge" title="G">💎 G</span>` : "";
+const badgeTier = p => { const n = rankName(p.pts || 0); return n[0] === "G" ? "" : "b" + n[0]; };
+const badgeIcon = n => n[0] === "G" ? "💎" : n[0] === "P" ? "🔥" : "⚡";
+const gBadge = p => { if (!hasG(p)) return ""; const n = rankName(p.pts); return `<span class="gbadge ${badgeTier(p)}" title="${n}">${badgeIcon(n)} ${n.replace("-", "−")}</span>`; };
 /* ===================================================================== indekslar */
 // reytingda o'rin olmaydiganlar (server egasi)
 const HIDDEN_STEAM = ["STEAM_0:1:886626610"];
@@ -938,7 +945,7 @@ function buildIndex(){
   const ranked = Object.values(byId).filter(p => p.matches > 0 || p.hist.length || p.ms.length || HIDDEN_STEAM.includes(p.id)).sort((a, b) => b.pts - a.pts || b.matches - a.matches);
   IDX = {byId, sorted, ranked, matches: Object.values(matches).sort((a, b) => b.t - a.t)};
 }
-const pcell = (p, name) => `<span class="pcell ${hasG(p) ? "gn" : ""}">${avatar(name || p.name, false, photoOf(p?.id))}<span class="nm">${esc(name || p.name)}</span>${gBadge(p)}${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
+const pcell = (p, name) => `<span class="pcell ${hasG(p) ? "gn " + badgeTier(p) : ""}">${avatar(name || p.name, false, photoOf(p?.id))}<span class="nm">${esc(name || p.name)}</span>${gBadge(p)}${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
 
 /* ===================================================================== sahifalar */
 function radar(n){
@@ -1008,7 +1015,7 @@ function topRows(list){
   const me = mySteam();
   return `<div class="tw"><table>
     <tr><th>#</th><th>${t("player")}</th><th>${t("rank")}</th><th class="num">PTS</th><th class="num">${t("matches")}</th><th class="num">${t("wins")}</th><th class="num">K/D</th><th class="num">HS%</th><th class="num">ADR</th><th>${t("form")}</th></tr>
-    ${list.map(p => `<tr class="click ${p.id === me ? "me" : ""} ${hasG(p) ? "elite" : ""}" onclick="go('#/p/${slug(p.id)}')">
+    ${list.map(p => `<tr class="click ${p.id === me ? "me" : ""} ${hasG(p) ? "elite " + badgeTier(p) : ""}" onclick="go('#/p/${slug(p.id)}')">
       <td class="place ${p.place <= 3 ? "g" + p.place : ""}">${p.place}</td><td>${pcell(p)}</td><td>${shield(p.pts, p.matches)}</td><td class="num"><b>${p.pts}</b></td>
       <td class="num">${p.matches}</td><td class="num">${pct(p.wins, p.matches)}%</td><td class="num">${kd(p.kills, p.deaths)}</td>
       <td class="num">${p.hsp}%</td><td class="num">${p.adr}</td><td>${formDots(p.form)}</td></tr>`).join("")}
@@ -1189,7 +1196,7 @@ function pageRanks(){
   const ru = LANG === "ru";
   let n = 0;
   const rows = IDX.ranked.map(p => { const own = HIDDEN_STEAM.includes(p.id), pl = own ? "👑" : ++n;
-    return `<tr class="click ${hasG(p) ? "elite" : ""}" onclick="go('#/p/${slug(p.id)}')">
+    return `<tr class="click ${hasG(p) ? "elite " + badgeTier(p) : ""}" onclick="go('#/p/${slug(p.id)}')">
       <td class="place ${!own && pl <= 3 ? "g" + pl : ""}">${pl}</td>
       <td style="width:100%">${pcell(p)}</td>
       <td class="num"><b>${p.pts}</b></td>
@@ -1338,10 +1345,10 @@ const myNick = () => ME?.acc?.site_nick || ME?.acc?.nick || (ME?.email || "").sp
 const MT = {
   uz: {prof: "Profil", nickL: "Nik", save: "Saqlash", saved: "Saqlandi", photo: "Rasm yuklash (PNG/JPG/WEBP, 2 MB gacha)", tooBig: "Rasm 2 MB dan katta",
     friends: "Do'stlar", reqs: "Do'stlik so'rovlari", noFr: "Hali do'stlar yo'q. O'yinchi profilida «Do'st qo'shish» ni bosing.", accept: "Qabul qilish", remove: "O'chirish",
-    add: "Do'st qo'shish", sent: "So'rov yuborildi", isFr: "Do'stingiz", noAcc: "Bu o'yinchi saytda ro'yxatdan o'tmagan", linkT: "O'yinga ulash", stats: "Statistikam", gT: "G yutug'i", gL: "Belgini nikingiz yoniga qo'ying — reyting va TOP'da porlab turadi.", gLock: (m, v) => `G rankga yeting (${m}+ PTS) — belgini nik yoniga qo'yish ochiladi. Hozir: ${v} PTS.`, gOn: "Nik yoniga qo'yish", gOff: "Olib tashlash"},
+    add: "Do'st qo'shish", sent: "So'rov yuborildi", isFr: "Do'stingiz", noAcc: "Bu o'yinchi saytda ro'yxatdan o'tmagan", linkT: "O'yinga ulash", stats: "Statistikam", gT: "Elita belgisi (H, P, G)", gL: "Rank belgingizni nik yoniga qo'ying — reyting va TOP'da o'z rangida porlab turadi.", gLock: (m, v) => `H rankga yeting (${m}+ PTS) — rank belgisini nik yoniga qo'yish ochiladi. Hozir: ${v} PTS.`, gOn: "Nik yoniga qo'yish", gOff: "Olib tashlash"},
   ru: {prof: "Профиль", nickL: "Ник", save: "Сохранить", saved: "Сохранено", photo: "Загрузить фото (PNG/JPG/WEBP, до 2 МБ)", tooBig: "Фото больше 2 МБ",
     friends: "Друзья", reqs: "Заявки в друзья", noFr: "Пока нет друзей. Нажмите «Добавить в друзья» в профиле игрока.", accept: "Принять", remove: "Удалить",
-    add: "Добавить в друзья", sent: "Заявка отправлена", isFr: "Ваш друг", noAcc: "Игрок не зарегистрирован на сайте", linkT: "Привязка к игре", stats: "Моя статистика", gT: "Достижение G", gL: "Поставьте значок рядом с ником — он будет светиться в рейтинге и ТОПе.", gLock: (m, v) => `Достигните ранга G (${m}+ PTS), чтобы ставить значок рядом с ником. Сейчас: ${v} PTS.`, gOn: "Поставить рядом с ником", gOff: "Убрать"}
+    add: "Добавить в друзья", sent: "Заявка отправлена", isFr: "Ваш друг", noAcc: "Игрок не зарегистрирован на сайте", linkT: "Привязка к игре", stats: "Моя статистика", gT: "Знак элиты (H, P, G)", gL: "Поставьте знак ранга рядом с ником — он будет светиться своим цветом в рейтинге и ТОПе.", gLock: (m, v) => `Достигните ранга H (${m}+ PTS), чтобы ставить знак ранга рядом с ником. Сейчас: ${v} PTS.`, gOn: "Поставить рядом с ником", gOff: "Убрать"}
 };
 const mt = k => MT[LANG][k];
 let FR = [];   // do'stlik qatorlari
@@ -1391,7 +1398,8 @@ function pageMe(){
     <div class="btns mt"><a class="btn main" href="steam://connect/${ADDRESS}">${I.play} ${t("connect")}</a></div>
     <p class="dim" style="font-size:12px;margin-top:12px">${t("pending")}</p></div>`;
   const gp = p ? p.pts || 0 : 0, gOk = gp >= G_MIN, gOn = !!(steam && PROF[steam]?.show_badge);
-  const badge = `<div class="card mt"><div class="badgecard"><span class="gbadge" style="font-size:14px;padding:4px 10px">💎 G</span>
+  const myRank = rankName(gp), bt = myRank[0] === "G" ? "" : "b" + (gOk ? myRank[0] : "H");
+  const badge = `<div class="card mt"><div class="badgecard"><span class="gbadge ${bt}" style="font-size:14px;padding:4px 10px">${gOk ? badgeIcon(myRank) + " " + myRank.replace("-", "−") : "⚡ H"}</span>
     <div><b>${mt("gT")}</b><div class="sub" style="font-size:13px">${gOk ? mt("gL") : mt("gLock")(G_MIN, gp)}</div></div>
     ${gOk ? `<button class="btn ${gOn ? "ghost" : "main"} sw" onclick="setBadge(${!gOn})">${gOn ? mt("gOff") : mt("gOn")}</button>` : ""}</div></div>`;
   return `${head}${link}${badge}<div class="mt">${friendsCard()}</div>`;
@@ -2132,6 +2140,9 @@ function renderNav(){
   const bi = [I.home, I.list, I.sword, crown, I.user], br = ["#/", "#/top", "#/matches", "#/premium", "#/me"];
   const bl = [t("nav")[0], t("nav")[1], t("nav")[2], pt("nav"), ME ? t("myProfile").split(" ")[0] : t("login")];
   if (!ME) br[4] = "#/login";
+  // admin bo'lsa — telefondagi pastki menyuda "Admin" tugmasi ham
+  if (ME?.admin) { bi.push('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5Z"/></svg>'); br.push("#/admin"); bl.push("Admin"); }
+  $("#bnav").style.gridTemplateColumns = `repeat(${br.length},1fr)`;
   $("#bnav").innerHTML = br.map((r, i) => `<a href="${r.slice(1)}" class="${i === 3 ? "prem " : ""}${(i < 3 && isOn(i)) || h === r && i >= 3 ? "on" : ""}">${bi[i]}<span>${bl[i]}</span></a>`).join("");
   document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b.dataset.l === LANG));
   document.documentElement.lang = LANG;

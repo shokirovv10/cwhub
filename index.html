@@ -691,7 +691,7 @@ const SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsIn
 const sb = (SB_URL && SB_ANON && window.supabase) ? window.supabase.createClient(SB_URL, SB_ANON) : null;
 const DATA_URLS = ["https://raw.githubusercontent.com/shokirovv10/cwhub/data/data.json", "/data.json"];
 const MAPS = ["de_dust2","de_inferno","de_nuke","de_train","de_cbble","de_aztec","de_tuscan","de_dust","de_mirage"];
-const RANKS = [[0,"L-"],[800,"L"],[1000,"L+"],[1200,"M-"],[1400,"M"],[1600,"M+"],[1800,"H-"],[2000,"H"],[2200,"H+"],[2500,"P-"],[2800,"P"],[3100,"P+"],[3400,"G-"],[3700,"G"],[4000,"G+"]];
+const RANKS = [[0,"L-"],[400,"L"],[600,"L+"],[800,"M-"],[1000,"M"],[1200,"M+"],[1400,"H-"],[1600,"H"],[1800,"H+"],[2100,"P-"],[2400,"P"],[2700,"P+"],[3000,"G-"],[3300,"G"],[3600,"G+"]];
 // har rank rangi: [fon, matn]
 const RANKC = {"L-":["#a3a8b3","#1b1d22"],"L":["#7c8391","#0f1115"],"L+":["#5d6472","#e8eaee"],"M-":["#7dd3fc","#062033"],"M":["#38bdf8","#04182a"],"M+":["#0f7fd1","#eaf6ff"],"H-":["#86efac","#06301a"],"H":["#22c55e","#03200f"],"H+":["#15803d","#eafff1"],"P-":["#fdc994","#3a1a02"],"P":["#fb923c","#2a1100"],"P+":["#ea580c","#fff3ea"],"G-":["#dcc2ff","#2a0b52"],"G":["#a855f7","#fff"],"G+":["#6d28d9","#fff"]};
 const RANKD = {uz: ["Boshlang'ich","Quyi daraja","Tajriba ortmoqda","O'rta darajaga kirish","O'rta daraja","Kuchli o'yinchi","Yuqori darajaga kirish","Kuchli","Juda kuchli","Yarim professional","Professional daraja","Elita","Eng yuqori darajaga kirish","Juda kam uchraydigan daraja","Eng yuqori daraja"], ru: ["Новичок","Низкий уровень","Набирается опыта","Вход в средний уровень","Средний уровень","Сильный игрок","Вход в высокий уровень","Сильный","Очень сильный","Полупрофессионал","Профессионал","Элита","Вход в высший уровень","Очень редкий уровень","Высший уровень"]};
@@ -721,7 +721,7 @@ const T = {
     ptsHistory: "PTS tarixi", recent: "Oxirgi matchlari", mates: "Ko'p birga o'ynaydi", rivals: "Raqiblari", ach: "Yutuqlar",
     together: (n, w) => `${n} match · ${w}% g'alaba`, against: (n, w) => `${n} match · ${w}% g'alaba`,
     compare: "Solishtirish", choose: "O'yinchini tanlang…", thisIsYou: "Bu sizning profilingiz",
-    ranksT: "Ranklar", ranksLead: "15 daraja: L → M → H → P → G. Eng kuchlisi — G+.", ranksNote: "Hamma 1000 PTS (L+) bilan boshlaydi. Match yutsangiz PTS oshadi, yutqazsangiz kamayadi; kuchli jamoani yutish ko'proq beradi (ELO). O'z o'yiningiz uchun ±10 gacha, MVP'ga +3. Match o'rtasida chiqish — jarima.",
+    ranksT: "Ranklar", ranksLead: "15 daraja: L → M → H → P → G. Eng kuchlisi — G+.", ranksNote: "Hamma 1000 PTS (M) bilan boshlaydi. Match yutsangiz PTS oshadi, yutqazsangiz kamayadi; kuchli jamoani yutish ko'proq beradi (ELO). O'z o'yiningiz uchun ±10 gacha, MVP'ga +3. Match o'rtasida chiqish — jarima.",
     bansT: "Banlar", bansLead: "Faol jazolar. IP va SteamID ko'rsatilmaydi.", noBans: "Hozir faol banlar yo'q", reason: "Sabab", since: "Berilgan", remain: "Qolgan", admin: "Admin",
     appeal: "Razbanga ariza / shikoyat", appealNote: "Ban noto'g'ri bo'lsa — Yordam bo'limiga yozing: konsoldagi (~) ban ma'lumoti skrinshoti va demo bilan.",
     rulesT: "Qoidalar", rulesLead: "Hamma uchun bir xil. Admin o'yinda ustunlik olmaydi.", updated: "Yangilangan",
@@ -733,7 +733,7 @@ const T = {
     yourCode: "Sizning kodingiz", linkLead: "Profilingizni o'yinga ulash uchun:",
     linkSteps: c => [`Serverga kiring: <span class='mono'>connect ${ADDRESS}</span>`, `Chatga yozing: <span class='mono'>/link ${c}</span>`, "Bir necha daqiqada sahifa yangilanadi — profilingiz ✓ bilan chiqadi"],
     linkedAs: "Ulangan o'yinchi", pending: "Ulanish kutilmoqda… (kod har bir akkauntda boshqa)", hello: n => `Salom, ${n}!`, openProfile: "Profilimni ochish",
-    achs: [["🎯","Birinchi qadam","1 match o'ynash"],["🏆","Birinchi g'alaba","1 match yutish"],["🔥","Seriya","3 g'alaba ketma-ket"],["🔟","O'nlik","10 match"],["💯","Faxriy","25 match"],["🎖","Veteran","100 match"],["🔫","Jallod","Jami 100 kill"],["☠️","Terminator","Jami 500 kill"],["💀","Qassob","Bir matchda 30+ kill"],["💥","Zarba","Bir matchda 2500+ damage"],["🧠","Headshot ustasi","HS 50%+ (10+ match)"],["⭐","MVP","Match MVP'si bo'lish"],["⚡","To'xtovsiz","5 g'alaba ketma-ket"],["🟢","H rank","2000+ PTS"],["💎","G rank","3700+ PTS"]], achOf: "ochildi",
+    achs: [["🎯","Birinchi qadam","1 match o'ynash"],["🏆","Birinchi g'alaba","1 match yutish"],["🔥","Seriya","3 g'alaba ketma-ket"],["🔟","O'nlik","10 match"],["💯","Faxriy","25 match"],["🎖","Veteran","100 match"],["🔫","Jallod","Jami 100 kill"],["☠️","Terminator","Jami 500 kill"],["💀","Qassob","Bir matchda 30+ kill"],["💥","Zarba","Bir matchda 2500+ damage"],["🧠","Headshot ustasi","HS 50%+ (10+ match)"],["⭐","MVP","Match MVP'si bo'lish"],["⚡","To'xtovsiz","5 g'alaba ketma-ket"],["🟢","H rank","1600+ PTS"],["💎","G rank","3300+ PTS"]], achOf: "ochildi",
     clansNav: "Klanlar", soon: "Tez orada", clansT: "Klanlar va turnirlar", clansL: "Klaningizni yarating, tarkib yig'ing va CwhubUZ turnirlarida sovrin uchun kurashing. Bo'lim ishlab chiqilmoqda.",
     clansF: [["🛡 Klan sahifasi","Logo, tarkib, klan reytingi va statistikasi"],["🏆 Turnirlar","Ro'yxatdan o'tish va avtomatik setka (bracket)"],["⚔ Klan matchlari","Natijalar klan reytingiga qo'shiladi"],["🎁 Sovrinlar","Sezon g'oliblariga Premium va sovg'alar"]],
     forever: "Abadiy", connect: "Ulanish"
@@ -760,7 +760,7 @@ const T = {
     ptsHistory: "История PTS", recent: "Последние матчи", mates: "Часто играет с", rivals: "Соперники", ach: "Достижения",
     together: (n, w) => `${n} матчей · ${w}% побед`, against: (n, w) => `${n} матчей · ${w}% побед`,
     compare: "Сравнить", choose: "Выберите игрока…", thisIsYou: "Это ваш профиль",
-    ranksT: "Ранги", ranksLead: "15 уровней: L → M → H → P → G. Сильнейший — G+.", ranksNote: "Все начинают с 1000 PTS (L+). Победа повышает PTS, поражение понижает; победа над сильной командой даёт больше (Эло). За свою игру ±10, MVP +3. Выход посреди матча — штраф.",
+    ranksT: "Ранги", ranksLead: "15 уровней: L → M → H → P → G. Сильнейший — G+.", ranksNote: "Все начинают с 1000 PTS (M). Победа повышает PTS, поражение понижает; победа над сильной командой даёт больше (Эло). За свою игру ±10, MVP +3. Выход посреди матча — штраф.",
     bansT: "Баны", bansLead: "Активные наказания. IP и SteamID не показываются.", noBans: "Активных банов нет", reason: "Причина", since: "Выдан", remain: "Осталось", admin: "Админ",
     appeal: "Заявка на разбан / жалоба", appealNote: "Если бан ошибочный — напишите в Поддержку: скриншот информации о бане из консоли (~) и демо.",
     rulesT: "Правила", rulesLead: "Одинаковые для всех. Админка не даёт преимущества в игре.", updated: "Обновлено",
@@ -772,7 +772,7 @@ const T = {
     yourCode: "Ваш код", linkLead: "Чтобы привязать профиль к игре:",
     linkSteps: c => [`Зайдите на сервер: <span class='mono'>connect ${ADDRESS}</span>`, `Напишите в чат: <span class='mono'>/link ${c}</span>`, "Через пару минут страница обновится — профиль будет с ✓"],
     linkedAs: "Привязанный игрок", pending: "Ожидание привязки… (у каждого аккаунта свой код)", hello: n => `Привет, ${n}!`, openProfile: "Открыть мой профиль",
-    achs: [["🎯","Первый шаг","Сыграть 1 матч"],["🏆","Первая победа","Выиграть матч"],["🔥","Серия","3 победы подряд"],["🔟","Десятка","10 матчей"],["💯","Завсегдатай","25 матчей"],["🎖","Ветеран","100 матчей"],["🔫","Палач","Всего 100 убийств"],["☠️","Терминатор","Всего 500 убийств"],["💀","Мясник","30+ убийств за матч"],["💥","Удар","2500+ урона за матч"],["🧠","Хедшотер","HS 50%+ (10+ матчей)"],["⭐","MVP","Стать MVP матча"],["⚡","Без остановки","5 побед подряд"],["🟢","Ранг H","2000+ PTS"],["💎","Ранг G","3700+ PTS"]], achOf: "открыто",
+    achs: [["🎯","Первый шаг","Сыграть 1 матч"],["🏆","Первая победа","Выиграть матч"],["🔥","Серия","3 победы подряд"],["🔟","Десятка","10 матчей"],["💯","Завсегдатай","25 матчей"],["🎖","Ветеран","100 матчей"],["🔫","Палач","Всего 100 убийств"],["☠️","Терминатор","Всего 500 убийств"],["💀","Мясник","30+ убийств за матч"],["💥","Удар","2500+ урона за матч"],["🧠","Хедшотер","HS 50%+ (10+ матчей)"],["⭐","MVP","Стать MVP матча"],["⚡","Без остановки","5 побед подряд"],["🟢","Ранг H","1600+ PTS"],["💎","Ранг G","3300+ PTS"]], achOf: "открыто",
     clansNav: "Кланы", soon: "Скоро", clansT: "Кланы и турниры", clansL: "Создайте клан, соберите состав и боритесь за призы в турнирах CwhubUZ. Раздел в разработке.",
     clansF: [["🛡 Страница клана","Логотип, состав, рейтинг и статистика клана"],["🏆 Турниры","Регистрация и автоматическая сетка"],["⚔ Клановые матчи","Результаты идут в рейтинг кланов"],["🎁 Призы","Premium и подарки победителям сезона"]],
     forever: "Навсегда", connect: "Подключиться"
@@ -1075,7 +1075,7 @@ function people(p){
 // [hozirgi, maqsad] — t("achs") bilan bir xil tartibda
 function achGoals(p){
   return [[p.matches, 1], [p.wins, 1], [p.streak, 3], [p.matches, 10], [p.matches, 25], [p.matches, 100], [p.kills, 100], [p.kills, 500],
-    [p.maxKills, 30], [p.maxDmg || 0, 2500], [p.matches >= 10 ? p.hsp : 0, 50], [p.mvps, 1], [p.streak, 5], [p.pts, 2000], [p.pts, 3700]];
+    [p.maxKills, 30], [p.maxDmg || 0, 2500], [p.matches >= 10 ? p.hsp : 0, 50], [p.mvps, 1], [p.streak, 5], [p.pts, 1600], [p.pts, 3300]];
 }
 function achCount(p){ return achGoals(p).filter(([v, g]) => v >= g).length; }
 function achievements(p){

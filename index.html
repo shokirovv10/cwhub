@@ -89,10 +89,10 @@ nav.top .more{position:relative}
 nav.top .more>button{border:0;background:none;cursor:pointer;color:var(--muted);padding:9px 10px;border-radius:10px;font-family:inherit;font-weight:600;font-size:14px;white-space:nowrap;transition:color .2s}
 nav.top .more>button.on,nav.top .more:hover>button{color:var(--text)}
 nav.top .more>button i{display:inline-block;font-style:normal;margin-left:4px;font-size:10px;transition:transform .25s var(--ease)}
-nav.top .more:hover>button i,nav.top .more.open>button i{transform:rotate(180deg)}
+nav.top .more.open>button i{transform:rotate(180deg)}
 nav.top .menu{position:absolute;top:100%;left:0;min-width:180px;padding:6px;margin-top:6px;border-radius:14px;background:rgba(16,19,26,.97);border:1px solid var(--line2);box-shadow:var(--shadow);backdrop-filter:blur(16px);display:grid;gap:2px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .2s,transform .2s var(--ease),visibility .2s;z-index:40}
 nav.top .menu:before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}
-nav.top .more:hover .menu,nav.top .more.open .menu{opacity:1;visibility:visible;transform:none}
+nav.top .more.open .menu{opacity:1;visibility:visible;transform:none}
 nav.top .menu a{padding:9px 12px}
 nav.top .menu a:after{display:none}
 nav.top .menu a:hover,nav.top .menu a.on{background:var(--panel2);color:var(--text)}
@@ -766,6 +766,24 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 .mpl:hover .av-wrap .av{transform:scale(1.08)}.mpl .av-wrap .av{transition:transform .25s var(--ease)}
 .mpl .kda{transition:background .2s}.mpl:hover .kda{background:rgba(255,159,28,.18)}
 @media (prefers-reduced-motion:reduce){.mcenter:after{display:none}.mside .mpl,.mcenter,.mcenter .bg,.mcenter .score span,.mcenter .score .cup,.mpl.prem:after{animation:none;opacity:1;transform:none}}
+.mstat{margin-top:18px;border-radius:22px;padding:20px;background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.01));border:1px solid var(--line2);animation:mcIn .7s .2s var(--ease) both}
+.mstat .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.mstat .hd h3{margin:0;font-size:22px;text-transform:uppercase}
+.mstat .ax{font-size:12px;color:var(--dim);font-weight:700;letter-spacing:1px}
+.mstat svg{width:100%;height:auto;display:block}
+.mstat .dot{cursor:pointer;transition:r .2s;transform-box:fill-box;transform-origin:center;animation:dotIn .6s var(--ease) both}
+.mstat .dot:hover{filter:brightness(1.25)}
+@keyframes dotIn{from{opacity:0;transform:scale(0)}to{opacity:1;transform:none}}
+.mstat .mvpring{animation:mvpPulse 2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes mvpPulse{0%,100%{opacity:.9;transform:scale(1)}50%{opacity:.35;transform:scale(1.35)}}
+.mstat .tip{min-height:44px;margin-top:10px;padding:10px 14px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-size:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.mstat .tip b{font-size:16px}.mstat .tip i{width:12px;height:12px;border-radius:50%;flex:none}
+.mstat .leg{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.mstat .leg button{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:99px;padding:4px 10px;font:600 12px Inter,sans-serif;cursor:pointer;transition:.2s}
+.mstat .leg button:hover,.mstat .leg button.on{border-color:var(--accent);background:rgba(255,159,28,.12)}
+.mstat .leg button i{width:10px;height:10px;border-radius:50%}
+.awards .aw{background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.01));border:1px solid var(--line2);border-radius:18px;animation:mcIn .6s var(--ease) both}
+.awards .aw:first-child{border-color:rgba(255,184,77,.5);box-shadow:0 0 24px rgba(255,170,60,.12)}
 .cmsg .cact{display:flex;gap:4px;margin-top:4px;opacity:.55;transition:opacity .2s}
 .cmsg:hover .cact,.cmsg .cact:focus-within{opacity:1}
 .cmsg.mine .cact{justify-content:flex-end}
@@ -1197,10 +1215,40 @@ function matchBoard(m){
         <div><span>${LANG === "ru" ? "Завершён" : "Tugadi"}</span><b>${agoTxt}</b></div></div></div>
     ${side(B, "right", m.nb, m.winner === "B")}</div>`;
 }
+// Match statistikasi: har o'yinchi — o'z rangidagi nuqta (X — ADR, Y — reyting). Bosilsa nik va raqamlar chiqadi, MVP ajratilgan
+const DOTC = ["#ff9f1c","#38bdf8","#22c55e","#f472b6","#a78bfa","#facc15","#fb7185","#2dd4bf","#f97316","#60a5fa","#c084fc","#4ade80"];
+let MST = [];
+function matchStats(m){
+  const rows = m.rows.filter(r => r.team !== "X");
+  if (!rows.length) return "";
+  MST = rows.map((r, i) => ({r, c: DOTC[i % DOTC.length], adr: Math.round(r.dmg / Math.max(r.r, 1)), mvp: m.mvp && r.id === m.mvp.id}));
+  const W = 760, H = 300, P = 44;
+  const maxA = Math.max(60, ...MST.map(x => x.adr)) * 1.1, minR = Math.min(0.4, ...MST.map(x => x.r.rating)) - 0.1, maxR = Math.max(1.6, ...MST.map(x => x.r.rating)) + 0.1;
+  const X = a => P + a / maxA * (W - 2 * P), Y = v => H - P - (v - minR) / (maxR - minR) * (H - 2 * P);
+  const grid = [0.5, 1, 1.5, 2].filter(v => v > minR && v < maxR).map(v => `<line x1="${P}" x2="${W - P}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(255,255,255,${v === 1 ? .18 : .06})" ${v === 1 ? 'stroke-dasharray="5 5"' : ""}/><text x="${P - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="var(--dim)">${v.toFixed(1)}</text>`).join("");
+  const ax = [0, 50, 100, 150, 200].filter(v => v < maxA).map(v => `<text x="${X(v)}" y="${H - P + 18}" text-anchor="middle" font-size="11" fill="var(--dim)">${v}</text>`).join("");
+  const dots = MST.map((x, i) => `${x.mvp ? `<circle class="mvpring" cx="${X(x.adr)}" cy="${Y(x.r.rating)}" r="18" fill="none" stroke="#ffd166" stroke-width="2"/>` : ""}
+    <circle class="dot" style="animation-delay:${.08 * i}s" cx="${X(x.adr)}" cy="${Y(x.r.rating)}" r="${x.mvp ? 11 : 9}" fill="${x.c}" stroke="#0b0d11" stroke-width="2" onclick="mstatPick(${i})"><title>${esc(x.r.name)}</title></circle>
+    ${x.mvp ? `<text x="${X(x.adr)}" y="${Y(x.r.rating) - 24}" text-anchor="middle" font-size="12" font-weight="800" fill="#ffd166">★ MVP · ${esc(x.r.name)}</text>` : ""}`).join("");
+  return `<div class="mstat"><div class="hd"><h3>📊 ${LANG === "ru" ? "Статистика матча" : "Match statistikasi"}</h3><span class="ax">X — ADR · Y — ${LANG === "ru" ? "РЕЙТИНГ" : "REYTING"}</span></div>
+    <svg viewBox="0 0 ${W} ${H}">${grid}${ax}<line x1="${P}" x2="${W - P}" y1="${H - P}" y2="${H - P}" stroke="rgba(255,255,255,.12)"/>${dots}</svg>
+    <div class="tip" id="mtip"><span class="sub">${LANG === "ru" ? "Нажмите на точку — появится ник и статистика" : "Nuqtani bosing — nik va statistika chiqadi"}</span></div>
+    <div class="leg">${MST.map((x, i) => `<button type="button" id="mleg${i}" onclick="mstatPick(${i})"><i style="background:${x.c}"></i>${esc(x.r.name)}${x.mvp ? " ★" : ""}</button>`).join("")}</div></div>`;
+}
+function mstatPick(i){
+  const x = MST[i]; if (!x) return;
+  const r = x.r, tip = $("#mtip"); if (!tip) return;
+  tip.innerHTML = `<i style="background:${x.c}"></i><b>${esc(r.name)}</b>${x.mvp ? `<span style="color:#ffd166;font-weight:800">★ MVP</span>` : ""}
+    <span>K/D/A <b>${r.k}/${r.d}/${r.a}</b></span><span>ADR <b>${x.adr}</b></span><span>HS <b>${pct(r.hs, r.k)}%</b></span>
+    <span>${t("rt")} <b class="${r.rating >= 1.1 ? "W" : r.rating < 0.85 ? "L" : ""}">${r.rating.toFixed(2)}</b></span>
+    ${r.delta == null ? "" : `<span>PTS <b class="${r.delta >= 0 ? "W" : "L"}">${r.delta >= 0 ? "+" : ""}${r.delta}</b></span>`}
+    <a class="btn sm ghost" href="/p/${slug(r.id)}" style="margin-left:auto">${LANG === "ru" ? "Профиль" : "Profil"} →</a>`;
+  document.querySelectorAll(".mstat .leg button").forEach((b, k) => b.classList.toggle("on", k === i));
+}
 function pageMatch(ts){
   const m = IDX.matches.find(x => String(x.t) === ts);
   if (!m) return `<div class="card empty">${t("notFound")}<br><br><a class="btn" href="/matches">${t("back")}</a></div>`;
-  const A = m.rows.filter(r => r.team === "A"), B = m.rows.filter(r => r.team === "B"), X = m.rows.filter(r => r.team === "X");
+  const X = m.rows.filter(r => r.team === "X");
   const real = m.rows.filter(r => !r.left), by = f => real.slice().sort((a, b) => f(b) - f(a))[0];
   const dm = by(r => r.dmg), hs = by(r => r.hs), bk = by(r => r.k / Math.max(r.d, 1));
   const res = side => m.winner === "D" ? `<span class="D">${t("draw")}</span>` : m.winner === side ? `<span class="W">${t("win")}</span>` : `<span class="L">${t("loss")}</span>`;
@@ -1212,10 +1260,8 @@ function pageMatch(ts){
     <div class="aw"><span>💥 ${t("mostDmg")}</span><b>${esc(dm.name)}</b><span class="sub">${dm.dmg} · ADR ${Math.round(dm.dmg / Math.max(dm.r, 1))}</span></div>
     <div class="aw"><span>🎯 ${t("mostHs")}</span><b>${esc(hs.name)}</b><span class="sub">${hs.hs} HS</span></div>
     <div class="aw"><span>⚔ ${t("bestKd")}</span><b>${esc(bk.name)}</b><span class="sub">${bk.k}–${bk.d}</span></div></div>` : ""}
-  <div class="card mt"><h3>${esc(m.na)} <span class="sub">· ${m.sa}</span></h3>${teamTable(A)}</div>
-  <div class="card mt"><h3>${esc(m.nb)} <span class="sub">· ${m.sb}</span></h3>${teamTable(B)}</div>
-  ${X.length ? `<div class="card mt"><h3>${t("left")}</h3>${teamTable(X)}</div>` : ""}
-  <p class="sub mt" style="font-size:13px">${t("ratingNote")}</p>`;
+  ${matchStats(m)}
+  ${X.length ? `<p class="sub mt" style="font-size:13px">${t("left")}: ${X.map(r => `${esc(r.name)} (${r.k}–${r.d})`).join(", ")}</p>` : ""}`;
 }
 
 function chart(hist){
@@ -1832,6 +1878,11 @@ function buyNext(){
   buy.steam = v.toUpperCase(); store.set("steam", buy.steam); buy.step = 3; drawBuy();
 }
 document.addEventListener("keydown", e => { if (e.key === "Escape" && buy) closeBuy(); });
+// "Ko'proq" menyusi: tashqariga bosilsa, Esc yoki sahifa almashsa — yopiladi
+const closeMore = () => document.querySelectorAll("nav.top .more.open").forEach(m => m.classList.remove("open"));
+document.addEventListener("click", e => { if (!e.target.closest || !e.target.closest("nav.top .more")) closeMore(); }, true);
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeMore(); });
+window.addEventListener("scroll", closeMore, {passive: true});
 
 /* ===================================================================== animatsiyalar */
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -2387,7 +2438,7 @@ function renderNav(){
   const extraOn = isOn(4) || isOn(5) || h === "#/support" || h === "#/admin";
   $("#nav").innerHTML = [0, 1, 2, 3].map(i => link(ROUTES[i].slice(1), t("nav")[i], isOn(i))).join("")
     + link("/chat", "💬 Chat", h === "#/chat")
-    + `<div class="more"><button type="button" class="${extraOn ? "on" : ""}" onclick="this.parentNode.classList.toggle('open')">${LANG === "ru" ? "Ещё" : "Ko'proq"}<i>▾</i></button><div class="menu">${extra.join("")}</div></div>`
+    + `<div class="more" onmouseleave="this.classList.remove('open')"><button type="button" class="${extraOn ? "on" : ""}" onclick="this.parentNode.classList.toggle('open')">${LANG === "ru" ? "Ещё" : "Ko'proq"}<i>▾</i></button><div class="menu">${extra.join("")}</div></div>`
     + `<a href="/premium" class="prem ${h === "#/premium" ? "on" : ""}">👑 ${pt("nav")}</a>`;
   const crown = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 7 4.5 4L12 4l4.5 7L21 7l-2 12H5Z"/></svg>';
   const chatIc = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>';

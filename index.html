@@ -101,15 +101,35 @@ nav.top .menu a:hover,nav.top .menu a.on{background:var(--panel2);color:var(--te
 .lang{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:3px}
 .lang button{border:0;background:none;padding:4px 9px;border-radius:7px;cursor:pointer;color:var(--muted);font-weight:700;font-size:12px;transition:.2s}
 .lang button.on{background:var(--accent);color:var(--accent-ink)}
+#livepill{position:fixed;right:18px;bottom:22px;z-index:70;display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:99px;background:linear-gradient(135deg,#e5383b,#a4161a);color:#fff;text-decoration:none;font:800 14px Inter,sans-serif;letter-spacing:.5px;box-shadow:0 10px 30px rgba(229,56,59,.45);animation:mcIn .4s var(--ease) both}
+#livepill i{width:9px;height:9px;border-radius:50%;background:#fff;animation:pulse 1.4s infinite}
+#livepill span{font-weight:600;opacity:.85;font-size:12px}
+@media(max-width:900px){#livepill{bottom:84px;right:12px}}
+.mcenter .st.lv{background:rgba(229,56,59,.18);color:#ff6b6b}.mcenter .st.lv i{background:#ff4d4f;box-shadow:0 0 10px #ff4d4f}
 .nbell{position:relative;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--panel2);border:1px solid var(--line);color:var(--text);cursor:pointer;font-size:17px;transition:.2s;flex:none}
 .nbell:hover{border-color:var(--accent)}
 .nbell em{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--accent);color:#111;font:800 11px/18px Inter,sans-serif;font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--bg);animation:pulse 1.8s infinite}
-.npanel{position:fixed;top:66px;right:16px;width:min(360px,calc(100vw - 32px));max-height:70vh;overflow:auto;z-index:80;background:#14161d;border:1px solid var(--line2);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.6);padding:10px;animation:mcIn .3s var(--ease) both}
-.npanel h4{margin:6px 8px 10px;display:flex;justify-content:space-between;align-items:center}
-.npanel h4 button{background:none;border:0;color:var(--dim);cursor:pointer;font:600 12px Inter,sans-serif}
-.nitem{display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:12px;text-decoration:none;color:var(--text);font-size:13px;line-height:1.4}
-.nitem:hover{background:var(--panel2)}.nitem.new{background:rgba(255,159,28,.07)}
-.nitem .ni{font-size:18px;flex:none;width:24px;text-align:center}.nitem small{display:block;color:var(--dim);font-size:11px;margin-top:2px}
+.npanel{position:fixed;top:66px;right:16px;width:min(380px,calc(100vw - 32px));max-height:72vh;overflow:auto;z-index:80;background:#121419;border:1px solid var(--line2);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.6);padding:6px 0;animation:mcIn .25s var(--ease) both}
+.npanel h4{margin:0;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;font-size:15px;letter-spacing:.3px;border-bottom:1px solid var(--line)}
+.npanel h4 button{background:none;border:0;color:var(--dim);cursor:pointer;font-size:16px;line-height:1;padding:4px}
+.nitem{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;padding:13px 18px;text-decoration:none;color:var(--text);font-size:13.5px;line-height:1.45;border-bottom:1px solid rgba(255,255,255,.05);transition:background .2s;cursor:pointer}
+.nitem:last-child{border-bottom:0}.nitem:hover{background:rgba(255,255,255,.03)}
+.nitem.new{box-shadow:inset 3px 0 0 var(--accent)}
+.nitem .ni{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--nc) 14%,transparent);color:var(--nc)}
+.nitem .ni svg{width:18px;height:18px}
+.nitem small{color:var(--dim);font-size:11.5px;white-space:nowrap;align-self:start;margin-top:2px}
+.dmbox{position:fixed;right:18px;bottom:18px;z-index:90;width:min(360px,calc(100vw - 24px));height:min(480px,calc(100vh - 110px));display:flex;flex-direction:column;background:#121419;border:1px solid var(--line2);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.6);animation:mcIn .25s var(--ease) both;overflow:hidden}
+.dmbox .dh{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.dmbox .dh b{flex:1;font-size:15px}.dmbox .dh button{background:none;border:0;color:var(--dim);font-size:18px;cursor:pointer}
+.dmbox .db{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:6px}
+.dmbox .dmm{max-width:78%;padding:8px 12px;border-radius:14px;background:var(--panel2);font-size:14px;line-height:1.4;word-wrap:break-word;align-self:flex-start}
+.dmbox .dmm.me{align-self:flex-end;background:rgba(255,159,28,.16);border-bottom-right-radius:4px}
+.dmbox .dmm:not(.me){border-bottom-left-radius:4px}
+.dmbox .dmm small{display:block;font-size:10.5px;color:var(--dim);margin-top:3px;text-align:right}
+.dmbox form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+.dmbox input{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px 12px;font:14px Inter,sans-serif;outline:none}
+.dmbox input:focus{border-color:var(--accent)}
+@media(max-width:900px){.dmbox{bottom:76px;right:12px}}
 .who{display:flex;align-items:center;gap:9px;text-decoration:none;padding:4px 12px 4px 4px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);font-weight:600;font-size:14px;max-width:190px;transition:.2s}
 .who:hover{border-color:var(--accent)}
 .who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -784,6 +804,10 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 .mstat svg{width:100%;height:auto;display:block}
 .mstat .dot{cursor:pointer;transition:r .2s;transform-box:fill-box;transform-origin:center;animation:dotIn .6s var(--ease) both}
 .mstat .dot:hover{filter:brightness(1.25)}
+.mstat .ln{cursor:pointer;transition:opacity .25s}.mstat .ln.dim{opacity:.15}
+.mstat .ln .lp{stroke-dasharray:1;stroke-dashoffset:1;animation:lnDraw 1.2s var(--ease) forwards;animation-delay:inherit}
+.mstat .ln:hover .lp{filter:drop-shadow(0 0 6px var(--c))}
+@keyframes lnDraw{to{stroke-dashoffset:0}}
 .mstat .arw{animation:arwIn .7s var(--ease) both}
 @keyframes arwIn{from{opacity:0}to{opacity:1}}
 @keyframes dotIn{from{opacity:0;transform:scale(0)}to{opacity:1;transform:none}}
@@ -1198,18 +1222,19 @@ function teamTable(rows){
       <td class="num ${s.delta == null ? "" : s.delta >= 0 ? "W" : "L"}">${s.delta == null ? "—" : (s.delta >= 0 ? "+" : "") + s.delta}</td></tr>`; }).join("")}</table></div>`;
 }
 // FastCup uslubidagi match taxtasi: chap/o'ng jamoalar, o'rtada xarita va hisob
-function matchBoard(m){
+function matchBoard(m, live){
   const cup = '<svg class="cup" viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10v2h4v3a4 4 0 0 1-4 4h-.4A5 5 0 0 1 13 15.9V18h3v3H8v-3h3v-2.1A5 5 0 0 1 7.4 12H7a4 4 0 0 1-4-4V5h4Zm0 4H5v1a2 2 0 0 0 2 2Zm10 0v3a2 2 0 0 0 2-2V7Z"/></svg>';
-  const ptsOf = s => { const h = IDX.byId[s.id]?.hist.find(x => Math.abs(x.t - m.t) < 900); return h ? h.pts : null; };
+  const ptsOf = s => { if (live) return IDX.byId[s.id]?.pts ?? null; const h = IDX.byId[s.id]?.hist.find(x => Math.abs(x.t - m.t) < 900); return h ? h.pts : null; };
   const sideCls = nm => /^(ct|kontr|контр)/i.test(nm || "") ? "sCT" : "sT";
   const side = (rows, cls, name, win) => {
     const list = rows.slice().sort((a, b) => b.k - a.k || a.d - b.d);
     const before = list.map(s => { const p = ptsOf(s); return p != null && s.delta != null ? p - s.delta : null; }).filter(v => v != null);
+    if (live) before.push(...list.map(ptsOf).filter(v => v != null));
     const avg = before.length ? Math.round(before.reduce((a, b) => a + b, 0) / before.length) : null;
     const dsum = list.reduce((a, s) => a + (s.delta || 0), 0);
     return `<div class="mside ${cls} ${sideCls(name)} ${win ? "win" : ""}"><div class="mth"><div><b>${cls === "right" && win ? `<span class="cupi">🏆</span>` : ""}${esc(name)}${cls === "left" && win ? `<span class="cupi">🏆</span>` : ""}<span class="bar"></span></b><span class="avg"><i class="${dsum >= 0 ? "up" : ""}">${dsum >= 0 ? "↗" : "↘"}</i>${avg ?? "—"}</span></div><small>K / D / A</small></div>
       ${list.map(s => { const pts = ptsOf(s), pr = PROF[s.id], prem = !!pr?.premium, rn = pts != null ? rankName(pts) : null, rc = rn ? RANKC[rn] : null;
-        return `<a class="mpl ${prem ? "prem" : ""}" href="/p/${slug(s.id)}" style="${prem && pr.banner_url ? `background-image:url('${esc(pr.banner_url)}')` : prem ? "background-image:linear-gradient(90deg,rgba(255,184,77,.18),transparent)" : ""}">
+        return `<a class="mpl ${prem ? "prem" : ""}" ${IDX.byId[s.id] ? `href="/p/${slug(s.id)}"` : ""} style="${prem && pr.banner_url ? `background-image:url('${esc(pr.banner_url)}')` : prem ? "background-image:linear-gradient(90deg,rgba(255,184,77,.18),transparent)" : ""}">
           ${prem ? `<span class="ptag">PREMIUM</span>` : ""}
           <span class="av-wrap">${avatar(s.name, false, photoOf(s.id))}${rc ? `<span class="rk" style="background:${rc[0]};color:${rc[1]}">${rn.replace("-", "−")}</span>` : ""}</span>
           <span class="who2"><b style="${nickStyle(s.id)}">${esc(s.name)}</b><span>📊 ${pts ?? "—"} ${s.delta == null ? "" : `<b class="${s.delta >= 0 ? "W" : "L"}" style="display:inline;font-size:12px">${s.delta >= 0 ? "+" : ""}${s.delta}</b>`}</span></span>
@@ -1222,36 +1247,48 @@ function matchBoard(m){
     <div class="mcenter"><div class="bg" style="background-image:url('${mapImg(m.map)}')"></div><div class="shade"></div><div class="wm">${esc(m.map)}</div>
       <div class="tags"><span>${esc(m.map)}</span><span>5v5</span></div>
       <div class="score">${m.winner === "A" ? cup : ""}<span class="${m.winner === "B" ? "lose" : ""}">${m.sa}</span><em>:</em><span class="${m.winner === "A" ? "lose" : ""}">${m.sb}</span>${m.winner === "B" ? cup : ""}</div>
-      <div class="st"><i></i>${LANG === "ru" ? "Завершён" : "Yakunlandi"}</div>
+      ${live ? `<div class="st lv"><i></i>${live.paused ? "⏸ " + (LANG === "ru" ? "ПАУЗА" : "PAUZA") : "LIVE"}</div>
+      <div class="tm">${live.stateTxt} · ${m.sa + m.sb} ${t("rounds")}</div>
+      <div class="rows"><div><span>${LANG === "ru" ? "Регион" : "Hudud"}</span><b>🇺🇿 ${LANG === "ru" ? "Ташкент" : "Toshkent"}</b></div>
+        <div><span>${LANG === "ru" ? "Обновлено" : "Yangilandi"}</span><b>${live.upd}</b></div></div></div>`
+      : `<div class="st"><i></i>${LANG === "ru" ? "Завершён" : "Yakunlandi"}</div>
       <div class="tm">🕓 ${new Date(m.t * 1000).toTimeString().slice(0, 5)} · ${m.sa + m.sb} ${t("rounds")}</div>
       <div class="rows"><div><span>${LANG === "ru" ? "Регион" : "Hudud"}</span><b>🇺🇿 ${LANG === "ru" ? "Ташкент" : "Toshkent"}</b></div>
-        <div><span>${LANG === "ru" ? "Завершён" : "Tugadi"}</span><b>${agoTxt}</b></div></div></div>
+        <div><span>${LANG === "ru" ? "Завершён" : "Tugadi"}</span><b>${agoTxt}</b></div></div></div>`}
     ${side(B, "right", m.nb, m.winner === "B")}</div>`;
 }
 // Match statistikasi: har o'yinchi — o'z rangidagi nuqta (X — ADR, Y — reyting). Bosilsa nik va raqamlar chiqadi, MVP ajratilgan
 const DOTC = ["#ff9f1c","#38bdf8","#22c55e","#f472b6","#a78bfa","#facc15","#fb7185","#2dd4bf","#f97316","#60a5fa","#c084fc","#4ade80"];
 let MST = [];
 function matchStats(m){
+  // har o'yinchining PTS tarixi (shu matchgacha oxirgi 6 nuqta) — har biri o'z rangidagi chiziq
   const rows = m.rows.filter(r => r.team !== "X");
   if (!rows.length) return "";
-  MST = rows.map((r, i) => ({r, c: DOTC[i % DOTC.length], adr: Math.round(r.dmg / Math.max(r.r, 1)), mvp: m.mvp && r.id === m.mvp.id}));
-  const W = 760, H = 300, P = 44;
-  const maxA = Math.max(60, ...MST.map(x => x.adr)) * 1.1, minR = Math.min(0.4, ...MST.map(x => x.r.rating)) - 0.1, maxR = Math.max(1.6, ...MST.map(x => x.r.rating)) + 0.1;
-  const X = a => P + a / maxA * (W - 2 * P), Y = v => H - P - (v - minR) / (maxR - minR) * (H - 2 * P);
-  const grid = [0.5, 1, 1.5, 2].filter(v => v > minR && v < maxR).map(v => `<line x1="${P}" x2="${W - P}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(255,255,255,${v === 1 ? .18 : .06})" ${v === 1 ? 'stroke-dasharray="5 5"' : ""}/><text x="${P - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="var(--dim)">${v.toFixed(1)}</text>`).join("");
-  const ax = [0, 50, 100, 150, 200].filter(v => v < maxA).map(v => `<text x="${X(v)}" y="${H - P + 18}" text-anchor="middle" font-size="11" fill="var(--dim)">${v}</text>`).join("");
-  const y1 = Y(1);
-  const arrows = MST.map((x, i) => { const cx = X(x.adr), cy = Y(x.r.rating), up = cy < y1, d = Math.abs(cy - y1), rr = x.mvp ? 11 : 9;
-    if (d < rr + 6) return "";
-    const tip = up ? cy + rr + 2 : cy - rr - 2;
-    return `<g class="arw" style="animation-delay:${.08 * i}s"><line x1="${cx}" y1="${y1}" x2="${cx}" y2="${tip}" stroke="${x.c}" stroke-width="3" stroke-linecap="round" opacity=".75"/>
-      <path d="M${cx - 6} ${tip + (up ? 8 : -8)} L${cx} ${tip} L${cx + 6} ${tip + (up ? 8 : -8)}" fill="none" stroke="${x.c}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>`; }).join("");
-  const dots = MST.map((x, i) => `${x.mvp ? `<circle class="mvpring" cx="${X(x.adr)}" cy="${Y(x.r.rating)}" r="18" fill="none" stroke="#ffd166" stroke-width="2"/>` : ""}
-    <circle class="dot" style="animation-delay:${.08 * i}s" cx="${X(x.adr)}" cy="${Y(x.r.rating)}" r="${x.mvp ? 11 : 9}" fill="${x.c}" stroke="#0b0d11" stroke-width="2" onclick="mstatPick(${i})"><title>${esc(x.r.name)}</title></circle>
-    ${x.mvp ? `<text x="${X(x.adr)}" y="${Y(x.r.rating) - 24}" text-anchor="middle" font-size="12" font-weight="800" fill="#ffd166">★ MVP · ${esc(x.r.name)}</text>` : ""}`).join("");
-  return `<div class="mstat"><div class="hd"><h3>📊 ${LANG === "ru" ? "Статистика матча" : "Match statistikasi"}</h3><span class="ax">X — ADR · Y — ${LANG === "ru" ? "РЕЙТИНГ" : "REYTING"}</span></div>
-    <svg viewBox="0 0 ${W} ${H}">${grid}${ax}<line x1="${P}" x2="${W - P}" y1="${H - P}" y2="${H - P}" stroke="rgba(255,255,255,.12)"/>${arrows}${dots}</svg>
-    <div class="tip" id="mtip"><span class="sub">${LANG === "ru" ? "Нажмите на точку — появится ник и статистика" : "Nuqtani bosing — nik va statistika chiqadi"}</span></div>
+  const N = 6;
+  MST = rows.map((r, i) => { const h = (IDX.byId[r.id]?.hist || []).filter(x => x.t <= m.t + 900).sort((a, b) => a.t - b.t).slice(-N).map(x => x.pts);
+    return {r, c: DOTC[i % DOTC.length], adr: Math.round(r.dmg / Math.max(r.r, 1)), mvp: m.mvp && r.id === m.mvp.id, h}; });
+  const all = MST.flatMap(x => x.h);
+  if (!all.length) return "";
+  const W = 760, H = 320, P = 48;
+  let lo = Math.min(...all), hi = Math.max(...all); if (hi - lo < 20) { lo -= 10; hi += 10; }
+  const pad = (hi - lo) * .08; lo -= pad; hi += pad;
+  const X = k => P + k / (N - 1) * (W - 2 * P), Y = v => H - P - (v - lo) / (hi - lo) * (H - 2 * P);
+  const ticks = [0, 1, 2, 3, 4, 5].map(k => lo + (hi - lo) * k / 5);
+  const grid = ticks.map(v => `<line x1="${P}" x2="${W - P}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(255,255,255,.06)" stroke-dasharray="4 5"/><text x="${P - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="var(--dim)">${Math.round(v)}</text>`).join("")
+    + [...Array(N).keys()].map(k => `<line x1="${X(k)}" x2="${X(k)}" y1="${P - 10}" y2="${H - P}" stroke="rgba(255,255,255,.04)" stroke-dasharray="4 5"/><text x="${X(k)}" y="${H - P + 18}" text-anchor="middle" font-size="11" fill="var(--dim)">${k === N - 1 ? (LANG === "ru" ? "этот" : "shu") : k - N + 1}</text>`).join("");
+  const lines = MST.map((x, i) => { if (!x.h.length) return "";
+    const off = N - x.h.length, pts = x.h.map((v, k) => [X(k + off), Y(v)]);
+    const d = pts.map((q, k) => (k ? "L" : "M") + q[0].toFixed(1) + " " + q[1].toFixed(1)).join(" ");
+    const last = pts[pts.length - 1];
+    return `<g class="ln" id="mln${i}" onclick="mstatPick(${i})" style="--c:${x.c};animation-delay:${.07 * i}s">
+      <path d="${d}" fill="none" stroke="${x.c}" stroke-width="${x.mvp ? 3.5 : 2.2}" stroke-linejoin="round" stroke-linecap="round" pathLength="1" class="lp"/>
+      <path d="${d}" fill="none" stroke="transparent" stroke-width="14"/>
+      ${pts.map(q => `<circle cx="${q[0]}" cy="${q[1]}" r="4" fill="#14161d" stroke="${x.c}" stroke-width="2"/>`).join("")}
+      ${x.mvp ? `<circle class="mvpring" cx="${last[0]}" cy="${last[1]}" r="11" fill="none" stroke="#ffd166" stroke-width="2"/><text x="${last[0] - 14}" y="${last[1] - 14}" text-anchor="end" font-size="12" font-weight="800" fill="#ffd166">★ MVP · ${esc(x.r.name)}</text>` : ""}
+      <title>${esc(x.r.name)}</title></g>`; }).join("");
+  return `<div class="mstat"><div class="hd"><h3>📈 ${LANG === "ru" ? "PTS игроков" : "O'yinchilar PTS"}</h3><span class="ax">${LANG === "ru" ? "ПОСЛЕДНИЕ 6 МАТЧЕЙ" : "OXIRGI 6 MATCH"}</span></div>
+    <svg viewBox="0 0 ${W} ${H}">${grid}${lines}</svg>
+    <div class="tip" id="mtip"><span class="sub">${LANG === "ru" ? "Нажмите на линию или ник — появится статистика" : "Chiziq yoki nikni bosing — statistika chiqadi"}</span></div>
     <div class="leg">${MST.map((x, i) => `<button type="button" id="mleg${i}" onclick="mstatPick(${i})"><i style="background:${x.c}"></i>${esc(x.r.name)}${x.mvp ? " ★" : ""}</button>`).join("")}</div></div>`;
 }
 function mstatPick(i){
@@ -1263,6 +1300,39 @@ function mstatPick(i){
     ${r.delta == null ? "" : `<span>PTS <b class="${r.delta >= 0 ? "W" : "L"}">${r.delta >= 0 ? "+" : ""}${r.delta}</b></span>`}
     <a class="btn sm ghost" href="/p/${slug(r.id)}" style="margin-left:auto">${LANG === "ru" ? "Профиль" : "Profil"} →</a>`;
   document.querySelectorAll(".mstat .leg button").forEach((b, k) => b.classList.toggle("on", k === i));
+  document.querySelectorAll(".mstat .ln").forEach(g => g.classList.toggle("dim", g.id !== "mln" + i));
+}
+// Ketayotgan match: server har ~20 soniyada yuboradigan jonli holatdan (cw_feed server) quriladi
+const LIVE_STATES = ["knife", "knife_vote", "lo3", "live", "halftime"];
+const liveActive = () => LIVE_STATES.includes(D?.server?.live?.state);
+function liveMatch(){
+  const S = D?.server || {}, L = S.live || {};
+  const sideA = L.sideA === "CT" ? "CT" : "T", tA = sideA === "T" ? 1 : 2;
+  const rows = (S.players || []).filter(p => p.team === 1 || p.team === 2).map(p => { const pr = IDX.sorted.find(q => q.name === p.name);
+    return {id: pr ? pr.id : p.name, name: p.name, team: p.team === tA ? "A" : "B", k: p.frags, d: p.deaths, a: "–", delta: null}; });
+  return {t: S.updated || 0, map: S.map || "", sa: L.sa || 0, sb: L.sb || 0, na: L.na || (sideA === "T" ? "TT" : "CT"), nb: L.nb || (sideA === "T" ? "CT" : "TT"),
+    winner: null, rows};
+}
+function pageLive(){
+  const ru = LANG === "ru", S = D?.server || {}, L = S.live || {};
+  if (!liveActive()) return `<h2 class="title">🔴 LIVE</h2><p class="lead">${ru ? "Сейчас матч не идёт. Как только начнётся — здесь появится live-статистика." : "Hozir match ketmayapti. Boshlanishi bilan shu yerda jonli statistika chiqadi."}</p><div id="livebox">${livePanel()}</div>`;
+  const m = liveMatch();
+  const st = {knife: ru ? "Ножевой раунд" : "Pichoq raund", knife_vote: ru ? "Выбор стороны" : "Tomon tanlash", lo3: "LO3", halftime: ru ? "Перерыв" : "Tanaffus", live: x("half")(L.half || 1)}[L.state] || "";
+  const top = m.rows.slice().sort((a, b) => b.k - a.k || a.d - b.d)[0];
+  return `<a class="btn sm ghost" href="/matches">${t("back")}</a>
+  <div id="liveboard">${matchBoard(m, {stateTxt: st, paused: !!L.paused, upd: S.updated ? ago(S.updated) : "—"})}</div>
+  ${top ? `<div class="awards mt"><div class="aw"><span>🔥 ${ru ? "Лидер по киллам" : "Eng ko'p kill"}</span><b>${esc(top.name)}</b><span class="sub">${top.k}–${top.d}</span></div>
+    <div class="aw"><span>👥 ${ru ? "Игроков" : "O'yinchilar"}</span><b>${S.count || 0}/${S.max || 10}</b><span class="sub">${esc(S.map || "")}</span></div>
+    <div class="aw"><span>▶ ${t("connect")}</span><b><a href="steam://connect/${IP_ADDR}">${esc(IP_ADDR)}</a></b><span class="sub">${ru ? "Смотреть в игре" : "O'yinda kuzatish"}</span></div></div>` : ""}
+  <p class="sub mt" style="font-size:13px">${ru ? "Обновляется автоматически каждые 15 секунд." : "Har 15 soniyada o'zi yangilanadi."}</p>`;
+}
+function livePill(){
+  let el = $("#livepill");
+  const show = IDX && liveActive() && curRoute() !== "#/live";
+  if (!show) { if (el) el.remove(); return; }
+  const L = D.server.live;
+  if (!el) { el = document.createElement("a"); el.id = "livepill"; el.href = "/live"; document.body.appendChild(el); }
+  el.innerHTML = `<i></i>LIVE <b>${L.sa || 0}:${L.sb || 0}</b> <span>${esc(D.server.map || "")}</span>`;
 }
 function pageMatch(ts){
   const m = IDX.matches.find(x => String(x.t) === ts);
@@ -1470,6 +1540,16 @@ async function refreshMe(){
 }
 // Bildirishnomalar: chatdagi javoblar, do'stlik so'rovlari, Premium buyurtma holati, o'z matchlaringiz (PTS)
 let NOTIF = [], NOPEN = false;
+const NIC = {
+  chat: ["#38bdf8", '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/>'],
+  dm: ["#a78bfa", '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'],
+  ok: ["#ffd166", '<path d="M3 8l4 4 5-7 5 7 4-4-2 11H5Z"/>'],
+  no: ["#f87171", '<circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/>'],
+  up: ["#22c55e", '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>'],
+  down: ["#f87171", '<path d="M3 7l6 6 4-4 8 8"/><path d="M15 17h6v-6"/>'],
+  game: ["#94a3b8", '<rect x="2" y="7" width="20" height="11" rx="4"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="12" r=".8"/><circle cx="18" cy="14" r=".8"/>'],
+  fr: ["#2dd4bf", '<circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M19 8v6M16 11h6"/>']};
+const nIcon = k => { const v = NIC[k] || NIC.game; return `<span class="ni" style="--nc:${v[0]}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${v[1]}</svg></span>`; };
 const nSeen = () => { try { return +localStorage.getItem("cw_nseen") || 0; } catch (e) { return 0; } };
 const nAgo = ts => { const m = Math.max(1, Math.round((Date.now() - ts) / 60000)); return m < 60 ? m + (LANG === "ru" ? " мин" : " daq") : m < 1440 ? Math.round(m / 60) + (LANG === "ru" ? " ч" : " soat") : Math.round(m / 1440) + (LANG === "ru" ? " д" : " kun"); };
 async function loadNotif(){
@@ -1480,22 +1560,28 @@ async function loadNotif(){
     const ids = (mine.data || []).map(r => r.id);
     if (ids.length) {
       const rep = await sb.from("chat_messages").select("id,nick,body,created_at,user_id").in("reply_to", ids).order("id", {ascending: false}).limit(15);
-      (rep.data || []).filter(r => r.user_id !== ME.id).forEach(r => out.push({ts: Date.parse(r.created_at), ic: "💬", href: "/chat",
+      (rep.data || []).filter(r => r.user_id !== ME.id).forEach(r => out.push({ts: Date.parse(r.created_at), ic: "chat", href: "/chat",
         tx: `<b>${esc(r.nick || "?")}</b> ${ru ? "ответил вам" : "sizga javob berdi"}: ${esc((r.body || "").slice(0, 70))}`}));
     }
   } catch (e) {}
   try {
     const o = await sb.from("premium_orders").select("kind,status,created_at").eq("user_id", ME.id).neq("status", "pending").order("id", {ascending: false}).limit(5);
-    (o.data || []).forEach(r => out.push({ts: Date.parse(r.created_at), ic: r.status === "approved" ? "👑" : "❌", href: "/me",
+    (o.data || []).forEach(r => out.push({ts: Date.parse(r.created_at), ic: r.status === "approved" ? "ok" : "no", href: "/me",
       tx: `${r.kind === "prefix" ? (ru ? "Префикс" : "Prefiks") : "Premium"}: <b>${r.status === "approved" ? (ru ? "одобрено" : "tasdiqlandi") : (ru ? "отклонено" : "rad etildi")}</b>`}));
   } catch (e) {}
-  (FR || []).filter(f => f.status === "pending" && f.addressee === ME.id).forEach(() => out.push({ts: Date.now(), ic: "🤝", href: "/me", tx: ru ? "Новая заявка в друзья" : "Yangi do'stlik so'rovi"}));
+  (FR || []).filter(f => f.status === "pending" && f.addressee === ME.id).forEach(() => out.push({ts: Date.now(), ic: "fr", href: "/me", tx: ru ? "Новая заявка в друзья" : "Yangi do'stlik so'rovi"}));
   const me = mySteam() && IDX?.byId?.[mySteam()];
   if (me) { const h = me.hist.slice().sort((a, b) => a.t - b.t);
     h.slice(-6).forEach((x, i, arr) => { const k = h.indexOf(x), prev = k > 0 ? h[k - 1].pts : null, d = prev == null ? null : x.pts - prev;
       const m = IDX.matches.find(q => Math.abs(q.t - x.t) < 900);
-      out.push({ts: x.t * 1000, ic: d == null ? "🎮" : d >= 0 ? "📈" : "📉", href: m ? `/m/${m.t}` : "/me",
-        tx: `${m ? `${esc(m.map)} ${m.sa}:${m.sb}` : (ru ? "Матч" : "Match")} · PTS <b class="${d >= 0 ? "W" : "L"}">${d == null ? x.pts : (d >= 0 ? "+" : "") + d}</b>`}); }); }
+      out.push({ts: x.t * 1000, ic: d == null ? "game" : d >= 0 ? "up" : "down", href: m ? `/m/${m.t}` : "/me",
+        tx: `${m ? `<b>${esc(m.map)}</b> ${m.sa}:${m.sb}` : (ru ? "Матч" : "Match")} · ${d == null ? `PTS <b>${x.pts}</b>` : `PTS <b class="${d >= 0 ? "W" : "L"}">${(d >= 0 ? "+" : "") + d}</b>`}`}); }); }
+  try {   // o'qilmagan shaxsiy xabarlar
+    const dm = await sb.from("direct_messages").select("sender,body,created_at").eq("receiver", ME.id).eq("read", false).order("id", {ascending: false}).limit(30);
+    const seen = {};
+    (dm.data || []).forEach(r => { if (seen[r.sender]) return; seen[r.sender] = 1; const pr = profByUid(r.sender);
+      out.push({ts: Date.parse(r.created_at), ic: "dm", href: "#", js: `openDM('${r.sender}')`, tx: `<b>${esc(pr.nick || "?")}</b>: ${esc(r.body.slice(0, 70))}`}); });
+  } catch (e) {}
   NOTIF = out.filter(n => n.ts).sort((a, b) => b.ts - a.ts).slice(0, 20);
 }
 function bellHTML(){ const n = NOTIF.filter(x => x.ts > nSeen()).length; return `<button type="button" class="nbell" onclick="toggleNotif(event)" title="${LANG === "ru" ? "Уведомления" : "Bildirishnomalar"}">🔔${n ? `<em>${n > 9 ? "9+" : n}</em>` : ""}</button>`; }
@@ -1505,7 +1591,7 @@ function toggleNotif(e){
   const seen = nSeen(), ru = LANG === "ru";
   const el = document.createElement("div"); el.className = "npanel"; el.onclick = ev => ev.stopPropagation();
   el.innerHTML = `<h4>🔔 ${ru ? "Уведомления" : "Bildirishnomalar"}<button type="button" onclick="$('.npanel').remove()">✕</button></h4>`
-    + (NOTIF.length ? NOTIF.map(n => `<a class="nitem ${n.ts > seen ? "new" : ""}" href="${n.href}"><span class="ni">${n.ic}</span><span>${n.tx}<small>${nAgo(n.ts)}</small></span></a>`).join("") : `<div class="empty">${ru ? "Пока пусто" : "Hozircha bo'sh"}</div>`);
+    + (NOTIF.length ? NOTIF.map(n => `<a class="nitem ${n.ts > seen ? "new" : ""}" href="${n.href}" ${n.js ? `onclick="event.preventDefault();$('.npanel').remove();${n.js}"` : ""}>${nIcon(n.ic)}<span>${n.tx}</span><small>${nAgo(n.ts)}</small></a>`).join("") : `<div class="empty">${ru ? "Пока пусто" : "Hozircha bo'sh"}</div>`);
   document.body.appendChild(el); NOPEN = true;
   try { localStorage.setItem("cw_nseen", String(Date.now())); } catch (e) {}
   const b = $(".nbell em"); if (b) b.remove();
@@ -1599,13 +1685,52 @@ const mt = k => MT[LANG][k];
 let FR = [];   // do'stlik qatorlari
 async function loadFriends(){ if (!sb || !ME) return; const r = await sb.from("friendships").select("requester,addressee,status"); FR = r.data || []; }
 const profByUid = uid => Object.values(PROF).find(x => x.user_id === uid) || {nick: "—"};
+// Do'stlar bilan shaxsiy chat (direct_messages, faqat qabul qilingan do'stlar)
+let DM = {uid: null, list: [], sub: null};
+async function openDM(uid){
+  if (!sb || !ME) return;
+  DM.uid = uid; const pr = profByUid(uid), ru = LANG === "ru";
+  let el = $("#dmbox"); if (!el) { el = document.createElement("div"); el.id = "dmbox"; el.className = "dmbox"; document.body.appendChild(el); }
+  el.innerHTML = `<div class="dh">${avatar(pr.nick || "?", false, pr.avatar_url)}<b>${esc(pr.nick || "—")}</b><button type="button" onclick="closeDM()">✕</button></div>
+    <div class="db" id="dmb"><div class="skel" style="height:40px"></div></div>
+    <form onsubmit="sendDM(event)"><input id="dmin" maxlength="500" autocomplete="off" placeholder="${ru ? "Сообщение…" : "Xabar…"}"><button class="btn main sm" type="submit">➤</button></form>`;
+  const r = await sb.from("direct_messages").select("id,sender,receiver,body,created_at")
+    .or(`and(sender.eq.${ME.id},receiver.eq.${uid}),and(sender.eq.${uid},receiver.eq.${ME.id})`).order("id", {ascending: false}).limit(80);
+  if (DM.uid !== uid) return;
+  DM.list = (r.data || []).reverse(); drawDM();
+  await sb.from("direct_messages").update({read: true}).eq("receiver", ME.id).eq("sender", uid).eq("read", false);
+  refreshNotif();
+  if (!DM.sub) DM.sub = sb.channel("cwhub-dm").on("postgres_changes", {event: "INSERT", schema: "public", table: "direct_messages"}, p => {
+    const m = p.new; if (m.receiver !== ME.id && m.sender !== ME.id) return;
+    const other = m.sender === ME.id ? m.receiver : m.sender;
+    if (DM.uid === other && $("#dmbox")) { if (!DM.list.some(x => x.id === m.id)) { DM.list.push(m); drawDM(); }
+      if (m.receiver === ME.id) sb.from("direct_messages").update({read: true}).eq("id", m.id).then(() => {}); }
+    else if (m.receiver === ME.id) { toast("✉ " + (profByUid(m.sender).nick || "") + ": " + m.body.slice(0, 50)); refreshNotif(); }
+  }).subscribe();
+  setTimeout(() => $("#dmin")?.focus(), 50);
+}
+function drawDM(){
+  const b = $("#dmb"); if (!b) return;
+  b.innerHTML = DM.list.length ? DM.list.map(m => `<div class="dmm ${m.sender === ME.id ? "me" : ""}">${esc(m.body)}<small>${new Date(m.created_at).toTimeString().slice(0, 5)}</small></div>`).join("")
+    : `<div class="empty">${LANG === "ru" ? "Напишите первое сообщение" : "Birinchi xabarni yozing"}</div>`;
+  b.scrollTop = b.scrollHeight;
+}
+function closeDM(){ DM.uid = null; const el = $("#dmbox"); if (el) el.remove(); }
+async function sendDM(ev){
+  ev.preventDefault();
+  const inp = $("#dmin"), body = (inp.value || "").trim(); if (!body || !DM.uid) return;
+  inp.value = "";
+  const r = await sb.from("direct_messages").insert({sender: ME.id, receiver: DM.uid, body}).select("id,sender,receiver,body,created_at").single();
+  if (r.error) { inp.value = body; return toast(r.error.message); }
+  if (!DM.list.some(x => x.id === r.data.id)) { DM.list.push(r.data); drawDM(); }
+}
 function friendsCard(){
   const inc = FR.filter(f => f.status === "pending" && f.addressee === ME.id);
   const acc = FR.filter(f => f.status === "accepted");
   const row = (uid, btns) => { const pr = profByUid(uid); return `<div class="frow"><a class="pcell" ${pr.steam ? `href="/p/${slug(pr.steam)}"` : ""} style="text-decoration:none">${avatar(pr.nick || "?", false, pr.avatar_url)}<span class="nm">${esc(pr.nick || "—")}</span></a><div class="btns">${btns}</div></div>`; };
   return `<div class="card"><h3>👥 ${mt("friends")} <span class="sub" style="font-size:14px">${acc.length}</span></h3>
     ${inc.length ? `<div class="sub" style="margin-bottom:8px">${mt("reqs")}</div><div class="flist">${inc.map(f => row(f.requester, `<button class="btn sm main" onclick="frAccept('${f.requester}')">${mt("accept")}</button><button class="btn sm ghost" onclick="frRemove('${f.requester}','${ME.id}')">✕</button>`)).join("")}</div><div class="mt"></div>` : ""}
-    ${acc.length ? `<div class="flist">${acc.map(f => { const o = f.requester === ME.id ? f.addressee : f.requester; return row(o, `<button class="btn sm ghost" onclick="frRemove('${f.requester}','${f.addressee}')">${mt("remove")}</button>`); }).join("")}</div>` : `<div class="empty">${mt("noFr")}</div>`}</div>`;
+    ${acc.length ? `<div class="flist">${acc.map(f => { const o = f.requester === ME.id ? f.addressee : f.requester; return row(o, `<button class="btn sm main" onclick="openDM('${o}')">💬 ${LANG === "ru" ? "Чат" : "Yozish"}</button><button class="btn sm ghost" onclick="frRemove('${f.requester}','${f.addressee}')">${mt("remove")}</button>`); }).join("")}</div>` : `<div class="empty">${mt("noFr")}</div>`}</div>`;
 }
 async function frAdd(uid){ const r = await sb.from("friendships").insert({requester: ME.id, addressee: uid}); toast(r.error ? r.error.message : mt("sent")); await loadFriends(); render(false); }
 async function frAccept(uid){ await sb.from("friendships").update({status: "accepted"}).eq("requester", uid).eq("addressee", ME.id); await loadFriends(); render(false); }
@@ -2528,8 +2653,10 @@ function render(scroll = true){
   let html;
   if (h.startsWith("#/p/")) html = pageProfile(decodeURIComponent(h.slice(4)));
   else if (h.startsWith("#/m/")) html = pageMatch(h.slice(4));
+  else if (h === "#/live") html = pageLive();
   else if (h.startsWith("#/vs/")) { const [a, b] = h.slice(5).split("/").map(decodeURIComponent); html = pageVs(a, b); }
   else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
+  setTimeout(livePill, 0);
   const app = $("#app");
   app.innerHTML = html;
   if (scroll) { app.classList.remove("enter"); void app.offsetWidth; app.classList.add("enter"); }
@@ -2567,11 +2694,14 @@ async function loadFeed(){
   D.updated = Math.max(D.updated || 0, ...(sv.data || []).map(x => x.t || 0));
 }
 async function refreshLive(){
-  if (!sb || !IDX || (curRoute() || "#/") !== "#/") return;
+  if (!sb || !IDX) return;
   try { const r = await sb.from("cw_feed").select("row").eq("kind", "server").maybeSingle();
-    if (r.data?.row) { D.server = feedServer(r.data.row); const el = $("#livebox"); if (el) el.innerHTML = livePanel(); } } catch (e) {}
+    if (r.data?.row) { const was = liveActive(); D.server = feedServer(r.data.row);
+      const el = $("#livebox"); if (el) el.innerHTML = livePanel();
+      if (curRoute() === "#/live") render(false);
+      livePill(); } } catch (e) {}
 }
-setInterval(refreshLive, 20000);
+setInterval(refreshLive, 15000);
 // Supabase javob bermasa ham sayt qotib qolmasin
 const withTimeout = (p, ms) => Promise.race([p, new Promise(r => setTimeout(r, ms))]);
 async function load(refresh){

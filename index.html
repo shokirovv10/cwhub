@@ -111,7 +111,8 @@ nav.top .menu a:hover,nav.top .menu a.on{background:var(--panel2);color:var(--te
 nav.bottom{display:none}
 @media(max-width:900px){
   nav.bottom{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:30;background:rgba(16,19,26,.9);border:1px solid var(--line2);border-radius:20px;padding:6px 4px;backdrop-filter:blur(16px);box-shadow:var(--shadow)}
-  nav.bottom a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--muted);font-size:10.5px;font-weight:600;padding:5px 0;border-radius:14px;transition:.2s}
+  nav.bottom a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--muted);font-size:10.5px;font-weight:600;padding:5px 0;border-radius:14px;transition:.2s;min-width:0}
+  nav.bottom a span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   nav.bottom a svg{width:22px;height:22px;transition:transform .3s var(--ease)}
   nav.bottom a.on{color:var(--accent);background:rgba(255,159,28,.1)}
   nav.bottom a.on svg{transform:translateY(-2px) scale(1.08)}
@@ -2137,13 +2138,14 @@ function renderNav(){
     + `<div class="more"><button type="button" class="${extraOn ? "on" : ""}" onclick="this.parentNode.classList.toggle('open')">${LANG === "ru" ? "Ещё" : "Ko'proq"}<i>▾</i></button><div class="menu">${extra.join("")}</div></div>`
     + `<a href="/premium" class="prem ${h === "#/premium" ? "on" : ""}">👑 ${pt("nav")}</a>`;
   const crown = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 7 4.5 4L12 4l4.5 7L21 7l-2 12H5Z"/></svg>';
-  const bi = [I.home, I.list, I.sword, crown, I.user], br = ["#/", "#/top", "#/matches", "#/premium", "#/me"];
-  const bl = [t("nav")[0], t("nav")[1], t("nav")[2], pt("nav"), ME ? t("myProfile").split(" ")[0] : t("login")];
-  if (!ME) br[4] = "#/login";
+  const chatIc = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>';
+  const bi = [I.home, I.list, I.sword, chatIc, crown, I.user], br = ["#/", "#/top", "#/matches", "#/chat", "#/premium", "#/me"];
+  const bl = [t("nav")[0], t("nav")[1], t("nav")[2], "Chat", pt("nav"), ME ? t("myProfile").split(" ")[0] : t("login")];
+  if (!ME) br[5] = "#/login";
   // admin bo'lsa — telefondagi pastki menyuda "Admin" tugmasi ham
   if (ME?.admin) { bi.push('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5Z"/></svg>'); br.push("#/admin"); bl.push("Admin"); }
   $("#bnav").style.gridTemplateColumns = `repeat(${br.length},1fr)`;
-  $("#bnav").innerHTML = br.map((r, i) => `<a href="${r.slice(1)}" class="${i === 3 ? "prem " : ""}${(i < 3 && isOn(i)) || h === r && i >= 3 ? "on" : ""}">${bi[i]}<span>${bl[i]}</span></a>`).join("");
+  $("#bnav").innerHTML = br.map((r, i) => `<a href="${r.slice(1)}" class="${r === "#/premium" ? "prem " : ""}${(i < 3 && isOn(i)) || h === r && i >= 3 ? "on" : ""}">${bi[i]}<span>${bl[i]}</span></a>`).join("");
   document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b.dataset.l === LANG));
   document.documentElement.lang = LANG;
   $("#fabout").textContent = t("about"); $("#f1").textContent = t("f1"); $("#f2").textContent = t("f2");

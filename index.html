@@ -97,9 +97,19 @@ nav.top .menu a{padding:9px 12px}
 nav.top .menu a:after{display:none}
 nav.top .menu a:hover,nav.top .menu a.on{background:var(--panel2);color:var(--text)}
 .hright{display:flex;align-items:center;gap:10px;flex:none}
+#acct{display:flex;align-items:center;gap:8px}
 .lang{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:3px}
 .lang button{border:0;background:none;padding:4px 9px;border-radius:7px;cursor:pointer;color:var(--muted);font-weight:700;font-size:12px;transition:.2s}
 .lang button.on{background:var(--accent);color:var(--accent-ink)}
+.nbell{position:relative;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--panel2);border:1px solid var(--line);color:var(--text);cursor:pointer;font-size:17px;transition:.2s;flex:none}
+.nbell:hover{border-color:var(--accent)}
+.nbell em{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--accent);color:#111;font:800 11px/18px Inter,sans-serif;font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--bg);animation:pulse 1.8s infinite}
+.npanel{position:fixed;top:66px;right:16px;width:min(360px,calc(100vw - 32px));max-height:70vh;overflow:auto;z-index:80;background:#14161d;border:1px solid var(--line2);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.6);padding:10px;animation:mcIn .3s var(--ease) both}
+.npanel h4{margin:6px 8px 10px;display:flex;justify-content:space-between;align-items:center}
+.npanel h4 button{background:none;border:0;color:var(--dim);cursor:pointer;font:600 12px Inter,sans-serif}
+.nitem{display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:12px;text-decoration:none;color:var(--text);font-size:13px;line-height:1.4}
+.nitem:hover{background:var(--panel2)}.nitem.new{background:rgba(255,159,28,.07)}
+.nitem .ni{font-size:18px;flex:none;width:24px;text-align:center}.nitem small{display:block;color:var(--dim);font-size:11px;margin-top:2px}
 .who{display:flex;align-items:center;gap:9px;text-decoration:none;padding:4px 12px 4px 4px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);font-weight:600;font-size:14px;max-width:190px;transition:.2s}
 .who:hover{border-color:var(--accent)}
 .who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -730,7 +740,8 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 .mside.sT .mth b{color:#ffb547}.mside.sCT .mth b{color:#6fb3ff}
 .mside .mth .bar{display:block;height:3px;width:46px;border-radius:3px;margin-top:4px;background:currentColor;opacity:.8}
 .mside.right .mth .bar{margin-left:auto}
-.mside.win .mth b:after{content:" 🏆";font-size:14px}
+.mside .mth .cupi{font-size:15px;margin:0 6px;vertical-align:2px}
+.mside .mth{min-height:52px}
 .mpl{background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.01));backdrop-filter:blur(6px)}
 .mside.sT .mpl:hover{border-color:rgba(255,159,28,.5);box-shadow:0 8px 24px rgba(255,140,30,.12)}
 .mside.sCT .mpl:hover{border-color:rgba(80,160,255,.5);box-shadow:0 8px 24px rgba(60,140,255,.12)}
@@ -773,6 +784,8 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 .mstat svg{width:100%;height:auto;display:block}
 .mstat .dot{cursor:pointer;transition:r .2s;transform-box:fill-box;transform-origin:center;animation:dotIn .6s var(--ease) both}
 .mstat .dot:hover{filter:brightness(1.25)}
+.mstat .arw{animation:arwIn .7s var(--ease) both}
+@keyframes arwIn{from{opacity:0}to{opacity:1}}
 @keyframes dotIn{from{opacity:0;transform:scale(0)}to{opacity:1;transform:none}}
 .mstat .mvpring{animation:mvpPulse 2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
 @keyframes mvpPulse{0%,100%{opacity:.9;transform:scale(1)}50%{opacity:.35;transform:scale(1.35)}}
@@ -1194,7 +1207,7 @@ function matchBoard(m){
     const before = list.map(s => { const p = ptsOf(s); return p != null && s.delta != null ? p - s.delta : null; }).filter(v => v != null);
     const avg = before.length ? Math.round(before.reduce((a, b) => a + b, 0) / before.length) : null;
     const dsum = list.reduce((a, s) => a + (s.delta || 0), 0);
-    return `<div class="mside ${cls} ${sideCls(name)} ${win ? "win" : ""}"><div class="mth"><div><b>${esc(name)}<span class="bar"></span></b><span class="avg"><i class="${dsum >= 0 ? "up" : ""}">${dsum >= 0 ? "↗" : "↘"}</i>${avg ?? "—"}</span></div><small>K / D / A</small></div>
+    return `<div class="mside ${cls} ${sideCls(name)} ${win ? "win" : ""}"><div class="mth"><div><b>${cls === "right" && win ? `<span class="cupi">🏆</span>` : ""}${esc(name)}${cls === "left" && win ? `<span class="cupi">🏆</span>` : ""}<span class="bar"></span></b><span class="avg"><i class="${dsum >= 0 ? "up" : ""}">${dsum >= 0 ? "↗" : "↘"}</i>${avg ?? "—"}</span></div><small>K / D / A</small></div>
       ${list.map(s => { const pts = ptsOf(s), pr = PROF[s.id], prem = !!pr?.premium, rn = pts != null ? rankName(pts) : null, rc = rn ? RANKC[rn] : null;
         return `<a class="mpl ${prem ? "prem" : ""}" href="/p/${slug(s.id)}" style="${prem && pr.banner_url ? `background-image:url('${esc(pr.banner_url)}')` : prem ? "background-image:linear-gradient(90deg,rgba(255,184,77,.18),transparent)" : ""}">
           ${prem ? `<span class="ptag">PREMIUM</span>` : ""}
@@ -1227,11 +1240,17 @@ function matchStats(m){
   const X = a => P + a / maxA * (W - 2 * P), Y = v => H - P - (v - minR) / (maxR - minR) * (H - 2 * P);
   const grid = [0.5, 1, 1.5, 2].filter(v => v > minR && v < maxR).map(v => `<line x1="${P}" x2="${W - P}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(255,255,255,${v === 1 ? .18 : .06})" ${v === 1 ? 'stroke-dasharray="5 5"' : ""}/><text x="${P - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="var(--dim)">${v.toFixed(1)}</text>`).join("");
   const ax = [0, 50, 100, 150, 200].filter(v => v < maxA).map(v => `<text x="${X(v)}" y="${H - P + 18}" text-anchor="middle" font-size="11" fill="var(--dim)">${v}</text>`).join("");
+  const y1 = Y(1);
+  const arrows = MST.map((x, i) => { const cx = X(x.adr), cy = Y(x.r.rating), up = cy < y1, d = Math.abs(cy - y1), rr = x.mvp ? 11 : 9;
+    if (d < rr + 6) return "";
+    const tip = up ? cy + rr + 2 : cy - rr - 2;
+    return `<g class="arw" style="animation-delay:${.08 * i}s"><line x1="${cx}" y1="${y1}" x2="${cx}" y2="${tip}" stroke="${x.c}" stroke-width="3" stroke-linecap="round" opacity=".75"/>
+      <path d="M${cx - 6} ${tip + (up ? 8 : -8)} L${cx} ${tip} L${cx + 6} ${tip + (up ? 8 : -8)}" fill="none" stroke="${x.c}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>`; }).join("");
   const dots = MST.map((x, i) => `${x.mvp ? `<circle class="mvpring" cx="${X(x.adr)}" cy="${Y(x.r.rating)}" r="18" fill="none" stroke="#ffd166" stroke-width="2"/>` : ""}
     <circle class="dot" style="animation-delay:${.08 * i}s" cx="${X(x.adr)}" cy="${Y(x.r.rating)}" r="${x.mvp ? 11 : 9}" fill="${x.c}" stroke="#0b0d11" stroke-width="2" onclick="mstatPick(${i})"><title>${esc(x.r.name)}</title></circle>
     ${x.mvp ? `<text x="${X(x.adr)}" y="${Y(x.r.rating) - 24}" text-anchor="middle" font-size="12" font-weight="800" fill="#ffd166">★ MVP · ${esc(x.r.name)}</text>` : ""}`).join("");
   return `<div class="mstat"><div class="hd"><h3>📊 ${LANG === "ru" ? "Статистика матча" : "Match statistikasi"}</h3><span class="ax">X — ADR · Y — ${LANG === "ru" ? "РЕЙТИНГ" : "REYTING"}</span></div>
-    <svg viewBox="0 0 ${W} ${H}">${grid}${ax}<line x1="${P}" x2="${W - P}" y1="${H - P}" y2="${H - P}" stroke="rgba(255,255,255,.12)"/>${dots}</svg>
+    <svg viewBox="0 0 ${W} ${H}">${grid}${ax}<line x1="${P}" x2="${W - P}" y1="${H - P}" y2="${H - P}" stroke="rgba(255,255,255,.12)"/>${arrows}${dots}</svg>
     <div class="tip" id="mtip"><span class="sub">${LANG === "ru" ? "Нажмите на точку — появится ник и статистика" : "Nuqtani bosing — nik va statistika chiqadi"}</span></div>
     <div class="leg">${MST.map((x, i) => `<button type="button" id="mleg${i}" onclick="mstatPick(${i})"><i style="background:${x.c}"></i>${esc(x.r.name)}${x.mvp ? " ★" : ""}</button>`).join("")}</div></div>`;
 }
@@ -1449,10 +1468,55 @@ async function refreshMe(){
   try { const a = await sb.rpc("is_site_admin"); ME.admin = a.data === true; } catch (e) { ME.admin = false; }
   try { const pr = await sb.rpc("my_premium"); ME.prem = pr.data || {}; } catch (e) { ME.prem = {}; }
 }
+// Bildirishnomalar: chatdagi javoblar, do'stlik so'rovlari, Premium buyurtma holati, o'z matchlaringiz (PTS)
+let NOTIF = [], NOPEN = false;
+const nSeen = () => { try { return +localStorage.getItem("cw_nseen") || 0; } catch (e) { return 0; } };
+const nAgo = ts => { const m = Math.max(1, Math.round((Date.now() - ts) / 60000)); return m < 60 ? m + (LANG === "ru" ? " мин" : " daq") : m < 1440 ? Math.round(m / 60) + (LANG === "ru" ? " ч" : " soat") : Math.round(m / 1440) + (LANG === "ru" ? " д" : " kun"); };
+async function loadNotif(){
+  if (!sb || !ME) { NOTIF = []; return; }
+  const ru = LANG === "ru", out = [];
+  try {
+    const mine = await sb.from("chat_messages").select("id").eq("user_id", ME.id).order("id", {ascending: false}).limit(60);
+    const ids = (mine.data || []).map(r => r.id);
+    if (ids.length) {
+      const rep = await sb.from("chat_messages").select("id,nick,body,created_at,user_id").in("reply_to", ids).order("id", {ascending: false}).limit(15);
+      (rep.data || []).filter(r => r.user_id !== ME.id).forEach(r => out.push({ts: Date.parse(r.created_at), ic: "💬", href: "/chat",
+        tx: `<b>${esc(r.nick || "?")}</b> ${ru ? "ответил вам" : "sizga javob berdi"}: ${esc((r.body || "").slice(0, 70))}`}));
+    }
+  } catch (e) {}
+  try {
+    const o = await sb.from("premium_orders").select("kind,status,created_at").eq("user_id", ME.id).neq("status", "pending").order("id", {ascending: false}).limit(5);
+    (o.data || []).forEach(r => out.push({ts: Date.parse(r.created_at), ic: r.status === "approved" ? "👑" : "❌", href: "/me",
+      tx: `${r.kind === "prefix" ? (ru ? "Префикс" : "Prefiks") : "Premium"}: <b>${r.status === "approved" ? (ru ? "одобрено" : "tasdiqlandi") : (ru ? "отклонено" : "rad etildi")}</b>`}));
+  } catch (e) {}
+  (FR || []).filter(f => f.status === "pending" && f.addressee === ME.id).forEach(() => out.push({ts: Date.now(), ic: "🤝", href: "/me", tx: ru ? "Новая заявка в друзья" : "Yangi do'stlik so'rovi"}));
+  const me = mySteam() && IDX?.byId?.[mySteam()];
+  if (me) { const h = me.hist.slice().sort((a, b) => a.t - b.t);
+    h.slice(-6).forEach((x, i, arr) => { const k = h.indexOf(x), prev = k > 0 ? h[k - 1].pts : null, d = prev == null ? null : x.pts - prev;
+      const m = IDX.matches.find(q => Math.abs(q.t - x.t) < 900);
+      out.push({ts: x.t * 1000, ic: d == null ? "🎮" : d >= 0 ? "📈" : "📉", href: m ? `/m/${m.t}` : "/me",
+        tx: `${m ? `${esc(m.map)} ${m.sa}:${m.sb}` : (ru ? "Матч" : "Match")} · PTS <b class="${d >= 0 ? "W" : "L"}">${d == null ? x.pts : (d >= 0 ? "+" : "") + d}</b>`}); }); }
+  NOTIF = out.filter(n => n.ts).sort((a, b) => b.ts - a.ts).slice(0, 20);
+}
+function bellHTML(){ const n = NOTIF.filter(x => x.ts > nSeen()).length; return `<button type="button" class="nbell" onclick="toggleNotif(event)" title="${LANG === "ru" ? "Уведомления" : "Bildirishnomalar"}">🔔${n ? `<em>${n > 9 ? "9+" : n}</em>` : ""}</button>`; }
+function toggleNotif(e){
+  e.stopPropagation();
+  const old = $(".npanel"); if (old) { old.remove(); NOPEN = false; return; }
+  const seen = nSeen(), ru = LANG === "ru";
+  const el = document.createElement("div"); el.className = "npanel"; el.onclick = ev => ev.stopPropagation();
+  el.innerHTML = `<h4>🔔 ${ru ? "Уведомления" : "Bildirishnomalar"}<button type="button" onclick="$('.npanel').remove()">✕</button></h4>`
+    + (NOTIF.length ? NOTIF.map(n => `<a class="nitem ${n.ts > seen ? "new" : ""}" href="${n.href}"><span class="ni">${n.ic}</span><span>${n.tx}<small>${nAgo(n.ts)}</small></span></a>`).join("") : `<div class="empty">${ru ? "Пока пусто" : "Hozircha bo'sh"}</div>`);
+  document.body.appendChild(el); NOPEN = true;
+  try { localStorage.setItem("cw_nseen", String(Date.now())); } catch (e) {}
+  const b = $(".nbell em"); if (b) b.remove();
+}
+document.addEventListener("click", () => { const p = $(".npanel"); if (p) p.remove(); });
+async function refreshNotif(){ if (!ME) return; await loadNotif(); const b = $(".nbell"); if (b) b.outerHTML = bellHTML(); }
+setInterval(refreshNotif, 60000);
 function renderAcct(){
   const nm = ME ? myNick() : "";
   $("#acct").innerHTML = ME
-    ? `<a class="who" href="/me" title="${esc(ME.email)}">${avatar(nm, false, ME.acc?.avatar_url)}<span>${esc(nm)}</span></a>`
+    ? bellHTML() + `<a class="who" href="/me" title="${esc(ME.email)}">${avatar(nm, false, ME.acc?.avatar_url)}<span>${esc(nm)}</span></a>`
     : `<a class="btn sm" href="/login">${I.user} ${t("login")}</a> <a class="btn sm main reg" style="padding:8px 13px;font-size:13px" href="/register">${t("signUp")}</a>`;
 }
 async function doAuth(ev){
@@ -1466,7 +1530,7 @@ async function doAuth(ev){
     if (r.error) authMsg = ["err", r.error.message];
     else if (authTab === 1 && !r.data.session) { authMsg = ["ok", t("signedUp")]; authTab = 0; go("#/login"); }
   } catch (e) { authMsg = ["err", String(e)]; }
-  await refreshMe(); renderAcct();
+  await refreshMe(); renderAcct(); setTimeout(refreshNotif, 1500);
   if (ME && (curRoute() === "#/login" || curRoute() === "#/register")) go("#/me"); else render(false);
 }
 async function forgotPw(){

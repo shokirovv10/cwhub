@@ -1132,7 +1132,7 @@ function pageHome(){
   <section class="hero">
     <div class="heroart"><span class="beam"></span><span class="beam"></span><span class="beam"></span><div class="wm">CW</div></div>
     <div>
-      <div class="eyebrow">ClanWar · ${t("season")} ${SEASON} · First Blood</div>
+      <div class="eyebrow">ClanWar · ${t("season")} ${SEASON} · Genesis</div>
       <h1><span class="ln"><span>Cwhub<em>UZ</em></span></span><span class="ln"><span class="grad">ClanWar</span></span></h1>
       <p class="tag">${t("tag")}</p>
       <div class="kv">
@@ -1352,7 +1352,9 @@ function pageMatch(ts){
   const dm = by(r => r.dmg), hs = by(r => r.hs), bk = by(r => r.k / Math.max(r.d, 1));
   const res = side => m.winner === "D" ? `<span class="D">${t("draw")}</span>` : m.winner === side ? `<span class="W">${t("win")}</span>` : `<span class="L">${t("loss")}</span>`;
   void res;
-  return `<a class="btn sm ghost" href="/matches">${t("back")}</a>
+  const demo = DEMOS.find(d => Math.abs(d.t - m.t) < 900 && d.map === m.map);
+  return `<div class="btns" style="justify-content:space-between"><a class="btn sm ghost" href="/matches">${t("back")}</a>
+    ${demo ? `<a class="btn sm main" href="${esc(demo.url)}" download title="${LANG === "ru" ? "Распакуйте в cstrike, в консоли: viewdemo имя" : "cstrike papkasiga chiqaring, konsolda: viewdemo nomi"}">🎬 HLTV demo · ${(demo.size / 1048576).toFixed(1)} MB</a>` : ""}</div>
   ${matchBoard(m)}
   ${real.length ? `<div class="awards mt">
     <div class="aw"><span>⭐ ${t("mvp")}</span><b>${esc(m.mvp?.name)}</b><span class="sub">${t("rt")} ${m.mvp?.rating.toFixed(2)}</span></div>
@@ -2691,7 +2693,9 @@ function feedServer(row){
   if (Date.now() / 1000 - (row.updated || 0) > 150) { s.online = false; s.players = []; s.count = 0; }
   return s;
 }
+let DEMOS = [];   // HLTV demolari (telegram/cw_demos.py yuklaydi)
 async function loadFeed(){
+  sb.from("match_demos").select("t,map,url,size").order("t", {ascending: false}).limit(300).then(r => { DEMOS = r.data || []; if ((curRoute() || "").startsWith("#/m/")) render(false); });
   const q = (kind, n) => sb.from("cw_feed").select("row,t").eq("kind", kind).order("t", {ascending: false}).limit(n);
   const [pl, hi, ms, rs, sv] = await Promise.all([q("player", 2000), q("hist", 2000), q("mstat", 2000), q("result", 30), sb.from("cw_feed").select("kind,row,t").in("kind", ["server", "bans"])]);
   if (pl.error) return;

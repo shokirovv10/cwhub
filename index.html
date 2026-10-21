@@ -108,6 +108,11 @@ nav.top .menu a:hover,nav.top .menu a.on{background:var(--panel2);color:var(--te
 .mcenter .st.lv{background:rgba(229,56,59,.18);color:#ff6b6b}.mcenter .st.lv i{background:#ff4d4f;box-shadow:0 0 10px #ff4d4f}
 .lscore .tm{display:flex;align-items:center;justify-content:center;gap:10px}
 .lscore .tm b.cnt{font:800 26px Rajdhani,sans-serif;color:var(--text);min-width:0}
+.bnpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:6px 0 12px}
+.bnpick button{position:relative;height:56px;border-radius:12px;border:2px solid transparent;background:#0f1218 center/cover;cursor:pointer;overflow:hidden;transition:.2s}
+.bnpick button span{position:absolute;left:8px;bottom:5px;font:700 11px Inter,sans-serif;letter-spacing:1px;text-transform:uppercase;color:#fff;text-shadow:0 1px 4px #000}
+.bnpick button:hover{transform:translateY(-2px);border-color:rgba(255,159,28,.5)}
+.bnpick button.on{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,159,28,.2)}
 .nbell{position:relative;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--panel2);border:1px solid var(--line);color:var(--text);cursor:pointer;font-size:17px;transition:.2s;flex:none}
 .nbell:hover{border-color:var(--accent)}
 .nbell em{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--accent);color:#111;font:800 11px/18px Inter,sans-serif;font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--bg);animation:pulse 1.8s infinite}
@@ -1892,7 +1897,7 @@ const SP = {
     forever: "abadiy", buy: "Sotib olish", needLogin: "Avval saytga kiring.", payTo: "Shu kartaga to'lang", sum: "Summa",
     receipt: "Chek rasmi (skrinshot)", prefixL: "Prefiks matni (14 belgigacha)", send: "Yuborish", sent: "Buyurtma yuborildi! Admin chekni tekshirib tasdiqlaydi — odatda bir necha daqiqada.",
     noReceipt: "Chek rasmini tanlang", myT: "Premium va prefiks", active: d => `👑 Premium faol — ${d} gacha`, notActive: "Premium yo'q",
-    fontT: "Nik shrifti", fontNone: "Oddiy", bannerT: "Profil banneri (GIF/PNG/JPG, 5 MB gacha)", bannerDel: "Bannerni olib tashlash", saved: "Saqlandi",
+    fontT: "Nik shrifti", fontNone: "Oddiy", bannerT: "Profil banneri — tayyor GIF tanlang yoki o'zingiznikini yuklang (5 MB gacha)", bannerDel: "Bannerni olib tashlash", saved: "Saqlandi",
     preMine: "O'yindagi prefiksingiz", preSave: "Saqlash va serverga yuborish", preNone: "Prefiks sotib olinmagan", ordersT: "Buyurtmalarim",
     st: {pending: "⏳ tekshirilmoqda", approved: "✅ tasdiqlandi", rejected: "❌ rad etildi"}, kind: {site: "Sayt Premium", prefix: "Prefiks"}},
   ru: {secT: "Украшения на сайте", secL: "Выделите свой профиль — оплата на карту, загружаете чек, админ подтверждает.",
@@ -1902,7 +1907,7 @@ const SP = {
     forever: "навсегда", buy: "Купить", needLogin: "Сначала войдите на сайт.", payTo: "Оплатите на эту карту", sum: "Сумма",
     receipt: "Фото чека (скриншот)", prefixL: "Текст префикса (до 14 символов)", send: "Отправить", sent: "Заказ отправлен! Админ проверит чек и подтвердит — обычно за несколько минут.",
     noReceipt: "Выберите фото чека", myT: "Premium и префикс", active: d => `👑 Premium активен — до ${d}`, notActive: "Нет Premium",
-    fontT: "Шрифт ника", fontNone: "Обычный", bannerT: "Баннер профиля (GIF/PNG/JPG, до 5 МБ)", bannerDel: "Убрать баннер", saved: "Сохранено",
+    fontT: "Шрифт ника", fontNone: "Обычный", bannerT: "Баннер профиля — выберите готовый GIF или загрузите свой (до 5 МБ)", bannerDel: "Убрать баннер", saved: "Сохранено",
     preMine: "Ваш префикс в игре", preSave: "Сохранить и отправить на сервер", preNone: "Префикс не куплен", ordersT: "Мои заказы",
     st: {pending: "⏳ проверяется", approved: "✅ подтверждён", rejected: "❌ отклонён"}, kind: {site: "Сайт Premium", prefix: "Префикс"}}
 };
@@ -1942,6 +1947,8 @@ async function sendSiteOrder(kind){
 }
 // "Mening profilim" — Premium kartasi
 let MYORD = null;
+// saytning tayyor animatsion bannerlari (site/banners/*.gif)
+const BANNERS = ["dust2", "inferno", "mirage", "nuke", "tuscan", "neon", "embers", "synth"];
 function premCard(){
   const pr = ME.prem || {}, steam = ME.acc?.steam;
   const until = pr.premium_until ? new Date(pr.premium_until).toLocaleDateString(LANG === "ru" ? "ru-RU" : "uz-UZ") : "";
@@ -1951,7 +1958,8 @@ function premCard(){
       <div class="fpick">${fonts.map(f => `<button type="button" class="${(pr.nick_font || "") === f[0] ? "on" : ""}" style="font-family:${f[2]};${f[0] === "f3" ? "font-size:12px" : ""}" onclick="setMyFont('${f[0]}')">${esc(myNick())}<small>${f[1]}</small></button>`).join("")}</div>
       <h4 style="margin:14px 0 4px">${sp("bannerT")}</h4>
       ${pr.banner_url ? `<div style="height:110px;border-radius:14px;background:url('${esc(pr.banner_url)}') center/cover;margin-bottom:8px"></div>` : ""}
-      <div class="btns"><label class="btn">🖼 GIF<input type="file" accept="image/gif,image/png,image/jpeg,image/webp" hidden onchange="uploadBanner(this)"></label>${pr.banner_url ? `<button class="btn ghost" onclick="setMyBanner('')">${sp("bannerDel")}</button>` : ""}</div>`
+      <div class="bnpick">${BANNERS.map(b => `<button type="button" class="${pr.banner_url === "/banners/" + b + ".gif" ? "on" : ""}" style="background-image:url('/banners/${b}.gif')" onclick="setMyBanner('/banners/${b}.gif')"><span>${b}</span></button>`).join("")}</div>
+      <div class="btns"><label class="btn">🖼 ${LANG === "ru" ? "Свой GIF" : "O'z GIF'im"}<input type="file" accept="image/gif,image/png,image/jpeg,image/webp" hidden onchange="uploadBanner(this)"></label>${pr.banner_url ? `<button class="btn ghost" onclick="setMyBanner('')">${sp("bannerDel")}</button>` : ""}</div>`
     : `<div class="btns"><span class="sub">${sp("notActive")}</span><a class="btn gold sm" href="/premium">👑 ${money(PREM_PRICE.site)}</a></div>`;
   const preBody = pr.prefix_paid ? `<form class="btns" onsubmit="event.preventDefault();saveMyPrefix()" style="align-items:flex-end"><div class="field" style="flex:1;min-width:160px"><label>${sp("preMine")}<input id="mypx" maxlength="14" value="${esc(pr.prefix_text || "")}"></label></div><button class="btn main" type="submit">${sp("preSave")}</button></form>${steam ? "" : `<p class="sub" style="font-size:12px">${x("notLinked")}</p>`}`
     : `<div class="btns"><span class="sub">${sp("preNone")}</span><a class="btn sm" href="/premium">🏷 ${money(PREM_PRICE.prefix)}</a></div><p class="sub" style="font-size:12px;margin-top:8px">${sp("freeAdm")}</p>`;

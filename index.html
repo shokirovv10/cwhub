@@ -24,6 +24,7 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0}
+html{overflow-x:hidden}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font:15px/1.6 Inter,system-ui,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 ::selection{background:var(--accent);color:var(--accent-ink)}
@@ -103,6 +104,8 @@ nav.top .menu a:hover,nav.top .menu a.on{background:var(--panel2);color:var(--te
 .who:hover{border-color:var(--accent)}
 .who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media(max-width:900px){nav.top{display:none}.who span{display:none}.who{padding:4px}}
+@media(max-width:600px){#acct .reg{display:none}#acct .btn{padding:8px 11px}.bar{gap:10px}.logo{font-size:21px}.lang button{padding:4px 7px}
+  .gb{flex-wrap:wrap;gap:8px}.gb .sub{display:none}}
 
 /* mobile bottom nav */
 nav.bottom{display:none}
@@ -650,6 +653,14 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .cmsg.mine .cn{flex-direction:row-reverse}
 .cmsg .del{position:absolute;top:4px;right:6px;border:0;background:none;color:var(--dim);cursor:pointer;opacity:0;transition:.2s;font-size:12px}
 .cmsg:hover .del{opacity:1}
+.gbadge{display:inline-flex;align-items:center;gap:3px;margin-left:6px;padding:1px 7px;border-radius:7px;font:800 11px Rajdhani,sans-serif;letter-spacing:.5px;color:#fff;
+  background:linear-gradient(135deg,#a855f7,#6d28d9);box-shadow:0 0 12px rgba(168,85,247,.75),inset 0 0 0 1px rgba(255,255,255,.25);animation:gglow 2.2s ease-in-out infinite;vertical-align:1px}
+@keyframes gglow{0%,100%{box-shadow:0 0 8px rgba(168,85,247,.55),inset 0 0 0 1px rgba(255,255,255,.2)}50%{box-shadow:0 0 18px rgba(192,132,252,.95),inset 0 0 0 1px rgba(255,255,255,.35)}}
+.pcell.gn .nm{background:linear-gradient(90deg,#e9d5ff,#c084fc,#f5d0fe);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+tr.elite td{background:linear-gradient(90deg,rgba(168,85,247,.16),rgba(168,85,247,.02))}
+tr.elite td:first-child{box-shadow:inset 3px 0 0 #a855f7}
+.badgecard{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.badgecard .sw{margin-left:auto}
 .cmsg .cact{display:flex;gap:4px;margin-top:4px;opacity:.55;transition:opacity .2s}
 .cmsg:hover .cact,.cmsg .cact:focus-within{opacity:1}
 .cmsg.mine .cact{justify-content:flex-end}
@@ -749,7 +760,7 @@ const T = {
     yourCode: "Sizning kodingiz", linkLead: "Profilingizni o'yinga ulash uchun:",
     linkSteps: c => [`Serverga kiring: <span class='mono'>connect ${ADDRESS}</span>`, `Chatga yozing: <span class='mono'>/link ${c}</span>`, "Bir necha daqiqada sahifa yangilanadi — profilingiz ✓ bilan chiqadi"],
     linkedAs: "Ulangan o'yinchi", pending: "Ulanish kutilmoqda… (kod har bir akkauntda boshqa)", hello: n => `Salom, ${n}!`, openProfile: "Profilimni ochish",
-    achs: [["🎯","Birinchi qadam","1 match o'ynash"],["🏆","Birinchi g'alaba","1 match yutish"],["🔥","Seriya","3 g'alaba ketma-ket"],["🔟","O'nlik","10 match"],["💯","Faxriy","25 match"],["🎖","Veteran","100 match"],["🔫","Jallod","Jami 100 kill"],["☠️","Terminator","Jami 500 kill"],["💀","Qassob","Bir matchda 30+ kill"],["💥","Zarba","Bir matchda 2500+ damage"],["🧠","Headshot ustasi","HS 50%+ (10+ match)"],["⭐","MVP","Match MVP'si bo'lish"],["⚡","To'xtovsiz","5 g'alaba ketma-ket"],["🟢","H rank","1600+ PTS"],["💎","G rank","3300+ PTS"]], achOf: "ochildi",
+    achs: [["🎯","Birinchi qadam","1 match o'ynash"],["🏆","Birinchi g'alaba","1 match yutish"],["🔥","Seriya","3 g'alaba ketma-ket"],["🔟","O'nlik","10 match"],["💯","Faxriy","25 match"],["🎖","Veteran","100 match"],["🔫","Yuzlik","Jami 100 kill"],["☠️","Terminator","Jami 500 kill"],["💀","Qassob","Bir matchda 30+ kill"],["💥","Zarba","Bir matchda 2500+ damage"],["🧠","Headshot ustasi","HS 50%+ (10+ match)"],["⭐","MVP","Match MVP'si bo'lish"],["⚡","To'xtovsiz","5 g'alaba ketma-ket"],["🟢","H rank","1600+ PTS"],["💎","G rank","3300+ PTS"]], achOf: "ochildi",
     clansNav: "Klanlar", soon: "Tez orada", clansT: "Klanlar va turnirlar", clansL: "Klaningizni yarating, tarkib yig'ing va CwhubUZ turnirlarida sovrin uchun kurashing. Bo'lim ishlab chiqilmoqda.",
     clansF: [["🛡 Klan sahifasi","Logo, tarkib, klan reytingi va statistikasi"],["🏆 Turnirlar","Ro'yxatdan o'tish va avtomatik setka (bracket)"],["⚔ Klan matchlari","Natijalar klan reytingiga qo'shiladi"],["🎁 Sovrinlar","Sezon g'oliblariga Premium va sovg'alar"]],
     forever: "Abadiy", connect: "Ulanish"
@@ -788,7 +799,7 @@ const T = {
     yourCode: "Ваш код", linkLead: "Чтобы привязать профиль к игре:",
     linkSteps: c => [`Зайдите на сервер: <span class='mono'>connect ${ADDRESS}</span>`, `Напишите в чат: <span class='mono'>/link ${c}</span>`, "Через пару минут страница обновится — профиль будет с ✓"],
     linkedAs: "Привязанный игрок", pending: "Ожидание привязки… (у каждого аккаунта свой код)", hello: n => `Привет, ${n}!`, openProfile: "Открыть мой профиль",
-    achs: [["🎯","Первый шаг","Сыграть 1 матч"],["🏆","Первая победа","Выиграть матч"],["🔥","Серия","3 победы подряд"],["🔟","Десятка","10 матчей"],["💯","Завсегдатай","25 матчей"],["🎖","Ветеран","100 матчей"],["🔫","Палач","Всего 100 убийств"],["☠️","Терминатор","Всего 500 убийств"],["💀","Мясник","30+ убийств за матч"],["💥","Удар","2500+ урона за матч"],["🧠","Хедшотер","HS 50%+ (10+ матчей)"],["⭐","MVP","Стать MVP матча"],["⚡","Без остановки","5 побед подряд"],["🟢","Ранг H","1600+ PTS"],["💎","Ранг G","3300+ PTS"]], achOf: "открыто",
+    achs: [["🎯","Первый шаг","Сыграть 1 матч"],["🏆","Первая победа","Выиграть матч"],["🔥","Серия","3 победы подряд"],["🔟","Десятка","10 матчей"],["💯","Завсегдатай","25 матчей"],["🎖","Ветеран","100 матчей"],["🔫","Сотня","Всего 100 убийств"],["☠️","Терминатор","Всего 500 убийств"],["💀","Мясник","30+ убийств за матч"],["💥","Удар","2500+ урона за матч"],["🧠","Хедшотер","HS 50%+ (10+ матчей)"],["⭐","MVP","Стать MVP матча"],["⚡","Без остановки","5 побед подряд"],["🟢","Ранг H","1600+ PTS"],["💎","Ранг G","3300+ PTS"]], achOf: "открыто",
     clansNav: "Кланы", soon: "Скоро", clansT: "Кланы и турниры", clansL: "Создайте клан, соберите состав и боритесь за призы в турнирах CwhubUZ. Раздел в разработке.",
     clansF: [["🛡 Страница клана","Логотип, состав, рейтинг и статистика клана"],["🏆 Турниры","Регистрация и автоматическая сетка"],["⚔ Клановые матчи","Результаты идут в рейтинг кланов"],["🎁 Призы","Premium и подарки победителям сезона"]],
     forever: "Навсегда", connect: "Подключиться"
@@ -796,6 +807,7 @@ const T = {
 };
 const store = { get(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v){ try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
 let LANG = store.get("lang") || "uz";
+{ const pb = document.querySelector("#pre b"); if (pb) pb.textContent = LANG === "ru" ? "CWHUB · ЗАГРУЗКА" : "CWHUB · YUKLANMOQDA"; }
 const t = k => T[LANG][k];
 
 /* ===================================================================== yordamchilar */
@@ -884,6 +896,10 @@ async function loadProfiles(){
   try { const r = await sb.rpc("public_profiles"); if (!r.error) { PROF = {}; (r.data || []).forEach(x => { if (x.steam) PROF[x.steam] = x; }); } } catch (e) {}
 }
 const photoOf = steam => PROF[steam]?.avatar_url || null;
+// G yutug'i: G rank (3300+ PTS) va o'yinchi uni yoqqan bo'lsa — nik yonida porloq belgi
+const G_MIN = 3300;
+const hasG = p => !!p && (p.pts || 0) >= G_MIN && !!PROF[p.id]?.show_badge;
+const gBadge = p => hasG(p) ? `<span class="gbadge" title="G">💎 G</span>` : "";
 /* ===================================================================== indekslar */
 // reytingda o'rin olmaydiganlar (server egasi)
 const HIDDEN_STEAM = ["STEAM_0:1:886626610"];
@@ -922,7 +938,7 @@ function buildIndex(){
   const ranked = Object.values(byId).filter(p => p.matches > 0 || p.hist.length || p.ms.length || HIDDEN_STEAM.includes(p.id)).sort((a, b) => b.pts - a.pts || b.matches - a.matches);
   IDX = {byId, sorted, ranked, matches: Object.values(matches).sort((a, b) => b.t - a.t)};
 }
-const pcell = (p, name) => `<span class="pcell">${avatar(name || p.name, false, photoOf(p?.id))}<span class="nm">${esc(name || p.name)}</span>${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
+const pcell = (p, name) => `<span class="pcell ${hasG(p) ? "gn" : ""}">${avatar(name || p.name, false, photoOf(p?.id))}<span class="nm">${esc(name || p.name)}</span>${gBadge(p)}${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
 
 /* ===================================================================== sahifalar */
 function radar(n){
@@ -992,7 +1008,7 @@ function topRows(list){
   const me = mySteam();
   return `<div class="tw"><table>
     <tr><th>#</th><th>${t("player")}</th><th>${t("rank")}</th><th class="num">PTS</th><th class="num">${t("matches")}</th><th class="num">${t("wins")}</th><th class="num">K/D</th><th class="num">HS%</th><th class="num">ADR</th><th>${t("form")}</th></tr>
-    ${list.map(p => `<tr class="click ${p.id === me ? "me" : ""}" onclick="go('#/p/${slug(p.id)}')">
+    ${list.map(p => `<tr class="click ${p.id === me ? "me" : ""} ${hasG(p) ? "elite" : ""}" onclick="go('#/p/${slug(p.id)}')">
       <td class="place ${p.place <= 3 ? "g" + p.place : ""}">${p.place}</td><td>${pcell(p)}</td><td>${shield(p.pts, p.matches)}</td><td class="num"><b>${p.pts}</b></td>
       <td class="num">${p.matches}</td><td class="num">${pct(p.wins, p.matches)}%</td><td class="num">${kd(p.kills, p.deaths)}</td>
       <td class="num">${p.hsp}%</td><td class="num">${p.adr}</td><td>${formDots(p.form)}</td></tr>`).join("")}
@@ -1122,7 +1138,7 @@ function pageProfile(id){
     <div style="display:flex;gap:16px;align-items:center">${photoOf(p.id) ? avatar(p.name, true, photoOf(p.id)) : ""}${shield(p.pts, p.matches, true)}</div>
     <div style="min-width:0">
       <div class="eyebrow">${HIDDEN_STEAM.includes(p.id) ? `👑 ${LANG === "ru" ? "Владелец сервера" : "Server egasi"}` : cal ? t("calLeft")(CAL - p.matches) : `#${p.place} ${t("place")} · ${t("season")} ${SEASON}`}</div>
-      <h1 style="font-size:44px;word-break:break-word;margin:6px 0">${esc(p.name)}</h1>
+      <h1 style="font-size:44px;word-break:break-word;margin:6px 0">${esc(p.name)}${gBadge(p)}</h1>
       <div class="sub" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
         ${p.verified ? `<span class="verified">${I.check} ${t("verified")}</span>` : ""}
         ${online ? `<span class="pill live"><span class="dot"></span>${t("serverHere")}</span>` : ""}
@@ -1173,7 +1189,7 @@ function pageRanks(){
   const ru = LANG === "ru";
   let n = 0;
   const rows = IDX.ranked.map(p => { const own = HIDDEN_STEAM.includes(p.id), pl = own ? "👑" : ++n;
-    return `<tr class="click" onclick="go('#/p/${slug(p.id)}')">
+    return `<tr class="click ${hasG(p) ? "elite" : ""}" onclick="go('#/p/${slug(p.id)}')">
       <td class="place ${!own && pl <= 3 ? "g" + pl : ""}">${pl}</td>
       <td style="width:100%">${pcell(p)}</td>
       <td class="num"><b>${p.pts}</b></td>
@@ -1249,7 +1265,7 @@ function renderAcct(){
   const nm = ME ? myNick() : "";
   $("#acct").innerHTML = ME
     ? `<a class="who" href="/me" title="${esc(ME.email)}">${avatar(nm, false, ME.acc?.avatar_url)}<span>${esc(nm)}</span></a>`
-    : `<a class="btn sm" href="/login">${I.user} ${t("login")}</a> <a class="btn sm main" style="padding:8px 13px;font-size:13px" href="/register">${t("signUp")}</a>`;
+    : `<a class="btn sm" href="/login">${I.user} ${t("login")}</a> <a class="btn sm main reg" style="padding:8px 13px;font-size:13px" href="/register">${t("signUp")}</a>`;
 }
 async function doAuth(ev){
   ev.preventDefault();
@@ -1322,10 +1338,10 @@ const myNick = () => ME?.acc?.site_nick || ME?.acc?.nick || (ME?.email || "").sp
 const MT = {
   uz: {prof: "Profil", nickL: "Nik", save: "Saqlash", saved: "Saqlandi", photo: "Rasm yuklash (PNG/JPG/WEBP, 2 MB gacha)", tooBig: "Rasm 2 MB dan katta",
     friends: "Do'stlar", reqs: "Do'stlik so'rovlari", noFr: "Hali do'stlar yo'q. O'yinchi profilida «Do'st qo'shish» ni bosing.", accept: "Qabul qilish", remove: "O'chirish",
-    add: "Do'st qo'shish", sent: "So'rov yuborildi", isFr: "Do'stingiz", noAcc: "Bu o'yinchi saytda ro'yxatdan o'tmagan", linkT: "O'yinga ulash", stats: "Statistikam"},
+    add: "Do'st qo'shish", sent: "So'rov yuborildi", isFr: "Do'stingiz", noAcc: "Bu o'yinchi saytda ro'yxatdan o'tmagan", linkT: "O'yinga ulash", stats: "Statistikam", gT: "G yutug'i", gL: "Belgini nikingiz yoniga qo'ying — reyting va TOP'da porlab turadi.", gLock: (m, v) => `G rankga yeting (${m}+ PTS) — belgini nik yoniga qo'yish ochiladi. Hozir: ${v} PTS.`, gOn: "Nik yoniga qo'yish", gOff: "Olib tashlash"},
   ru: {prof: "Профиль", nickL: "Ник", save: "Сохранить", saved: "Сохранено", photo: "Загрузить фото (PNG/JPG/WEBP, до 2 МБ)", tooBig: "Фото больше 2 МБ",
     friends: "Друзья", reqs: "Заявки в друзья", noFr: "Пока нет друзей. Нажмите «Добавить в друзья» в профиле игрока.", accept: "Принять", remove: "Удалить",
-    add: "Добавить в друзья", sent: "Заявка отправлена", isFr: "Ваш друг", noAcc: "Игрок не зарегистрирован на сайте", linkT: "Привязка к игре", stats: "Моя статистика"}
+    add: "Добавить в друзья", sent: "Заявка отправлена", isFr: "Ваш друг", noAcc: "Игрок не зарегистрирован на сайте", linkT: "Привязка к игре", stats: "Моя статистика", gT: "Достижение G", gL: "Поставьте значок рядом с ником — он будет светиться в рейтинге и ТОПе.", gLock: (m, v) => `Достигните ранга G (${m}+ PTS), чтобы ставить значок рядом с ником. Сейчас: ${v} PTS.`, gOn: "Поставить рядом с ником", gOff: "Убрать"}
 };
 const mt = k => MT[LANG][k];
 let FR = [];   // do'stlik qatorlari
@@ -1374,7 +1390,16 @@ function pageMe(){
     <div class="linksteps">${t("linkSteps")(acc.code || "KOD").map((s2, i) => `<div class="ls"><i>${i + 1}</i><div>${s2}</div></div>`).join("")}</div>
     <div class="btns mt"><a class="btn main" href="steam://connect/${ADDRESS}">${I.play} ${t("connect")}</a></div>
     <p class="dim" style="font-size:12px;margin-top:12px">${t("pending")}</p></div>`;
-  return `${head}${link}<div class="mt">${friendsCard()}</div>`;
+  const gp = p ? p.pts || 0 : 0, gOk = gp >= G_MIN, gOn = !!(steam && PROF[steam]?.show_badge);
+  const badge = `<div class="card mt"><div class="badgecard"><span class="gbadge" style="font-size:14px;padding:4px 10px">💎 G</span>
+    <div><b>${mt("gT")}</b><div class="sub" style="font-size:13px">${gOk ? mt("gL") : mt("gLock")(G_MIN, gp)}</div></div>
+    ${gOk ? `<button class="btn ${gOn ? "ghost" : "main"} sw" onclick="setBadge(${!gOn})">${gOn ? mt("gOff") : mt("gOn")}</button>` : ""}</div></div>`;
+  return `${head}${link}${badge}<div class="mt">${friendsCard()}</div>`;
+}
+async function setBadge(on){
+  const r = await sb.rpc("set_badge", {p_on: on});
+  if (r.error) return toast(r.error.message);
+  await refreshMe(); await loadProfiles(); buildIndex(); render(false); toast(on ? "💎 ✓" : "✓");
 }
 
 /* ===================================================================== premium (karta orqali to'lov) */
@@ -1734,7 +1759,7 @@ function renderBanners(){
   if (ann) out.push(`<div class="gb info"><span>📣 ${esc(ann)}</span></div>`);
   const p = discountPct();
   if (p && (curRoute() || "#/") !== "#/premium") out.push(`<div class="gb warn"><span><span class="sale">-${p}%</span> ${esc(SET.discount?.label || "Premium")}</span><a class="btn sm gold" href="/premium">👑 ${pt("nav")} →</a></div>`);
-  if (ME && !ME.acc?.steam && (curRoute() || "#/") !== "#/me")
+  if (ME && !ME.acc?.steam && !["#/me", "#/login", "#/register"].includes(curRoute() || "#/"))
     out.push(`<div class="gb warn"><div><b>⚠ ${x("notLinked")}</b><div class="sub" style="font-size:13px;margin-top:2px">${x("notLinkedL")(esc(ME.acc?.code || "····"))}</div></div><span class="code2">${esc(ME.acc?.code || "····")}</span><a class="btn sm" href="/me">${x("howLink")}</a></div>`);
   g.innerHTML = out.join("");
 }

@@ -683,6 +683,65 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 .phero.hasbanner>*{position:relative}
 .cmsg .cn a.pnick{background:linear-gradient(90deg,#ffe9a8,#ffc94d,#fff3c4);-webkit-background-clip:text;background-clip:text;color:transparent}
 .orow{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:12px;background:var(--panel2);margin-bottom:8px;flex-wrap:wrap}
+.mboard{display:grid;grid-template-columns:1fr minmax(300px,360px) 1fr;gap:16px;align-items:start}
+@media(max-width:980px){.mboard{grid-template-columns:1fr}.mboard .mcenter{order:-1}}
+.mside .mth{display:flex;justify-content:space-between;align-items:flex-end;margin:0 4px 8px}
+.mside .mth b{display:block;font-size:16px}.mside .mth .avg{color:var(--muted);font-weight:700;font-size:14px}
+.mside .mth .avg i{color:var(--loss);font-style:normal;margin-right:4px}.mside .mth .avg i.up{color:var(--win)}
+.mside .mth small{color:var(--dim);font-size:11px;font-weight:700;letter-spacing:1px}
+.mside.right .mth{flex-direction:row-reverse;text-align:right}
+.mpl{position:relative;display:flex;align-items:center;gap:12px;padding:10px 12px;margin-bottom:8px;border-radius:12px;background:var(--panel);border:1px solid var(--line);text-decoration:none;overflow:hidden;transition:transform .2s,border-color .2s}
+.mpl:hover{transform:translateY(-2px);border-color:var(--line2)}
+.mside.right .mpl{flex-direction:row-reverse;text-align:right}
+.mpl .av-wrap{position:relative;flex:none}
+.mpl .av-wrap .av{width:44px;height:44px;border-radius:50%}
+.mpl .av-wrap .rk{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);font:800 9px Rajdhani,sans-serif;padding:0 5px;border-radius:5px;line-height:14px}
+.mpl .who2{flex:1;min-width:0}
+.mpl .who2 b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mpl .who2 span{font-size:12px;color:var(--muted)}
+.mpl .who2 .W{color:var(--win)}.mpl .who2 .L{color:var(--loss)}
+.mpl .kda{font:700 16px Rajdhani,sans-serif;background:var(--panel2);padding:4px 9px;border-radius:8px;flex:none}
+.mpl.prem{border-color:rgba(255,184,77,.55);background-size:cover;background-position:center}
+.mpl.prem:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,15,20,.55),rgba(14,15,20,.9))}
+.mside.right .mpl.prem:before{background:linear-gradient(270deg,rgba(14,15,20,.55),rgba(14,15,20,.9))}
+.mpl.prem>*{position:relative}
+.mpl.prem .who2 b{color:#ffcf7a}
+.mpl .ptag{position:absolute;top:0;bottom:0;width:18px;background:linear-gradient(180deg,#ffcf6a,#e08e1b);color:#2a1700;font:800 9px Rajdhani,sans-serif;letter-spacing:1.5px;writing-mode:vertical-rl;text-align:center;display:flex;align-items:center;justify-content:center}
+.mside.left .mpl .ptag{left:0}.mside.right .mpl .ptag{right:0}
+.mside.left .mpl.prem{padding-left:26px}.mside.right .mpl.prem{padding-right:26px}
+.mcenter{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line2);background:#14161d;min-height:350px;display:flex;flex-direction:column}
+.mcenter .bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.38)}
+.mcenter>*:not(.bg){position:relative}
+.mcenter .tags{display:flex;gap:6px;justify-content:center;margin-top:16px}
+.mcenter .tags span{background:rgba(255,255,255,.12);border-radius:7px;padding:3px 10px;font-weight:700;font-size:13px}
+.mcenter .score{display:flex;align-items:center;justify-content:center;gap:12px;font:800 64px Rajdhani,sans-serif;margin:30px 0 4px;line-height:1}
+.mcenter .score em{font-style:normal;color:var(--muted);font-size:40px}
+.mcenter .score .cup{width:30px;height:30px;color:var(--win)}
+.mcenter .st{text-align:center;color:#d6d8de;font-weight:600;margin-top:14px}
+.mcenter .tm{text-align:center;color:#d6d8de;margin-top:6px;font-size:14px}
+.mcenter .rows{margin-top:auto;padding:12px 18px 14px}
+.mcenter .rows div{display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid rgba(255,255,255,.08);font-size:14px;color:#c6c8d0}
+.mcenter .rows b{color:#fff}
+/* jonli: qatorlar navbat bilan kirib keladi, hisob porlaydi, Premium yaltiraydi */
+.mside .mpl{opacity:0;animation:mplIn .55s var(--ease) forwards}
+.mside.left .mpl{transform:translateX(-24px)}.mside.right .mpl{transform:translateX(24px)}
+.mside .mpl:nth-of-type(1){animation-delay:.05s}.mside .mpl:nth-of-type(2){animation-delay:.12s}.mside .mpl:nth-of-type(3){animation-delay:.19s}
+.mside .mpl:nth-of-type(4){animation-delay:.26s}.mside .mpl:nth-of-type(5){animation-delay:.33s}.mside .mpl:nth-of-type(n+6){animation-delay:.4s}
+@keyframes mplIn{to{opacity:1;transform:none}}
+.mcenter{animation:mcIn .7s var(--ease) both}
+@keyframes mcIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.mcenter .bg{animation:mbKen 18s ease-in-out infinite alternate}
+@keyframes mbKen{from{transform:scale(1)}to{transform:scale(1.12) translate(-2%,-1%)}}
+.mcenter .score span{display:inline-block;animation:scorePop .8s .35s var(--ease) both}
+@keyframes scorePop{from{opacity:0;transform:translateY(14px) scale(.8)}to{opacity:1;transform:none}}
+.mcenter .score .cup{animation:cupGlow 2.4s ease-in-out infinite;filter:drop-shadow(0 0 6px rgba(92,200,110,.6))}
+@keyframes cupGlow{0%,100%{transform:translateY(0);filter:drop-shadow(0 0 4px rgba(92,200,110,.5))}50%{transform:translateY(-3px);filter:drop-shadow(0 0 14px rgba(92,200,110,.95))}}
+.mpl.prem{box-shadow:0 0 0 1px rgba(255,184,77,.3),0 0 18px rgba(255,170,60,.18)}
+.mpl.prem:after{content:"";position:absolute;top:0;bottom:0;width:60px;left:-80px;background:linear-gradient(100deg,transparent,rgba(255,220,150,.22),transparent);animation:mbShine 3.2s ease-in-out infinite}
+@keyframes mbShine{0%{left:-80px}60%,100%{left:110%}}
+.mpl:hover .av-wrap .av{transform:scale(1.08)}.mpl .av-wrap .av{transition:transform .25s var(--ease)}
+.mpl .kda{transition:background .2s}.mpl:hover .kda{background:rgba(255,159,28,.18)}
+@media (prefers-reduced-motion:reduce){.mside .mpl,.mcenter,.mcenter .bg,.mcenter .score span,.mcenter .score .cup,.mpl.prem:after{animation:none;opacity:1;transform:none}}
 .cmsg .cact{display:flex;gap:4px;margin-top:4px;opacity:.55;transition:opacity .2s}
 .cmsg:hover .cact,.cmsg .cact:focus-within{opacity:1}
 .cmsg.mine .cact{justify-content:flex-end}
@@ -1083,6 +1142,36 @@ function teamTable(rows){
       <td class="num">${pct(s.hs, s.k)}%</td><td class="num"><b class="${s.rating >= 1.1 ? "W" : s.rating < 0.85 ? "L" : ""}">${s.rating.toFixed(2)}</b></td>
       <td class="num ${s.delta == null ? "" : s.delta >= 0 ? "W" : "L"}">${s.delta == null ? "—" : (s.delta >= 0 ? "+" : "") + s.delta}</td></tr>`; }).join("")}</table></div>`;
 }
+// FastCup uslubidagi match taxtasi: chap/o'ng jamoalar, o'rtada xarita va hisob
+function matchBoard(m){
+  const cup = '<svg class="cup" viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10v2h4v3a4 4 0 0 1-4 4h-.4A5 5 0 0 1 13 15.9V18h3v3H8v-3h3v-2.1A5 5 0 0 1 7.4 12H7a4 4 0 0 1-4-4V5h4Zm0 4H5v1a2 2 0 0 0 2 2Zm10 0v3a2 2 0 0 0 2-2V7Z"/></svg>';
+  const ptsOf = s => { const h = IDX.byId[s.id]?.hist.find(x => Math.abs(x.t - m.t) < 900); return h ? h.pts : null; };
+  const side = (rows, cls, name) => {
+    const list = rows.slice().sort((a, b) => b.k - a.k || a.d - b.d);
+    const before = list.map(s => { const p = ptsOf(s); return p != null && s.delta != null ? p - s.delta : null; }).filter(v => v != null);
+    const avg = before.length ? Math.round(before.reduce((a, b) => a + b, 0) / before.length) : null;
+    const dsum = list.reduce((a, s) => a + (s.delta || 0), 0);
+    return `<div class="mside ${cls}"><div class="mth"><div><b>${esc(name)}</b><span class="avg"><i class="${dsum >= 0 ? "up" : ""}">${dsum >= 0 ? "↗" : "↘"}</i>${avg ?? "—"}</span></div><small>K / D / A</small></div>
+      ${list.map(s => { const pts = ptsOf(s), pr = PROF[s.id], prem = !!pr?.premium, rn = pts != null ? rankName(pts) : null, rc = rn ? RANKC[rn] : null;
+        return `<a class="mpl ${prem ? "prem" : ""}" href="/p/${slug(s.id)}" style="${prem && pr.banner_url ? `background-image:url('${esc(pr.banner_url)}')` : prem ? "background-image:linear-gradient(90deg,rgba(255,184,77,.18),transparent)" : ""}">
+          ${prem ? `<span class="ptag">PREMIUM</span>` : ""}
+          <span class="av-wrap">${avatar(s.name, false, photoOf(s.id))}${rc ? `<span class="rk" style="background:${rc[0]};color:${rc[1]}">${rn.replace("-", "−")}</span>` : ""}</span>
+          <span class="who2"><b style="${nickStyle(s.id)}">${esc(s.name)}</b><span>📊 ${pts ?? "—"} ${s.delta == null ? "" : `<b class="${s.delta >= 0 ? "W" : "L"}" style="display:inline;font-size:12px">${s.delta >= 0 ? "+" : ""}${s.delta}</b>`}</span></span>
+          <span class="kda">${s.k}/${s.d}/${s.a}</span></a>`; }).join("")}</div>`;
+  };
+  const A = m.rows.filter(r => r.team === "A"), B = m.rows.filter(r => r.team === "B");
+  const ago = Math.max(1, Math.round((Date.now() / 1000 - m.t) / 60));
+  const agoTxt = ago < 60 ? `${ago} ${LANG === "ru" ? "мин. назад" : "daqiqa oldin"}` : ago < 1440 ? `${Math.round(ago / 60)} ${LANG === "ru" ? "ч. назад" : "soat oldin"}` : fmtDate(m.t);
+  return `<div class="mboard mt">${side(A, "left", m.na)}
+    <div class="mcenter"><div class="bg" style="background-image:url('${mapImg(m.map)}')"></div>
+      <div class="tags"><span>${esc(m.map)}</span><span>5v5</span></div>
+      <div class="score">${m.winner === "A" ? cup : ""}<span>${m.sa}</span><em>:</em><span>${m.sb}</span>${m.winner === "B" ? cup : ""}</div>
+      <div class="st">${LANG === "ru" ? "Завершён" : "Yakunlandi"}</div>
+      <div class="tm">🕓 ${new Date(m.t * 1000).toTimeString().slice(0, 5)} · ${m.sa + m.sb} ${t("rounds")}</div>
+      <div class="rows"><div><span>${LANG === "ru" ? "Регион" : "Hudud"}</span><b>🇺🇿 ${LANG === "ru" ? "Ташкент" : "Toshkent"}</b></div>
+        <div><span>${LANG === "ru" ? "Завершён" : "Tugadi"}</span><b>${agoTxt}</b></div></div></div>
+    ${side(B, "right", m.nb)}</div>`;
+}
 function pageMatch(ts){
   const m = IDX.matches.find(x => String(x.t) === ts);
   if (!m) return `<div class="card empty">${t("notFound")}<br><br><a class="btn" href="/matches">${t("back")}</a></div>`;
@@ -1090,12 +1179,9 @@ function pageMatch(ts){
   const real = m.rows.filter(r => !r.left), by = f => real.slice().sort((a, b) => f(b) - f(a))[0];
   const dm = by(r => r.dmg), hs = by(r => r.hs), bk = by(r => r.k / Math.max(r.d, 1));
   const res = side => m.winner === "D" ? `<span class="D">${t("draw")}</span>` : m.winner === side ? `<span class="W">${t("win")}</span>` : `<span class="L">${t("loss")}</span>`;
+  void res;
   return `<a class="btn sm ghost" href="/matches">${t("back")}</a>
-  <div class="mhead mt"><div class="bgmap" style="background-image:url('${mapImg(m.map)}')"></div>
-    <div class="eyebrow">${esc(m.map)} · ${fmtDate(m.t)} · ${m.sa + m.sb} ${t("rounds")}</div>
-    <div class="vs"><div><div class="tn">${esc(m.na)}</div>${res("A")}</div>
-      <div class="sc"><span class="${m.winner === "A" ? "W" : ""}">${m.sa}</span> : <span class="${m.winner === "B" ? "W" : ""}">${m.sb}</span></div>
-      <div><div class="tn">${esc(m.nb)}</div>${res("B")}</div></div></div>
+  ${matchBoard(m)}
   ${real.length ? `<div class="awards mt">
     <div class="aw"><span>⭐ ${t("mvp")}</span><b>${esc(m.mvp?.name)}</b><span class="sub">${t("rt")} ${m.mvp?.rating.toFixed(2)}</span></div>
     <div class="aw"><span>💥 ${t("mostDmg")}</span><b>${esc(dm.name)}</b><span class="sub">${dm.dmg} · ADR ${Math.round(dm.dmg / Math.max(dm.r, 1))}</span></div>

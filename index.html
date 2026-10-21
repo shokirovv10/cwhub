@@ -709,9 +709,33 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 .mpl .ptag{position:absolute;top:0;bottom:0;width:18px;background:linear-gradient(180deg,#ffcf6a,#e08e1b);color:#2a1700;font:800 9px Rajdhani,sans-serif;letter-spacing:1.5px;writing-mode:vertical-rl;text-align:center;display:flex;align-items:center;justify-content:center}
 .mside.left .mpl .ptag{left:0}.mside.right .mpl .ptag{right:0}
 .mside.left .mpl.prem{padding-left:26px}.mside.right .mpl.prem{padding-right:26px}
-.mcenter{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line2);background:#14161d;min-height:350px;display:flex;flex-direction:column}
-.mcenter .bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.38)}
-.mcenter>*:not(.bg){position:relative}
+@property --mba{syntax:"<angle>";inherits:false;initial-value:0deg}
+.mcenter{position:relative;border-radius:22px;overflow:hidden;min-height:360px;display:flex;flex-direction:column;
+  border:2px solid transparent;background:linear-gradient(#11131a,#11131a) padding-box,conic-gradient(from var(--mba),#ff9f1c,rgba(255,159,28,.05) 25%,#ff5e1a 50%,rgba(255,94,26,.05) 75%,#ff9f1c) border-box;
+  box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 40px rgba(255,140,30,.12);animation:mcIn .7s var(--ease) both,mbSpin 6s linear infinite}
+@keyframes mbSpin{to{--mba:360deg}}
+.mcenter .bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.72) saturate(1.15)}
+.mcenter .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,15,.55) 0%,rgba(10,11,15,.15) 35%,rgba(10,11,15,.35) 60%,rgba(10,11,15,.92) 100%)}
+.mcenter .wm{position:absolute;left:0;right:0;top:46%;text-align:center;font:900 46px Rajdhani,sans-serif;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.07);pointer-events:none;white-space:nowrap}
+.mcenter:after{content:"";position:absolute;top:-30%;bottom:-30%;width:90px;left:-140px;transform:rotate(18deg);background:linear-gradient(90deg,transparent,rgba(255,200,120,.16),transparent);animation:mbSweep 5s ease-in-out infinite;pointer-events:none}
+@keyframes mbSweep{0%,35%{left:-140px}70%,100%{left:120%}}
+.mcenter .score>span{background:linear-gradient(180deg,#fff,#ffd9a0);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 4px 18px rgba(255,150,40,.45))}
+.mcenter .score>span.lose{background:linear-gradient(180deg,#c9ccd6,#7b8090);-webkit-background-clip:text;background-clip:text;filter:none}
+.mcenter .tags span{background:rgba(10,11,15,.55);border:1px solid rgba(255,159,28,.35);backdrop-filter:blur(6px)}
+.mcenter .tags span:first-child{color:#ffb547}
+.mcenter .st{display:inline-flex;align-self:center;align-items:center;gap:8px;padding:4px 12px;border-radius:99px;background:rgba(61,220,132,.12);color:var(--win);font-size:13px;letter-spacing:.5px}
+.mcenter .st i{width:8px;height:8px;border-radius:50%;background:var(--win);box-shadow:0 0 10px var(--win);animation:pulse 1.8s infinite}
+.mcenter .rows div{border-top-color:rgba(255,159,28,.18)}
+.mside .mth b{font:700 20px Rajdhani,sans-serif;letter-spacing:.5px;text-transform:uppercase}
+.mside.sT .mth b{color:#ffb547}.mside.sCT .mth b{color:#6fb3ff}
+.mside .mth .bar{display:block;height:3px;width:46px;border-radius:3px;margin-top:4px;background:currentColor;opacity:.8}
+.mside.right .mth .bar{margin-left:auto}
+.mside.win .mth b:after{content:" 🏆";font-size:14px}
+.mpl{background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.01));backdrop-filter:blur(6px)}
+.mside.sT .mpl:hover{border-color:rgba(255,159,28,.5);box-shadow:0 8px 24px rgba(255,140,30,.12)}
+.mside.sCT .mpl:hover{border-color:rgba(80,160,255,.5);box-shadow:0 8px 24px rgba(60,140,255,.12)}
+.mside.win .mpl{box-shadow:inset 0 0 0 1px rgba(61,220,132,.12)}
+.mcenter>*:not(.bg):not(.shade):not(.wm){position:relative}
 .mcenter .tags{display:flex;gap:6px;justify-content:center;margin-top:16px}
 .mcenter .tags span{background:rgba(255,255,255,.12);border-radius:7px;padding:3px 10px;font-weight:700;font-size:13px}
 .mcenter .score{display:flex;align-items:center;justify-content:center;gap:12px;font:800 64px Rajdhani,sans-serif;margin:30px 0 4px;line-height:1}
@@ -728,7 +752,7 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 .mside .mpl:nth-of-type(1){animation-delay:.05s}.mside .mpl:nth-of-type(2){animation-delay:.12s}.mside .mpl:nth-of-type(3){animation-delay:.19s}
 .mside .mpl:nth-of-type(4){animation-delay:.26s}.mside .mpl:nth-of-type(5){animation-delay:.33s}.mside .mpl:nth-of-type(n+6){animation-delay:.4s}
 @keyframes mplIn{to{opacity:1;transform:none}}
-.mcenter{animation:mcIn .7s var(--ease) both}
+.mcenter{animation:mcIn .7s var(--ease) both,mbSpin 6s linear infinite}
 @keyframes mcIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
 .mcenter .bg{animation:mbKen 18s ease-in-out infinite alternate}
 @keyframes mbKen{from{transform:scale(1)}to{transform:scale(1.12) translate(-2%,-1%)}}
@@ -741,7 +765,7 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 @keyframes mbShine{0%{left:-80px}60%,100%{left:110%}}
 .mpl:hover .av-wrap .av{transform:scale(1.08)}.mpl .av-wrap .av{transition:transform .25s var(--ease)}
 .mpl .kda{transition:background .2s}.mpl:hover .kda{background:rgba(255,159,28,.18)}
-@media (prefers-reduced-motion:reduce){.mside .mpl,.mcenter,.mcenter .bg,.mcenter .score span,.mcenter .score .cup,.mpl.prem:after{animation:none;opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.mcenter:after{display:none}.mside .mpl,.mcenter,.mcenter .bg,.mcenter .score span,.mcenter .score .cup,.mpl.prem:after{animation:none;opacity:1;transform:none}}
 .cmsg .cact{display:flex;gap:4px;margin-top:4px;opacity:.55;transition:opacity .2s}
 .cmsg:hover .cact,.cmsg .cact:focus-within{opacity:1}
 .cmsg.mine .cact{justify-content:flex-end}
@@ -1146,12 +1170,13 @@ function teamTable(rows){
 function matchBoard(m){
   const cup = '<svg class="cup" viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10v2h4v3a4 4 0 0 1-4 4h-.4A5 5 0 0 1 13 15.9V18h3v3H8v-3h3v-2.1A5 5 0 0 1 7.4 12H7a4 4 0 0 1-4-4V5h4Zm0 4H5v1a2 2 0 0 0 2 2Zm10 0v3a2 2 0 0 0 2-2V7Z"/></svg>';
   const ptsOf = s => { const h = IDX.byId[s.id]?.hist.find(x => Math.abs(x.t - m.t) < 900); return h ? h.pts : null; };
-  const side = (rows, cls, name) => {
+  const sideCls = nm => /^(ct|kontr|контр)/i.test(nm || "") ? "sCT" : "sT";
+  const side = (rows, cls, name, win) => {
     const list = rows.slice().sort((a, b) => b.k - a.k || a.d - b.d);
     const before = list.map(s => { const p = ptsOf(s); return p != null && s.delta != null ? p - s.delta : null; }).filter(v => v != null);
     const avg = before.length ? Math.round(before.reduce((a, b) => a + b, 0) / before.length) : null;
     const dsum = list.reduce((a, s) => a + (s.delta || 0), 0);
-    return `<div class="mside ${cls}"><div class="mth"><div><b>${esc(name)}</b><span class="avg"><i class="${dsum >= 0 ? "up" : ""}">${dsum >= 0 ? "↗" : "↘"}</i>${avg ?? "—"}</span></div><small>K / D / A</small></div>
+    return `<div class="mside ${cls} ${sideCls(name)} ${win ? "win" : ""}"><div class="mth"><div><b>${esc(name)}<span class="bar"></span></b><span class="avg"><i class="${dsum >= 0 ? "up" : ""}">${dsum >= 0 ? "↗" : "↘"}</i>${avg ?? "—"}</span></div><small>K / D / A</small></div>
       ${list.map(s => { const pts = ptsOf(s), pr = PROF[s.id], prem = !!pr?.premium, rn = pts != null ? rankName(pts) : null, rc = rn ? RANKC[rn] : null;
         return `<a class="mpl ${prem ? "prem" : ""}" href="/p/${slug(s.id)}" style="${prem && pr.banner_url ? `background-image:url('${esc(pr.banner_url)}')` : prem ? "background-image:linear-gradient(90deg,rgba(255,184,77,.18),transparent)" : ""}">
           ${prem ? `<span class="ptag">PREMIUM</span>` : ""}
@@ -1162,15 +1187,15 @@ function matchBoard(m){
   const A = m.rows.filter(r => r.team === "A"), B = m.rows.filter(r => r.team === "B");
   const ago = Math.max(1, Math.round((Date.now() / 1000 - m.t) / 60));
   const agoTxt = ago < 60 ? `${ago} ${LANG === "ru" ? "мин. назад" : "daqiqa oldin"}` : ago < 1440 ? `${Math.round(ago / 60)} ${LANG === "ru" ? "ч. назад" : "soat oldin"}` : fmtDate(m.t);
-  return `<div class="mboard mt">${side(A, "left", m.na)}
-    <div class="mcenter"><div class="bg" style="background-image:url('${mapImg(m.map)}')"></div>
+  return `<div class="mboard mt">${side(A, "left", m.na, m.winner === "A")}
+    <div class="mcenter"><div class="bg" style="background-image:url('${mapImg(m.map)}')"></div><div class="shade"></div><div class="wm">${esc(m.map)}</div>
       <div class="tags"><span>${esc(m.map)}</span><span>5v5</span></div>
-      <div class="score">${m.winner === "A" ? cup : ""}<span>${m.sa}</span><em>:</em><span>${m.sb}</span>${m.winner === "B" ? cup : ""}</div>
-      <div class="st">${LANG === "ru" ? "Завершён" : "Yakunlandi"}</div>
+      <div class="score">${m.winner === "A" ? cup : ""}<span class="${m.winner === "B" ? "lose" : ""}">${m.sa}</span><em>:</em><span class="${m.winner === "A" ? "lose" : ""}">${m.sb}</span>${m.winner === "B" ? cup : ""}</div>
+      <div class="st"><i></i>${LANG === "ru" ? "Завершён" : "Yakunlandi"}</div>
       <div class="tm">🕓 ${new Date(m.t * 1000).toTimeString().slice(0, 5)} · ${m.sa + m.sb} ${t("rounds")}</div>
       <div class="rows"><div><span>${LANG === "ru" ? "Регион" : "Hudud"}</span><b>🇺🇿 ${LANG === "ru" ? "Ташкент" : "Toshkent"}</b></div>
         <div><span>${LANG === "ru" ? "Завершён" : "Tugadi"}</span><b>${agoTxt}</b></div></div></div>
-    ${side(B, "right", m.nb)}</div>`;
+    ${side(B, "right", m.nb, m.winner === "B")}</div>`;
 }
 function pageMatch(ts){
   const m = IDX.matches.find(x => String(x.t) === ts);

@@ -1334,7 +1334,7 @@ function pageLive(){
   ${top ? `<div class="awards mt"><div class="aw"><span>🔥 ${ru ? "Лидер по киллам" : "Eng ko'p kill"}</span><b>${esc(top.name)}</b><span class="sub">${top.k}–${top.d}</span></div>
     <div class="aw"><span>👥 ${ru ? "Игроков" : "O'yinchilar"}</span><b>${S.count || 0}/${S.max || 10}</b><span class="sub">${esc(S.map || "")}</span></div>
     <div class="aw"><span>▶ ${t("connect")}</span><b><a href="steam://connect/${IP_ADDR}">${esc(IP_ADDR)}</a></b><span class="sub">${ru ? "Смотреть в игре" : "O'yinda kuzatish"}</span></div></div>` : ""}
-  <p class="sub mt" style="font-size:13px">${ru ? "Обновляется автоматически каждые 15 секунд." : "Har 15 soniyada o'zi yangilanadi."}</p>`;
+  <p class="sub mt" style="font-size:13px">${ru ? "Обновляется автоматически каждые 8 секунд." : "Har 8 soniyada o'zi yangilanadi."}</p>`;
 }
 function livePill(){
   let el = $("#livepill");
@@ -2711,10 +2711,13 @@ async function refreshLive(){
   try { const r = await sb.from("cw_feed").select("row").eq("kind", "server").maybeSingle();
     if (r.data?.row) { const was = liveActive(); D.server = feedServer(r.data.row);
       const el = $("#livebox"); if (el) el.innerHTML = livePanel();
+      // /start bosildi — match boshlandi: bosh sahifa yoki matchlar ro'yxatidagilar /live'ga avtomatik o'tadi
+      if (!was && liveActive()) { toast("🔴 " + (LANG === "ru" ? "Матч начался — LIVE" : "Match boshlandi — LIVE"));
+        if (["#/", "#/matches", "#/live"].includes(curRoute() || "#/")) { go("/live"); return livePill(); } }
       if (curRoute() === "#/live") render(false);
       livePill(); } } catch (e) {}
 }
-setInterval(refreshLive, 15000);
+setInterval(refreshLive, 8000);
 // Supabase javob bermasa ham sayt qotib qolmasin
 const withTimeout = (p, ms) => Promise.race([p, new Promise(r => setTimeout(r, ms))]);
 async function load(refresh){

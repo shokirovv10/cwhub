@@ -165,10 +165,10 @@ main.enter{animation:pageIn .55s var(--ease) both}
 @keyframes sk{to{background-position:-200% 0}}
 
 /* rank shield */
-.rank{display:inline-grid;place-items:center;position:relative;width:34px;height:38px;flex:none;transition:transform .3s var(--ease)}
+.rank{display:inline-grid;place-items:center;position:relative;width:38px;height:42px;flex:none;transition:transform .3s var(--ease)}
 .rank svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
-.rank b{position:relative;font:700 13px Rajdhani,sans-serif;color:#0b0d11;margin-top:-2px}
-.rank.cal{opacity:.4}
+.rank b{position:relative;font:700 15px Rajdhani,sans-serif;color:#0b0d11;margin-top:-2px;letter-spacing:.2px}
+.rank.cal{opacity:.75}
 .rank.lg{width:110px;height:124px;animation:float 4s ease-in-out infinite}.rank.lg b{font-size:42px;margin-top:-6px}
 @keyframes float{50%{transform:translateY(-8px)}}
 tr:hover .rank,.rk:hover .rank{transform:scale(1.12) rotate(-4deg)}
@@ -799,10 +799,10 @@ const rankName = p => RANKS[rankIdx(p)][1];
 const tier = p => "t" + rankName(p)[0];
 let gid = 0;
 function shield(p, m, lg){
-  const n = rankName(p), rc = RANKC[n], c = rc ? [rc[0], TIERC[n[0]][1]] : TIERC[n[0]], id = "g" + (gid++);
+  const n = rankName(p), rc = RANKC[n], c = rc ? [rc[0], rc[0]] : TIERC[n[0]], id = "g" + (gid++);
   return `<span class="rank ${lg ? "lg" : ""} ${m !== undefined && m < CAL ? "cal" : ""}" title="${n}${m !== undefined && m < CAL ? " · " + t("cal") : ""}">
     <svg viewBox="0 0 34 38"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></linearGradient></defs>
-    <path d="M17 1 32 6v12c0 9.5-6.5 15.5-15 19C8.5 33.5 2 27.5 2 18V6Z" fill="url(#${id})" stroke="rgba(255,255,255,.35)" stroke-width="1"/></svg><b>${n}</b></span>`;
+    <path d="M17 1 32 6v12c0 9.5-6.5 15.5-15 19C8.5 33.5 2 27.5 2 18V6Z" fill="url(#${id})" stroke="rgba(255,255,255,.35)" stroke-width="1"/></svg><b style="color:${rc ? rc[1] : "#0b0d11"}">${n.replace("-", "−")}</b></span>`;
 }
 const kd = (k, d) => (k / Math.max(d, 1)).toFixed(2);
 const pct = (a, b) => b ? Math.round(100 * a / b) : 0;

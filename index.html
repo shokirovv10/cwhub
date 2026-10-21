@@ -11,7 +11,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ff9a00'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='900' font-size='15' text-anchor='middle' fill='%23000'%3ECW%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@700;900&family=Russo+One&family=Press+Start+2P&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
 :root{
@@ -667,6 +667,22 @@ tr.elite td:first-child{box-shadow:inset 3px 0 0 rgb(var(--el,168,85,247))}
 tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 .badgecard{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .badgecard .sw{margin-left:auto}
+.sprem{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;max-width:1000px;margin:26px auto 0}
+.spc{position:relative;border-radius:22px;padding:26px;background:linear-gradient(160deg,rgba(255,209,102,.1),rgba(18,21,29,.9) 45%);border:1px solid rgba(255,209,102,.28);overflow:hidden}
+.spc.pre{background:linear-gradient(160deg,rgba(56,189,248,.1),rgba(18,21,29,.9) 45%);border-color:rgba(56,189,248,.28)}
+.spc h3{font-size:26px;margin:6px 0 2px}.spc .pr{font:700 30px Rajdhani,sans-serif;color:var(--gold)}.spc.pre .pr{color:#7dd3fc}
+.spc .pr small{font:600 14px Inter,sans-serif;color:var(--muted)}
+.spc ul{list-style:none;padding:0;margin:14px 0 18px;display:grid;gap:8px}.spc li{display:flex;gap:9px;font-size:14px}.spc li:before{content:"✓";color:var(--win);font-weight:800}
+.fpick{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0}
+.fpick button{border:1px solid var(--line2);background:var(--panel2);border-radius:12px;padding:12px;cursor:pointer;color:var(--text);font-size:18px;text-align:center}
+.fpick button.on{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,209,102,.18)}
+.fpick button small{display:block;font:500 11px Inter,sans-serif;color:var(--muted);margin-top:4px}
+.prem-crown{margin-left:6px;font-size:.8em;filter:drop-shadow(0 0 6px rgba(255,209,102,.8))}
+.phero.hasbanner{background-size:cover;background-position:center}
+.phero.hasbanner:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,7,10,.92),rgba(6,7,10,.55));border-radius:inherit;pointer-events:none}
+.phero.hasbanner>*{position:relative}
+.cmsg .cn a.pnick{background:linear-gradient(90deg,#ffe9a8,#ffc94d,#fff3c4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.orow{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:12px;background:var(--panel2);margin-bottom:8px;flex-wrap:wrap}
 .cmsg .cact{display:flex;gap:4px;margin-top:4px;opacity:.55;transition:opacity .2s}
 .cmsg:hover .cact,.cmsg .cact:focus-within{opacity:1}
 .cmsg.mine .cact{justify-content:flex-end}
@@ -902,6 +918,12 @@ async function loadProfiles(){
   try { const r = await sb.rpc("public_profiles"); if (!r.error) { PROF = {}; (r.data || []).forEach(x => { if (x.steam) PROF[x.steam] = x; }); } } catch (e) {}
 }
 const photoOf = steam => PROF[steam]?.avatar_url || null;
+// Sayt Premium: GIF banner, nik shrifti (3 xil), 👑 belgi
+const PREM_PRICE = {site: 49000, prefix: 7000};
+const NFONTS = {f1: "'Orbitron',sans-serif", f2: "'Russo One',sans-serif", f3: "'Press Start 2P',monospace"};
+const isPrem = steam => !!PROF[steam]?.premium;
+const nickStyle = steam => { const f = PROF[steam]?.nick_font; return f && NFONTS[f] ? `font-family:${NFONTS[f]};${f === "f3" ? "font-size:.8em;" : ""}` : ""; };
+const premCrown = steam => isPrem(steam) ? `<span class="prem-crown" title="Premium">👑</span>` : "";
 // G yutug'i: G rank (3300+ PTS) va o'yinchi uni yoqqan bo'lsa — nik yonida porloq belgi
 const G_MIN = 1600;     // H rankdan boshlab (H, H+, P-, P, P+, G-, G, G+)
 const hasG = p => !!p && (p.pts || 0) >= G_MIN && !!PROF[p.id]?.show_badge;
@@ -946,7 +968,7 @@ function buildIndex(){
   const ranked = Object.values(byId).filter(p => p.matches > 0 || p.hist.length || p.ms.length || HIDDEN_STEAM.includes(p.id)).sort((a, b) => b.pts - a.pts || b.matches - a.matches);
   IDX = {byId, sorted, ranked, matches: Object.values(matches).sort((a, b) => b.t - a.t)};
 }
-const pcell = (p, name) => `<span class="pcell ${hasG(p) ? "gn " + badgeTier(p) : ""}">${avatar(name || p.name, false, photoOf(p?.id))}<span class="nm">${esc(name || p.name)}</span>${gBadge(p)}${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
+const pcell = (p, name) => `<span class="pcell ${hasG(p) ? "gn " + badgeTier(p) : ""}">${avatar(name || p.name, false, photoOf(p?.id))}<span class="nm" style="${nickStyle(p?.id)}">${esc(name || p.name)}</span>${premCrown(p?.id)}${gBadge(p)}${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
 
 /* ===================================================================== sahifalar */
 function radar(n){
@@ -1142,11 +1164,11 @@ function pageProfile(id){
   const games = (p.hist.length ? p.hist : p.ms).slice().reverse().slice(0, 15), pp = people(p);
   return `
   ${isMe ? `<div class="banner"><b>👋 ${t("thisIsYou")}</b><span class="verified">${I.check} ${t("verified")}</span></div>` : ""}
-  <section class="phero" style="--glow:${c[1]}55"><div class="prof">
+  <section class="phero ${PROF[p.id]?.banner_url ? "hasbanner" : ""}" style="--glow:${c[1]}55;${PROF[p.id]?.banner_url ? `background-image:url('${esc(PROF[p.id].banner_url)}')` : ""}"><div class="prof">
     <div style="display:flex;gap:16px;align-items:center">${photoOf(p.id) ? avatar(p.name, true, photoOf(p.id)) : ""}${shield(p.pts, p.matches, true)}</div>
     <div style="min-width:0">
       <div class="eyebrow">${HIDDEN_STEAM.includes(p.id) ? `👑 ${LANG === "ru" ? "Владелец сервера" : "Server egasi"}` : cal ? t("calLeft")(CAL - p.matches) : `#${p.place} ${t("place")} · ${t("season")} ${SEASON}`}</div>
-      <h1 style="font-size:44px;word-break:break-word;margin:6px 0">${esc(p.name)}${gBadge(p)}</h1>
+      <h1 style="font-size:44px;word-break:break-word;margin:6px 0;${nickStyle(p.id)}">${esc(p.name)}${premCrown(p.id)}${gBadge(p)}</h1>
       <div class="sub" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
         ${p.verified ? `<span class="verified">${I.check} ${t("verified")}</span>` : ""}
         ${online ? `<span class="pill live"><span class="dot"></span>${t("serverHere")}</span>` : ""}
@@ -1268,6 +1290,7 @@ async function refreshMe(){
   ME = { email: u.email, id: u.id, acc: null };
   try { const r = await sb.rpc("get_my_code"); if (!r.error) ME.acc = r.data; } catch (e) {}
   try { const a = await sb.rpc("is_site_admin"); ME.admin = a.data === true; } catch (e) { ME.admin = false; }
+  try { const pr = await sb.rpc("my_premium"); ME.prem = pr.data || {}; } catch (e) { ME.prem = {}; }
 }
 function renderAcct(){
   const nm = ME ? myNick() : "";
@@ -1403,7 +1426,8 @@ function pageMe(){
   const badge = `<div class="card mt"><div class="badgecard"><span class="gbadge ${bt}" style="font-size:14px;padding:4px 10px">${gOk ? badgeIcon(myRank) + " " + myRank.replace("-", "−") : "⚡ H"}</span>
     <div><b>${mt("gT")}</b><div class="sub" style="font-size:13px">${gOk ? mt("gL") : mt("gLock")(G_MIN, gp)}</div></div>
     ${gOk ? `<button class="btn ${gOn ? "ghost" : "main"} sw" onclick="setBadge(${!gOn})">${gOn ? mt("gOff") : mt("gOn")}</button>` : ""}</div></div>`;
-  return `${head}${link}${badge}<div class="mt">${friendsCard()}</div>`;
+  if (MYORD == null) loadMyOrders().then(() => { if ((curRoute() || "") === "#/me") render(false); });
+  return `${head}${link}${premCard()}${badge}<div class="mt">${friendsCard()}</div>`;
 }
 async function setBadge(on){
   const r = await sb.rpc("set_badge", {p_on: on});
@@ -1509,6 +1533,109 @@ function planCard(lvl, hot){
     <button class="btn ${hot ? "gold" : "main"} wide" onclick="openBuy('${esc(p.id)}')">${pt("buy")} →</button></div>`;
 }
 const allPlans = () => planCard("moder", false) + planCard("admin", true) + planCard("gladmin", false);
+const SP = {
+  uz: {secT: "Sayt bezaklari", secL: "Profilingizni boshqalardan ajrating — kartaga to'lov, chekni yuklaysiz, admin tasdiqlaydi.",
+    siteT: "Sayt Premium", siteH: "Profil Premium", sitePerks: ["Profilda GIF banner (animatsiyali fon)", "Nik 3 xil shriftdan birida", "Nik yonida 👑 Premium belgisi", "Chatda oltin rangli nik", "Reyting va o'yinchilar ro'yxatida ajralib turasiz"],
+    preT: "Shaxsiy prefiks", preH: "O'yindagi prefiks", prePerks: ["Server chatida nikingiz oldida o'z prefiksingiz: [MATN]", "14 belgigacha, istalgan vaqtda saytdan o'zgartirasiz", "Bir marta to'lov — abadiy"],
+    freeAdm: "Admin va Gl.Admin uchun bepul: serverda /prefix MATN yozing (olib tashlash: /prefix -).",
+    forever: "abadiy", buy: "Sotib olish", needLogin: "Avval saytga kiring.", payTo: "Shu kartaga to'lang", sum: "Summa",
+    receipt: "Chek rasmi (skrinshot)", prefixL: "Prefiks matni (14 belgigacha)", send: "Yuborish", sent: "Buyurtma yuborildi! Admin chekni tekshirib tasdiqlaydi — odatda bir necha daqiqada.",
+    noReceipt: "Chek rasmini tanlang", myT: "Premium va prefiks", active: d => `👑 Premium faol — ${d} gacha`, notActive: "Premium yo'q",
+    fontT: "Nik shrifti", fontNone: "Oddiy", bannerT: "Profil banneri (GIF/PNG/JPG, 5 MB gacha)", bannerDel: "Bannerni olib tashlash", saved: "Saqlandi",
+    preMine: "O'yindagi prefiksingiz", preSave: "Saqlash va serverga yuborish", preNone: "Prefiks sotib olinmagan", ordersT: "Buyurtmalarim",
+    st: {pending: "⏳ tekshirilmoqda", approved: "✅ tasdiqlandi", rejected: "❌ rad etildi"}, kind: {site: "Sayt Premium", prefix: "Prefiks"}},
+  ru: {secT: "Украшения на сайте", secL: "Выделите свой профиль — оплата на карту, загружаете чек, админ подтверждает.",
+    siteT: "Сайт Premium", siteH: "Premium профиль", sitePerks: ["GIF-баннер в профиле (анимированный фон)", "Ник одним из 3 шрифтов", "Значок 👑 Premium рядом с ником", "Золотой ник в чате", "Выделяетесь в рейтинге и списках игроков"],
+    preT: "Личный префикс", preH: "Префикс в игре", prePerks: ["Свой префикс перед ником в чате сервера: [ТЕКСТ]", "До 14 символов, меняете на сайте в любое время", "Одна оплата — навсегда"],
+    freeAdm: "Для Админа и Гл.Админа бесплатно: на сервере напишите /prefix ТЕКСТ (убрать: /prefix -).",
+    forever: "навсегда", buy: "Купить", needLogin: "Сначала войдите на сайт.", payTo: "Оплатите на эту карту", sum: "Сумма",
+    receipt: "Фото чека (скриншот)", prefixL: "Текст префикса (до 14 символов)", send: "Отправить", sent: "Заказ отправлен! Админ проверит чек и подтвердит — обычно за несколько минут.",
+    noReceipt: "Выберите фото чека", myT: "Premium и префикс", active: d => `👑 Premium активен — до ${d}`, notActive: "Нет Premium",
+    fontT: "Шрифт ника", fontNone: "Обычный", bannerT: "Баннер профиля (GIF/PNG/JPG, до 5 МБ)", bannerDel: "Убрать баннер", saved: "Сохранено",
+    preMine: "Ваш префикс в игре", preSave: "Сохранить и отправить на сервер", preNone: "Префикс не куплен", ordersT: "Мои заказы",
+    st: {pending: "⏳ проверяется", approved: "✅ подтверждён", rejected: "❌ отклонён"}, kind: {site: "Сайт Premium", prefix: "Префикс"}}
+};
+const sp = k => SP[LANG][k];
+const money = n => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} ${LANG === "ru" ? "сум" : "so'm"}`;
+function openSiteBuy(kind){
+  if (!sb || !ME) { toast(sp("needLogin")); return go("#/login"); }
+  const S = SHOP();
+  $("#modal").innerHTML = `<div class="modal" onclick="if(event.target===this)closeSiteBuy()"><div class="mbox" role="dialog" aria-modal="true">
+    <button class="mclose" onclick="closeSiteBuy()" aria-label="close">✕</button>
+    <div class="eyebrow">${kind === "site" ? "👑 " + sp("siteT") : "🏷 " + sp("preT")}</div>
+    <h2 class="title" style="font-size:28px">${sp("payTo")}</h2>
+    <div class="sumrow" style="border-color:rgba(255,209,102,.35)"><span class="sub">${sp("sum")}</span><b style="font:700 24px Rajdhani,sans-serif;color:var(--gold)">${money(PREM_PRICE[kind])}</b></div>
+    ${S.card ? `<div class="ccard"><div style="display:flex;justify-content:space-between;align-items:center"><span class="chip"></span><b style="font:700 16px Rajdhani,sans-serif;letter-spacing:2px;color:#ffe9b0">CWHUB</b></div>
+      <div class="num">${esc(fmtCard(S.card))}</div><div class="own"><div>${pt("owner")}<b>${esc(S.owner || "—")}</b></div><div style="text-align:right">${sp("sum")}<b>${money(PREM_PRICE[kind])}</b></div></div></div>
+      <button class="btn wide" onclick="copy('${esc(String(S.card).replace(/\D/g, ""))}', pt('cardCopied'))">${I.copy} ${pt("copyCard")}</button>` : `<p class="hint">${pt("noCard")}</p>`}
+    ${kind === "prefix" ? `<div class="field mt"><label>${sp("prefixL")}<input id="spx" maxlength="14" placeholder="BOSS"></label></div>` : ""}
+    <div class="field mt"><label>${sp("receipt")}<input id="srec" type="file" accept="image/png,image/jpeg,image/webp"></label></div>
+    <button class="btn gold wide mt" id="sbtn" onclick="sendSiteOrder('${kind}')">${sp("send")}</button></div></div>`;
+}
+function closeSiteBuy(){ const m = $("#modal .modal"); if (!m) return; m.classList.add("out"); setTimeout(() => { $("#modal").innerHTML = ""; }, 240); }
+async function sendSiteOrder(kind){
+  const f = $("#srec")?.files?.[0]; if (!f) return toast(sp("noReceipt"));
+  if (f.size > 5 * 1024 * 1024) return toast(mt("tooBig"));
+  const b = $("#sbtn"); b.disabled = true;
+  const ext = (f.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z]/g, "");
+  const path = `${ME.id}/receipt-${Date.now()}.${ext}`;
+  const up = await sb.storage.from("avatars").upload(path, f, {contentType: f.type});
+  if (up.error) { b.disabled = false; return toast(up.error.message); }
+  const url = sb.storage.from("avatars").getPublicUrl(path).data.publicUrl;
+  const row = {kind, amount: PREM_PRICE[kind], receipt_url: url};
+  if (kind === "prefix") row.prefix_text = ($("#spx")?.value || "").trim().slice(0, 14);
+  const r = await sb.from("premium_orders").insert(row);
+  if (r.error) { b.disabled = false; return toast(r.error.message); }
+  $("#modal .mbox").innerHTML = `<div style="text-align:center"><div class="okbig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m5 12 5 5L20 7"/></svg></div>
+    <p class="lead" style="margin:10px auto 18px">${sp("sent")}</p><button class="btn main" onclick="closeSiteBuy()">OK</button></div>`;
+}
+// "Mening profilim" — Premium kartasi
+let MYORD = null;
+function premCard(){
+  const pr = ME.prem || {}, steam = ME.acc?.steam;
+  const until = pr.premium_until ? new Date(pr.premium_until).toLocaleDateString(LANG === "ru" ? "ru-RU" : "uz-UZ") : "";
+  const fonts = [["", sp("fontNone"), "inherit"], ["f1", "Orbitron", NFONTS.f1], ["f2", "Russo One", NFONTS.f2], ["f3", "Pixel", NFONTS.f3]];
+  const premBody = pr.active ? `<div class="sub" style="color:var(--gold);font-weight:700">${sp("active")(until)}</div>
+      <h4 style="margin:14px 0 4px">${sp("fontT")}</h4>
+      <div class="fpick">${fonts.map(f => `<button type="button" class="${(pr.nick_font || "") === f[0] ? "on" : ""}" style="font-family:${f[2]};${f[0] === "f3" ? "font-size:12px" : ""}" onclick="setMyFont('${f[0]}')">${esc(myNick())}<small>${f[1]}</small></button>`).join("")}</div>
+      <h4 style="margin:14px 0 4px">${sp("bannerT")}</h4>
+      ${pr.banner_url ? `<div style="height:110px;border-radius:14px;background:url('${esc(pr.banner_url)}') center/cover;margin-bottom:8px"></div>` : ""}
+      <div class="btns"><label class="btn">🖼 GIF<input type="file" accept="image/gif,image/png,image/jpeg,image/webp" hidden onchange="uploadBanner(this)"></label>${pr.banner_url ? `<button class="btn ghost" onclick="setMyBanner('')">${sp("bannerDel")}</button>` : ""}</div>`
+    : `<div class="btns"><span class="sub">${sp("notActive")}</span><a class="btn gold sm" href="/premium">👑 ${money(PREM_PRICE.site)}</a></div>`;
+  const preBody = pr.prefix_paid ? `<form class="btns" onsubmit="event.preventDefault();saveMyPrefix()" style="align-items:flex-end"><div class="field" style="flex:1;min-width:160px"><label>${sp("preMine")}<input id="mypx" maxlength="14" value="${esc(pr.prefix_text || "")}"></label></div><button class="btn main" type="submit">${sp("preSave")}</button></form>${steam ? "" : `<p class="sub" style="font-size:12px">${x("notLinked")}</p>`}`
+    : `<div class="btns"><span class="sub">${sp("preNone")}</span><a class="btn sm" href="/premium">🏷 ${money(PREM_PRICE.prefix)}</a></div><p class="sub" style="font-size:12px;margin-top:8px">${sp("freeAdm")}</p>`;
+  const ord = (MYORD || []).slice(0, 5).map(o => `<div class="orow"><span><b>${sp("kind")[o.kind]}</b> · ${money(o.amount)}</span><span class="sub">${sp("st")[o.status]}</span></div>`).join("");
+  return `<div class="card mt"><h3>👑 ${sp("myT")}</h3>${premBody}<h3 class="mt2">🏷 ${sp("preT")}</h3>${preBody}${ord ? `<h4 class="mt2" style="margin-bottom:8px">${sp("ordersT")}</h4>${ord}` : ""}</div>`;
+}
+async function loadMyOrders(){ if (!sb || !ME) return; const r = await sb.from("premium_orders").select("kind,amount,status,created_at").eq("user_id", ME.id).order("id", {ascending: false}).limit(5); MYORD = r.data || []; }
+async function afterPrem(){ await refreshMe(); await loadProfiles(); buildIndex(); render(false); toast("✓ " + sp("saved")); }
+async function setMyFont(f){ const r = await sb.rpc("set_my_style", {p_font: f, p_banner: null}); if (r.error || !r.data?.ok) return toast(r.error?.message || r.data?.err || "✕"); afterPrem(); }
+async function setMyBanner(url){ const r = await sb.rpc("set_my_style", {p_font: null, p_banner: url}); if (r.error || !r.data?.ok) return toast(r.error?.message || r.data?.err || "✕"); afterPrem(); }
+async function uploadBanner(input){
+  const f = input.files[0]; if (!f) return;
+  if (f.size > 5 * 1024 * 1024) return toast(mt("tooBig"));
+  const ext = (f.name.split(".").pop() || "gif").toLowerCase().replace(/[^a-z]/g, "");
+  const path = `${ME.id}/banner-${Date.now()}.${ext}`;
+  const up = await sb.storage.from("avatars").upload(path, f, {contentType: f.type});
+  if (up.error) return toast(up.error.message);
+  setMyBanner(sb.storage.from("avatars").getPublicUrl(path).data.publicUrl);
+}
+async function saveMyPrefix(){
+  const r = await sb.rpc("set_my_prefix", {p_text: ($("#mypx")?.value || "").trim()});
+  if (r.error || !r.data?.ok) return toast(r.error?.message || r.data?.err || "✕");
+  afterPrem();
+}
+// admin panel: Premium buyurtmalari
+let PORD = null;
+async function loadPremOrders(){ const r = await sb.from("premium_orders").select("*").order("status", {ascending: false}).order("id", {ascending: false}).limit(40); PORD = r.data || []; const el = $("#pord"); if (el) el.innerHTML = premOrdersHTML(); }
+function premOrdersHTML(){
+  if (PORD == null) return `<div class="skel" style="height:60px"></div>`;
+  if (!PORD.length) return `<div class="empty">—</div>`;
+  const nick = uid => { const pr = Object.values(PROF).find(x => x.user_id === uid); return pr ? pr.nick || pr.steam : uid.slice(0, 8); };
+  return PORD.map(o => `<div class="orow"><span><b>#${o.id} ${sp("kind")[o.kind]}</b> · ${money(o.amount)} · ${esc(nick(o.user_id))}${o.prefix_text ? ` · [${esc(o.prefix_text)}]` : ""}<br><span class="sub" style="font-size:12px">${new Date(o.created_at).toLocaleString()}</span></span>
+    <span class="btns">${o.receipt_url ? `<a class="btn sm ghost" href="${esc(o.receipt_url)}" target="_blank" rel="noopener">🧾</a>` : ""}${o.status === "pending" ? `<button class="btn sm main" onclick="decideOrder(${o.id},true)">✅</button><button class="btn sm" onclick="decideOrder(${o.id},false)">❌</button>` : `<span class="sub">${sp("st")[o.status]}</span>`}</span></div>`).join("");
+}
+async function decideOrder(id, ok){ const r = await sb.rpc("admin_decide_order", {p_id: id, p_ok: ok}); if (r.error || !r.data?.ok) return toast(r.error?.message || r.data?.err || "✕"); toast("✓"); loadPremOrders(); }
 function pagePremium(){
   const both = [7, 30].every(d => SHOP().plans.some(p => +p.days === d));
   return `<section class="phead">
@@ -1520,6 +1647,18 @@ function pagePremium(){
   </section>
   <div class="plans" id="plans" style="max-width:1200px;margin-left:auto;margin-right:auto">${allPlans()}</div>
   <p class="sub" style="text-align:center;font-size:13px;margin-top:14px">ℹ ${pt("unbanNote")}</p>
+  <h2 class="title" style="text-align:center;margin-top:46px">${sp("secT")}</h2><p class="lead" style="text-align:center;margin:0 auto">${sp("secL")}</p>
+  <div class="sprem">
+    <div class="spc"><div class="eyebrow" style="color:var(--gold)">👑 ${sp("siteT")}</div><h3>${sp("siteH")}</h3>
+      <div class="pr">${money(PREM_PRICE.site)} <small>/ 30 ${LANG === "ru" ? "дней" : "kun"}</small></div>
+      <ul>${sp("sitePerks").map(x => `<li>${x}</li>`).join("")}</ul>
+      <button class="btn gold wide" onclick="openSiteBuy('site')">👑 ${sp("buy")}</button></div>
+    <div class="spc pre"><div class="eyebrow" style="color:#7dd3fc">🏷 ${sp("preT")}</div><h3>${sp("preH")}</h3>
+      <div class="pr">${money(PREM_PRICE.prefix)} <small>/ ${sp("forever")}</small></div>
+      <ul>${sp("prePerks").map(x => `<li>${x}</li>`).join("")}</ul>
+      <button class="btn main wide" onclick="openSiteBuy('prefix')">🏷 ${sp("buy")}</button>
+      <p class="sub" style="font-size:12px;margin:12px 0 0">${sp("freeAdm")}</p></div>
+  </div>
   <div class="trust">${pt("trust").map(x => `<div class="rv"><i>${x[0]}</i><div><b>${x[1]}</b><span>${x[2]}</span></div></div>`).join("")}</div>
   <div class="grid2 mt2">
     <div class="card spot rv"><h3>${pt("cmpT")}</h3><div class="tw"><table class="cmptbl"><tr><th></th><th>${pt("moder")}</th><th style="color:var(--gold)">${pt("admin")}</th><th style="color:#c084fc">${pt("gladmin")}</th></tr>
@@ -1674,7 +1813,7 @@ const X = {
     myT: "Murojaatlarim", noT: "Hali murojaat yo'q", needLogin: "Yordam uchun avval akkauntga kiring.", reply: "Javob yozing…", close: "Yopish", closed: "Yopilgan",
     stt: {open: "ochiq", answered: "javob berildi", closed: "yopilgan"}, admin: "Admin", you: "Siz", pick: "Chapdan murojaatni tanlang",
     aT: "Admin panel", aL: "Chegirma, huquq berish, ban, sovrinlar, support va e'lon.", noAccess: "Bu sahifa faqat sayt adminlari uchun.",
-    tabs: ["Panel", "Tariflar va to'lov", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati", "Sayt adminlari"],
+    tabs: ["Panel", "Tariflar va to'lov", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati", "Sayt adminlari", "Premium buyurtmalar"],
     loadBans: "Banlarni yuklash", rebans: "Qayta ban", noBansA: "Faol ban yo'q", accs: "Saytdagi akkauntlar", pend: "Kutilayotgan buyruqlar",
     disc: "Chegirma (%)", until: "Tugash sanasi", label: "Yozuv (masalan: Sezon ochilishi!)", save: "Saqlash", saved: "Saqlandi", off: "Chegirmani o'chirish",
     steam: "SteamID", level: "Daraja", days: "Kun (0 = abadiy)", nick: "Nik", grant: "Huquq berish", remove: "Huquqni olish", list: "Adminlar ro'yxati",
@@ -1688,7 +1827,7 @@ const X = {
     myT: "Мои обращения", noT: "Обращений пока нет", needLogin: "Чтобы написать в поддержку, войдите в аккаунт.", reply: "Напишите ответ…", close: "Закрыть", closed: "Закрыто",
     stt: {open: "открыто", answered: "есть ответ", closed: "закрыто"}, admin: "Админ", you: "Вы", pick: "Выберите обращение слева",
     aT: "Админ-панель", aL: "Скидки, выдача прав, баны, призы, поддержка и объявления.", noAccess: "Страница только для админов сайта.",
-    tabs: ["Панель", "Тарифы и оплата", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов", "Админы сайта"],
+    tabs: ["Панель", "Тарифы и оплата", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов", "Админы сайта", "Premium заказы"],
     loadBans: "Загрузить баны", rebans: "Перебанить", noBansA: "Активных банов нет", accs: "Аккаунтов на сайте", pend: "Ожидают выполнения",
     disc: "Скидка (%)", until: "Действует до", label: "Подпись (например: Открытие сезона!)", save: "Сохранить", saved: "Сохранено", off: "Выключить скидку",
     steam: "SteamID", level: "Уровень", days: "Дней (0 = навсегда)", nick: "Ник", grant: "Выдать права", remove: "Снять права", list: "Список админов",
@@ -1919,7 +2058,8 @@ function pageAdmin(){
 ,
     () => `<div class="btns"><button class="btn main" onclick="loadBanList()">🔄 ${x("loadBans")}</button></div><div id="banl" class="mt">${banListHTML()}</div>`
 ,
-    () => siteAdminsHTML()
+    () => siteAdminsHTML(),
+    () => `<div class="btns"><button class="btn main" onclick="loadPremOrders()">🔄</button></div><div id="pord" class="mt">${premOrdersHTML()}</div>`
   ][aTab]();
   return `<h2 class="title">🛡 ${x("aT")}</h2><p class="lead">${x("aL")}</p>${tabs}<div class="card">${body}</div>`;
 }
@@ -2041,6 +2181,7 @@ async function bindAdmin(){
   if (aTab === 5) { $("#atl").innerHTML = ticketList(true); }
   if (aTab === 7) { const b = $("#banl"); if (b) b.innerHTML = banListHTML(); }
   if (aTab === 8) loadSiteAdmins();
+  if (aTab === 9) loadPremOrders();
 }
 async function bindSupport(){ if (!sb || !ME) return; await myChat(); render(false); scrollThread(); }
 
@@ -2055,7 +2196,7 @@ const CT = {
 const ct = k => CT[LANG][k];
 function chatMsgHTML(m){
   const mine = ME && m.user_id === ME.id, canDel = ME && (mine || ME.admin), canMute = ME?.admin && !mine && !m.is_admin;
-  const nm = m.steam ? `<a href="/p/${slug(m.steam)}">${esc(m.nick || "?")}</a>` : esc(m.nick || "?");
+  const nm = m.steam ? `<a href="/p/${slug(m.steam)}" class="${isPrem(m.steam) ? "pnick" : ""}" style="${nickStyle(m.steam)}">${esc(m.nick || "?")}</a>${premCrown(m.steam)}` : esc(m.nick || "?");
   const tm = new Date(m.created_at).toLocaleTimeString(LANG === "ru" ? "ru-RU" : "uz-UZ", {hour: "2-digit", minute: "2-digit"});
   return `<div class="cmsg ${mine ? "mine" : ""}" data-id="${m.id}">${avatar(m.nick || "?", false, m.avatar_url)}
     <div class="cb"><div class="cn">${nm}${m.steam ? `<span class="verified">${I.check}</span>` : ""}${m.is_admin ? `<span class="st answered" style="font-size:9px">🛡 Admin</span>` : ""}<small>${tm}</small></div>${m.reply_to ? `<span class="rq" onclick="chatJump(${m.reply_to})"><b>${esc(m.reply_nick || "?")}</b>${esc(m.reply_body || "")}</span>` : ""}<div class="ct">${esc(m.body)}</div>

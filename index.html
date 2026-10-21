@@ -143,6 +143,8 @@ main.enter{animation:pageIn .55s var(--ease) both}
 .btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c1300;border:0;box-shadow:0 10px 30px rgba(255,200,60,.28)}
 .btn.tg{background:#2aabee;border-color:#2aabee;color:#fff}
 .btn.tg:hover{box-shadow:0 10px 26px rgba(42,171,238,.35)}
+.btn.ig{background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888);border-color:transparent;color:#fff}
+.btn.ig:hover{box-shadow:0 10px 26px rgba(220,39,67,.35)}
 .btn.sm{padding:8px 13px;font-size:13px;border-radius:10px}
 .btn.ghost{background:transparent}
 .btn.wide{width:100%}
@@ -648,6 +650,19 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .cmsg.mine .cn{flex-direction:row-reverse}
 .cmsg .del{position:absolute;top:4px;right:6px;border:0;background:none;color:var(--dim);cursor:pointer;opacity:0;transition:.2s;font-size:12px}
 .cmsg:hover .del{opacity:1}
+.cmsg .cact{display:flex;gap:4px;margin-top:4px;opacity:.55;transition:opacity .2s}
+.cmsg:hover .cact,.cmsg .cact:focus-within{opacity:1}
+.cmsg.mine .cact{justify-content:flex-end}
+.cmsg .cact button{border:0;background:none;color:var(--muted);cursor:pointer;font:600 12px Inter,sans-serif;padding:2px 6px;border-radius:6px}
+.cmsg .cact button:hover{background:var(--panel3);color:var(--text)}
+.cmsg .cact button.warn:hover{color:#ff6b6b}
+.cmsg .rq{display:block;border-left:3px solid var(--accent);background:rgba(255,255,255,.04);border-radius:6px;padding:4px 8px;margin:4px 0 2px;font-size:12px;color:var(--muted);cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmsg .rq b{color:var(--text);margin-right:6px}
+.cmsg.flash .cb{box-shadow:0 0 0 2px var(--accent)}
+.replybar{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1px solid var(--line);background:rgba(255,159,28,.07);font-size:13px}
+.replybar .q{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}
+.replybar .q b{color:var(--text)}
+.replybar button{border:0;background:none;color:var(--muted);cursor:pointer;font-size:16px}
 .cday{align-self:center;font-size:11px;color:var(--dim);background:var(--panel2);padding:3px 10px;border-radius:99px}
 .emo{display:flex;gap:4px;padding:0 14px 10px;flex-wrap:wrap}
 .emo button{border:0;background:var(--panel2);border-radius:8px;cursor:pointer;font-size:16px;padding:3px 7px;transition:.15s}
@@ -673,6 +688,7 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
   <div><h4 id="f1"></h4><div id="fl1"></div></div>
   <div><h4 id="f2"></h4><div id="fl2"></div></div>
   <div><h4>Telegram</h4><a href="https://t.me/CwhubUZ" target="_blank" rel="noopener">@CwhubUZ</a><a id="fbot" href="#" target="_blank" rel="noopener"></a><a id="fshop" href="#" target="_blank" rel="noopener"></a></div>
+  <div><h4>Instagram</h4><a href="https://www.instagram.com/cwhub.uz" target="_blank" rel="noopener">@cwhub.uz</a></div>
 </div></footer>
 <button id="totop" aria-label="Top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 15 6-6 6 6"/></svg></button>
 <div id="modal"></div>
@@ -841,6 +857,7 @@ function copy(txt, msg){ navigator.clipboard?.writeText(txt).then(() => toast(ms
 const I = {
   play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>',
   copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>',
+  ig: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
   tg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.6l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6L20.4 3.1c.9-.3 1.7.2 1.5 1.2z"/></svg>',
   users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M17 11a4 4 0 0 0 0-8M22 21c0-3-2-5-4-5.5"/></svg>',
   sword: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/></svg>',
@@ -932,7 +949,7 @@ function pageHome(){
         <div><span>${t("players")}</span><b>${on ? `${s.count}/${max}` : "—"}</b></div>
         <div><span>${t("address")}</span><b class="addr">${ADDRESS}</b></div>
       </div>
-      <div class="btns">${connectBtns(true)}<a class="btn tg" href="https://t.me/CwhubUZ" target="_blank" rel="noopener">${I.tg} Telegram</a></div>
+      <div class="btns">${connectBtns(true)}<a class="btn tg" href="https://t.me/CwhubUZ" target="_blank" rel="noopener">${I.tg} Telegram</a><a class="btn ig" href="https://www.instagram.com/cwhub.uz" target="_blank" rel="noopener">${I.ig} Instagram</a></div>
     </div>
   </section>
   <div class="statstrip">
@@ -1995,18 +2012,20 @@ async function bindSupport(){ if (!sb || !ME) return; await myChat(); render(fal
 
 
 /* ===================================================================== umumiy chat */
-let CH = {list: [], sub: null, loaded: false};
+let CH = {list: [], sub: null, loaded: false, reply: null};
+const CHAT_COLS = "id,user_id,nick,avatar_url,steam,body,created_at,is_admin,reply_to,reply_nick,reply_body";
 const CT = {
-  uz: {t: "Umumiy chat", l: "CWhub o'yinchilari bilan suhbat. Hurmat bilan yozing — haqorat va reklama uchun ban.", need: "Chatga yozish uchun akkauntga kiring.", ph: "Xabar yozing…", send: "Yuborish", empty: "Hali xabar yo'q — birinchi bo'ling!", live: "jonli"},
-  ru: {t: "Общий чат", l: "Общение игроков CWhub. Пишите уважительно — за оскорбления и рекламу бан.", need: "Чтобы писать в чат, войдите в аккаунт.", ph: "Напишите сообщение…", send: "Отправить", empty: "Сообщений пока нет — будь первым!", live: "онлайн"}
+  uz: {reply: "Javob", del: "O'chirish", mute: "Mute", muteAsk: "Necha daqiqaga mute? (masalan 10, 60, 1440; 0 — mute'ni olish)", muted: "Mute berildi", unmuted: "Mute olindi", replyTo: "Javob:", t: "Umumiy chat", l: "CWhub o'yinchilari bilan suhbat. Hurmat bilan yozing — haqorat va reklama uchun ban.", need: "Chatga yozish uchun akkauntga kiring.", ph: "Xabar yozing…", send: "Yuborish", empty: "Hali xabar yo'q — birinchi bo'ling!", live: "jonli"},
+  ru: {reply: "Ответить", del: "Удалить", mute: "Мут", muteAsk: "На сколько минут мут? (например 10, 60, 1440; 0 — снять мут)", muted: "Мут выдан", unmuted: "Мут снят", replyTo: "Ответ:", t: "Общий чат", l: "Общение игроков CWhub. Пишите уважительно — за оскорбления и рекламу бан.", need: "Чтобы писать в чат, войдите в аккаунт.", ph: "Напишите сообщение…", send: "Отправить", empty: "Сообщений пока нет — будь первым!", live: "онлайн"}
 };
 const ct = k => CT[LANG][k];
 function chatMsgHTML(m){
-  const mine = ME && m.user_id === ME.id, canDel = ME && (mine || ME.admin);
+  const mine = ME && m.user_id === ME.id, canDel = ME && (mine || ME.admin), canMute = ME?.admin && !mine && !m.is_admin;
   const nm = m.steam ? `<a href="/p/${slug(m.steam)}">${esc(m.nick || "?")}</a>` : esc(m.nick || "?");
   const tm = new Date(m.created_at).toLocaleTimeString(LANG === "ru" ? "ru-RU" : "uz-UZ", {hour: "2-digit", minute: "2-digit"});
   return `<div class="cmsg ${mine ? "mine" : ""}" data-id="${m.id}">${avatar(m.nick || "?", false, m.avatar_url)}
-    <div class="cb">${canDel ? `<button class="del" title="✕" onclick="chatDel(${m.id})">✕</button>` : ""}<div class="cn">${nm}${m.steam ? `<span class="verified">${I.check}</span>` : ""}${m.is_admin ? `<span class="st answered" style="font-size:9px">🛡 Admin</span>` : ""}<small>${tm}</small></div><div class="ct">${esc(m.body)}</div></div></div>`;
+    <div class="cb"><div class="cn">${nm}${m.steam ? `<span class="verified">${I.check}</span>` : ""}${m.is_admin ? `<span class="st answered" style="font-size:9px">🛡 Admin</span>` : ""}<small>${tm}</small></div>${m.reply_to ? `<span class="rq" onclick="chatJump(${m.reply_to})"><b>${esc(m.reply_nick || "?")}</b>${esc(m.reply_body || "")}</span>` : ""}<div class="ct">${esc(m.body)}</div>
+      ${ME ? `<div class="cact"><button type="button" onclick="chatReply(${m.id})">↩ ${ct("reply")}</button>${canMute ? `<button type="button" class="warn" onclick="chatMute('${m.user_id}')">🔇 ${ct("mute")}</button>` : ""}${canDel ? `<button type="button" class="warn" onclick="chatDel(${m.id})">✕ ${ct("del")}</button>` : ""}</div>` : ""}</div></div>`;
 }
 function chatListHTML(){
   if (!CH.list.length) return `<div class="empty">${ct("empty")}</div>`;
@@ -2017,7 +2036,7 @@ function chatListHTML(){
 function pageChat(){
   const emo = ["🔥", "😂", "👍", "💀", "🎯", "😎", "GG", "EZ", "+", "WP"];
   const input = (sb && ME) ? `<div class="emo">${emo.map(e => `<button type="button" onclick="chatEmo('${e}')">${e}</button>`).join("")}</div>
-    <form class="chatin" onsubmit="chatPost(event)"><textarea id="gmsg" maxlength="300" placeholder="${ct("ph")}" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();this.form.requestSubmit()}"></textarea><button class="btn main" type="submit">${ct("send")}</button></form>`
+    <div id="rbar">${replyBarHTML()}</div><form class="chatin" onsubmit="chatPost(event)"><textarea id="gmsg" maxlength="300" placeholder="${ct("ph")}" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();this.form.requestSubmit()}"></textarea><button class="btn main" type="submit">${ct("send")}</button></form>`
     : `<div class="chatin" style="justify-content:center;align-items:center;gap:12px"><span class="sub">${ct("need")}</span><a class="btn main" href="/login">${t("login")}</a><a class="btn" href="/register">${t("signUp")}</a></div>`;
   return `<h2 class="title" style="text-align:center">💬 ${ct("t")}</h2><p class="lead" style="text-align:center;margin:0 auto 22px">${ct("l")}</p>
     <div class="card gchat"><div class="chathead"><div class="ava">💬</div><div><b>CWhub · ${ct("t")}</b><small>ClanWar 5x5</small></div><span class="live2"><i></i>${ct("live")}</span></div>
@@ -2027,7 +2046,7 @@ function chatScroll(){ const b = $("#gbody"); if (b) b.scrollTop = b.scrollHeigh
 function chatRedraw(){ const b = $("#gbody"); if (!b) return; const atEnd = b.scrollHeight - b.scrollTop - b.clientHeight < 80; b.innerHTML = chatListHTML(); if (atEnd) chatScroll(); }
 async function bindChat(){
   if (!sb) return;
-  const r = await sb.from("chat_messages").select("id,user_id,nick,avatar_url,steam,body,created_at,is_admin").order("id", {ascending: false}).limit(80);
+  const r = await sb.from("chat_messages").select(CHAT_COLS).order("id", {ascending: false}).limit(80);
   CH.list = (r.data || []).reverse(); CH.loaded = true;
   const b = $("#gbody"); if (b) { b.innerHTML = chatListHTML(); chatScroll(); }
   if (!CH.sub) CH.sub = sb.channel("cwhub-chat")
@@ -2039,10 +2058,33 @@ async function chatPost(ev){
   ev.preventDefault();
   const body = ($("#gmsg").value || "").trim(); if (!body) return;
   $("#gmsg").value = "";
-  const r = await sb.from("chat_messages").insert({body}).select("id,user_id,nick,avatar_url,steam,body,created_at,is_admin").single();
+  const row = {body}; if (CH.reply) row.reply_to = CH.reply.id;
+  const r = await sb.from("chat_messages").insert(row).select(CHAT_COLS).single();
   if (r.error) { toast(r.error.message); $("#gmsg").value = body; return; }
+  CH.reply = null; const rb = $("#rbar"); if (rb) rb.innerHTML = "";
   if (!CH.list.some(m => m.id === r.data.id)) { CH.list.push(r.data); chatRedraw(); }
   chatScroll(); $("#gmsg").focus();
+}
+function replyBarHTML(){
+  const q = CH.reply; if (!q) return "";
+  return `<div class="replybar"><span>↩ ${ct("replyTo")}</span><span class="q"><b>${esc(q.nick || "?")}</b> ${esc(q.body)}</span><button type="button" onclick="chatReply(null)">✕</button></div>`;
+}
+function chatReply(id){
+  const m = id == null ? null : CH.list.find(x => x.id === id);
+  CH.reply = m ? {id: m.id, nick: m.nick, body: m.body} : null;
+  const rb = $("#rbar"); if (rb) rb.innerHTML = replyBarHTML();
+  const i = $("#gmsg"); if (i && m) i.focus();
+}
+function chatJump(id){
+  const el = document.querySelector(`.cmsg[data-id="${id}"]`); if (!el) return;
+  el.scrollIntoView({behavior: "smooth", block: "center"}); el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), 1400);
+}
+async function chatMute(uid){
+  const v = prompt(ct("muteAsk"), "60"); if (v === null) return;
+  const mins = parseInt(v, 10); if (isNaN(mins) || mins < 0) return;
+  const r = await sb.rpc("chat_mute", {p_user: uid, p_minutes: mins});
+  if (r.error || !r.data?.ok) return toast(r.error?.message || "✕");
+  toast(mins > 0 ? `🔇 ${ct("muted")} — ${mins} min` : ct("unmuted"));
 }
 function chatEmo(e){ const i = $("#gmsg"); if (!i) return; i.value = (i.value ? i.value + " " : "") + e; i.focus(); }
 async function chatDel(id){ const r = await sb.from("chat_messages").delete().eq("id", id); if (r.error) return toast(r.error.message); CH.list = CH.list.filter(m => m.id !== id); chatRedraw(); }
@@ -2058,7 +2100,6 @@ function renderNav(){
     .concat(ME?.admin ? [link("/admin", "🛡 Admin", h === "#/admin")] : []);
   const extraOn = isOn(4) || isOn(5) || h === "#/support" || h === "#/admin";
   $("#nav").innerHTML = [0, 1, 2, 3].map(i => link(ROUTES[i].slice(1), t("nav")[i], isOn(i))).join("")
-    + `<a href="/clans" class="${h === "#/clans" ? "on" : ""}">${t("clansNav")}<span class="badge-soon">${t("soon")}</span></a>`
     + link("/chat", "💬 Chat", h === "#/chat")
     + `<div class="more"><button type="button" class="${extraOn ? "on" : ""}" onclick="this.parentNode.classList.toggle('open')">${LANG === "ru" ? "Ещё" : "Ko'proq"}<i>▾</i></button><div class="menu">${extra.join("")}</div></div>`
     + `<a href="/premium" class="prem ${h === "#/premium" ? "on" : ""}">👑 ${pt("nav")}</a>`;
@@ -2083,7 +2124,7 @@ function render(scroll = true){
   if (h.startsWith("#/p/")) html = pageProfile(decodeURIComponent(h.slice(4)));
   else if (h.startsWith("#/m/")) html = pageMatch(h.slice(4));
   else if (h.startsWith("#/vs/")) { const [a, b] = h.slice(5).split("/").map(decodeURIComponent); html = pageVs(a, b); }
-  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/clans": pageClans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
+  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
   const app = $("#app");
   app.innerHTML = html;
   if (scroll) { app.classList.remove("enter"); void app.offsetWidth; app.classList.add("enter"); }

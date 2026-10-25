@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="uz">
 <head>
+<link rel="preload" href="/sfx/intro.mp3" as="audio">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>CwhubUZ — ClanWar CS 1.6</title>
@@ -650,6 +651,24 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .form2{display:grid;gap:12px}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
 .atabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.ahead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px;padding:22px 24px;border-radius:22px;border:1px solid rgba(255,209,102,.22);
+  background:radial-gradient(600px 200px at 0% 0%,rgba(255,209,102,.12),transparent 70%),linear-gradient(180deg,#15130e,#0f1015)}
+.ahk{display:flex;gap:10px;flex-wrap:wrap}.ahk span{display:flex;flex-direction:column;align-items:center;min-width:86px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--line);font-size:11.5px;color:var(--dim)}
+.ahk b{font:700 24px Rajdhani,sans-serif;color:#fff;line-height:1}
+.alay{display:grid;grid-template-columns:240px 1fr;gap:18px;align-items:start}
+.aside{position:sticky;top:84px;display:flex;flex-direction:column;gap:3px;padding:12px;border-radius:20px;border:1px solid var(--line2);background:linear-gradient(180deg,#14161d,#0f1116)}
+.aside .ag{font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--dim);font-weight:800;margin:12px 10px 6px}.aside .ag:first-child{margin-top:4px}
+.aside button{position:relative;display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:0;border-radius:12px;background:none;color:var(--muted);font:600 14px Inter,sans-serif;cursor:pointer;text-align:left;transition:.2s}
+.aside button i{font-style:normal;width:22px;text-align:center}.aside button span{flex:1}
+.aside button:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.aside button.on{color:#fff;background:linear-gradient(90deg,rgba(255,184,77,.16),rgba(255,184,77,.03))}
+.aside button.on:before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:3px;background:linear-gradient(var(--gold),var(--gold2))}
+.aside button em{min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:var(--accent);color:#111;font:800 11px/20px Inter,sans-serif;font-style:normal;text-align:center}
+.amain{min-width:0;padding:22px 24px;border-radius:20px;border:1px solid var(--line2);background:linear-gradient(180deg,#14161d,#0f1116);animation:mcIn .35s var(--ease) both}
+.amh{display:flex;align-items:center;gap:12px;padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+.amh i{font-style:normal;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:rgba(255,184,77,.1);border:1px solid rgba(255,184,77,.3)}
+.amh h3{margin:0;font-size:22px;text-transform:uppercase}
+@media(max-width:900px){.alay{grid-template-columns:1fr}.aside{position:relative;top:0;flex-direction:row;overflow-x:auto;padding:8px;gap:6px}.aside .ag{display:none}.aside button{width:auto;white-space:nowrap;flex:none}.aside button.on:before{display:none}}
 .atabs button{border:1px solid var(--line);background:var(--panel2);padding:9px 14px;border-radius:11px;cursor:pointer;font-weight:700;font-size:13px;color:var(--muted);transition:.2s}
 .atabs button.on{color:var(--accent-ink);background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent}
 .alog{display:grid;gap:6px;max-height:320px;overflow:auto}
@@ -899,6 +918,8 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 </head>
 <body>
 <div id="pre"><div class="ld"><div class="logo bigl"><span class="cw">CW</span><span class="hub">hub</span></div><div class="bar"><i></i></div><b>CWHUB · LOADING</b><button type="button" id="presnd" title="SFX">🔊</button></div></div>
+<audio id="introAud" src="/sfx/intro.mp3" preload="auto"></audio>
+<script>/* kirish ovozi — yuklanish ekrani chiqishi bilan, kechikishsiz */try{if(localStorage.getItem("cw_sfx")!=="off"){var A=document.getElementById("introAud");A.volume=.7;var P=A.play();if(P&&P.catch)P.catch(function(){})}}catch(e){}</script>
 <div class="bgfx" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grid"></div><div class="noise"></div></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div id="prog"></div>
@@ -2555,7 +2576,10 @@ async function saveSetting(key, value){
 function pageAdmin(){
   if (!sb || !ME) return `<div class="card auth"><div class="big">🛡</div><h2 class="title">${x("aT")}</h2><p class="lead" style="margin:0 auto 16px">${x("needLogin")}</p><a class="btn main" href="/me">${t("login")}</a></div>`;
   if (!ME.admin) return `<div class="card empty">${x("noAccess")}</div>`;
-  const tabs = `<div class="atabs">${x("tabs").map((n, i) => `<button class="${i === aTab ? "on" : ""}" onclick="aTab=${i};render(false)">${n}</button>`).join("")}</div>`;
+  const ru = LANG === "ru", names = x("tabs"), openT = TK.list.filter(t2 => t2.status === "open").length;
+  const ICO = ["📊", "🛒", "🛡", "⛔", "🏆", "💬", "📢", "📋", "👤", "👑"];
+  const GROUPS = [[ru ? "Обзор" : "Umumiy", [0]], [ru ? "Сервер" : "Server", [2, 3, 7, 6]], [ru ? "Сайт" : "Sayt", [1, 9, 4, 8]], [ru ? "Поддержка" : "Yordam", [5]]];
+  const side = `<aside class="aside">${GROUPS.map(([g, ids]) => `<div class="ag">${g}</div>${ids.map(i => `<button type="button" class="${i === aTab ? "on" : ""}" onclick="aTab=${i};render(false)"><i>${ICO[i]}</i><span>${names[i]}</span>${i === 5 && openT ? `<em>${openT}</em>` : ""}</button>`).join("")}`).join("")}</aside>`;
   const d = SET.discount || {}, pr = (SET.prizes && SET.prizes.length ? SET.prizes : PRIZES_DEFAULT[LANG]);
   const steamIn = id => `<div class="field"><label>${x("steam")}<input id="${id}" placeholder="STEAM_0:1:123456789" required title="STEAM_0:1:123 · STEAM_1:… · [U:1:…] · 7656119…"></label></div>`;
   const body = [
@@ -2589,7 +2613,9 @@ function pageAdmin(){
       <div class="btns"><button class="btn gold" type="submit">👑 ${LANG === "ru" ? "Выдать" : "Berish"}</button></div></form>
       <div class="btns"><button class="btn main" onclick="loadPremOrders()">🔄</button></div><div id="pord" class="mt">${premOrdersHTML()}</div>`
   ][aTab]();
-  return `<h2 class="title">🛡 ${x("aT")}</h2><p class="lead">${x("aL")}</p>${tabs}<div class="card">${body}</div>`;
+  return `<div class="ahead"><div><div class="eyebrow" style="color:var(--gold)">CWHUB · ADMIN</div><h2 class="title" style="margin:6px 0 2px">🛡 ${x("aT")}</h2><p class="sub" style="margin:0">${x("aL")}</p></div>
+      <div class="ahk"><span><b>${D?.server?.count || 0}</b>${ru ? "онлайн" : "onlayn"}</span><span><b>${openT}</b>${ru ? "обращений" : "murojaat"}</span><span><b>${ALOG.filter(a => a.status === "pending").length}</b>${ru ? "в очереди" : "navbatda"}</span></div></div>
+    <div class="alay">${side}<section class="amain"><div class="amh"><i>${ICO[aTab]}</i><h3>${names[aTab]}</h3></div>${body}</section></div>`;
 }
 const prizeRow = p => `<div class="row2" data-prize><div class="field"><label>#<input value="${esc(p.place)}" maxlength="5"></label></div><div class="field" style="grid-column:span 2"><label>${x("prizeL")}<input value="${esc(p.prize)}" maxlength="80"></label></div></div>`;
 async function savePrizes(){
@@ -2938,7 +2964,7 @@ load(false);
 (function introGate(){
   const pre = $("#pre"), sw = $("#presnd");
   let off = false; try { off = localStorage.getItem("cw_sfx") === "off"; } catch (e) {}
-  const a = new Audio("/sfx/intro.mp3"); a.volume = 0.7;
+  const a = $("#introAud"); a.volume = 0.7;
   let soundDone = false, dataReady = false, closed = false;
   const close = () => { if (closed) return; closed = true; pre.classList.add("done"); };
   const tryClose = () => { if (soundDone && dataReady) close(); };
@@ -2952,6 +2978,8 @@ load(false);
   a.addEventListener("error", finish);
   const ev = ["pointerdown", "keydown", "touchstart"];
   const onFirst = () => { ev.forEach(e => document.removeEventListener(e, onFirst, true)); if (!off) a.play().catch(() => {}); };
+  if (a.ended) return finish();
+  if (!a.paused) { setTimeout(finish, 12000); return; }      // allaqachon chalinyapti
   a.play().then(() => setTimeout(finish, 12000)).catch(() => { finish(); ev.forEach(e => document.addEventListener(e, onFirst, true)); });
 })();
 setInterval(() => load(true), 120000);

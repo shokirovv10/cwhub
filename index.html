@@ -903,7 +903,12 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 @keyframes mvpPulse{0%,100%{opacity:.9;transform:scale(1)}50%{opacity:.35;transform:scale(1.35)}}
 .mstat .tip{min-height:44px;margin-top:10px;padding:10px 14px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-size:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .mstat .tip b{font-size:16px}.mstat .tip i{width:12px;height:12px;border-radius:50%;flex:none}
-.mstat .mstbl td,.mstat .mstbl th{padding:9px 10px}.mstat .mdot{width:10px;height:10px;border-radius:50%;flex:none;display:inline-block}
+.mstat .mstbl td,.mstat .mstbl th{padding:8px 7px;font-size:13px}
+.mstat .mscols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:start}
+.mstat .msside{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.015);padding:4px 6px;max-height:560px;overflow:auto}
+.mstat .msside .mstbl{width:100%}.mstat .msside tr.click:hover td{background:rgba(255,159,28,.06)}
+.mstat .msside th{position:sticky;top:0;background:#12141a;z-index:1}
+@media(max-width:1000px){.mstat .mscols{grid-template-columns:1fr}.mstat .msside{max-height:none}}.mstat .mdot{width:10px;height:10px;border-radius:50%;flex:none;display:inline-block}
 .mstat .leg{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .mstat .leg button{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:99px;padding:4px 10px;font:600 12px Inter,sans-serif;cursor:pointer;transition:.2s}
 .mstat .leg button:hover,.mstat .leg button.on{border-color:var(--accent);background:rgba(255,159,28,.12)}
@@ -1386,15 +1391,15 @@ function matchStats(m){
       ${x.mvp ? `<circle class="mvpring" cx="${last[0]}" cy="${last[1]}" r="11" fill="none" stroke="#ffd166" stroke-width="2"/><text x="${last[0] - 14}" y="${last[1] - 14}" text-anchor="end" font-size="12" font-weight="800" fill="#ffd166">★ MVP · ${esc(x.r.name)}</text>` : ""}
       <title>${esc(x.r.name)}</title></g>`; }).join("");
   return `<div class="mstat"><div class="hd"><h3>📈 ${LANG === "ru" ? "PTS игроков" : "O'yinchilar PTS"}</h3><span class="ax">${LANG === "ru" ? `ПОСЛЕДНИЕ ${N - 1} МАТЧ.` : `OXIRGI ${N - 1} MATCH`}</span></div>
-    <svg viewBox="0 0 ${W} ${H}">${grid}${lines}</svg>
+    <div class="mscols"><div class="mschart"><svg viewBox="0 0 ${W} ${H}">${grid}${lines}</svg>
     <div class="tip" id="mtip"><span class="sub">${LANG === "ru" ? "Нажмите на линию или ник — появится статистика" : "Chiziq yoki nikni bosing — statistika chiqadi"}</span></div>
     <div class="leg">${MST.map((x, i) => `<button type="button" id="mleg${i}" onclick="mstatPick(${i})"><i style="background:${x.c}"></i>${esc(x.r.name)}${x.mvp ? " ★" : ""}</button>`).join("")}</div>
-    <div class="tw mt"><table class="mstbl"><tr><th>${LANG === "ru" ? "Игрок" : "O'yinchi"}</th><th class="num">PTS</th><th class="num">±</th><th class="num">K/D/A</th><th class="num">K/D</th><th class="num">ADR</th><th class="num">HS%</th><th class="num">${t("rt")}</th></tr>
+    </div><div class="tw msside"><table class="mstbl"><tr><th>${LANG === "ru" ? "Игрок" : "O'yinchi"}</th><th class="num">PTS</th><th class="num">±</th><th class="num">K/D/A</th><th class="num">K/D</th><th class="num">ADR</th><th class="num">HS%</th><th class="num">${t("rt")}</th></tr>
       ${MST.slice().sort((a, b) => b.r.rating - a.r.rating).map(x => { const r = x.r, i = MST.indexOf(x), pts = x.h[x.h.length - 1];
         return `<tr class="click" onclick="mstatPick(${i})"><td><span class="pcell"><i class="mdot" style="background:${x.c}"></i><span class="nm" style="${nickStyle(r.id)}">${esc(r.name)}</span>${x.mvp ? ` <b style="color:#ffd166">★ MVP</b>` : ""}</span></td>
           <td class="num"><b>${pts ?? "—"}</b></td><td class="num">${r.delta == null ? "—" : `<b class="${r.delta >= 0 ? "W" : "L"}">${r.delta >= 0 ? "+" : ""}${r.delta}</b>`}</td>
           <td class="num">${r.k}/${r.d}/${r.a}</td><td class="num">${(r.k / Math.max(r.d, 1)).toFixed(2)}</td><td class="num">${x.adr}</td><td class="num">${pct(r.hs, r.k)}%</td>
-          <td class="num"><b class="${r.rating >= 1.1 ? "W" : r.rating < 0.85 ? "L" : ""}">${r.rating.toFixed(2)}</b></td></tr>`; }).join("")}</table></div></div>`;
+          <td class="num"><b class="${r.rating >= 1.1 ? "W" : r.rating < 0.85 ? "L" : ""}">${r.rating.toFixed(2)}</b></td></tr>`; }).join("")}</table></div></div></div>`;
 }
 function mstatPick(i){
   const x = MST[i]; if (!x) return;

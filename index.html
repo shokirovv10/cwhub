@@ -336,6 +336,19 @@ tr:hover .rank,.rk:hover .rank{transform:scale(1.12) rotate(-4deg)}
 .scard li.no{opacity:.45}.scard li.no:before{content:"—";color:var(--dim)}
 .scard .sbadge{position:absolute;top:16px;right:16px;padding:4px 10px;border-radius:99px;font:800 11px Inter,sans-serif;letter-spacing:.5px;color:#1c1300;background:linear-gradient(135deg,var(--gold),var(--gold2))}
 .scard .snote{font-size:12px;color:var(--dim);margin:0}
+/* do'kon: ixcham — hamma kartalar bir ekranda, scroll shart emas */
+.shero{padding:24px 20px 20px!important}.shero h2{font-size:38px!important;margin:6px 0 6px!important}.shero .lead{font-size:14px}.shero .perks{margin-top:10px}
+.sbar{margin:16px 0 12px!important}
+.sgrid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))!important;gap:12px!important}
+.scard{padding:16px 16px 14px!important;gap:8px!important;border-radius:18px!important}
+.scard .shd{display:flex;align-items:center;gap:10px;padding-right:56px}
+.scard .sic{width:42px!important;height:42px!important;font-size:21px!important;border-radius:13px!important;flex:none}
+.scard h3{font-size:18px!important;line-height:1.1}.scard h3:before{display:none}
+.scard .sprice b{font-size:24px!important}
+.scard ul{gap:4px!important;margin:2px 0 6px!important}.scard li{font-size:12.5px!important;line-height:1.35!important;padding-left:18px!important}
+.scard .sbadge{top:12px!important;right:12px!important;font-size:10px!important;padding:3px 8px!important}
+.scard .btn.wide{padding:10px 14px;font-size:14px}
+.scard .snote{font-size:11px!important}
 .pteaser{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center;border-radius:24px;padding:30px;border:1px solid rgba(255,209,102,.3);background:radial-gradient(600px 220px at 0% 0%,rgba(255,209,102,.16),transparent 70%),linear-gradient(135deg,rgba(30,24,12,.9),rgba(12,12,14,.9))}
 .pteaser h2{font-size:38px;text-transform:uppercase}
 .pteaser{transition:transform .3s var(--ease),box-shadow .3s}.pteaser:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.45),0 0 40px rgba(255,184,77,.12)}
@@ -2142,9 +2155,9 @@ let shopCat = "all";
 function shopCard(o){
   return `<div class="scard ${o.hot ? "hot" : ""}" data-cat="${o.cat}" style="--tone:${o.tone}">
     ${o.badge ? `<span class="sbadge">${o.badge}</span>` : ""}
-    <div class="sic">${o.icon}</div><div class="scat">${o.catName}</div><h3>${o.name}</h3>
+    <div class="shd"><div class="sic">${o.icon}</div><div><div class="scat">${o.catName}</div><h3>${o.name}</h3></div></div>
     <div class="sprice">${o.old ? `<s>${esc(o.old)}</s>` : ""}<b data-price>${esc(o.price)}</b><small>${o.per}</small></div>
-    <ul>${o.perks.map(f => `<li>${f}</li>`).join("")}${(o.no || []).map(f => `<li class="no">${f}</li>`).join("")}</ul>
+    <ul>${o.perks.slice(0, 5).map(f => `<li>${f}</li>`).join("")}${(o.no || []).slice(0, 1).map(f => `<li class="no">${f}</li>`).join("")}</ul>
     <button class="btn ${o.hot ? "gold" : "main"} wide" onclick="${o.onclick}">${o.btn}</button>
     ${o.note ? `<p class="snote">${o.note}</p>` : ""}</div>`;
 }

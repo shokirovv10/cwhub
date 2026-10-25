@@ -101,6 +101,8 @@ nav.top .menu a:hover,nav.top .menu a.on{background:var(--panel2);color:var(--te
 .lang{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:3px}
 .lang button{border:0;background:none;padding:4px 9px;border-radius:7px;cursor:pointer;color:var(--muted);font-weight:700;font-size:12px;transition:.2s}
 .lang button.on{background:var(--accent);color:var(--accent-ink)}
+.noanim .mpl{animation:none!important;opacity:1!important;transform:none!important}
+.noanim .mcenter{animation:mbSpin 6s linear infinite!important}.noanim .mcenter .score span,.noanim .mcenter .bg{animation:none!important}
 #livepill{position:fixed;right:18px;bottom:22px;z-index:70;display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:99px;background:linear-gradient(135deg,#e5383b,#a4161a);color:#fff;text-decoration:none;font:800 14px Inter,sans-serif;letter-spacing:.5px;box-shadow:0 10px 30px rgba(229,56,59,.45);animation:mcIn .4s var(--ease) both}
 #livepill i{width:9px;height:9px;border-radius:50%;background:#fff;animation:pulse 1.4s infinite}
 #livepill span{font-weight:600;opacity:.85;font-size:12px}
@@ -113,6 +115,10 @@ nav.top .menu a:hover,nav.top .menu a.on{background:var(--panel2);color:var(--te
 .bnpick button span{position:absolute;left:8px;bottom:5px;font:700 11px Inter,sans-serif;letter-spacing:1px;text-transform:uppercase;color:#fff;text-shadow:0 1px 4px #000}
 .bnpick button:hover{transform:translateY(-2px);border-color:rgba(255,159,28,.5)}
 .bnpick button.on{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,159,28,.2)}
+.bubic{width:.95em;height:.95em;vertical-align:-.12em}.chathead .ava .bubic{width:22px;height:22px}
+.bst{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.bst.on{background:rgba(255,77,79,.14);color:#ff6b6b}.bst.off{background:rgba(255,255,255,.06);color:var(--dim)}.bst.un{background:rgba(61,220,132,.12);color:var(--win)}
+tr.banold td{opacity:.6}
 .nbell{position:relative;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--panel2);border:1px solid var(--line);color:var(--text);cursor:pointer;font-size:17px;transition:.2s;flex:none}
 .nbell:hover{border-color:var(--accent)}
 .nbell em{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--accent);color:#111;font:800 11px/18px Inter,sans-serif;font-style:normal;text-align:center;box-shadow:0 0 0 2px var(--bg);animation:pulse 1.8s infinite}
@@ -125,6 +131,17 @@ nav.top .menu a:hover,nav.top .menu a.on{background:var(--panel2);color:var(--te
 .nitem .ni{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--nc) 14%,transparent);color:var(--nc)}
 .nitem .ni svg{width:18px;height:18px}
 .nitem small{color:var(--dim);font-size:11.5px;white-space:nowrap;align-self:start;margin-top:2px}
+.fwrap{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:stretch;min-height:540px}
+.fside{padding:12px;display:flex;flex-direction:column;gap:4px;max-height:640px;overflow:auto}
+.fhd{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);font-weight:800;margin:10px 8px 6px}
+.fitem{display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border-radius:12px;border:1px solid transparent;background:none;color:var(--text);cursor:pointer;text-align:left;transition:.2s}
+.fitem:hover{background:var(--panel2)}.fitem.on{background:rgba(255,159,28,.1);border-color:rgba(255,159,28,.35)}
+.fitem .fn{flex:1;min-width:0;display:flex;flex-direction:column}.fitem .fn b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fitem .fn small{color:var(--dim);font-size:11.5px}
+.fitem em{min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:var(--accent);color:#111;font:800 11px/20px Inter,sans-serif;font-style:normal;text-align:center}
+.freq{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:var(--panel2)}.freq b{flex:1;font-size:14px}
+.fchat.dmbox{position:relative;right:auto;bottom:auto;width:auto;height:auto;min-height:540px;max-height:640px;animation:none;z-index:1}
+.fempty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:30px}
+@media(max-width:860px){.fwrap{grid-template-columns:1fr}.fside{max-height:260px}.fchat.dmbox{min-height:440px}}
 .dmbox{position:fixed;right:18px;bottom:18px;z-index:90;width:min(360px,calc(100vw - 24px));height:min(480px,calc(100vh - 110px));display:flex;flex-direction:column;background:#121419;border:1px solid var(--line2);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.6);animation:mcIn .25s var(--ease) both;overflow:hidden}
 .dmbox .dh{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
 .dmbox .dh b{flex:1;font-size:15px}.dmbox .dh button{background:none;border:0;color:var(--dim);font-size:18px;cursor:pointer}
@@ -288,8 +305,36 @@ tr:hover .rank,.rk:hover .rank{transform:scale(1.12) rotate(-4deg)}
 .step i{font-style:normal;display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--accent-ink);font-weight:800;margin-bottom:12px;box-shadow:0 6px 18px rgba(255,120,30,.3)}
 
 /* premium teaser on home */
+.shero{position:relative;text-align:center;padding:46px 20px 34px;border-radius:28px;overflow:hidden;border:1px solid rgba(255,209,102,.25);
+  background:radial-gradient(700px 260px at 50% -10%,rgba(255,209,102,.18),transparent 70%),linear-gradient(180deg,#16130c,#0d0e12)}
+.shero h2{font-size:52px;text-transform:uppercase;margin:10px 0 8px}.shero .lead{max-width:720px;margin:0 auto}
+.shero .shglow{position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent,rgba(255,184,77,.08),transparent 30%);animation:spin 14s linear infinite;pointer-events:none}
+.sbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:26px 0 16px}
+.stabs{display:flex;gap:6px;flex-wrap:wrap}
+.stabs button{border:1px solid var(--line);background:var(--panel2);color:var(--muted);padding:9px 18px;border-radius:99px;font:700 14px Inter,sans-serif;cursor:pointer;transition:.2s}
+.stabs button.on,.stabs button:hover{color:#1c1300;background:linear-gradient(135deg,var(--gold),var(--gold2));border-color:transparent}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.sgrid[data-show="priv"] .scard:not([data-cat="priv"]),.sgrid[data-show="site"] .scard:not([data-cat="site"]){display:none}
+.scard{position:relative;display:flex;flex-direction:column;gap:10px;padding:24px 22px;border-radius:22px;overflow:hidden;
+  background:radial-gradient(300px 160px at 50% 0%,color-mix(in srgb,var(--tone) 16%,transparent),transparent 70%),linear-gradient(180deg,#15171e,#0f1116);
+  border:1px solid color-mix(in srgb,var(--tone) 28%,transparent);transition:transform .3s var(--ease),box-shadow .3s,border-color .3s}
+.scard:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--tone) 60%,transparent);box-shadow:0 22px 50px rgba(0,0,0,.5),0 0 34px color-mix(in srgb,var(--tone) 18%,transparent)}
+.scard.hot{border-color:rgba(255,209,102,.6);box-shadow:0 0 0 1px rgba(255,209,102,.25),0 18px 50px rgba(255,170,40,.12)}
+.scard .sic{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-size:30px;background:color-mix(in srgb,var(--tone) 14%,#0d0e12);border:1px solid color-mix(in srgb,var(--tone) 35%,transparent)}
+.scard .scat{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--tone);font-weight:800}
+.scard h3{font-size:24px;text-transform:uppercase;margin:0}
+.scard .sprice{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.scard .sprice b{font:700 30px Rajdhani,sans-serif;color:#fff}
+.scard .sprice s{color:var(--dim);font-size:14px}.scard .sprice small{color:var(--dim);font-size:13px}
+.scard ul{list-style:none;margin:4px 0 8px;padding:0;display:grid;gap:7px;flex:1}
+.scard li{font-size:13.5px;color:var(--muted);padding-left:22px;position:relative;line-height:1.4}
+.scard li:before{content:"✓";position:absolute;left:0;color:var(--tone);font-weight:800}
+.scard li.no{opacity:.45}.scard li.no:before{content:"—";color:var(--dim)}
+.scard .sbadge{position:absolute;top:16px;right:16px;padding:4px 10px;border-radius:99px;font:800 11px Inter,sans-serif;letter-spacing:.5px;color:#1c1300;background:linear-gradient(135deg,var(--gold),var(--gold2))}
+.scard .snote{font-size:12px;color:var(--dim);margin:0}
 .pteaser{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center;border-radius:24px;padding:30px;border:1px solid rgba(255,209,102,.3);background:radial-gradient(600px 220px at 0% 0%,rgba(255,209,102,.16),transparent 70%),linear-gradient(135deg,rgba(30,24,12,.9),rgba(12,12,14,.9))}
 .pteaser h2{font-size:38px;text-transform:uppercase}
+.pteaser{transition:transform .3s var(--ease),box-shadow .3s}.pteaser:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.45),0 0 40px rgba(255,184,77,.12)}
+.pteaser .crownic{animation:float 3.5s ease-in-out infinite}
 @media(max-width:700px){.pteaser{grid-template-columns:1fr}}
 .crownic{font-size:56px;line-height:1;animation:float 3.5s ease-in-out infinite;filter:drop-shadow(0 8px 20px rgba(255,200,60,.4))}
 
@@ -822,6 +867,7 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 @keyframes mvpPulse{0%,100%{opacity:.9;transform:scale(1)}50%{opacity:.35;transform:scale(1.35)}}
 .mstat .tip{min-height:44px;margin-top:10px;padding:10px 14px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-size:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .mstat .tip b{font-size:16px}.mstat .tip i{width:12px;height:12px;border-radius:50%;flex:none}
+.mstat .mstbl td,.mstat .mstbl th{padding:9px 10px}.mstat .mdot{width:10px;height:10px;border-radius:50%;flex:none;display:inline-block}
 .mstat .leg{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .mstat .leg button{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:99px;padding:4px 10px;font:600 12px Inter,sans-serif;cursor:pointer;transition:.2s}
 .mstat .leg button:hover,.mstat .leg button.on{border-color:var(--accent);background:rgba(255,159,28,.12)}
@@ -1088,6 +1134,11 @@ function buildIndex(){
     if (byId[s.id]) byId[s.id].ms.push(s);
   });
   hist.forEach(h => { if (byId[h.id]) byId[h.id].hist.push(h); });
+  // har jamoada 2 tadan kam o'yinchi (1x1) — reytingsiz match: ro'yxat va statistikadan chiqariladi
+  Object.values(matches).forEach(m => {
+    const a = m.rows.filter(r => r.team === "A").length, b = m.rows.filter(r => r.team === "B").length;
+    if (Math.min(a, b) < 2) { delete matches[m.t]; m.rows.forEach(r => { const p = byId[r.id]; if (p) p.ms = p.ms.filter(x => x !== r); }); }
+  });
   Object.values(matches).forEach(m => {
     m.rows.forEach(s => { const h = byId[s.id]?.hist.find(x => Math.abs(x.t - m.t) < 900); s.delta = h ? h.delta : null; });
     m.mvp = m.rows.filter(r => !r.left).sort((a, b) => b.rating - a.rating)[0];
@@ -1163,7 +1214,7 @@ function pageHome(){
     <div class="btns mt"><a class="btn main" href="/me">${I.user} ${t("authT")}</a></div>
   </div>
   ${prizesBlock()}
-  <a class="pteaser mt2" href="/premium" style="text-decoration:none"><div><div class="eyebrow" style="color:var(--gold)">CwhubUZ Premium</div>
+  <a class="pteaser mt2" href="/premium" style="text-decoration:none"><div><div class="eyebrow" style="color:var(--gold)">CWHUB · ${LANG === "ru" ? "МАГАЗИН" : "DO'KON"}</div>
     <h2 class="grad" style="margin:8px 0 6px">${pt("teaserT")}</h2><p class="sub" style="margin:0 0 16px">${pt("teaserL")}</p>
     <span class="btn gold">${pt("teaserB")} →</span></div><div class="crownic">👑</div></a>`;
 }
@@ -1299,7 +1350,13 @@ function matchStats(m){
   return `<div class="mstat"><div class="hd"><h3>📈 ${LANG === "ru" ? "PTS игроков" : "O'yinchilar PTS"}</h3><span class="ax">${LANG === "ru" ? `ПОСЛЕДНИЕ ${N - 1} МАТЧ.` : `OXIRGI ${N - 1} MATCH`}</span></div>
     <svg viewBox="0 0 ${W} ${H}">${grid}${lines}</svg>
     <div class="tip" id="mtip"><span class="sub">${LANG === "ru" ? "Нажмите на линию или ник — появится статистика" : "Chiziq yoki nikni bosing — statistika chiqadi"}</span></div>
-    <div class="leg">${MST.map((x, i) => `<button type="button" id="mleg${i}" onclick="mstatPick(${i})"><i style="background:${x.c}"></i>${esc(x.r.name)}${x.mvp ? " ★" : ""}</button>`).join("")}</div></div>`;
+    <div class="leg">${MST.map((x, i) => `<button type="button" id="mleg${i}" onclick="mstatPick(${i})"><i style="background:${x.c}"></i>${esc(x.r.name)}${x.mvp ? " ★" : ""}</button>`).join("")}</div>
+    <div class="tw mt"><table class="mstbl"><tr><th>${LANG === "ru" ? "Игрок" : "O'yinchi"}</th><th class="num">PTS</th><th class="num">±</th><th class="num">K/D/A</th><th class="num">K/D</th><th class="num">ADR</th><th class="num">HS%</th><th class="num">${t("rt")}</th></tr>
+      ${MST.slice().sort((a, b) => b.r.rating - a.r.rating).map(x => { const r = x.r, i = MST.indexOf(x), pts = x.h[x.h.length - 1];
+        return `<tr class="click" onclick="mstatPick(${i})"><td><span class="pcell"><i class="mdot" style="background:${x.c}"></i><span class="nm" style="${nickStyle(r.id)}">${esc(r.name)}</span>${x.mvp ? ` <b style="color:#ffd166">★ MVP</b>` : ""}</span></td>
+          <td class="num"><b>${pts ?? "—"}</b></td><td class="num">${r.delta == null ? "—" : `<b class="${r.delta >= 0 ? "W" : "L"}">${r.delta >= 0 ? "+" : ""}${r.delta}</b>`}</td>
+          <td class="num">${r.k}/${r.d}/${r.a}</td><td class="num">${(r.k / Math.max(r.d, 1)).toFixed(2)}</td><td class="num">${x.adr}</td><td class="num">${pct(r.hs, r.k)}%</td>
+          <td class="num"><b class="${r.rating >= 1.1 ? "W" : r.rating < 0.85 ? "L" : ""}">${r.rating.toFixed(2)}</b></td></tr>`; }).join("")}</table></div></div>`;
 }
 function mstatPick(i){
   const x = MST[i]; if (!x) return;
@@ -1330,12 +1387,19 @@ function pageLive(){
   const st = {knife: ru ? "Ножевой раунд" : "Pichoq raund", knife_vote: ru ? "Выбор стороны" : "Tomon tanlash", lo3: "LO3", halftime: ru ? "Перерыв" : "Tanaffus", live: x("half")(L.half || 1)}[L.state] || "";
   const top = m.rows.slice().sort((a, b) => b.k - a.k || a.d - b.d)[0];
   return `<a class="btn sm ghost" href="/matches">${t("back")}</a>
-  <div id="liveboard">${matchBoard(m, {stateTxt: st, paused: !!L.paused, upd: S.updated ? ago(S.updated) : "—"})}</div>
+  <div id="liveboard">${liveBoardInner()}</div>
   ${top ? `<div class="awards mt"><div class="aw"><span>🔥 ${ru ? "Лидер по киллам" : "Eng ko'p kill"}</span><b>${esc(top.name)}</b><span class="sub">${top.k}–${top.d}</span></div>
     <div class="aw"><span>👥 ${ru ? "Игроков" : "O'yinchilar"}</span><b>${S.count || 0}/${S.max || 10}</b><span class="sub">${esc(S.map || "")}</span></div>
     <div class="aw"><span>▶ ${t("connect")}</span><b><a href="steam://connect/${IP_ADDR}">${esc(IP_ADDR)}</a></b><span class="sub">${ru ? "Смотреть в игре" : "O'yinda kuzatish"}</span></div></div>` : ""}
   <p class="sub mt" style="font-size:13px">${ru ? "Обновляется автоматически каждые 8 секунд." : "Har 8 soniyada o'zi yangilanadi."}</p>`;
 }
+function liveBoardInner(){
+  const ru = LANG === "ru", S = D?.server || {}, L = S.live || {};
+  const st = {knife: ru ? "Ножевой раунд" : "Pichoq raund", knife_vote: ru ? "Выбор стороны" : "Tomon tanlash", lo3: "LO3", halftime: ru ? "Перерыв" : "Tanaffus", live: x("half")(L.half || 1)}[L.state] || "";
+  return matchBoard(liveMatch(), {stateTxt: st, paused: !!L.paused, upd: S.updated ? ago(S.updated) : "—"});
+}
+// jonli taxta: faqat ichi almashtiriladi (animatsiyalar qayta o'ynamaydi, sahifa sakramaydi)
+function liveBoardUpdate(){ const b = $("#liveboard"); if (!b) return; b.classList.add("noanim"); b.innerHTML = liveBoardInner(); }
 function livePill(){
   let el = $("#livepill");
   const show = IDX && liveActive() && curRoute() !== "#/live";
@@ -1352,9 +1416,8 @@ function pageMatch(ts){
   const dm = by(r => r.dmg), hs = by(r => r.hs), bk = by(r => r.k / Math.max(r.d, 1));
   const res = side => m.winner === "D" ? `<span class="D">${t("draw")}</span>` : m.winner === side ? `<span class="W">${t("win")}</span>` : `<span class="L">${t("loss")}</span>`;
   void res;
-  const demo = DEMOS.find(d => Math.abs(d.t - m.t) < 900 && d.map === m.map);
   return `<div class="btns" style="justify-content:space-between"><a class="btn sm ghost" href="/matches">${t("back")}</a>
-    ${demo ? `<a class="btn sm main" href="${esc(demo.url)}" download title="${LANG === "ru" ? "Распакуйте в cstrike, в консоли: viewdemo имя" : "cstrike papkasiga chiqaring, konsolda: viewdemo nomi"}">🎬 HLTV demo · ${(demo.size / 1048576).toFixed(1)} MB</a>` : ""}</div>
+    <span id="demobtn" data-t="${m.t}" data-map="${esc(m.map)}">${demoBtn(m)}</span></div>
   ${matchBoard(m)}
   ${real.length ? `<div class="awards mt">
     <div class="aw"><span>⭐ ${t("mvp")}</span><b>${esc(m.mvp?.name)}</b><span class="sub">${t("rt")} ${m.mvp?.rating.toFixed(2)}</span></div>
@@ -1507,10 +1570,17 @@ function pageClans(){
     <div class="btns mt2" style="justify-content:center"><a class="btn tg" href="https://t.me/CwhubUZ" target="_blank" rel="noopener">${I.tg} Telegram</a><a class="btn" href="/top">${t("allRank")} →</a></div></section>`;
 }
 function pageBans(){
-  const b = (D?.bans || []).filter(x => !x.expires || x.expires > Date.now() / 1000);
+  const ru = LANG === "ru", now = Date.now() / 1000;
+  // tarix (banlog) + hozirgi ro'yxat (eski yozuvlar uchun); bir xil ban takrorlanmaydi
+  const all = [...(D?.banlog || [])];
+  (D?.bans || []).forEach(x => { if (!all.some(y => y.created === x.created && y.name === x.name)) all.push(x); });
+  all.sort((p, q) => (q.created || 0) - (p.created || 0));
+  const st = x => x.unbanned ? ["un", ru ? "Разбанен" : "Razban"] : (!x.expires || x.expires > now) ? ["on", ru ? "Активен" : "Faol"] : ["off", ru ? "Истёк" : "Tugagan"];
+  const act = all.filter(x => st(x)[0] === "on").length;
   return `<h2 class="title">${t("bansT")}</h2><p class="lead">${t("bansLead")}</p><div class="card">
-    ${b.length ? `<div class="tw"><table><tr><th>${t("player")}</th><th>${t("reason")}</th><th>${t("since")}</th><th>${t("remain")}</th><th>${t("admin")}</th></tr>
-      ${b.map(x => `<tr><td>${pcell({}, x.name)}</td><td>${esc(x.reason)}</td><td class="sub">${esc(x.since)}</td><td><b>${esc(banLeft(x))}</b></td><td class="sub">${esc(x.admin)}</td></tr>`).join("")}</table></div>`
+    <div class="sub" style="margin-bottom:12px">${ru ? "Активных" : "Faol"}: <b class="L">${act}</b> · ${ru ? "Всего" : "Jami"}: <b>${all.length}</b></div>
+    ${all.length ? `<div class="tw"><table><tr><th>${t("player")}</th><th>${t("reason")}</th><th>${t("since")}</th><th>${t("remain")}</th><th>${ru ? "Статус" : "Holat"}</th><th>${t("admin")}</th></tr>
+      ${all.map(x => { const s2 = st(x); return `<tr class="${s2[0] === "on" ? "" : "banold"}"><td>${pcell({}, x.name)}</td><td>${esc(x.reason)}</td><td class="sub">${esc(x.since)}</td><td><b>${s2[0] === "on" ? esc(banLeft(x)) : "—"}</b></td><td><span class="bst ${s2[0]}">${s2[1]}</span></td><td class="sub">${esc(x.admin)}</td></tr>`; }).join("")}</table></div>`
       : `<div class="empty">✅ ${t("noBans")}</div>`}
     <div class="btns mt"><a class="btn main" href="/support">💬 ${t("appeal")}</a></div>
     <p class="sub" style="font-size:13px;margin-top:14px">${t("appealNote")}</p></div>`;
@@ -1605,16 +1675,20 @@ function toggleNotif(e){
   el.innerHTML = `<h4>🔔 ${ru ? "Уведомления" : "Bildirishnomalar"}<button type="button" onclick="$('.npanel').remove()">✕</button></h4>`
     + (NOTIF.length ? NOTIF.map(n => `<a class="nitem ${n.ts > seen ? "new" : ""}" href="${n.href}" ${n.js ? `onclick="event.preventDefault();$('.npanel').remove();${n.js}"` : ""}>${nIcon(n.ic)}<span>${n.tx}</span><small>${nAgo(n.ts)}</small></a>`).join("") : `<div class="empty">${ru ? "Пока пусто" : "Hozircha bo'sh"}</div>`);
   document.body.appendChild(el); NOPEN = true;
+  // panel qo'ng'iroqcha tagida ochiladi (ekran chetiga yopishmaydi)
+  const br = e.currentTarget.getBoundingClientRect(), w = el.offsetWidth;
+  el.style.top = (br.bottom + 10) + "px"; el.style.right = "auto";
+  el.style.left = Math.max(12, Math.min(window.innerWidth - w - 12, br.left + br.width / 2 - w / 2)) + "px";
   try { localStorage.setItem("cw_nseen", String(Date.now())); } catch (e) {}
   const b = $(".nbell em"); if (b) b.remove();
 }
 document.addEventListener("click", () => { const p = $(".npanel"); if (p) p.remove(); });
-async function refreshNotif(){ if (!ME) return; await loadNotif(); const b = $(".nbell"); if (b) b.outerHTML = bellHTML(); }
+async function refreshNotif(){ if (!ME) return; await Promise.all([loadNotif(), loadFUnread()]); renderAcct(); const b = $(".nbell"); if (b) b.outerHTML = bellHTML(); }
 setInterval(refreshNotif, 60000);
 function renderAcct(){
   const nm = ME ? myNick() : "";
   $("#acct").innerHTML = ME
-    ? bellHTML() + `<a class="who" href="/me" title="${esc(ME.email)}">${avatar(nm, false, ME.acc?.avatar_url)}<span>${esc(nm)}</span></a>`
+    ? `<a class="nbell" href="/friends" title="${LANG === "ru" ? "Друзья" : "Do'stlar"}">👥${Object.values(FUNREAD).reduce((a, b) => a + b, 0) ? `<em>${Object.values(FUNREAD).reduce((a, b) => a + b, 0)}</em>` : ""}</a>` + bellHTML() + `<a class="who" href="/me" title="${esc(ME.email)}">${avatar(nm, false, ME.acc?.avatar_url)}<span>${esc(nm)}</span></a>`
     : `<a class="btn sm" href="/login">${I.user} ${t("login")}</a> <a class="btn sm main reg" style="padding:8px 13px;font-size:13px" href="/register">${t("signUp")}</a>`;
 }
 async function doAuth(ev){
@@ -1702,7 +1776,9 @@ let DM = {uid: null, list: [], sub: null};
 async function openDM(uid){
   if (!sb || !ME) return;
   DM.uid = uid; const pr = profByUid(uid), ru = LANG === "ru";
-  let el = $("#dmbox"); if (!el) { el = document.createElement("div"); el.id = "dmbox"; el.className = "dmbox"; document.body.appendChild(el); }
+  const inline = $("#fchat");      // Do'stlar sahifasida — chat sahifaning o'zida
+  if (inline) { FSEL = uid; document.querySelectorAll(".fitem").forEach(b => b.classList.toggle("on", b.dataset.uid === uid)); const fl = $("#dmbox:not(#fchat)"); if (fl) fl.remove(); }
+  let el = inline || $("#dmbox"); if (!el) { el = document.createElement("div"); el.id = "dmbox"; el.className = "dmbox"; document.body.appendChild(el); }
   el.innerHTML = `<div class="dh">${avatar(pr.nick || "?", false, pr.avatar_url)}<b>${esc(pr.nick || "—")}</b><button type="button" onclick="closeDM()">✕</button></div>
     <div class="db" id="dmb"><div class="skel" style="height:40px"></div></div>
     <form onsubmit="sendDM(event)"><input id="dmin" maxlength="500" autocomplete="off" placeholder="${ru ? "Сообщение…" : "Xabar…"}"><button class="btn main sm" type="submit">➤</button></form>`;
@@ -1727,7 +1803,39 @@ function drawDM(){
     : `<div class="empty">${LANG === "ru" ? "Напишите первое сообщение" : "Birinchi xabarni yozing"}</div>`;
   b.scrollTop = b.scrollHeight;
 }
-function closeDM(){ DM.uid = null; const el = $("#dmbox"); if (el) el.remove(); }
+function closeDM(){ DM.uid = null; const f = $("#fchat"); if (f) { FSEL = null; f.innerHTML = fEmpty(); document.querySelectorAll(".fitem").forEach(b => b.classList.remove("on")); return; } const el = $("#dmbox"); if (el) el.remove(); }
+let FSEL = null, FUNREAD = {};
+const fEmpty = () => `<div class="fempty"><div style="font-size:42px">💬</div><b>${LANG === "ru" ? "Выберите друга" : "Do'stni tanlang"}</b><span class="sub">${LANG === "ru" ? "Слева — ваши друзья. Нажмите на друга, чтобы открыть чат." : "Chapda — do'stlaringiz. Chatni ochish uchun do'stni bosing."}</span></div>`;
+async function loadFUnread(){
+  if (!sb || !ME) return; FUNREAD = {};
+  const r = await sb.from("direct_messages").select("sender").eq("receiver", ME.id).eq("read", false).limit(500);
+  (r.data || []).forEach(x => FUNREAD[x.sender] = (FUNREAD[x.sender] || 0) + 1);
+}
+function pageFriends(){
+  const ru = LANG === "ru";
+  if (!ME) return `<div class="card empty">${ru ? "Чтобы видеть друзей, войдите в аккаунт." : "Do'stlarni ko'rish uchun akkauntga kiring."}<br><br><a class="btn main" href="/login">${t("login")}</a></div>`;
+  const inc = FR.filter(f => f.status === "pending" && f.addressee === ME.id), acc = FR.filter(f => f.status === "accepted");
+  const item = uid => { const pr = profByUid(uid), n = FUNREAD[uid] || 0;
+    return `<button type="button" class="fitem ${FSEL === uid ? "on" : ""}" data-uid="${uid}" onclick="openDM('${uid}')">${avatar(pr.nick || "?", false, pr.avatar_url)}
+      <span class="fn"><b style="${pr.steam ? nickStyle(pr.steam) : ""}">${esc(pr.nick || "—")}</b><small>${pr.steam && IDX.byId[pr.steam] ? IDX.byId[pr.steam].pts + " PTS" : ""}</small></span>${n ? `<em>${n}</em>` : ""}</button>`; };
+  return `<h2 class="title">👥 ${ru ? "Друзья" : "Do'stlar"}</h2>
+  <div class="fwrap">
+    <aside class="fside card">
+      ${inc.length ? `<div class="fhd">${ru ? "Заявки" : "So'rovlar"} · ${inc.length}</div>${inc.map(f => { const pr = profByUid(f.requester);
+        return `<div class="freq">${avatar(pr.nick || "?", false, pr.avatar_url)}<b>${esc(pr.nick || "—")}</b><button class="btn sm main" onclick="frAccept('${f.requester}')">✓</button><button class="btn sm ghost" onclick="frRemove('${f.requester}','${ME.id}')">✕</button></div>`; }).join("")}` : ""}
+      <div class="fhd">${ru ? "Друзья" : "Do'stlar"} · ${acc.length}</div>
+      ${acc.length ? acc.map(f => item(f.requester === ME.id ? f.addressee : f.requester)).join("") : `<div class="empty" style="padding:18px 6px">${mt("noFr")}<br><span class="sub" style="font-size:12px">${ru ? "Добавляйте друзей из их профиля." : "Do'stlarni ularning profilidan qo'shing."}</span></div>`}
+    </aside>
+    <section class="fchat dmbox" id="fchat">${fEmpty()}</section>
+  </div>`;
+}
+async function bindFriends(){
+  if (!sb || !ME) return;
+  await Promise.all([loadFriends(), loadFUnread()]);
+  if (curRoute() !== "#/friends") return;
+  const keep = FSEL; render(false);
+  if (keep) openDM(keep);
+}
 async function sendDM(ev){
   ev.preventDefault();
   const inp = $("#dmin"), body = (inp.value || "").trim(); if (!body || !DM.uid) return;
@@ -1742,7 +1850,7 @@ function friendsCard(){
   const row = (uid, btns) => { const pr = profByUid(uid); return `<div class="frow"><a class="pcell" ${pr.steam ? `href="/p/${slug(pr.steam)}"` : ""} style="text-decoration:none">${avatar(pr.nick || "?", false, pr.avatar_url)}<span class="nm">${esc(pr.nick || "—")}</span></a><div class="btns">${btns}</div></div>`; };
   return `<div class="card"><h3>👥 ${mt("friends")} <span class="sub" style="font-size:14px">${acc.length}</span></h3>
     ${inc.length ? `<div class="sub" style="margin-bottom:8px">${mt("reqs")}</div><div class="flist">${inc.map(f => row(f.requester, `<button class="btn sm main" onclick="frAccept('${f.requester}')">${mt("accept")}</button><button class="btn sm ghost" onclick="frRemove('${f.requester}','${ME.id}')">✕</button>`)).join("")}</div><div class="mt"></div>` : ""}
-    ${acc.length ? `<div class="flist">${acc.map(f => { const o = f.requester === ME.id ? f.addressee : f.requester; return row(o, `<button class="btn sm main" onclick="openDM('${o}')">💬 ${LANG === "ru" ? "Чат" : "Yozish"}</button><button class="btn sm ghost" onclick="frRemove('${f.requester}','${f.addressee}')">${mt("remove")}</button>`); }).join("")}</div>` : `<div class="empty">${mt("noFr")}</div>`}</div>`;
+    ${acc.length ? `<div class="flist">${acc.map(f => { const o = f.requester === ME.id ? f.addressee : f.requester; return row(o, `<button class="btn sm main" onclick="FSEL='${o}';go('/friends')">💬 ${LANG === "ru" ? "Чат" : "Yozish"}</button><button class="btn sm ghost" onclick="frRemove('${f.requester}','${f.addressee}')">${mt("remove")}</button>`); }).join("")}</div>` : `<div class="empty">${mt("noFr")}</div>`}</div>`;
 }
 async function frAdd(uid){ const r = await sb.from("friendships").insert({requester: ME.id, addressee: uid}); toast(r.error ? r.error.message : mt("sent")); await loadFriends(); render(false); }
 async function frAccept(uid){ await sb.from("friendships").update({status: "accepted"}).eq("requester", uid).eq("addressee", ME.id); await loadFriends(); render(false); }
@@ -1801,7 +1909,7 @@ const SHOP_DEFAULT = {bot: "cwhub_adminbot", card: "", owner: "", plans: [
   {id: "gladmin7", level: "gladmin", days: 7, price: "70 000 so'm"}, {id: "gladmin30", level: "gladmin", days: 30, price: "180 000 so'm"}]};
 const PT = {
   uz: {
-    nav: "Premium", eyebrow: "CwhubUZ Premium", title: "Serverda <span class='grad'>kuchingizni</span> ko'rsating",
+    nav: "Do'kon", eyebrow: "CwhubUZ Premium", title: "Serverda <span class='grad'>kuchingizni</span> ko'rsating",
     lead: "Moder, Admin yoki Gl.Admin huquqi — prefiks, boshqaruv menyusi va hurmat. Karta orqali to'lang, tasdiqlangach huquq serverga avtomatik beriladi.",
     perks: ["<b>⚡</b> Avtomatik berish", "<b>💳</b> Uzcard / Humo", "<b>🔒</b> Muddati tugasa o'zi olinadi", "<b>🛟</b> Saytda yordam"],
     d7: "7 kun", d30: "30 kun", per: d => `${d} kunga · bir martalik to'lov`, popular: "Mashhur", buy: "Sotib olish",
@@ -1826,10 +1934,10 @@ const PT = {
     payHint: "1) Summani shu kartaga o'tkazing.  2) Pastdagi tugma bilan botni oching va chek skrinshotini yuboring.  3) Tasdiqlangach huquq avtomatik beriladi.",
     noCard: "Karta raqami botda beriladi — pastdagi tugma bilan botni oching.",
     sendCheck: "Chekni Telegram'ga yuborish", done: "Bot ochildi!", doneLead: "Botda chek skrinshotini yuboring. Tasdiqlangach huquq serverga avtomatik yoziladi.",
-    teaserT: "Premium", teaserL: "Moder va Admin huquqlari — karta orqali, avtomatik faollashtirish.", teaserB: "Tariflarni ko'rish"
+    teaserT: "Premium do'kon", teaserL: "Moder, Admin va Gl.Admin huquqlari, Premium profil va shaxsiy prefiks — karta orqali, tez faollashadi.", teaserB: "Do'konga o'tish"
   },
   ru: {
-    nav: "Премиум", eyebrow: "CwhubUZ Premium", title: "Покажи свою <span class='grad'>силу</span> на сервере",
+    nav: "Магазин", eyebrow: "CwhubUZ Premium", title: "Покажи свою <span class='grad'>силу</span> на сервере",
     lead: "Права Модера или Админа — префикс, меню управления и уважение. Оплата картой, после проверки права выдаются на сервер автоматически.",
     perks: ["<b>⚡</b> Автовыдача", "<b>💳</b> Uzcard / Humo", "<b>🔒</b> Снимается по окончании срока", "<b>🛟</b> Поддержка на сайте"],
     d7: "7 дней", d30: "30 дней", per: d => `на ${d} дн. · разовый платёж`, popular: "Популярный", buy: "Купить",
@@ -1854,7 +1962,7 @@ const PT = {
     payHint: "1) Переведите сумму на эту карту.  2) Откройте бота кнопкой ниже и отправьте скриншот чека.  3) После подтверждения права выдаются автоматически.",
     noCard: "Номер карты выдаст бот — откройте его кнопкой ниже.",
     sendCheck: "Отправить чек в Telegram", done: "Бот открыт!", doneLead: "Отправьте боту скриншот чека. После подтверждения права запишутся на сервер автоматически.",
-    teaserT: "Премиум", teaserL: "Права Модера и Админа — оплата картой, автоматическая активация.", teaserB: "Смотреть тарифы"
+    teaserT: "Премиум магазин", teaserL: "Права Модера, Админа и Гл.Админа, Premium-профиль и личный префикс — оплата картой, быстрая активация.", teaserB: "Перейти в магазин"
   }
 };
 const pt = k => PT[LANG][k];
@@ -1986,6 +2094,13 @@ async function saveMyPrefix(){
   if (r.error || !r.data?.ok) return toast(r.error?.message || r.data?.err || "✕");
   afterPrem();
 }
+async function givePremium(){
+  let who = ($("#gpw").value || "").trim(); const n = normSteam(who); if (n) who = n;
+  const r = await sb.rpc("admin_give_premium", {p_who: who, p_days: +$("#gpd").value || 0, p_prefix: $("#gpp").checked});
+  if (r.error || !r.data?.ok) return toast("✕ " + (r.error?.message || r.data?.err || ""));
+  toast(`✓ ${r.data.nick}: ${r.data.until ? (LANG === "ru" ? "Premium до " : "Premium ") + new Date(r.data.until).toLocaleDateString() : (LANG === "ru" ? "Premium снят" : "Premium olindi")}`);
+  await loadProfiles(); buildIndex();
+}
 // admin panel: Premium buyurtmalari
 let PORD = null;
 async function loadPremOrders(){ const r = await sb.from("premium_orders").select("*").order("status", {ascending: false}).order("id", {ascending: false}).limit(40); PORD = r.data || []; const el = $("#pord"); if (el) el.innerHTML = premOrdersHTML(); }
@@ -1997,29 +2112,49 @@ function premOrdersHTML(){
     <span class="btns">${o.receipt_url ? `<a class="btn sm ghost" href="${esc(o.receipt_url)}" target="_blank" rel="noopener">🧾</a>` : ""}${o.status === "pending" ? `<button class="btn sm main" onclick="decideOrder(${o.id},true)">✅</button><button class="btn sm" onclick="decideOrder(${o.id},false)">❌</button>` : `<span class="sub">${sp("st")[o.status]}</span>`}</span></div>`).join("");
 }
 async function decideOrder(id, ok){ const r = await sb.rpc("admin_decide_order", {p_id: id, p_ok: ok}); if (r.error || !r.data?.ok) return toast(r.error?.message || r.data?.err || "✕"); toast("✓"); loadPremOrders(); }
+// Do'kon: barcha mahsulotlar bir xil premium kartalarda (huquqlar + sayt Premium + prefiks)
+let shopCat = "all";
+function shopCard(o){
+  return `<div class="scard rv ${o.hot ? "hot" : ""}" data-cat="${o.cat}" style="--tone:${o.tone}">
+    ${o.badge ? `<span class="sbadge">${o.badge}</span>` : ""}
+    <div class="sic">${o.icon}</div><div class="scat">${o.catName}</div><h3>${o.name}</h3>
+    <div class="sprice">${o.old ? `<s>${esc(o.old)}</s>` : ""}<b data-price>${esc(o.price)}</b><small>${o.per}</small></div>
+    <ul>${o.perks.map(f => `<li>${f}</li>`).join("")}${(o.no || []).map(f => `<li class="no">${f}</li>`).join("")}</ul>
+    <button class="btn ${o.hot ? "gold" : "main"} wide" onclick="${o.onclick}">${o.btn}</button>
+    ${o.note ? `<p class="snote">${o.note}</p>` : ""}</div>`;
+}
+function shopCards(){
+  const ru = LANG === "ru", out = [], priv = ru ? "Привилегия на сервере" : "Serverdagi huquq", site = ru ? "Сайт" : "Sayt";
+  [["moder", "🛡", "#38bdf8"], ["admin", "⚔", "#ffb547"], ["gladmin", "👑", "#c084fc"]].forEach(([lvl, icon, tone]) => {
+    const p = planOf(lvl, pDays); if (!p) return;
+    const ep = effPrice(p);
+    out.push(shopCard({cat: "priv", catName: priv, icon, tone, name: pt(lvl), price: ep.now + (ru ? " сум" : " so'm"), old: ep.old, per: pt("per")(p.days),
+      badge: lvl === "admin" ? pt("popular") : lvl === "gladmin" ? "VIP" : ep.badge || "", hot: lvl === "admin",
+      perks: lvl === "gladmin" ? pt("fGl") : lvl === "admin" ? pt("fAdm") : pt("fMod"), no: lvl === "gladmin" ? [] : lvl === "admin" ? pt("noAdmA") : pt("noAdm"),
+      btn: pt("buy") + " →", onclick: `openBuy('${esc(p.id)}')`}));
+  });
+  out.push(shopCard({cat: "site", catName: site, icon: "💎", tone: "#ffd166", name: sp("siteH"), price: money(PREM_PRICE.site), per: "/ 30 " + (ru ? "дней" : "kun"),
+    badge: "PREMIUM", perks: sp("sitePerks"), btn: "👑 " + sp("buy"), onclick: "openSiteBuy('site')"}));
+  out.push(shopCard({cat: "site", catName: site, icon: "🏷", tone: "#7dd3fc", name: sp("preH"), price: money(PREM_PRICE.prefix), per: "/ " + sp("forever"),
+    perks: sp("prePerks"), btn: "🏷 " + sp("buy"), onclick: "openSiteBuy('prefix')", note: sp("freeAdm")}));
+  return out.join("");
+}
 function pagePremium(){
-  const both = [7, 30].every(d => SHOP().plans.some(p => +p.days === d));
-  return `<section class="phead">
-    <div class="crownic">👑</div>
-    <div class="eyebrow" style="margin-top:10px">${pt("eyebrow")}</div>
-    <h2>${pt("title")}</h2><p class="lead">${pt("lead")}</p>
+  const ru = LANG === "ru", both = [7, 30].every(d => SHOP().plans.some(p => +p.days === d));
+  const cats = [["all", ru ? "Все товары" : "Hammasi"], ["priv", ru ? "Привилегии" : "Huquqlar"], ["site", ru ? "Для сайта" : "Sayt uchun"]];
+  return `<section class="shero">
+    <div class="shglow"></div>
+    <div class="eyebrow" style="color:var(--gold)">CWHUB · ${ru ? "МАГАЗИН" : "DO'KON"}</div>
+    <h2>${ru ? "Премиум <span class='grad'>магазин</span>" : "Premium <span class='grad'>do'kon</span>"}</h2>
+    <p class="lead">${ru ? "Привилегии на сервере, Premium-профиль и личный префикс — всё в одном месте. Оплата картой, активация после проверки чека." : "Serverdagi huquqlar, Premium profil va shaxsiy prefiks — hammasi bir joyda. Karta orqali to'lov, chek tekshirilgach avtomatik faollashadi."}</p>
     <div class="perks">${pt("perks").map(x => `<span>${x}</span>`).join("")}</div>
-    ${both ? `<div class="ptoggle" id="ptog"><span class="knob"></span><button data-d="7" class="${pDays === 7 ? "on" : ""}">${pt("d7")}</button><button data-d="30" class="${pDays === 30 ? "on" : ""}">${pt("d30")}</button></div>` : ""}
   </section>
-  <div class="plans" id="plans" style="max-width:1200px;margin-left:auto;margin-right:auto">${allPlans()}</div>
-  <p class="sub" style="text-align:center;font-size:13px;margin-top:14px">ℹ ${pt("unbanNote")}</p>
-  <h2 class="title" style="text-align:center;margin-top:46px">${sp("secT")}</h2><p class="lead" style="text-align:center;margin:0 auto">${sp("secL")}</p>
-  <div class="sprem">
-    <div class="spc"><div class="eyebrow" style="color:var(--gold)">👑 ${sp("siteT")}</div><h3>${sp("siteH")}</h3>
-      <div class="pr">${money(PREM_PRICE.site)} <small>/ 30 ${LANG === "ru" ? "дней" : "kun"}</small></div>
-      <ul>${sp("sitePerks").map(x => `<li>${x}</li>`).join("")}</ul>
-      <button class="btn gold wide" onclick="openSiteBuy('site')">👑 ${sp("buy")}</button></div>
-    <div class="spc pre"><div class="eyebrow" style="color:#7dd3fc">🏷 ${sp("preT")}</div><h3>${sp("preH")}</h3>
-      <div class="pr">${money(PREM_PRICE.prefix)} <small>/ ${sp("forever")}</small></div>
-      <ul>${sp("prePerks").map(x => `<li>${x}</li>`).join("")}</ul>
-      <button class="btn main wide" onclick="openSiteBuy('prefix')">🏷 ${sp("buy")}</button>
-      <p class="sub" style="font-size:12px;margin:12px 0 0">${sp("freeAdm")}</p></div>
+  <div class="sbar">
+    <div class="stabs" id="stabs">${cats.map(c => `<button type="button" data-c="${c[0]}" class="${shopCat === c[0] ? "on" : ""}">${c[1]}</button>`).join("")}</div>
+    ${both ? `<div class="ptoggle" id="ptog" style="margin:0"><span class="knob"></span><button data-d="7" class="${pDays === 7 ? "on" : ""}">${pt("d7")}</button><button data-d="30" class="${pDays === 30 ? "on" : ""}">${pt("d30")}</button></div>` : ""}
   </div>
+  <div class="sgrid" id="sgrid" data-show="${shopCat}">${shopCards()}</div>
+  <p class="sub" style="text-align:center;font-size:13px;margin-top:14px">ℹ ${pt("unbanNote")}</p>
   <div class="trust">${pt("trust").map(x => `<div class="rv"><i>${x[0]}</i><div><b>${x[1]}</b><span>${x[2]}</span></div></div>`).join("")}</div>
   <div class="grid2 mt2">
     <div class="card spot rv"><h3>${pt("cmpT")}</h3><div class="tw"><table class="cmptbl"><tr><th></th><th>${pt("moder")}</th><th style="color:var(--gold)">${pt("admin")}</th><th style="color:#c084fc">${pt("gladmin")}</th></tr>
@@ -2028,14 +2163,18 @@ function pagePremium(){
   </div>`;
 }
 function bindPremium(){
+  document.querySelectorAll("#stabs button").forEach(b => b.onclick = () => {
+    shopCat = b.dataset.c; $("#sgrid").dataset.show = shopCat;
+    document.querySelectorAll("#stabs button").forEach(x => x.classList.toggle("on", x === b));
+  });
   const tog = $("#ptog"); if (!tog) return;
   const knob = tog.querySelector(".knob");
   const place = () => { const b = tog.querySelector("button.on"); if (b) { knob.style.left = b.offsetLeft + "px"; knob.style.width = b.offsetWidth + "px"; } };
   place();
   tog.querySelectorAll("button").forEach(b => b.onclick = () => {
     pDays = +b.dataset.d; tog.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); place();
-    $("#plans").innerHTML = allPlans(); fxBind($("#plans"));
-    document.querySelectorAll("#plans [data-price]").forEach(e => { e.animate([{opacity: 0, transform: "translateY(-10px)"}, {opacity: 1, transform: "none"}], {duration: 450, easing: "cubic-bezier(.2,.8,.2,1)"}); });
+    $("#sgrid").innerHTML = shopCards(); fxBind($("#sgrid"));
+    document.querySelectorAll("#sgrid [data-price]").forEach(e => { e.animate([{opacity: 0, transform: "translateY(-10px)"}, {opacity: 1, transform: "none"}], {duration: 450, easing: "cubic-bezier(.2,.8,.2,1)"}); });
   });
 }
 
@@ -2380,7 +2519,20 @@ setInterval(async () => {
 
 /* ===================================================================== admin panel */
 let aTab = 0, ALOG = [];
+// SteamID'ni CS 1.6 formatiga keltirish: STEAM_1/2 -> STEAM_0, [U:1:N] va SteamID64 ham qabul qilinadi
+function normSteam(v){
+  v = String(v || "").trim().toUpperCase().replace(/\s+/g, "");
+  let m = v.match(/^STEAM_[0-5]:([01]):(\d+)$/); if (m) return `STEAM_0:${m[1]}:${m[2]}`;
+  m = v.match(/^\[?U:1:(\d+)\]?$/); if (m) { const n = +m[1]; return `STEAM_0:${n % 2}:${Math.floor(n / 2)}`; }
+  if (/^7656119\d{10}$/.test(v)) { const n = BigInt(v) - 76561197960265728n; return `STEAM_0:${n % 2n}:${n / 2n}`; }
+  return null;
+}
 async function act(action, payload){
+  if (payload && payload.steam != null && payload.steam !== "") {
+    const n = normSteam(payload.steam);
+    if (n) payload.steam = n;
+    else if (action === "grant" || action === "ban") return toast(LANG === "ru" ? "Неверный SteamID (пример: STEAM_0:1:12345)" : "SteamID noto'g'ri (masalan: STEAM_0:1:12345)");
+  }
   const r = await sb.from("admin_actions").insert({action, payload}).select("id").single();
   if (r.error) { toast(r.error.message); return; }
   toast("✓ " + x("pending")); await loadLog(); const l = $("#alog"); if (l) l.innerHTML = logHTML();
@@ -2401,7 +2553,7 @@ function pageAdmin(){
   if (!ME.admin) return `<div class="card empty">${x("noAccess")}</div>`;
   const tabs = `<div class="atabs">${x("tabs").map((n, i) => `<button class="${i === aTab ? "on" : ""}" onclick="aTab=${i};render(false)">${n}</button>`).join("")}</div>`;
   const d = SET.discount || {}, pr = (SET.prizes && SET.prizes.length ? SET.prizes : PRIZES_DEFAULT[LANG]);
-  const steamIn = id => `<div class="field"><label>${x("steam")}<input id="${id}" placeholder="STEAM_0:1:123456789" required pattern="^[Ss][Tt][Ee][Aa][Mm]_[0-5]:[01]:\\d+$"></label></div>`;
+  const steamIn = id => `<div class="field"><label>${x("steam")}<input id="${id}" placeholder="STEAM_0:1:123456789" required title="STEAM_0:1:123 · STEAM_1:… · [U:1:…] · 7656119…"></label></div>`;
   const body = [
     () => `<div class="kpis"><div class="tile"><b>${IDX.sorted.length}</b><span>${x("kPlayers")}</span></div><div class="tile"><b>${IDX.matches.length || (D?.results || []).length}</b><span>${x("kMatches")}</span></div>
       <div class="tile"><b>${TK.list.filter(t2 => t2.status === "open").length}</b><span>${x("kOpen")}</span></div><div class="tile"><b>${D?.server?.count || 0}</b><span>${x("kOnline")}</span></div>
@@ -2425,7 +2577,13 @@ function pageAdmin(){
     () => `<div class="btns"><button class="btn main" onclick="loadBanList()">🔄 ${x("loadBans")}</button></div><div id="banl" class="mt">${banListHTML()}</div>`
 ,
     () => siteAdminsHTML(),
-    () => `<div class="btns"><button class="btn main" onclick="loadPremOrders()">🔄</button></div><div id="pord" class="mt">${premOrdersHTML()}</div>`
+    () => `<form class="form2" onsubmit="event.preventDefault();givePremium()" style="margin-bottom:18px">
+      <h3 style="margin:0">👑 ${LANG === "ru" ? "Выдать Premium" : "Premium berish"}</h3>
+      <div class="row2"><div class="field"><label>${LANG === "ru" ? "SteamID или email" : "SteamID yoki email"}<input id="gpw" required placeholder="STEAM_0:1:123 / mail@gmail.com"></label></div>
+        <div class="field"><label>${LANG === "ru" ? "Дней (0 = снять Premium)" : "Kun (0 = Premium'ni olish)"}<input id="gpd" type="number" min="0" max="3650" value="30"></label></div></div>
+      <label class="sub" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="gpp"> ${LANG === "ru" ? "+ личный префикс (навсегда)" : "+ shaxsiy prefiks (abadiy)"}</label>
+      <div class="btns"><button class="btn gold" type="submit">👑 ${LANG === "ru" ? "Выдать" : "Berish"}</button></div></form>
+      <div class="btns"><button class="btn main" onclick="loadPremOrders()">🔄</button></div><div id="pord" class="mt">${premOrdersHTML()}</div>`
   ][aTab]();
   return `<h2 class="title">🛡 ${x("aT")}</h2><p class="lead">${x("aL")}</p>${tabs}<div class="card">${body}</div>`;
 }
@@ -2527,7 +2685,7 @@ function grantForm(){
   return `<form class="form2" onsubmit="event.preventDefault();doGrant()">
     <div class="authtabs" style="margin:0;max-width:420px"><button type="button" class="${!pwMode ? "on" : ""}" onclick="gMode='steam';render(false)">${se("bySteam")}</button><button type="button" class="${pwMode ? "on" : ""}" onclick="gMode='pw';render(false)">${se("byPw")}</button></div>
     ${pwMode ? `<div class="row2"><div class="field"><label>${se("nickReq")}<input id="gn" maxlength="31" required></label></div><div class="field"><label>${se("pw")}<input id="gp" minlength="3" maxlength="31" required autocomplete="off"></label></div></div>`
-      : `<div class="field"><label>${x("steam")}<input id="gs" placeholder="STEAM_0:1:123456789" required pattern="^[Ss][Tt][Ee][Aa][Mm]_[0-5]:[01]:\\d+$"></label></div>
+      : `<div class="field"><label>${x("steam")}<input id="gs" placeholder="STEAM_0:1:123456789" required title="STEAM_0:1:123 · STEAM_1:… · [U:1:…] · 7656119…"></label></div>
          <div class="field"><label>${x("nick")}<input id="gn" maxlength="31"></label></div>`}
     <div class="row2"><div class="field"><label>${x("level")}<select id="gl">${LVLS.map(l => `<option value="${l[0]}">${l[1]}</option>`).join("")}</select></label></div>
       <div class="field"><label>${x("days")}<input id="gd" type="number" min="0" max="3650" value="30"></label></div></div>
@@ -2579,8 +2737,8 @@ function pageChat(){
   const input = (sb && ME) ? `<div class="emo">${emo.map(e => `<button type="button" onclick="chatEmo('${e}')">${e}</button>`).join("")}</div>
     <div id="rbar">${replyBarHTML()}</div><form class="chatin" onsubmit="chatPost(event)"><textarea id="gmsg" maxlength="300" placeholder="${ct("ph")}" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();this.form.requestSubmit()}"></textarea><button class="btn main" type="submit">${ct("send")}</button></form>`
     : `<div class="chatin" style="justify-content:center;align-items:center;gap:12px"><span class="sub">${ct("need")}</span><a class="btn main" href="/login">${t("login")}</a><a class="btn" href="/register">${t("signUp")}</a></div>`;
-  return `<h2 class="title" style="text-align:center">💬 ${ct("t")}</h2><p class="lead" style="text-align:center;margin:0 auto 22px">${ct("l")}</p>
-    <div class="card gchat"><div class="chathead"><div class="ava">💬</div><div><b>CWhub · ${ct("t")}</b><small>ClanWar 5x5</small></div><span class="live2"><i></i>${ct("live")}</span></div>
+  return `<h2 class="title" style="text-align:center">${CHAT_BUBBLE} ${ct("t")}</h2><p class="lead" style="text-align:center;margin:0 auto 22px">${ct("l")}</p>
+    <div class="card gchat"><div class="chathead"><div class="ava">${CHAT_BUBBLE}</div><div><b>CWhub · ${ct("t")}</b><small>ClanWar 5x5</small></div><span class="live2"><i></i>${ct("live")}</span></div>
       <div class="chatbody" id="gbody">${CH.loaded ? chatListHTML() : `<div class="skel" style="height:60px"></div><div class="skel" style="height:60px;width:70%"></div>`}</div>${input}</div>`;
 }
 function chatScroll(){ const b = $("#gbody"); if (b) b.scrollTop = b.scrollHeight; }
@@ -2670,7 +2828,7 @@ function render(scroll = true){
   else if (h.startsWith("#/m/")) html = pageMatch(h.slice(4));
   else if (h === "#/live") html = pageLive();
   else if (h.startsWith("#/vs/")) { const [a, b] = h.slice(5).split("/").map(decodeURIComponent); html = pageVs(a, b); }
-  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
+  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/friends": pageFriends, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
   setTimeout(livePill, 0);
   const app = $("#app");
   app.innerHTML = html;
@@ -2682,6 +2840,7 @@ function render(scroll = true){
   if (h === "#/chat" && scroll) bindChat();
   if ((h === "#/me" || h.startsWith("#/p/")) && scroll && sb && ME) loadFriends().then(() => { const hh = curRoute(); if (hh === h) render(false); });
   if (h === "#/admin" && scroll) bindAdmin();
+  if (h === "#/friends" && scroll) bindFriends();
   renderBanners(); tickCountdown();
   onScroll();
   $("#upd").textContent = D?.updated ? `${t("updated")}: ${ago(D.updated)}` : "";
@@ -2693,10 +2852,16 @@ function feedServer(row){
   if (Date.now() / 1000 - (row.updated || 0) > 150) { s.online = false; s.players = []; s.count = 0; }
   return s;
 }
+const CHAT_BUBBLE = '<svg class="bubic" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6C16.5 6 4 16.3 4 29c0 7 3.8 13.3 9.9 17.5L11 58l13.2-7.2c2.5.6 5.1.9 7.8.9 15.5 0 28-10.3 28-23S47.5 6 32 6Z" fill="#fff" stroke="#9aa3b2" stroke-width="2.5"/></svg>';
 let DEMOS = [];   // HLTV demolari (telegram/cw_demos.py yuklaydi)
+function demoBtn(m){
+  const d = DEMOS.find(d => Math.abs(d.t - m.t) < 900 && d.map === m.map); if (!d) return "";
+  return `<a class="btn sm main" href="${esc(d.url)}" download title="${LANG === "ru" ? "Распакуйте в cstrike, в консоли: viewdemo имя" : "cstrike papkasiga chiqaring, konsolda: viewdemo nomi"}">🎬 HLTV demo · ${(d.size / 1048576).toFixed(1)} MB</a>`;
+}
 async function loadFeed(){
-  sb.from("match_demos").select("t,map,url,size").order("t", {ascending: false}).limit(300).then(r => { DEMOS = r.data || []; if ((curRoute() || "").startsWith("#/m/")) render(false); });
+  sb.from("match_demos").select("t,map,url,size").order("t", {ascending: false}).limit(300).then(r => { DEMOS = r.data || []; const el = $("#demobtn"); if (el) el.innerHTML = demoBtn({t: +el.dataset.t, map: el.dataset.map}); });
   const q = (kind, n) => sb.from("cw_feed").select("row,t").eq("kind", kind).order("t", {ascending: false}).limit(n);
+  sb.from("cw_feed").select("row").eq("kind", "banlog").order("t", {ascending: false}).limit(300).then(r => { D.banlog = (r.data || []).map(x => x.row); if (curRoute() === "#/bans") render(false); });
   const [pl, hi, ms, rs, sv] = await Promise.all([q("player", 2000), q("hist", 2000), q("mstat", 2000), q("result", 30), sb.from("cw_feed").select("kind,row,t").in("kind", ["server", "bans"])]);
   if (pl.error) return;
   const rows = r => (r.data || []).map(x => x.row);
@@ -2718,7 +2883,7 @@ async function refreshLive(){
       // /start bosildi — match boshlandi: bosh sahifa yoki matchlar ro'yxatidagilar /live'ga avtomatik o'tadi
       if (!was && liveActive()) { toast("🔴 " + (LANG === "ru" ? "Матч начался — LIVE" : "Match boshlandi — LIVE"));
         if (["#/", "#/matches", "#/live"].includes(curRoute() || "#/")) { go("/live"); return livePill(); } }
-      if (curRoute() === "#/live") render(false);
+      if (curRoute() === "#/live") { if (was !== liveActive()) render(false); else liveBoardUpdate(); }
       livePill(); } } catch (e) {}
 }
 setInterval(refreshLive, 8000);
@@ -2740,8 +2905,11 @@ async function load(refresh){
   const h = curRoute() || "#/";
   // avval ma'lumot bilan chizamiz, akkaunt va sozlamalar — keyin
   if (!refresh) { render(true); setTimeout(() => $("#pre").classList.add("done"), 250); }
-  else if (h === "#/" || h === "#/me") render(false);
-  else $("#upd").textContent = D.updated ? `${t("updated")}: ${ago(D.updated)}` : "";
+  else {   // fon yangilanishi: sahifa qayta chizilmaydi — faqat server bloki va "yangilandi" yozuvi
+    const lb = $("#livebox"); if (lb) lb.innerHTML = livePanel();
+    const u = $("#upd"); if (u) u.textContent = D.updated ? `${t("updated")}: ${ago(D.updated)}` : "";
+    return;
+  }
   if (!refresh || h === "#/me") await withTimeout(refreshMe(), 8000);
   await withTimeout(loadSettings(), 8000);
   renderAcct(); renderNav(); renderBanners();
@@ -2761,6 +2929,14 @@ document.addEventListener("click", e => {
   e.preventDefault(); go(a2.getAttribute("href"));
 });
 load(false);
+(function introSound(){
+  try { if (sessionStorage.getItem("cw_intro")) return; } catch (e) {}
+  const a = new Audio("/sfx/intro.mp3"), ev = ["pointerdown", "keydown", "touchstart"];
+  a.volume = 0.6;
+  const mark = () => { try { sessionStorage.setItem("cw_intro", "1"); } catch (e) {} };
+  const onFirst = () => { ev.forEach(e => document.removeEventListener(e, onFirst, true)); a.play().then(mark).catch(() => {}); };
+  a.play().then(mark).catch(() => ev.forEach(e => document.addEventListener(e, onFirst, true)));
+})();
 setTimeout(() => $("#pre").classList.add("done"), 1500);   // ma'lumot sekin kelsa ham kutib qolmaydi
 setInterval(() => load(true), 120000);
 // kod sahifasi ochiq va hali ulanmagan bo'lsa — har 10 soniyada tekshiramiz

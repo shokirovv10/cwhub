@@ -177,6 +177,8 @@ nav.bottom{display:none}
   nav.bottom a.prem{color:var(--gold)}
   body{padding-bottom:96px}
 }
+/* o'rta kenglikda (900–1180px) sarlavha sig'masin: oraliqlar kichrayadi, do'kon faqat 👑 */
+@media(max-width:1180px){nav.top a,nav.top .more>button{padding:9px 7px;font-size:13px}nav.top a.prem .pl{display:none}.hright{gap:6px}.lang button{padding:4px 7px}}
 main,main.wrap{padding:34px 18px 90px;min-height:60vh}   /* .wrap padding'ini bosib ketmasin — oxirgi element footerga yopishmaydi */
 main.enter{animation:pageIn .55s var(--ease) both}
 @keyframes pageIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
@@ -2805,7 +2807,7 @@ function renderNav(){
   $("#nav").innerHTML = [0, 1, 2, 3].map(i => link(ROUTES[i].slice(1), t("nav")[i], isOn(i))).join("")
     + link("/chat", "💬 Chat", h === "#/chat")
     + `<div class="more" onmouseleave="this.classList.remove('open')"><button type="button" class="${extraOn ? "on" : ""}" onclick="this.parentNode.classList.toggle('open')">${LANG === "ru" ? "Ещё" : "Ko'proq"}<i>▾</i></button><div class="menu">${extra.join("")}</div></div>`
-    + `<a href="/premium" class="prem ${h === "#/premium" ? "on" : ""}">👑 ${pt("nav")}</a>`;
+    + `<a href="/premium" class="prem ${h === "#/premium" ? "on" : ""}">👑 <span class="pl">${pt("nav")}</span></a>`;
   const crown = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 7 4.5 4L12 4l4.5 7L21 7l-2 12H5Z"/></svg>';
   const chatIc = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>';
   const bi = [I.home, I.list, I.sword, chatIc, crown, I.user], br = ["#/", "#/top", "#/matches", "#/chat", "#/premium", "#/me"];

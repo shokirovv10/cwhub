@@ -664,6 +664,7 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .form2{display:grid;gap:12px}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
 .atabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.gulist{max-height:420px;overflow:auto;display:grid;gap:6px;padding-right:4px}
 .ahead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px;padding:22px 24px;border-radius:22px;border:1px solid rgba(255,209,102,.22);
   background:radial-gradient(600px 200px at 0% 0%,rgba(255,209,102,.12),transparent 70%),linear-gradient(180deg,#15130e,#0f1015)}
 .ahk{display:flex;gap:10px;flex-wrap:wrap}.ahk span{display:flex;flex-direction:column;align-items:center;min-width:86px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--line);font-size:11.5px;color:var(--dim)}
@@ -2597,7 +2598,7 @@ function pageAdmin(){
   const ru = LANG === "ru", names = x("tabs"), openT = TK.list.filter(t2 => t2.status === "open").length;
   const ICO = ["📊", "🛒", "🛡", "⛔", "🏆", "💬", "📢", "📋", "👤", "👑"];
   const GROUPS = [[ru ? "Обзор" : "Umumiy", [0]], [ru ? "Сервер" : "Server", [2, 3, 7, 6]], [ru ? "Сайт" : "Sayt", [1, 9, 4, 8]], [ru ? "Поддержка" : "Yordam", [5]]];
-  const side = `<aside class="aside">${GROUPS.map(([g, ids]) => `<div class="ag">${g}</div>${ids.map(i => `<button type="button" class="${i === aTab ? "on" : ""}" onclick="aTab=${i};render(false)"><i>${ICO[i]}</i><span>${names[i]}</span>${i === 5 && openT ? `<em>${openT}</em>` : ""}</button>`).join("")}`).join("")}</aside>`;
+  const side = `<aside class="aside">${GROUPS.map(([g, ids]) => `<div class="ag">${g}</div>${ids.map(i => `<button type="button" class="${i === aTab ? "on" : ""}" onclick="aTab=${i};render(false);bindAdmin()"><i>${ICO[i]}</i><span>${names[i]}</span>${i === 5 && openT ? `<em>${openT}</em>` : ""}</button>`).join("")}`).join("")}</aside>`;
   const d = SET.discount || {}, pr = (SET.prizes && SET.prizes.length ? SET.prizes : PRIZES_DEFAULT[LANG]);
   const steamIn = id => `<div class="field"><label>${x("steam")}<input id="${id}" placeholder="STEAM_0:1:123456789" required title="STEAM_0:1:123 · STEAM_1:… · [U:1:…] · 7656119…"></label></div>`;
   const body = [
@@ -2738,7 +2739,31 @@ function grantForm(){
     <div class="row2"><div class="field"><label>${x("level")}<select id="gl">${LVLS.map(l => `<option value="${l[0]}">${l[1]}</option>`).join("")}</select></label></div>
       <div class="field"><label>${x("days")}<input id="gd" type="number" min="0" max="3650" value="30"></label></div></div>
     <div class="btns"><button class="btn main" type="submit">${x("grant")}</button><button class="btn" type="button" onclick="const v=prompt('${se("rmHint")}');if(v)act('remove',{steam:v.trim()})">${x("remove")}</button><button class="btn ghost" type="button" onclick="act('list',{})">${x("list")}</button></div></form>
+    <h3 class="mt2">👥 ${LANG === "ru" ? "Пользователи сайта" : "Saytdagi foydalanuvchilar"} <span class="sub" style="font-size:13px">${GU.list ? GU.list.length : ""}</span></h3>
+    <input class="search" id="guq" placeholder="${sat("find")}" value="${esc(GU.q)}" oninput="clearTimeout(window.__guT);window.__guT=setTimeout(()=>loadGrantUsers(this.value),300)">
+    <div id="gul" class="gulist">${grantUsersHTML()}</div>
     <h3 class="mt2">${x("log")}</h3><div class="alog" id="alog">${logHTML()}</div>`;
+}
+let GU = {q: "", list: null};
+function grantUsersHTML(){
+  if (GU.list == null) return `<div class="skel" style="height:54px"></div>`;
+  if (!GU.list.length) return `<div class="empty">—</div>`;
+  const ru = LANG === "ru";
+  return GU.list.map(u => { const p = u.steam ? IDX.byId[u.steam] : null, nk = u.nick || u.email.split("@")[0];
+    return `<div class="banrow"><div class="pcell">${avatar(nk, false, u.steam ? photoOf(u.steam) : null)}<div style="min-width:0"><b>${esc(nk)}</b>${u.is_admin ? ` <span class="st answered">🛡</span>` : ""}
+      <small>${u.steam ? esc(u.steam) : (ru ? "SteamID не привязан (/link)" : "SteamID ulanmagan (/link)")}${p ? ` · ${p.pts} PTS` : ""}</small></div></div>
+      <div class="btns">${u.steam ? `<button class="btn sm main" type="button" onclick="pickGrantUser('${esc(u.steam)}','${esc(nk).replace(/'/g, "")}')">${ru ? "Выбрать" : "Tanlash"}</button>` : ""}</div></div>`; }).join("");
+}
+async function loadGrantUsers(q){
+  GU.q = q != null ? q : GU.q;
+  const r = await sb.rpc("admin_find_users", {p_q: GU.q});
+  if (r.error) return toast(r.error.message);
+  GU.list = (r.data || []).sort((a, b) => (b.steam ? 1 : 0) - (a.steam ? 1 : 0));
+  const el = $("#gul"); if (el) el.innerHTML = grantUsersHTML();
+}
+function pickGrantUser(steam, nick){
+  if (gMode !== "steam") { gMode = "steam"; render(false); bindAdmin(); }
+  setTimeout(() => { const s1 = $("#gs"), n1 = $("#gn"); if (s1) s1.value = steam; if (n1) n1.value = nick; s1?.scrollIntoView({block: "center", behavior: "smooth"}); toast("✓ " + nick); }, 50);
 }
 function doGrant(){
   const base = {level: $("#gl").value, days: +$("#gd").value, nick: ($("#gn")?.value || "").trim()};
@@ -2753,6 +2778,7 @@ async function bindAdmin(){
   if (aTab === 5) { $("#atl").innerHTML = ticketList(true); }
   if (aTab === 7) { const b = $("#banl"); if (b) b.innerHTML = banListHTML(); }
   if (aTab === 8) loadSiteAdmins();
+  if (aTab === 2) loadGrantUsers();
   if (aTab === 9) loadPremOrders();
 }
 async function bindSupport(){ if (!sb || !ME) return; await myChat(); render(false); scrollThread(); }

@@ -818,6 +818,22 @@ html.cardmode .mside .mpl,html.cardmode .mcenter,html.cardmode .aw,html.cardmode
 .ucard .umeta small{display:block;font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--dim)}.ucard .umeta b{display:block;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ucard .uact{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}.ucard .uact .btn{padding:9px 8px;font-size:13px;justify-content:center;white-space:nowrap}.ucard .uact .btn:last-child{grid-column:1/-1}
 .btn.danger{background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.4);color:#fca5a5}.btn.danger:hover{background:rgba(248,113,113,.22)}
+.acb{--tone:#4ade80;position:relative;max-width:560px;margin:40px auto 20px;padding:40px 34px 26px;border-radius:28px;text-align:center;overflow:hidden;
+  background:radial-gradient(460px 220px at 50% 0%,color-mix(in srgb,var(--tone) 18%,transparent),transparent 70%),linear-gradient(180deg,#171b25,#0d0f14);
+  border:1px solid color-mix(in srgb,var(--tone) 35%,transparent);box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 50px color-mix(in srgb,var(--tone) 10%,transparent);animation:fadeUp .6s var(--ease)}
+.acb:before{content:"";position:absolute;left:20%;right:20%;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--tone),transparent)}
+.acb .acbic{width:84px;height:84px;margin:0 auto 16px;border-radius:26px;display:grid;place-items:center;font-size:40px;background:color-mix(in srgb,var(--tone) 14%,#0d0e12);border:1px solid color-mix(in srgb,var(--tone) 40%,transparent);box-shadow:0 0 40px color-mix(in srgb,var(--tone) 22%,transparent)}
+.acb h1{font:700 34px Rajdhani,sans-serif;text-transform:uppercase;letter-spacing:.5px;margin:6px 0 10px}
+.acb .lead{max-width:430px;margin:0 auto 18px}
+.acbbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.acbcode{display:grid;gap:4px;margin:4px auto 20px;max-width:360px;padding:16px;border-radius:18px;background:rgba(255,255,255,.03);border:1px dashed color-mix(in srgb,var(--tone) 45%,transparent)}
+.acbcode span{font-size:12.5px;color:var(--muted)}.acbcode b{font:700 34px Rajdhani,sans-serif;letter-spacing:3px;color:var(--accent)}.acbcode small{color:var(--dim);font-size:12px}
+.acbcode.ok{border-style:solid;color:#4ade80;font-weight:700}
+.acbform{text-align:left;max-width:380px;margin:0 auto}
+.acbfoot{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--dim);font-size:12px}
+.acbfoot b{font:900 18px Inter,sans-serif;color:#fff}.acbfoot b span{background:var(--accent);color:#111;border-radius:6px;padding:0 6px;margin-left:3px}
+.acbspin{width:38px;height:38px;border-radius:50%;border:3px solid rgba(255,181,71,.25);border-top-color:#ffb547;animation:spin 1s linear infinite}
+@media(max-width:560px){.acb{padding:32px 20px 22px;margin-top:16px}.acb h1{font-size:27px}}
 .uamodal{max-width:560px!important;padding:30px 28px 26px!important;background:radial-gradient(420px 180px at 50% 0%,color-mix(in srgb,var(--tone) 16%,transparent),transparent 70%),linear-gradient(180deg,#171b25,#0d0f14)!important;border-color:color-mix(in srgb,var(--tone) 35%,transparent)!important}
 .uamodal:before{content:"";position:absolute;left:20%;right:20%;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--tone),transparent)}
 .uato{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid var(--line);margin-bottom:16px}
@@ -1087,7 +1103,7 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 <body>
 <div id="pre"><div class="ld"><div class="logo bigl"><span class="cw">CW</span><span class="hub">hub</span></div><div class="bar"><i></i></div><b>CWHUB · LOADING</b><div class="sndq"><p id="sndqt">🔊 Saytga kirishda ovoz chalinsinmi?</p><div><button class="y" id="sndy" onclick="sndAnswer(1)">Ha, ovoz bilan</button><button id="sndn" onclick="sndAnswer(0)">Yo'q</button></div></div></div></div>
 <audio id="introAud" src="/sfx/intro.mp3" preload="auto"></audio>
-<script>window.__recov=/type=recovery/.test(location.hash+location.search);</script>
+<script>window.__authHash=location.hash+"&"+location.search.slice(1);window.__recov=/type=recovery/.test(window.__authHash);</script>
 <script>/* Telegram kartasi */if(/[?&]card=1/.test(location.search))document.documentElement.classList.add("cardmode");</script>
 <script>/* kirish ovozi — faqat bosh sahifada (/), yuklanish ekrani chiqishi bilan. Chrome sahifani oldindan yuklagan (prerender) bo'lsa — sahifa ochilganda chalinadi */
 (function(){var H=document.documentElement;if(H.classList.contains("cardmode")||location.pathname!=="/")return;
@@ -1958,7 +1974,7 @@ async function doAuth(ev){
   if (authTab === 1 && pw !== pw2) { authMsg = ["err", t("pwMismatch")]; return render(false); }
   const btn = $("#authgo"); btn.disabled = true;
   try {
-    const r = authTab === 0 ? await sb.auth.signInWithPassword({email, password: pw}) : await sb.auth.signUp({email, password: pw, options: {data: {nick: ($("#nk")?.value || "").trim().slice(0, 31)}}});
+    const r = authTab === 0 ? await sb.auth.signInWithPassword({email, password: pw}) : await sb.auth.signUp({email, password: pw, options: {emailRedirectTo: location.origin + "/auth", data: {nick: ($("#nk")?.value || "").trim().slice(0, 31)}}});
     if (r.error) authMsg = ["err", r.error.message];
     else if (authTab === 1 && !r.data.session) { authMsg = ["ok", t("signedUp")]; authTab = 0; go("#/login"); }
   } catch (e) { authMsg = ["err", String(e)]; }
@@ -1968,7 +1984,7 @@ async function doAuth(ev){
 async function forgotPw(){
   const email = $("#em").value.trim();
   if (!email) { $("#em").focus(); return; }
-  const r = await sb.auth.resetPasswordForEmail(email, {redirectTo: location.origin + "/me"});
+  const r = await sb.auth.resetPasswordForEmail(email, {redirectTo: location.origin + "/auth"});
   if (!r.error) toast("✓ " + t("resetSent"));
   authMsg = r.error ? ["err", r.error.message] : ["ok", t("resetSent")]; render(false);
 }
@@ -3154,6 +3170,41 @@ async function showMyAlertsAll(){
 }
 async function readMyAlerts(ids, keep){ if (!keep) closeUserAct(); try { await sb.from("user_alerts").update({read: true}).in("id", ids); } catch (e) {} }
 // parolni tiklash: emaildagi havola -> yangi parol oynasi
+// emaildagi havola sahifasi: tasdiqlash / parolni tiklash / eskirgan havola
+let AUTHCB = {done: null};
+function authCbInfo(){
+  const q = new URLSearchParams(String(window.__authHash || "").replace(/^#/, "").replace(/\?/g, "&"));
+  return {type: q.get("type") || "", err: q.get("error_description") || q.get("error") || "", code: q.get("error_code") || ""};
+}
+function pageAuthCb(){
+  const ru = LANG === "ru", i = authCbInfo();
+  const card = (tone, icon, eyebrow, title, body, btns) => `<div class="acb" style="--tone:${tone}"><div class="acbglow"></div>
+    <div class="acbic">${icon}</div><div class="eyebrow" style="color:var(--tone)">${eyebrow}</div><h1>${title}</h1>${body}${btns ? `<div class="acbbtns">${btns}</div>` : ""}
+    <div class="acbfoot"><b>CW<span>hub</span></b><span>cwhub.uz · CS 1.6 ClanWar</span></div></div>`;
+  if (i.err && !ME) {
+    const expired = /expired|invalid/i.test(i.code + i.err);
+    return card("#f87171", "⛔", ru ? "ССЫЛКА НЕДЕЙСТВИТЕЛЬНА" : "HAVOLA ISHLAMAYDI", expired ? (ru ? "Ссылка устарела" : "Havola eskirgan") : (ru ? "Ошибка входа" : "Kirishda xato"),
+      `<p class="lead">${expired ? (ru ? "Ссылка из письма действует ограниченное время и только один раз. Запросите новую — это займёт минуту." : "Xatdagi havola cheklangan vaqt va faqat bir marta ishlaydi. Yangisini so'rang — bir daqiqa ichida keladi.") : esc(i.err)}</p>`,
+      `<a class="btn main" href="/login">🔑 ${ru ? "Войти / новая ссылка" : "Kirish / yangi havola"}</a><a class="btn ghost" href="/">${ru ? "На главную" : "Bosh sahifa"}</a>`);
+  }
+  if (!ME) return card("#ffb547", `<span class="acbspin"></span>`, "CWHUB", ru ? "Проверяем ссылку…" : "Havola tekshirilmoqda…",
+    `<p class="lead">${ru ? "Секунду, входим в ваш аккаунт." : "Bir soniya, akkauntingizga kiryapmiz."}</p>`, "");
+  const nick = esc(myNick()), code = esc(ME.acc?.code || "····");
+  if (AUTHCB.done === "pw") return card("#4ade80", "✅", ru ? "ГОТОВО" : "TAYYOR", ru ? "Пароль изменён" : "Parol o'zgartirildi",
+    `<p class="lead">${ru ? "Теперь входите с новым паролем." : "Endi yangi parol bilan kirasiz."}</p>`, `<a class="btn main" href="/me">👤 ${ru ? "Мой профиль" : "Profilim"}</a><a class="btn ghost" href="/">${ru ? "На главную" : "Bosh sahifa"}</a>`);
+  if (window.__recov || i.type === "recovery") return card("#38bdf8", "🔑", ru ? "ВОССТАНОВЛЕНИЕ ПАРОЛЯ" : "PAROLNI TIKLASH", ru ? `Новый пароль, ${nick}` : `Yangi parol, ${nick}`,
+    `<p class="lead">${ru ? "Придумайте новый пароль — минимум 6 символов." : "Yangi parol o'ylab toping — kamida 6 belgi."}</p>
+     <form class="uaform acbform" onsubmit="event.preventDefault();saveNewPw()">
+       <label>${t("password")}<input id="np1" type="password" minlength="6" required autocomplete="new-password"></label>
+       <label>${t("password2")}<input id="np2" type="password" minlength="6" required autocomplete="new-password"></label>
+       <div class="msg err" id="npe" style="display:none"></div>
+       <button class="btn main wide" type="submit">💾 ${ru ? "Сохранить пароль" : "Parolni saqlash"}</button></form>`, "");
+  return card("#4ade80", "✅", ru ? "EMAIL ПОДТВЕРЖДЁН" : "EMAIL TASDIQLANDI", ru ? `Добро пожаловать, ${nick}!` : `Xush kelibsiz, ${nick}!`,
+    `<p class="lead">${ru ? "Аккаунт активирован. Остался один шаг — привяжите игровой профиль:" : "Akkaunt faollashdi. Bitta qadam qoldi — o'yin profilingizni ulang:"}</p>
+     ${ME.acc?.steam ? `<div class="acbcode ok">✓ ${ru ? "Профиль привязан" : "Profil ulangan"} · ${esc(ME.acc.steam)}</div>`
+       : `<div class="acbcode"><span>${ru ? "Напишите на сервере в чат" : "Serverda chatga yozing"}</span><b>/link ${code}</b><small>${esc(ADDRESS)}</small></div>`}`,
+    `<a class="btn main" href="/me">👤 ${ru ? "Мой профиль" : "Profilim"}</a><a class="btn gold" href="steam://connect/${esc(ADDRESS)}">🎮 ${ru ? "Играть" : "O'ynash"}</a>`);
+}
 function openNewPw(){
   const ru = LANG === "ru";
   $("#modal").innerHTML = `<div class="modal"><div class="mbox" role="dialog" aria-modal="true">
@@ -3170,7 +3221,8 @@ async function saveNewPw(){
   if (a !== b) { e.textContent = t("pwMismatch"); e.style.display = "block"; return; }
   const r = await sb.auth.updateUser({password: a});
   if (r.error) { e.textContent = r.error.message; e.style.display = "block"; return; }
-  window.__recov = false; closeUserAct(); toast(LANG === "ru" ? "✓ Пароль изменён" : "✓ Parol o'zgartirildi"); go("#/me");
+  window.__recov = false; closeUserAct(); toast(LANG === "ru" ? "✓ Пароль изменён" : "✓ Parol o'zgartirildi");
+  if (curRoute() === "#/auth") { AUTHCB.done = "pw"; render(false); } else go("#/me");
 }
 // telefonga o'rnatish (PWA): Android — tizim oynasi, iPhone — ko'rsatma
 let PWA_EV = null;
@@ -3539,7 +3591,7 @@ function render(scroll = true){
   else if (h.startsWith("#/m/")) html = pageMatch(h.slice(4));
   else if (h === "#/live") html = pageLive();
   else if (h.startsWith("#/vs/")) { const [a, b] = h.slice(5).split("/").map(decodeURIComponent); html = pageVs(a, b); }
-  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/lobby": pageLobby, "#/privacy": pagePrivacy, "#/friends": pageFriends, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
+  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/lobby": pageLobby, "#/privacy": pagePrivacy, "#/friends": pageFriends, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat, "#/auth": pageAuthCb}[h] || pageHome)();
   setTimeout(livePill, 0);
   const app = $("#app");
   app.innerHTML = html;
@@ -3628,7 +3680,7 @@ async function load(refresh){
   const hadAds = !!document.querySelector(".adbox");
   await withTimeout(loadSettings(), 8000);
   renderAcct(); renderNav(); renderBanners();
-  if (window.__recov && ME) setTimeout(openNewPw, 400); else setTimeout(showMyAlerts, 1200);
+  if (curRoute() === "#/auth") render(false); else if (window.__recov && ME) setTimeout(openNewPw, 400); else setTimeout(showMyAlerts, 1200);
   if (!hadAds && ["home", "match"].some(pl => adsActive(pl).length) && /^#\/(m\/.*|matches)?$/.test(curRoute() || "#/")) render(false);
   if (!refresh && /^#\/(me|login|register|support|admin|premium)$/.test(curRoute() || "")) { render(false); if (curRoute() === "#/support") bindSupport(); if (curRoute() === "#/admin") bindAdmin(); }
 }
@@ -3636,7 +3688,7 @@ async function load(refresh){
 if (sb) sb.auth.onAuthStateChange((ev) => {
   if (ev !== "SIGNED_IN" && ev !== "SIGNED_OUT" && ev !== "PASSWORD_RECOVERY") return;
   if (ev === "PASSWORD_RECOVERY") window.__recov = true;
-  setTimeout(async () => { await refreshMe(); renderAcct(); renderNav(); renderBanners(); if (window.__recov && ME) openNewPw(); else if (ev === "SIGNED_IN") showMyAlerts(); const hh = curRoute() || "#/"; if (hh === "#/me" || hh === "#/login" || hh === "#/register") render(false); }, 0);
+  setTimeout(async () => { await refreshMe(); renderAcct(); renderNav(); renderBanners(); if (curRoute() === "#/auth") { render(false); return; } if (window.__recov && ME) openNewPw(); else if (ev === "SIGNED_IN") showMyAlerts(); const hh = curRoute() || "#/"; if (hh === "#/me" || hh === "#/login" || hh === "#/register") render(false); }, 0);
 });
 document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { LANG = b.dataset.l; store.set("lang", LANG); render(false); });
 // toza manzillar (/top, /me): ichki yo'nalish "#/..." ko'rinishida qoladi, URL'da esa "#" yo'q

@@ -1841,7 +1841,7 @@ function openSearch(){
   const inp = $("#qsi"), res = $("#qsres");
   const draw = () => { const q = inp.value.trim().toLowerCase();
     const list = (IDX?.ranked || []).filter(p => !q || p.name.toLowerCase().includes(q) || p.id.toLowerCase().includes(q)).slice(0, 8);
-    res.innerHTML = list.length ? list.map((p, i) => `<a class="qrow ${i ? "" : "on"}" href="/p/${slug(p.id)}" onclick="$('#qsr').remove()">${pcell(p)}<span class="qpts">${p.pts} PTS ${shield(p.pts, p.matches)}</span></a>`).join("")
+    res.innerHTML = list.length ? list.map((p, i) => `<a class="qrow ${i ? "" : "on"}" href="/p/${slug(p.id)}" onclick="event.preventDefault();$('#qsr').remove();go(this.getAttribute('href'))">${pcell(p)}<span class="qpts">${p.pts} PTS ${shield(p.pts, p.matches)}</span></a>`).join("")
       : `<div class="empty" style="padding:18px">${LANG === "ru" ? "Никого не найдено" : "Hech kim topilmadi"}</div>`; };
   inp.oninput = draw; draw();
   inp.onkeydown = e => { if (e.key === "Enter") { const a = res.querySelector(".qrow"); if (a) a.click(); } if (e.key === "Escape") el.remove(); };

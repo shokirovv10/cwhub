@@ -10,6 +10,8 @@
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://cwhub.uz/">
 <meta name="theme-color" content="#06070a">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self'; connect-src 'self' https://jwvsjtntyajutsuqednk.supabase.co wss://jwvsjtntyajutsuqednk.supabase.co https://raw.githubusercontent.com; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CWhub.uz">
 <meta property="og:url" content="https://cwhub.uz/">
@@ -1279,6 +1281,8 @@ const pct = (a, b) => b ? Math.round(100 * a / b) : 0;
 const slug = id => encodeURIComponent(id);
 // o'yin ichidan olingan rasmlar (shots/); aim_* xaritalarining hammasiga bitta rasm
 const SHOTS = ["de_dust2", "de_nuke", "de_cbble", "de_train", "de_inferno", "de_tuscan", "de_mirage"];
+// CSS url() ichiga faqat xavfsiz belgilar (qo'shtirnoq/qavs bilan uslubdan chiqib ketish — CSS injection — yopiladi)
+const safeUrl = u => /^(https:\/\/[A-Za-z0-9.-]+)?\/[A-Za-z0-9\/._%~-]*$/.test(String(u || "")) ? String(u) : "";
 const mapImg = m => !m ? "" : m.startsWith("aim_") ? "/shots/aim.jpg" : SHOTS.includes(m) ? `/shots/${m}.jpg` : MAPS.includes(m) ? `/maps/${m}.jpg` : "";
 const fmtDate = ts => { const d = new Date(ts * 1000); return d.toLocaleDateString(LANG === "ru" ? "ru-RU" : "uz-UZ", {day: "2-digit", month: "2-digit"}) + " " + d.toTimeString().slice(0, 5); };
 function ago(ts){
@@ -1524,7 +1528,7 @@ function matchBoard(m, live){
     const dsum = list.reduce((a, s) => a + (s.delta || 0), 0);
     return `<div class="mside ${cls} ${sideCls(name)} ${win ? "win" : ""}"><div class="mth"><div><b>${cls === "right" && win ? `<span class="cupi">🏆</span>` : ""}${esc(name)}${cls === "left" && win ? `<span class="cupi">🏆</span>` : ""}<span class="bar"></span></b><span class="avg"><i class="${dsum >= 0 ? "up" : ""}">${dsum >= 0 ? "↗" : "↘"}</i>${avg ?? "—"}</span></div><small>K / D / A</small></div>
       ${list.map(s => { const pts = ptsOf(s), pr = PROF[s.id], prem = !!pr?.premium, rn = pts != null ? rankName(pts) : null, rc = rn ? RANKC[rn] : null;
-        return `<a class="mpl ${prem ? "prem" : ""}" ${IDX.byId[s.id] ? `href="/p/${slug(s.id)}"` : ""} style="${prem && pr.banner_url ? `background-image:url('${esc(pr.banner_url)}')` : prem ? "background-image:linear-gradient(90deg,rgba(255,184,77,.18),transparent)" : ""}">
+        return `<a class="mpl ${prem ? "prem" : ""}" ${IDX.byId[s.id] ? `href="/p/${slug(s.id)}"` : ""} style="${prem && pr.banner_url ? `background-image:url('${esc(safeUrl(pr.banner_url))}')` : prem ? "background-image:linear-gradient(90deg,rgba(255,184,77,.18),transparent)" : ""}">
           ${prem ? `<span class="ptag">PREMIUM</span>` : ""}
           <span class="av-wrap">${avatar(s.name, false, photoOf(s.id))}${rc ? `<span class="rk" style="background:${rc[0]};color:${rc[1]}">${rn.replace("-", "−")}</span>` : ""}</span>
           <span class="who2"><b style="${nickStyle(s.id)}">${esc(s.name)}</b><span>📊 ${pts ?? "—"} ${s.delta == null ? "" : `<b class="${s.delta >= 0 ? "W" : "L"}" style="display:inline;font-size:12px">${s.delta >= 0 ? "+" : ""}${s.delta}</b>`}</span></span>
@@ -1741,7 +1745,7 @@ function pageProfile(id){
   const games = (p.hist.length ? p.hist : p.ms).slice().reverse().slice(0, 15), pp = people(p);
   return `<div class="ppage">
   ${isMe ? `<div class="banner"><b>👋 ${t("thisIsYou")}</b><span class="verified">${I.check} ${t("verified")}</span></div>` : ""}
-  <section class="phero ${PROF[p.id]?.banner_url ? "hasbanner" : ""}" style="--glow:${c[1]}55;${PROF[p.id]?.banner_url ? `background-image:url('${esc(PROF[p.id].banner_url)}')` : ""}"><div class="prof">
+  <section class="phero ${PROF[p.id]?.banner_url ? "hasbanner" : ""}" style="--glow:${c[1]}55;${PROF[p.id]?.banner_url ? `background-image:url('${esc(safeUrl(PROF[p.id].banner_url))}')` : ""}"><div class="prof">
     <div style="display:flex;gap:16px;align-items:center">${photoOf(p.id) ? avatar(p.name, true, photoOf(p.id)) : ""}${shield(p.pts, p.matches, true)}</div>
     <div style="min-width:0">
       <div class="eyebrow">${HIDDEN_STEAM.includes(p.id) ? `👑 ${LANG === "ru" ? "Владелец сервера" : "Server egasi"}` : cal ? t("calLeft")(CAL - p.matches) : `#${p.place} ${t("place")} · ${t("season")} ${SEASON}`}</div>
@@ -2069,7 +2073,7 @@ const CHAT_BGS = {
   bg6: "radial-gradient(rgba(255,181,71,.16) 1.2px,transparent 1.4px) 0 0/18px 18px,linear-gradient(180deg,#14161d,#0d0f13)",
   bg7: "linear-gradient(160deg,#1a1033,#0b1a2e 55%,#09131d)",
   bg8: "linear-gradient(160deg,#2a1205,#120a06 50%,#0b0b0d)"};
-const chatBgCss = v => !v ? "" : CHAT_BGS[v] ? `background:${CHAT_BGS[v]}` : /^https:\/\//.test(v) ? `background:linear-gradient(rgba(8,9,12,.55),rgba(8,9,12,.55)),url('${esc(v)}') center/cover` : "";
+const chatBgCss = v => !v ? "" : CHAT_BGS[v] ? `background:${CHAT_BGS[v]}` : /^https:\/\//.test(v) ? `background:linear-gradient(rgba(8,9,12,.55),rgba(8,9,12,.55)),url('${esc(safeUrl(v))}') center/cover` : "";
 function openChatBg(){
   const ru = LANG === "ru", cur = ME?.prem?.chat_bg || "";
   if (!ME?.prem?.active) { toast(ru ? "Фон чата — только для Premium 👑" : "Chat foni — faqat Premium uchun 👑"); return go("/premium"); }
@@ -2432,7 +2436,7 @@ function premCard(){
       <h4 style="margin:14px 0 4px">${sp("fontT")}</h4>
       <div class="fpick">${fonts.map(f => `<button type="button" class="${(pr.nick_font || "") === f[0] ? "on" : ""}" style="font-family:${f[2]};${f[0] === "f3" ? "font-size:12px" : ""}" onclick="setMyFont('${f[0]}')">${esc(myNick())}<small>${f[1]}</small></button>`).join("")}</div>
       <h4 style="margin:14px 0 4px">${sp("bannerT")}</h4>
-      ${pr.banner_url ? `<div style="height:110px;border-radius:14px;background:url('${esc(pr.banner_url)}') center/cover;margin-bottom:8px"></div>` : ""}
+      ${pr.banner_url ? `<div style="height:110px;border-radius:14px;background:url('${esc(safeUrl(pr.banner_url))}') center/cover;margin-bottom:8px"></div>` : ""}
       <div class="bnpick">${BANNERS.map(b => `<button type="button" class="${pr.banner_url === "/banners/" + b + ".gif" ? "on" : ""}" style="background-image:url('/banners/${b}.gif')" onclick="setMyBanner('/banners/${b}.gif')"><span>${b}</span></button>`).join("")}</div>
       <div class="btns"><label class="btn">🖼 ${LANG === "ru" ? "Свой GIF" : "O'z GIF'im"}<input type="file" accept="image/gif,image/png,image/jpeg,image/webp" hidden onchange="uploadBanner(this)"></label>${pr.banner_url ? `<button class="btn ghost" onclick="setMyBanner('')">${sp("bannerDel")}</button>` : ""}</div>`
     : `<div class="btns"><span class="sub">${sp("notActive")}</span><a class="btn gold sm" href="/premium">👑 ${money(PREM_PRICE.site)}</a></div>`;

@@ -665,6 +665,16 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
 .atabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
 .gulist{max-height:420px;overflow:auto;display:grid;gap:6px;padding-right:4px}
+.pstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.pstats div{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));border:1px solid var(--line)}
+.pstats span{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);font-weight:700}.pstats b{font:700 24px Rajdhani,sans-serif;color:#fff}.pstats small{color:var(--muted);font-size:12px}
+@media(max-width:600px){.pstats{grid-template-columns:repeat(2,1fr)}}
+/* profil sahifasi — premium kartalar */
+.ppage .card{border-radius:22px;border:1px solid rgba(255,209,102,.16);background:radial-gradient(520px 200px at 0% 0%,rgba(255,184,77,.07),transparent 70%),linear-gradient(180deg,#15171e,#0f1116);box-shadow:0 18px 44px rgba(0,0,0,.35)}
+.ppage .card:hover{border-color:rgba(255,209,102,.3)}
+.ppage .card h3{display:flex;align-items:center;gap:10px}
+.ppage .phero{border-radius:26px;border:1px solid rgba(255,209,102,.22)}
+.ppage .tiles .tile{border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid rgba(255,209,102,.14)}
 .ahead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px;padding:22px 24px;border-radius:22px;border:1px solid rgba(255,209,102,.22);
   background:radial-gradient(600px 200px at 0% 0%,rgba(255,209,102,.12),transparent 70%),linear-gradient(180deg,#15130e,#0f1015)}
 .ahk{display:flex;gap:10px;flex-wrap:wrap}.ahk span{display:flex;flex-direction:column;align-items:center;min-width:86px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--line);font-size:11.5px;color:var(--dim)}
@@ -905,6 +915,10 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 .mstat .tip{min-height:44px;margin-top:10px;padding:10px 14px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-size:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .mstat .tip b{font-size:16px}.mstat .tip i{width:12px;height:12px;border-radius:50%;flex:none}
 .mstat .mstbl td,.mstat .mstbl th{padding:8px 7px;font-size:13px}
+.mstat .tmrow td{padding:10px 8px!important;font-size:13px;border-top:1px solid var(--line2)}
+.mstat .tmrow.tct td{background:linear-gradient(90deg,rgba(80,160,255,.14),transparent)}.mstat .tmrow.ttt td{background:linear-gradient(90deg,rgba(255,159,28,.14),transparent)}
+.mstat .tmrow.tct b{color:#6fb3ff}.mstat .tmrow.ttt b{color:#ffb547}.mstat .tmrow .tsc{font:700 16px Rajdhani,sans-serif;margin-left:6px}
+.mstat .tmrow .tavg{float:right;color:var(--dim);font-size:12px;font-weight:600}
 .mstat .mscols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:start}
 .mstat .msside{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.015);padding:4px 6px;max-height:560px;overflow:auto}
 .mstat .msside .mstbl{width:100%}.mstat .msside tr.click:hover td{background:rgba(255,159,28,.06)}
@@ -1396,11 +1410,16 @@ function matchStats(m){
     <div class="tip" id="mtip"><span class="sub">${LANG === "ru" ? "Нажмите на линию или ник — появится статистика" : "Chiziq yoki nikni bosing — statistika chiqadi"}</span></div>
     <div class="leg">${MST.map((x, i) => `<button type="button" id="mleg${i}" onclick="mstatPick(${i})"><i style="background:${x.c}"></i>${esc(x.r.name)}${x.mvp ? " ★" : ""}</button>`).join("")}</div>
     </div><div class="tw msside"><table class="mstbl"><tr><th>${LANG === "ru" ? "Игрок" : "O'yinchi"}</th><th class="num">PTS</th><th class="num">±</th><th class="num">K/D/A</th><th class="num">K/D</th><th class="num">ADR</th><th class="num">HS%</th><th class="num">${t("rt")}</th></tr>
-      ${MST.slice().sort((a, b) => b.r.rating - a.r.rating).map(x => { const r = x.r, i = MST.indexOf(x), pts = x.h[x.h.length - 1];
+      ${["A", "B"].map(tm => { const list = MST.filter(x => x.r.team === tm).sort((p1, p2) => p2.r.rating - p1.r.rating); if (!list.length) return "";
+        const nm = tm === "A" ? m.na : m.nb, sc = tm === "A" ? m.sa : m.sb, win = m.winner === tm, ct = /^(ct|kontr|контр)/i.test(nm || "");
+        const avg = f => (list.reduce((q, x) => q + f(x), 0) / list.length);
+        return `<tr class="tmrow ${ct ? "tct" : "ttt"}"><td colspan="8"><b>${esc(nm)}</b> <span class="tsc ${win ? "W" : ""}">${sc}</span>${win ? " 🏆" : ""}
+          <span class="tavg">K/D ${avg(x => x.r.k / Math.max(x.r.d, 1)).toFixed(2)} · ADR ${Math.round(avg(x => x.adr))} · HS ${Math.round(avg(x => pct(x.r.hs, x.r.k)))}%</span></td></tr>`
+          + list.map(x => { const r = x.r, i = MST.indexOf(x), pts = x.h[x.h.length - 1];
         return `<tr class="click" onclick="mstatPick(${i})"><td><span class="pcell"><i class="mdot" style="background:${x.c}"></i><span class="nm" style="${nickStyle(r.id)}">${esc(r.name)}</span>${x.mvp ? ` <b style="color:#ffd166">★ MVP</b>` : ""}</span></td>
           <td class="num"><b>${pts ?? "—"}</b></td><td class="num">${r.delta == null ? "—" : `<b class="${r.delta >= 0 ? "W" : "L"}">${r.delta >= 0 ? "+" : ""}${r.delta}</b>`}</td>
           <td class="num">${r.k}/${r.d}/${r.a}</td><td class="num">${(r.k / Math.max(r.d, 1)).toFixed(2)}</td><td class="num">${x.adr}</td><td class="num">${pct(r.hs, r.k)}%</td>
-          <td class="num"><b class="${r.rating >= 1.1 ? "W" : r.rating < 0.85 ? "L" : ""}">${r.rating.toFixed(2)}</b></td></tr>`; }).join("")}</table></div></div></div>`;
+          <td class="num"><b class="${r.rating >= 1.1 ? "W" : r.rating < 0.85 ? "L" : ""}">${r.rating.toFixed(2)}</b></td></tr>`; }).join(""); }).join("")}</table></div></div></div>`;
 }
 function mstatPick(i){
   const x = MST[i]; if (!x) return;
@@ -1520,6 +1539,17 @@ function friendBtn(steam){
   if (f) return `<span class="btn ghost" style="pointer-events:none">⏳ ${mt("sent")}</span>`;
   return `<button class="btn" onclick="frAdd('${pr.user_id}')">👥 ${mt("add")}</button>`;
 }
+// PTS tarixi ostida: asosiy ko'rsatkichlar (o'rtacha qiymatlar match statistikasidan)
+function profStats(p){
+  const ru = LANG === "ru", n = p.ms.length;
+  const avgKd = n ? p.ms.reduce((q, s2) => q + s2.k / Math.max(s2.d, 1), 0) / n : 0;
+  const avgK = n ? p.ms.reduce((q, s2) => q + s2.k, 0) / n : 0, avgD = n ? p.ms.reduce((q, s2) => q + s2.d, 0) / n : 0;
+  const best = n ? Math.max(...p.ms.map(s2 => s2.rating || 0)) : 0;
+  const it = [["ADR", p.adr, ru ? "урон за раунд" : "raundiga zarar"], ["K / D", `${p.kills}/${p.deaths}`, kd(p.kills, p.deaths) + " K/D"],
+    [ru ? "Средн. K/D" : "O'rtacha K/D", avgKd.toFixed(2), ru ? "за матч" : "har match"], [ru ? "Средн. HS" : "O'rtacha HS", p.hsp + "%", ru ? "в голову" : "boshga"],
+    [ru ? "Средн. киллы" : "O'rtacha kill", avgK.toFixed(1), `${avgD.toFixed(1)} ${ru ? "смертей" : "o'lim"}`], [ru ? "Лучший рейтинг" : "Eng yaxshi reyting", best ? best.toFixed(2) : "—", "MVP " + p.mvps]];
+  return `<div class="pstats">${it.map(x => `<div><span>${x[0]}</span><b>${x[1]}</b><small>${x[2]}</small></div>`).join("")}</div>`;
+}
 function pageProfile(id){
   const p = IDX.byId[id];
   if (!p) return `<div class="card empty">${t("notFound")}: ${esc(id)}<br><br><a class="btn" href="/top">${t("back")}</a></div>`;
@@ -1527,7 +1557,7 @@ function pageProfile(id){
   const lo = ri ? RANKS[ri][0] : 700, frac = next ? Math.max(0, Math.min(1, (p.pts - lo) / (next[0] - lo))) : 1;
   const online = (D?.server?.players || []).some(x => x.name === p.name), isMe = !!mySteam() && mySteam() === p.id;
   const games = (p.hist.length ? p.hist : p.ms).slice().reverse().slice(0, 15), pp = people(p);
-  return `
+  return `<div class="ppage">
   ${isMe ? `<div class="banner"><b>👋 ${t("thisIsYou")}</b><span class="verified">${I.check} ${t("verified")}</span></div>` : ""}
   <section class="phero ${PROF[p.id]?.banner_url ? "hasbanner" : ""}" style="--glow:${c[1]}55;${PROF[p.id]?.banner_url ? `background-image:url('${esc(PROF[p.id].banner_url)}')` : ""}"><div class="prof">
     <div style="display:flex;gap:16px;align-items:center">${photoOf(p.id) ? avatar(p.name, true, photoOf(p.id)) : ""}${shield(p.pts, p.matches, true)}</div>
@@ -1554,7 +1584,7 @@ function pageProfile(id){
     <div class="tile"><b>${p.mvps}</b><span>MVP</span></div>
     <div class="tile"><b>${p.streak}</b><span>${t("streak")}</span></div>
   </div></section>
-  <div class="grid2 mt"><div class="card"><h3>${t("ptsHistory")}</h3>${chart(p.hist) || `<div class="empty">—</div>`}</div><div class="card"><div class="achhead"><h3>${t("ach")}</h3><span class="cnt">🏅 ${achCount(p)}/${t("achs").length} ${t("achOf")}</span></div>${achievements(p)}</div></div>
+  <div class="grid2 mt"><div class="card"><h3>${t("ptsHistory")}</h3>${chart(p.hist) || `<div class="empty">—</div>`}${profStats(p)}</div><div class="card"><div class="achhead"><h3>${t("ach")}</h3><span class="cnt">🏅 ${achCount(p)}/${t("achs").length} ${t("achOf")}</span></div>${achievements(p)}</div></div>
   <div class="card mt"><h3>${t("recent")}</h3>
     ${games.length ? `<div class="tw"><table><tr><th>${t("map")}</th><th></th><th class="num">K–D</th><th class="num">PTS</th><th class="num"></th></tr>
       ${games.map(g => { const m = IDX.matches.find(x => Math.abs(x.t - g.t) < 900);
@@ -1562,7 +1592,7 @@ function pageProfile(id){
         <td class="${g.res}"><b>${{W: t("win"), L: t("loss"), D: t("draw")}[g.res]}</b>${m ? ` <span class="sub">${m.sa}:${m.sb}</span>` : ""}</td>
         <td class="num">${g.k}–${g.d}</td><td class="num ${g.delta >= 0 ? "W" : "L"}">${g.delta == null ? "—" : (g.delta >= 0 ? "+" : "") + g.delta}</td><td class="num sub">${g.pts ?? ""}</td></tr>`; }).join("")}</table></div>`
       : `<div class="empty">${t("noMatches")}</div>`}</div>
-  <div class="grid2 mt"><div class="card"><h3>${t("mates")}</h3>${pp.mates}</div><div class="card"><h3>${t("rivals")}</h3>${pp.rivals}</div></div>`;
+  <div class="grid2 mt"><div class="card"><h3>${t("mates")}</h3>${pp.mates}</div><div class="card"><h3>${t("rivals")}</h3>${pp.rivals}</div></div></div>`;
 }
 
 function pageVs(a, b){

@@ -86,6 +86,12 @@ h3:before{content:"";width:4px;height:18px;border-radius:4px;background:linear-g
 #pre .bar{width:180px;height:3px;border-radius:9px;background:var(--panel3);overflow:hidden}
 #pre .bar i{display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--accent),var(--red));animation:load 1.1s ease-in-out infinite}
 #pre b{font:700 14px Rajdhani,sans-serif;letter-spacing:5px;color:var(--muted)}
+#pre .sndq{display:none;flex-direction:column;align-items:center;gap:12px;margin-top:6px;padding:16px 20px;border:1px solid var(--line2);border-radius:16px;background:rgba(255,255,255,.03)}
+html.sndask #pre .sndq{display:flex}html.sndask #pre .bar{visibility:hidden}
+#pre .sndq p{margin:0;color:var(--text);font:600 15px Inter,sans-serif}
+#pre .sndq div{display:flex;gap:10px}
+#pre .sndq button{cursor:pointer;border-radius:11px;padding:10px 18px;font:700 14px Inter,sans-serif;border:1px solid var(--line2);background:var(--panel2);color:var(--text)}
+#pre .sndq button.y{background:var(--accent);border-color:var(--accent);color:#111}
 @keyframes load{0%{transform:translateX(-110%)}100%{transform:translateX(260%)}}
 #prog{position:fixed;top:0;left:0;height:2px;z-index:50;background:linear-gradient(90deg,var(--accent),var(--red));width:0;box-shadow:0 0 12px var(--accent)}
 
@@ -572,8 +578,10 @@ tr.left td{opacity:.5}
 
 footer{position:relative;border-top:1px solid var(--line);color:var(--muted);font-size:14px;padding:40px 0 30px;background:linear-gradient(180deg,rgba(10,12,17,.6),var(--bg2))}
 footer:before{content:"";position:absolute;top:-1px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
-.fgrid{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:24px}
+.fgrid{display:grid;grid-template-columns:1.5fr repeat(4,minmax(0,1fr));gap:24px}
+@media(max-width:1000px){.fgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.fgrid>div:first-child{grid-column:1/-1}}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr 1fr}}
+footer a{overflow-wrap:anywhere}
 footer h4{color:var(--text);margin:0 0 10px;font:700 15px Rajdhani,sans-serif;letter-spacing:1.5px;text-transform:uppercase}
 footer a{display:block;text-decoration:none;padding:3px 0;transition:color .2s,transform .2s} footer a:hover{color:var(--text);transform:translateX(3px)}
 .toast{position:fixed;left:50%;bottom:110px;transform:translate(-50%,20px);background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--accent-ink);padding:12px 20px;border-radius:13px;font-weight:700;opacity:0;transition:.35s var(--ease);pointer-events:none;z-index:90;box-shadow:var(--shadow)}
@@ -1005,14 +1013,18 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 </style>
 </head>
 <body>
-<div id="pre"><div class="ld"><div class="logo bigl"><span class="cw">CW</span><span class="hub">hub</span></div><div class="bar"><i></i></div><b>CWHUB · LOADING</b></div></div>
+<div id="pre"><div class="ld"><div class="logo bigl"><span class="cw">CW</span><span class="hub">hub</span></div><div class="bar"><i></i></div><b>CWHUB · LOADING</b><div class="sndq"><p id="sndqt">🔊 Saytga kirishda ovoz chalinsinmi?</p><div><button class="y" id="sndy" onclick="sndAnswer(1)">Ha, ovoz bilan</button><button id="sndn" onclick="sndAnswer(0)">Yo'q</button></div></div></div></div>
 <audio id="introAud" src="/sfx/intro.mp3" preload="auto"></audio>
 <script>/* Telegram kartasi */if(/[?&]card=1/.test(location.search))document.documentElement.classList.add("cardmode");</script>
 <script>/* kirish ovozi — faqat bosh sahifada (/), yuklanish ekrani chiqishi bilan. Chrome sahifani oldindan yuklagan (prerender) bo'lsa — sahifa ochilganda chalinadi */
-(function(){var H=document.documentElement;if(H.classList.contains("cardmode")||location.pathname!=="/")return;H.classList.add("introsnd");
+(function(){var H=document.documentElement;if(H.classList.contains("cardmode")||location.pathname!=="/")return;
+var S=null;try{S=localStorage.getItem("cw_snd")}catch(e){}
+if(S==="0")return;H.classList.add("introsnd");
 function play(){try{var A=document.getElementById("introAud");A.volume=.7;var P=A.play();if(P&&P.catch)P.catch(function(){})}catch(e){}}
+window.sndAnswer=function(y){try{localStorage.setItem("cw_snd",y?"1":"0")}catch(e){}H.classList.remove("sndask");if(y)play();else H.classList.remove("introsnd");if(window.onSndAnswer)window.onSndAnswer(y)};
+if(S===null){H.classList.add("sndask");return}
 if(document.prerendering)document.addEventListener("prerenderingchange",play,{once:true});else play();})();
-setTimeout(function(){var p=document.getElementById("pre");if(p)p.classList.add("done")},10000);</script>
+setTimeout(function(){if(document.documentElement.classList.contains("sndask"))return;var p=document.getElementById("pre");if(p)p.classList.add("done")},10000);</script>
 <div class="bgfx" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grid"></div><div class="noise"></div></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div id="prog"></div>
@@ -1140,7 +1152,8 @@ const T = {
 };
 const store = { get(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v){ try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
 let LANG = store.get("lang") || "uz";
-{ const pb = document.querySelector("#pre b"); if (pb) pb.textContent = LANG === "ru" ? "CWHUB · ЗАГРУЗКА" : "CWHUB · YUKLANMOQDA"; }
+{ const pb = document.querySelector("#pre b"); if (pb) pb.textContent = LANG === "ru" ? "CWHUB · ЗАГРУЗКА" : "CWHUB · YUKLANMOQDA";
+  if (LANG === "ru") { $("#sndqt").textContent = "🔊 Включать звук при входе на сайт?"; $("#sndy").textContent = "Да, со звуком"; $("#sndn").textContent = "Нет"; } }
 const t = k => T[LANG][k];
 
 /* ===================================================================== yordamchilar */
@@ -3301,6 +3314,7 @@ setInterval(refreshLive, 8000);
 // Supabase javob bermasa ham sayt qotib qolmasin
 const withTimeout = (p, ms) => Promise.race([p, new Promise(r => setTimeout(r, ms))]);
 async function load(refresh){
+  const setP = refresh ? null : loadSettings();   // reklama/chegirma — ma'lumot bilan parallel
   for (const u of DATA_URLS){
     try { const r = await fetch(u + "?t=" + Math.floor(Date.now() / 60000), {cache: "no-store"}); if (r.ok){ D = await r.json(); break; } } catch (e) {}
   }
@@ -3315,6 +3329,7 @@ async function load(refresh){
   buildIndex();
   const h = curRoute() || "#/";
   // avval ma'lumot bilan chizamiz, akkaunt va sozlamalar — keyin
+  if (setP) await withTimeout(setP, 3000);
   if (!refresh) { render(true); setTimeout(() => window.preReady && window.preReady(), 250); }
   else {   // fon yangilanishi: sahifa qayta chizilmaydi — faqat server bloki va "yangilandi" yozuvi
     const lb = $("#livebox"); if (lb) lb.innerHTML = livePanel();
@@ -3322,8 +3337,10 @@ async function load(refresh){
     return;
   }
   if (!refresh || h === "#/me") await withTimeout(refreshMe(), 8000);
+  const hadAds = !!document.querySelector(".adbox");
   await withTimeout(loadSettings(), 8000);
   renderAcct(); renderNav(); renderBanners();
+  if (!hadAds && ["home", "match"].some(pl => adsActive(pl).length) && /^#\/(m\/.*|matches)?$/.test(curRoute() || "#/")) render(false);
   if (!refresh && /^#\/(me|login|register|support|admin|premium)$/.test(curRoute() || "")) { render(false); if (curRoute() === "#/support") bindSupport(); if (curRoute() === "#/admin") bindAdmin(); }
 }
 // Diqqat: bu callback ichida Supabase'ni kutish (await) deadlock beradi — shuning uchun setTimeout
@@ -3363,6 +3380,7 @@ const CARD = document.documentElement.classList.contains("cardmode");
   a.addEventListener("ended", finish);
   a.addEventListener("error", finish);
   if (soundDone) return;
+  if (document.documentElement.classList.contains("sndask")) { window.onSndAnswer = y => { if (y) setTimeout(finish, 6000); else { a.pause(); finish(); } }; return; }   // birinchi tashrif: javobni kutamiz
   if (document.prerendering) { document.addEventListener("prerenderingchange", () => setTimeout(finish, 6000), {once: true}); return; }
   if (a.ended) finish();
   else if (!a.paused) setTimeout(finish, 6000);                     // allaqachon chalinyapti (~3 s)

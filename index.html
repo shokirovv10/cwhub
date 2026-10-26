@@ -686,6 +686,20 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .prize .who2{font:600 12px Inter,sans-serif!important;letter-spacing:.3px;color:var(--dim)!important}
 .prize .who2 .pwho{font:700 13px Rajdhani,sans-serif;letter-spacing:.8px;color:var(--tone);text-decoration:none;margin:0 2px}
 .prize .who2 .pwho:hover{text-decoration:underline}
+.chwrap{position:relative}
+.chhit{cursor:pointer}.chdot{transition:r .2s,stroke-width .2s}.chdot.on{r:7.5;stroke:#fff;stroke-width:2.5}
+.chtip{position:absolute;z-index:5;min-width:190px;padding:12px 14px;border-radius:16px;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s;
+  background:radial-gradient(220px 90px at 50% 0%,rgba(255,159,28,.16),transparent 70%),linear-gradient(180deg,#1a1d26,#0f1116);border:1px solid rgba(255,159,28,.35);box-shadow:0 18px 40px rgba(0,0,0,.6)}
+.chtip.show{opacity:1;transform:none}
+.chtip .cth{display:flex;justify-content:space-between;align-items:center;gap:10px}.chtip .cth b{font:700 16px Rajdhani,sans-serif;letter-spacing:.6px;text-transform:uppercase}
+.chtip .ctr{font:800 10px Inter,sans-serif;letter-spacing:.6px;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px solid}
+.chtip .ctr.W{color:#4ade80;border-color:rgba(74,222,128,.4)}.chtip .ctr.L{color:#f87171;border-color:rgba(248,113,113,.4)}.chtip .ctr.D{color:#fbbf24;border-color:rgba(251,191,36,.4)}
+.chtip .cts{font:700 20px Rajdhani,sans-serif;margin-top:2px}
+.chtip .ctp{display:flex;align-items:baseline;gap:8px;margin-top:4px}.chtip .ctp span{font:700 15px Rajdhani,sans-serif;color:var(--accent)}
+.chtip .ctp em{font:800 12px Inter,sans-serif;font-style:normal}.chtip .ctp em.W{color:#4ade80}.chtip .ctp em.L{color:#f87171}
+.chtip .ctg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}.chtip .ctg span{display:grid;text-align:center;font:700 13px Inter,sans-serif;padding:5px 2px;border-radius:9px;background:rgba(255,255,255,.04)}
+.chtip .ctg small{font-size:9.5px;color:var(--dim);letter-spacing:.5px;text-transform:uppercase}
+.chtip .ctd{margin-top:8px;font-size:11px;color:var(--dim)}
 .prize.p1{--tone:#ffb547}.prize.p2{--tone:#c9d1dd}.prize.p3{--tone:#d08b4a}.prize.pMVP{--tone:#c084fc}
 .prize .pl{color:var(--tone)!important}
 .prize .medal{width:64px;height:64px;display:grid!important;place-items:center;margin:0 auto;border-radius:20px;font-size:36px!important;background:color-mix(in srgb,var(--tone) 12%,#0d0e12);border:1px solid color-mix(in srgb,var(--tone) 35%,transparent)}
@@ -1683,8 +1697,10 @@ function pageMatch(ts){
   ${X.length ? `<p class="sub mt" style="font-size:13px">${t("left")}: ${X.map(r => `${esc(r.name)} (${r.k}–${r.d})`).join(", ")}</p>` : ""}`;
 }
 
-function chart(hist){
+let CHH = null;
+function chart(hist, pid){
   if (hist.length < 2) return "";
+  CHH = {hist, pid};
   const W = 600, H = 260, PX = 34, PT = 34, PB = 30, v = hist.map(h => h.pts), mn = Math.min(...v), mx = Math.max(...v), pad = Math.max(10, (mx - mn) * 0.12);
   const lo = mn - pad, hi = mx + pad;
   const x = i => PX + i * (W - 2 * PX) / (v.length - 1), y = p => H - PB - (p - lo) * (H - PT - PB) / Math.max(hi - lo, 1);
@@ -1699,9 +1715,32 @@ function chart(hist){
   return `<svg class="chart" viewBox="0 0 ${W} ${H}" style="height:auto;aspect-ratio:${W}/${H}"><defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(245,166,35,.35)"/><stop offset="1" stop-color="rgba(245,166,35,0)"/></linearGradient></defs>
     <polygon points="${PX},${H - PB} ${pts} ${x(v.length - 1)},${H - PB}" fill="url(#cf)"/>
     <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>
-    ${v.map((p, i) => `<circle cx="${x(i)}" cy="${y(p)}" r="${key[i] ? 5 : 3.5}" fill="${hist[i].res === "W" ? "var(--win)" : hist[i].res === "L" ? "var(--loss)" : "var(--draw)"}" stroke="var(--panel)" stroke-width="2"><title>${p} PTS${hist[i].delta != null ? ` (${hist[i].delta >= 0 ? "+" : ""}${hist[i].delta})` : ""}</title></circle>`).join("")}
-    ${lab}</svg>`;
+    ${v.map((p, i) => `<circle cx="${x(i)}" cy="${y(p)}" r="${key[i] ? 5 : 3.5}" fill="${hist[i].res === "W" ? "var(--win)" : hist[i].res === "L" ? "var(--loss)" : "var(--draw)"}" stroke="var(--panel)" stroke-width="2" class="chdot" id="chd${i}"/>`).join("")}
+    ${v.map((p, i) => `<circle cx="${x(i)}" cy="${y(p)}" r="14" fill="transparent" class="chhit" onmouseenter="chTip(${i})" onmouseleave="chTip(-1)" onclick="chGo(${i})"/>`).join("")}
+    ${lab}</svg>`.replace('<svg class="chart"', '<div class="chwrap"><div class="chtip" id="chtip"></div><svg class="chart"') + "</div>";
 }
+// grafik nuqtasi: match ma'lumoti (xarita, hisob, PTS o'zgarishi, K/D, ADR, HS)
+const chMatch = i => { const h = CHH?.hist[i]; return h && IDX.matches.find(q => Math.abs(q.t - h.t) < 900); };
+function chTip(i){
+  const tip = $("#chtip"); if (!tip) return;
+  document.querySelectorAll(".chdot.on").forEach(c => c.classList.remove("on"));
+  if (i < 0 || !CHH) { tip.classList.remove("show"); return; }
+  const ru = LANG === "ru", h = CHH.hist[i], m = chMatch(i), r = m?.rows.find(q => q.id === CHH.pid), d = h.delta;
+  const res = h.res === "W" ? ["W", ru ? "Победа" : "G'alaba"] : h.res === "L" ? ["L", ru ? "Поражение" : "Mag'lubiyat"] : ["D", ru ? "Ничья" : "Durang"];
+  const my = r ? (r.team === "A" ? [m.sa, m.sb] : [m.sb, m.sa]) : null;
+  tip.innerHTML = `<div class="cth"><b>${m ? esc(m.map) : (ru ? "Матч" : "Match")}</b><span class="ctr ${res[0]}">${res[1]}</span></div>
+    ${my ? `<div class="cts">${my[0]} : ${my[1]}</div>` : ""}
+    <div class="ctp"><span>${h.pts} PTS</span>${d != null && i > 0 ? `<em class="${d >= 0 ? "W" : "L"}">${d >= 0 ? "+" : ""}${d}</em>` : ""}</div>
+    ${r ? `<div class="ctg"><span><small>K/D</small>${r.k}/${r.d}</span><span><small>ADR</small>${Math.round(r.dmg / Math.max(r.r, 1))}</span><span><small>HS</small>${r.k ? Math.round(r.hs / r.k * 100) : 0}%</span><span><small>${t("rt")}</small>${r.rating.toFixed(2)}</span></div>` : ""}
+    <div class="ctd">${fmtDate(h.t)}${m ? ` · ${ru ? "нажмите — матч" : "bosing — match"}` : ""}</div>`;
+  const dot = $("#chd" + i), wrap = tip.parentNode; if (dot) dot.classList.add("on");
+  const dr = dot.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+  tip.classList.add("show");
+  const tw = tip.offsetWidth, th = tip.offsetHeight, cx = dr.left - wr.left + dr.width / 2, cy = dr.top - wr.top;
+  tip.style.left = Math.max(4, Math.min(wr.width - tw - 4, cx - tw / 2)) + "px";
+  tip.style.top = (cy - th - 12 < 0 ? cy + dr.height + 12 : cy - th - 12) + "px";
+}
+function chGo(i){ const m = chMatch(i); if (m) go("/m/" + m.t); }
 function people(p){
   const mates = {}, riv = {};
   p.ms.forEach(s => { const m = IDX.matches.find(x => x.t === s.t); if (!m) return;
@@ -1776,7 +1815,7 @@ function pageProfile(id){
     <div class="tile"><b>${p.mvps}</b><span>MVP</span></div>
     <div class="tile"><b>${p.streak}</b><span>${t("streak")}</span></div>
   </div></section>
-  <div class="grid2 mt"><div class="card"><h3>${t("ptsHistory")}</h3>${chart(p.hist) || `<div class="empty">—</div>`}${profStats(p)}</div><div class="card"><div class="achhead"><h3>${t("ach")}</h3><span class="cnt">🏅 ${achCount(p)}/${t("achs").length} ${t("achOf")}</span></div>${achievements(p)}</div></div>
+  <div class="grid2 mt"><div class="card"><h3>${t("ptsHistory")}</h3>${chart(p.hist, p.id) || `<div class="empty">—</div>`}${profStats(p)}</div><div class="card"><div class="achhead"><h3>${t("ach")}</h3><span class="cnt">🏅 ${achCount(p)}/${t("achs").length} ${t("achOf")}</span></div>${achievements(p)}</div></div>
   <div class="card mt"><h3>${t("recent")}</h3>
     ${games.length ? `<div class="tw"><table><tr><th>${t("map")}</th><th></th><th class="num">K–D</th><th class="num">PTS</th><th class="num"></th></tr>
       ${games.map(g => { const m = IDX.matches.find(x => Math.abs(x.t - g.t) < 900);

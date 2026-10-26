@@ -678,6 +678,13 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .ppage .card h3{display:flex;align-items:center;gap:10px}
 .ppage .phero{border-radius:26px;border:1px solid rgba(255,209,102,.22)}
 .ppage .tiles .tile{border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid rgba(255,209,102,.14)}
+.privgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.privgrid ul{margin:0;padding-left:18px;display:grid;gap:7px}.privgrid li{color:var(--muted);line-height:1.5;font-size:14px}.privgrid li b{color:var(--text)}
+@media(max-width:800px){.privgrid{grid-template-columns:1fr}}
+.cookiebar{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:110;width:min(760px,calc(100vw - 24px));display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+  padding:16px 18px;border-radius:18px;border:1px solid rgba(255,209,102,.3);background:rgba(18,20,25,.96);backdrop-filter:blur(10px);box-shadow:0 24px 60px rgba(0,0,0,.6);animation:mcIn .35s var(--ease) both}
+.cookiebar.out{opacity:0;transform:translate(-50%,10px);transition:.25s}
+.cookiebar b{font-size:15px}.cookiebar p{margin:4px 0 0;color:var(--muted);font-size:13px;max-width:470px;line-height:1.45}.cookiebar a{color:var(--accent)}
+@media(max-width:900px){.cookiebar{bottom:76px}}
 .pmon{display:flex;gap:4px;padding:3px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
 .pmon button{flex:1;border:0;background:none;color:var(--muted);padding:6px 4px;border-radius:9px;font:700 12px Inter,sans-serif;cursor:pointer}
 .pmon button.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c1300}
@@ -1762,7 +1769,7 @@ async function loadNotif(){
   } catch (e) {}
   NOTIF = out.filter(n => n.ts).sort((a, b) => b.ts - a.ts).slice(0, 20);
 }
-function bellHTML(){ const n = NOTIF.filter(x => x.ts > nSeen()).length; return `<button type="button" class="nbell" onclick="toggleNotif(event)" title="${LANG === "ru" ? "Уведомления" : "Bildirishnomalar"}">🔔${n ? `<em>${n > 9 ? "9+" : n}</em>` : ""}</button>`; }
+function bellHTML(){ const n = NOTIF.filter(x => x.ts > nSeen()).length; return `<button type="button" class="nbell" id="bellbtn" onclick="toggleNotif(event)" title="${LANG === "ru" ? "Уведомления" : "Bildirishnomalar"}">🔔${n ? `<em>${n > 9 ? "9+" : n}</em>` : ""}</button>`; }
 function toggleNotif(e){
   e.stopPropagation();
   const old = $(".npanel"); if (old) { old.remove(); NOPEN = false; return; }
@@ -1776,10 +1783,10 @@ function toggleNotif(e){
   el.style.top = (br.bottom + 10) + "px"; el.style.right = "auto";
   el.style.left = Math.max(12, Math.min(window.innerWidth - w - 12, br.left + br.width / 2 - w / 2)) + "px";
   try { localStorage.setItem("cw_nseen", String(Date.now())); } catch (e) {}
-  const b = $(".nbell em"); if (b) b.remove();
+  const b = $("#bellbtn em"); if (b) b.remove();
 }
 document.addEventListener("click", () => { const p = $(".npanel"); if (p) p.remove(); });
-async function refreshNotif(){ if (!ME) return; await Promise.all([loadNotif(), loadFUnread()]); renderAcct(); const b = $(".nbell"); if (b) b.outerHTML = bellHTML(); }
+async function refreshNotif(){ if (!ME) return; await Promise.all([loadNotif(), loadFUnread()]); renderAcct(); }
 setInterval(refreshNotif, 60000);
 function openSearch(){
   if ($("#qsr")) return;
@@ -2092,7 +2099,7 @@ const fmtSum = n => n.toLocaleString("ru-RU").replace(/[,\u00a0]/g, " ");
 function effPrice(p){
   const base = digitsOf(p.price);
   if (digitsOf(p.sale)) return {now: fmtSum(digitsOf(p.sale)), old: fmtSum(base), badge: LANG === "ru" ? "Акция" : "Aksiya"};
-  const pct = Math.min(+p.discount || discountPct(), 90);
+  const pct = Math.min(+p.discount || discountPct(p.level || ""), 90);
   if (pct && base) { const v = Math.floor(base * (100 - pct) / 100 / 1000) * 1000 || Math.floor(base * (100 - pct) / 100); return {now: fmtSum(v), old: fmtSum(base), badge: "-" + pct + "%"}; }
   return {now: fmtSum(base), old: null, badge: null};
 }
@@ -2333,6 +2340,56 @@ function shopCards(){
     perks: sp("prePerks"), btn: "🏷 " + sp("buy"), onclick: "openSiteBuy('prefix')", note: sp("freeAdm")}));
   return out.join("");
 }
+// Maxfiylik siyosati va cookie (localStorage) haqida
+const PRIV = {
+  uz: {t: "Maxfiylik siyosati", upd: "Oxirgi yangilanish: 26.10.2026", lead: "CWhub (cwhub.uz) qaysi ma'lumotlarni yig'ishi, nima uchun ishlatishi va siz ularni qanday boshqarishingiz mumkinligi.",
+    s: [["📋 Qanday ma'lumot yig'iladi", ["<b>Akkaunt:</b> email, sayt nigi, avatar va (/link qilsangiz) SteamID.", "<b>O'yin statistikasi:</b> serverdagi nik, SteamID, kill/o'lim, PTS, match natijalari — server avtomatik yuboradi.", "<b>Chat va xabarlar:</b> umumiy chat, do'stlar bilan shaxsiy xabarlar va yordam murojaatlari.", "<b>Buyurtmalar:</b> tanlangan mahsulot, summa, chek rasmi va promo-kod.", "<b>Tashriflar:</b> brauzeringizdagi tasodifiy identifikator (faqat roziligingiz bilan). IP manzil saqlanmaydi."]],
+      ["🎯 Nima uchun ishlatiladi", ["Akkaunt va profilni yuritish, reyting va statistikani ko'rsatish.", "Buyurtmalarni tekshirish va xarid qilingan imkoniyatlarni berish.", "Qoidabuzarliklarga qarshi kurash (banlar, mute, cheat himoyasi).", "Saytni yaxshilash uchun umumiy, anonim tashrif statistikasi."]],
+      ["🤝 Kimga beriladi", ["Ma'lumotlar <b>sotilmaydi</b> va reklama uchun uchinchi tomonga berilmaydi.", "Buyurtma cheki tekshirish uchun faqat CWhub to'lov adminlariga (Telegram bot orqali) ko'rsatiladi.", "Saqlash: Supabase (ma'lumotlar bazasi), Render (sayt hostingi), GitHub (sayt fayllari).", "Ochiq ko'rinadi: nik, avatar, statistika, ban sababi — bu reyting va adolatli o'yin uchun."]],
+      ["🔒 Xavfsizlik", ["Parollar shifrlangan holda Supabase Auth'da saqlanadi — biz ularni ko'rmaymiz.", "Cheklar yopiq joyda saqlanadi, ularni faqat siz va adminlar ko'radi.", "Barcha ulanishlar HTTPS orqali."]],
+      ["⏳ Qancha saqlanadi", ["Akkaunt ma'lumotlari — akkauntni o'chirmaguningizcha.", "Buyurtmalar va cheklar — hisob-kitob uchun 1 yilgacha.", "Tashrif statistikasi — kunlik umumiy sonlar ko'rinishida."]],
+      ["🍪 Cookie va brauzer xotirasi", ["Sayt reklama yoki kuzatuvchi cookie ishlatmaydi. Brauzer xotirasida (localStorage) faqat quyidagilar saqlanadi:", "<b>Zarur:</b> kirish sessiyasi (Supabase), til tanlovi, ovoz balandligi, bildirishnomalar holati, cookie tanlovingiz.", "<b>Statistika (ixtiyoriy):</b> tashriflarni sanash uchun tasodifiy identifikator.", "Shriftlar Google Fonts'dan yuklanadi — bu jarayonda Google brauzeringiz manzilini ko'radi."]],
+      ["⚖️ Sizning huquqlaringiz", ["Profil ma'lumotlarini istalgan vaqtda o'zgartirish (Mening profilim).", "Akkaunt va ma'lumotlarni o'chirishni so'rash — Yordam bo'limiga yozing.", "Statistika rozligini istalgan vaqtda bekor qilish — pastdagi tugma orqali."]],
+      ["📬 Aloqa", ["Savollar bo'yicha: saytdagi Yordam bo'limi yoki Telegram @CwhubUZ."]]],
+    consentT: "🍪 Sayt brauzer xotirasidan foydalanadi", consentL: "Kirish, til va sozlamalar uchun zarur ma'lumotlar saqlanadi. Ixtiyoriy ravishda — anonim tashrif statistikasi (IP saqlanmaydi).",
+    all: "Hammasiga roziman", need: "Faqat zarurlari", more: "Batafsil", reset: "Cookie tanlovini o'zgartirish", now: "Hozirgi tanlov", chAll: "hammasi", chNeed: "faqat zarurlari", chNone: "tanlanmagan"},
+  ru: {t: "Политика конфиденциальности", upd: "Последнее обновление: 26.10.2026", lead: "Какие данные собирает CWhub (cwhub.uz), зачем они нужны и как вы можете ими управлять.",
+    s: [["📋 Какие данные собираются", ["<b>Аккаунт:</b> email, ник на сайте, аватар и (после /link) SteamID.", "<b>Игровая статистика:</b> ник и SteamID на сервере, убийства/смерти, PTS, результаты матчей — сервер отправляет автоматически.", "<b>Чат и сообщения:</b> общий чат, личные сообщения друзьям и обращения в поддержку.", "<b>Заказы:</b> выбранный товар, сумма, фото чека и промокод.", "<b>Посещения:</b> случайный идентификатор в браузере (только с вашего согласия). IP-адрес не сохраняется."]],
+      ["🎯 Для чего используются", ["Ведение аккаунта и профиля, рейтинг и статистика.", "Проверка заказов и выдача купленных возможностей.", "Борьба с нарушениями (баны, муты, защита от читов).", "Общая анонимная статистика посещений для улучшения сайта."]],
+      ["🤝 Кому передаются", ["Данные <b>не продаются</b> и не передаются третьим лицам для рекламы.", "Чек заказа видят только платёжные админы CWhub (через Telegram-бота) для проверки.", "Хранение: Supabase (база данных), Render (хостинг сайта), GitHub (файлы сайта).", "Публично видны: ник, аватар, статистика, причина бана — для рейтинга и честной игры."]],
+      ["🔒 Безопасность", ["Пароли хранятся в зашифрованном виде в Supabase Auth — мы их не видим.", "Чеки хранятся в закрытом хранилище, их видите только вы и админы.", "Все соединения — по HTTPS."]],
+      ["⏳ Сроки хранения", ["Данные аккаунта — пока вы не удалите аккаунт.", "Заказы и чеки — до 1 года для учёта.", "Статистика посещений — в виде общих дневных чисел."]],
+      ["🍪 Cookie и память браузера", ["Сайт не использует рекламные и следящие cookie. В памяти браузера (localStorage) хранится только:", "<b>Необходимое:</b> сессия входа (Supabase), язык, громкость звука, состояние уведомлений, ваш выбор по cookie.", "<b>Статистика (по желанию):</b> случайный идентификатор для подсчёта посещений.", "Шрифты загружаются с Google Fonts — при этом Google видит адрес вашего браузера."]],
+      ["⚖️ Ваши права", ["Изменять данные профиля в любой момент (Мой профиль).", "Запросить удаление аккаунта и данных — напишите в Поддержку.", "Отозвать согласие на статистику в любой момент — кнопкой ниже."]],
+      ["📬 Контакты", ["По вопросам: раздел Поддержка на сайте или Telegram @CwhubUZ."]]],
+    consentT: "🍪 Сайт использует память браузера", consentL: "Сохраняются необходимые данные для входа, языка и настроек. По желанию — анонимная статистика посещений (без IP).",
+    all: "Принять все", need: "Только необходимые", more: "Подробнее", reset: "Изменить выбор cookie", now: "Текущий выбор", chAll: "все", chNeed: "только необходимые", chNone: "не выбран"}
+};
+const pv = k => PRIV[LANG][k];
+const consentGet = () => { try { return localStorage.getItem("cw_consent"); } catch (e) { return null; } };
+function pagePrivacy(){
+  const c = consentGet();
+  return `<div class="ppage privp"><section class="shero" style="text-align:left"><div class="shglow"></div><div class="eyebrow" style="color:var(--gold)">CWHUB · ${LANG === "ru" ? "ДОКУМЕНТЫ" : "HUJJATLAR"}</div>
+    <h2>${pv("t")}</h2><p class="lead" style="margin:0">${pv("lead")}</p><p class="sub" style="font-size:12px;margin:10px 0 0">${pv("upd")}</p></section>
+    <div class="privgrid mt2">${pv("s").map(sec => `<div class="card"><h3>${sec[0]}</h3><ul>${sec[1].map(li => `<li>${li}</li>`).join("")}</ul></div>`).join("")}</div>
+    <div class="card mt"><div class="btns" style="justify-content:space-between;align-items:center"><span class="sub">${pv("now")}: <b>${c === "all" ? pv("chAll") : c === "need" ? pv("chNeed") : pv("chNone")}</b></span>
+      <button class="btn" onclick="showConsent(true)">🍪 ${pv("reset")}</button></div></div></div>`;
+}
+// cookie (brauzer xotirasi) roziligi oynasi
+function showConsent(force){
+  if (!force && consentGet()) return;
+  let el = $("#cookiebar"); if (el) el.remove();
+  el = document.createElement("div"); el.id = "cookiebar"; el.className = "cookiebar";
+  el.innerHTML = `<div><b>${pv("consentT")}</b><p>${pv("consentL")} <a href="/privacy">${pv("more")}</a></p></div>
+    <div class="btns"><button class="btn ghost sm" onclick="setConsent('need')">${pv("need")}</button><button class="btn gold sm" onclick="setConsent('all')">${pv("all")}</button></div>`;
+  document.body.appendChild(el);
+}
+function setConsent(v){
+  try { localStorage.setItem("cw_consent", v); if (v !== "all") localStorage.removeItem("cw_vid"); } catch (e) {}
+  const el = $("#cookiebar"); if (el) { el.classList.add("out"); setTimeout(() => el.remove(), 250); }
+  if (v === "all") logVisit();
+  if (curRoute() === "#/privacy") render(false);
+}
 function pageLobby(){
   const ru = LANG === "ru";
   const steps = ru ? [["👥", "Соберитесь 10 человек", "Игроки заходят в лобби на сайте"], ["⚖️", "Баланс по PTS", "Команды делятся автоматически по силе"], ["🔑", "Пароль сервера", "Каждый получает пароль и подключается"], ["🏆", "Матч и PTS", "Результат и статистика — сразу на сайте"]]
@@ -2547,11 +2604,13 @@ const X = {
 const x = k => X[LANG][k];
 
 /* --- chegirma */
-function discountPct(){
+function discountPct(level){
   const d = SET.discount || {}; const p = +d.percent || 0;
   if (!p || (d.until && d.until < new Date().toISOString().slice(0, 10))) return 0;
+  if (d.level && level !== undefined && d.level !== level) return 0;   // faqat tanlangan darajaga
   return Math.min(p, 90);
 }
+const discLevelName = () => { const lv = SET.discount?.level; return lv ? (LVLS.find(l => l[0] === lv) || [0, lv])[1] : ""; };
 function discounted(price){
   const n = +String(price).replace(/\D/g, ""), p = discountPct();
   if (!p || !n) return null;
@@ -2615,7 +2674,7 @@ function renderBanners(){
   const ann = SET.announce?.text;
   if (ann) out.push(`<div class="gb info"><span>📣 ${esc(ann)}</span></div>`);
   const p = discountPct();
-  if (p && (curRoute() || "#/") !== "#/premium") out.push(`<div class="gb warn"><span><span class="sale">-${p}%</span> ${esc(SET.discount?.label || "Premium")}</span><a class="btn sm gold" href="/premium">👑 ${pt("nav")} →</a></div>`);
+  if (p && (curRoute() || "#/") !== "#/premium") out.push(`<div class="gb warn"><span><span class="sale">-${p}%</span> ${esc(SET.discount?.label || "Premium")}${discLevelName() ? ` · <b>${esc(discLevelName())}</b>` : ""}</span><a class="btn sm gold" href="/premium">👑 ${pt("nav")} →</a></div>`);
   if (ME && !ME.acc?.steam && !["#/me", "#/login", "#/register"].includes(curRoute() || "#/"))
     out.push(`<div class="gb warn"><div><b>⚠ ${x("notLinked")}</b><div class="sub" style="font-size:13px;margin-top:2px">${x("notLinkedL")(esc(ME.acc?.code || "····"))}</div></div><span class="code2">${esc(ME.acc?.code || "····")}</span><a class="btn sm" href="/me">${x("howLink")}</a></div>`);
   g.innerHTML = out.join("");
@@ -2883,7 +2942,8 @@ function shopEditor(){
     <p class="sub" style="font-size:13px">${se("hint")} ${ru ? "Пустая цена — тариф не продаётся." : "Narx bo'sh bo'lsa — bu tarif sotilmaydi."}</p>
     <h3 class="mt2">🔥 ${se("global")}</h3>
     <div class="row2"><div class="field"><label>${x("disc")}<input id="dp" type="number" min="0" max="90" value="${+d.percent || 0}"></label></div><div class="field"><label>${x("until")}<input id="du" type="date" value="${esc(d.until || "")}"></label></div>
-      <div class="field"><label>${x("label")}<input id="dl" maxlength="60" value="${esc(d.label || "")}"></label></div></div>
+      <div class="field"><label>${x("label")}<input id="dl" maxlength="60" value="${esc(d.label || "")}"></label></div>
+      <div class="field"><label>${ru ? "Для какого уровня" : "Qaysi darajaga"}<select id="dlv"><option value="">${ru ? "Все уровни" : "Hammasiga"}</option>${LVLS.map(l => `<option value="${l[0]}" ${d.level === l[0] ? "selected" : ""}>${l[1]}</option>`).join("")}</select></label></div></div>
     <div class="btns"><button class="btn main" type="submit">💾 ${se("save")}</button></div></form>`;
 }
 async function saveShop(){
@@ -2894,7 +2954,7 @@ async function saveShop(){
       if (price) plans.push({id: level + days, level, days, price: fmtSum(price) + " so'm", discount: disc || undefined, sale: sale ? fmtSum(sale) + " so'm" : undefined}); });
   });
   await saveSetting("shop", {plans, card: $("#scard").value.replace(/\D/g, ""), owner: $("#sowner").value.trim()});
-  await saveSetting("discount", {percent: +$("#dp").value || 0, until: $("#du").value, label: $("#dl").value.trim()});
+  await saveSetting("discount", {percent: +$("#dp").value || 0, until: $("#du").value, label: $("#dl").value.trim(), level: $("#dlv").value || ""});
   render(false);
 }
 let gMode = "steam";
@@ -3039,7 +3099,7 @@ function renderNav(){
   const link = (href, label, on) => `<a href="${href}" class="${on ? "on" : ""}">${label}</a>`;
   const extra = [link("/rules", t("nav")[4], isOn(4)), link("/bans", t("nav")[5], isOn(5)),
     link("/lobby", `🎮 Lobby <span class="soon">${LANG === "ru" ? "скоро" : "tez orada"}</span>`, h === "#/lobby"),
-    link("/support", LANG === "ru" ? "Поддержка" : "Yordam", h === "#/support")]
+    link("/support", LANG === "ru" ? "Поддержка" : "Yordam", h === "#/support"), link("/privacy", LANG === "ru" ? "Конфиденциальность" : "Maxfiylik", h === "#/privacy")]
     .concat(ME?.admin ? [link("/admin", "🛡 Admin", h === "#/admin")] : []);
   const extraOn = isOn(4) || isOn(5) || h === "#/support" || h === "#/admin";
   $("#nav").innerHTML = [0, 1, 2, 3].map(i => link(ROUTES[i].slice(1), t("nav")[i], isOn(i))).join("")
@@ -3059,7 +3119,7 @@ function renderNav(){
   document.documentElement.lang = LANG;
   $("#fabout").textContent = t("about"); $("#f1").textContent = t("f1"); $("#f2").textContent = t("f2");
   $("#fl1").innerHTML = [0, 1, 2, 3].map(i => `<a href="${ROUTES[i].slice(1)}">${t("nav")[i]}</a>`).join("");
-  $("#fl2").innerHTML = `<a href="${ROUTES[4].slice(1)}">${t("nav")[4]}</a><a href="${ROUTES[5].slice(1)}">${t("nav")[5]}</a><a href="/premium">👑 ${pt("nav")}</a><a href="/support">${x("supT")}</a><a href="/register">${t("authT")}</a>`;
+  $("#fl2").innerHTML = `<a href="/privacy">🔒 ${pv("t")}</a><a href="${ROUTES[4].slice(1)}">${t("nav")[4]}</a><a href="${ROUTES[5].slice(1)}">${t("nav")[5]}</a><a href="/premium">👑 ${pt("nav")}</a><a href="/support">${x("supT")}</a><a href="/register">${t("authT")}</a>`;
   const shopBot = SHOP().bot || SHOP_DEFAULT.bot; $("#fshop").textContent = "@" + shopBot; $("#fshop").href = "https://t.me/" + shopBot;
   $("#fbot").textContent = "@" + botName(); $("#fbot").href = "https://t.me/" + botName();
 }
@@ -3072,7 +3132,7 @@ function render(scroll = true){
   else if (h.startsWith("#/m/")) html = pageMatch(h.slice(4));
   else if (h === "#/live") html = pageLive();
   else if (h.startsWith("#/vs/")) { const [a, b] = h.slice(5).split("/").map(decodeURIComponent); html = pageVs(a, b); }
-  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/lobby": pageLobby, "#/friends": pageFriends, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
+  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/lobby": pageLobby, "#/privacy": pagePrivacy, "#/friends": pageFriends, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
   setTimeout(livePill, 0);
   const app = $("#app");
   app.innerHTML = html;
@@ -3173,10 +3233,13 @@ document.addEventListener("click", e => {
   e.preventDefault(); go(a2.getAttribute("href"));
 });
 load(false);
-(function logVisit(){
+function logVisit(){
+  if (consentGet() !== "all") return;          // statistika — faqat rozilik bilan
   let v = null; try { v = localStorage.getItem("cw_vid"); if (!v) { v = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()); localStorage.setItem("cw_vid", v); } } catch (e) {}
   if (sb && v) sb.rpc("log_visit", {p_vid: v}).then(() => {}, () => {});
-})();
+}
+logVisit();
+setTimeout(() => showConsent(false), 1800);
 // Kirish ovozi: har kirishda yuklanish ekranida chalinadi, tugagach sayt ochiladi.
 // Brauzer ovozni o'zi yoqishga ruxsat bermasa — sayt darhol ochiladi, ovoz birinchi bosishda chalinadi.
 (function introGate(){

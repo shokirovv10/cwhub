@@ -4,11 +4,27 @@
 <link rel="preload" href="/sfx/intro.mp3" as="audio">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CwhubUZ — ClanWar CS 1.6</title>
-<meta name="description" content="CwhubUZ — CS 1.6 ClanWar 5x5 server (Toshkent): onlayn holat, PTS reyting, ranklar, match statistikasi, o'yinchi profillari.">
+<title>CWhub.uz — CS 1.6 ClanWar server O'zbekiston | PTS reyting va statistika</title>
+<meta name="description" content="CWhub.uz — O'zbekistondagi CS 1.6 ClanWar 5x5 server (Toshkent). Onlayn holat, PTS reyting, ranklar, match statistikasi, o'yinchi profillari, turnirlar va Premium. Server: 90.156.195.108:27045">
+<meta name="keywords" content="cwhub, cwhub.uz, cs 1.6, counter-strike 1.6, clanwar, cw server, cs 1.6 server uzbekistan, cs 1.6 toshkent, 5x5, pts reyting, fastcup uz">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://cwhub.uz/">
 <meta name="theme-color" content="#06070a">
-<meta property="og:title" content="CwhubUZ — ClanWar CS 1.6">
-<meta property="og:description" content="CS 1.6 ClanWar 5x5: PTS reyting, match statistikasi, Premium.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CWhub.uz">
+<meta property="og:url" content="https://cwhub.uz/">
+<meta property="og:title" content="CWhub.uz — CS 1.6 ClanWar server O'zbekiston">
+<meta property="og:description" content="CS 1.6 ClanWar 5x5 (Toshkent): PTS reyting, match statistikasi, ranklar, Premium. Server: 90.156.195.108:27045">
+<meta property="og:image" content="https://cwhub.uz/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:locale" content="uz_UZ"><meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CWhub.uz — CS 1.6 ClanWar server">
+<meta name="twitter:image" content="https://cwhub.uz/og.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+{"@type":"WebSite","@id":"https://cwhub.uz/#site","url":"https://cwhub.uz/","name":"CWhub.uz","alternateName":["CWhub","CwhubUZ","CW hub"],"inLanguage":["uz","ru"],"description":"CS 1.6 ClanWar 5x5 server va reyting sayti (O'zbekiston)"},
+{"@type":"Organization","@id":"https://cwhub.uz/#org","name":"CWhub.uz","url":"https://cwhub.uz/","logo":"https://cwhub.uz/og.jpg","sameAs":["https://t.me/CwhubUZ","https://www.instagram.com/cwhub.uz"]},
+{"@type":"VideoGame","name":"Counter-Strike 1.6 — CWhub ClanWar","gamePlatform":"PC","genre":"First-person shooter","url":"https://cwhub.uz/","publisher":{"@id":"https://cwhub.uz/#org"}}]}</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ff9a00'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='900' font-size='15' text-anchor='middle' fill='%23000'%3ECW%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -996,6 +1012,8 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
   <div class="hright"><div class="lang"><button data-l="uz">UZ</button><button data-l="ru">RU</button></div><span id="acct"></span></div>
 </div></header>
 <div class="wrap"><div id="gbar"></div></div>
+<noscript><div class="wrap" style="padding:30px 18px"><h1>CWhub.uz — CS 1.6 ClanWar server (O'zbekiston)</h1><p>CS 1.6 ClanWar 5x5 server, Toshkent: 90.156.195.108:27045. PTS reyting, match statistikasi, ranklar, o'yinchi profillari va Premium.</p>
+<p><a href="/top">Reyting</a> · <a href="/matches">Matchlar</a> · <a href="/ranks">Ranklar</a> · <a href="/rules">Qoidalar</a> · <a href="/premium">Do'kon</a> · <a href="/privacy">Maxfiylik</a></p></div></noscript>
 <main class="wrap" id="app"><div class="skel" style="height:360px"></div><div class="skel mt" style="height:90px"></div></main>
 <nav class="bottom" id="bnav"></nav>
 <footer><div class="wrap fgrid">
@@ -3182,6 +3200,18 @@ function renderNav(){
   const shopBot = SHOP().bot || SHOP_DEFAULT.bot; $("#fshop").textContent = "@" + shopBot; $("#fshop").href = "https://t.me/" + shopBot;
   $("#fbot").textContent = "@" + botName(); $("#fbot").href = "https://t.me/" + botName();
 }
+// har sahifaga o'z sarlavhasi va canonical havolasi (qidiruv tizimlari uchun)
+function setSeo(h){
+  const ru = LANG === "ru", base = "CWhub.uz", T = {"#/": ru ? "CS 1.6 ClanWar сервер Узбекистан | PTS рейтинг" : "CS 1.6 ClanWar server O'zbekiston | PTS reyting",
+    "#/top": ru ? "Рейтинг игроков" : "O'yinchilar reytingi", "#/matches": ru ? "Матчи" : "Matchlar", "#/ranks": ru ? "Ранги" : "Ranklar", "#/rules": ru ? "Правила" : "Qoidalar",
+    "#/bans": ru ? "Баны" : "Banlar", "#/premium": ru ? "Магазин" : "Do'kon", "#/chat": ru ? "Общий чат" : "Umumiy chat", "#/live": "LIVE", "#/lobby": "Lobby", "#/privacy": ru ? "Конфиденциальность" : "Maxfiylik"};
+  let t = T[h];
+  if (h.startsWith("#/p/")) { const p = IDX?.byId[decodeURIComponent(h.slice(4))]; if (p) t = `${p.name} — ${p.pts} PTS (${rankName(p.pts)})`; }
+  if (h.startsWith("#/m/")) { const m = IDX?.matches.find(x => String(x.t) === h.slice(4)); if (m) t = `${m.na} ${m.sa}:${m.sb} ${m.nb} · ${m.map}`; }
+  document.title = (t ? t + " | " : "") + base;
+  let c = document.querySelector('link[rel="canonical"]'); if (c) c.href = "https://cwhub.uz" + (h.replace(/^#/, "") || "/");
+  document.documentElement.lang = LANG;
+}
 function render(scroll = true){
   if (!IDX) return;
   const h = curRoute() || "#/";
@@ -3195,6 +3225,7 @@ function render(scroll = true){
   setTimeout(livePill, 0);
   const app = $("#app");
   app.innerHTML = html;
+  setSeo(h);
   if (scroll) { app.classList.remove("enter"); void app.offsetWidth; app.classList.add("enter"); }
   fxBind(app, !scroll);
   if (h === "#/top") bindTop();

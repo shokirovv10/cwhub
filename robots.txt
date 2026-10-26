@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /me
+Disallow: /login
+Disallow: /register
+Disallow: /friends
+Disallow: /*.sql$
+
+Sitemap: https://cwhub.uz/sitemap.xml

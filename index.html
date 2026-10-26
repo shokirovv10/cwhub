@@ -1008,7 +1008,10 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 <div id="pre"><div class="ld"><div class="logo bigl"><span class="cw">CW</span><span class="hub">hub</span></div><div class="bar"><i></i></div><b>CWHUB · LOADING</b></div></div>
 <audio id="introAud" src="/sfx/intro.mp3" preload="auto"></audio>
 <script>/* Telegram kartasi */if(/[?&]card=1/.test(location.search))document.documentElement.classList.add("cardmode");</script>
-<script>/* kirish ovozi — yuklanish ekrani chiqishi bilan */try{if(!document.documentElement.classList.contains("cardmode")){var A=document.getElementById("introAud");A.volume=.7;var P=A.play();if(P&&P.catch)P.catch(function(){})}}catch(e){}
+<script>/* kirish ovozi — faqat bosh sahifada (/), yuklanish ekrani chiqishi bilan. Chrome sahifani oldindan yuklagan (prerender) bo'lsa — sahifa ochilganda chalinadi */
+(function(){var H=document.documentElement;if(H.classList.contains("cardmode")||location.pathname!=="/")return;H.classList.add("introsnd");
+function play(){try{var A=document.getElementById("introAud");A.volume=.7;var P=A.play();if(P&&P.catch)P.catch(function(){})}catch(e){}}
+if(document.prerendering)document.addEventListener("prerenderingchange",play,{once:true});else play();})();
 setTimeout(function(){var p=document.getElementById("pre");if(p)p.classList.add("done")},10000);</script>
 <div class="bgfx" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grid"></div><div class="noise"></div></div>
 <canvas id="fx" aria-hidden="true"></canvas>
@@ -3352,12 +3355,15 @@ const CARD = document.documentElement.classList.contains("cardmode");
   if (CARD) { pre.classList.add("done"); window.preReady = () => {}; return; }
   const a = $("#introAud");
   let soundDone = false, dataReady = false, closed = false;
+  if (!document.documentElement.classList.contains("introsnd")) soundDone = true;   // ovoz faqat bosh sahifada
   const close = () => { if (closed) return; closed = true; pre.classList.add("done"); };
   const tryClose = () => { if (soundDone && dataReady) close(); };
   const finish = () => { if (soundDone) return; soundDone = true; tryClose(); setTimeout(close, 3000); };   // ma'lumot sekin bo'lsa ham ochiladi
   window.preReady = () => { dataReady = true; tryClose(); };
   a.addEventListener("ended", finish);
   a.addEventListener("error", finish);
+  if (soundDone) return;
+  if (document.prerendering) { document.addEventListener("prerenderingchange", () => setTimeout(finish, 6000), {once: true}); return; }
   if (a.ended) finish();
   else if (!a.paused) setTimeout(finish, 6000);                     // allaqachon chalinyapti (~3 s)
   else a.play().then(() => setTimeout(finish, 6000)).catch(finish); // brauzer ruxsat bermasa — ovozsiz darhol ochiladi

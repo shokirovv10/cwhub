@@ -723,6 +723,11 @@ a.adbox:hover{transform:translateY(-2px);border-color:rgba(255,209,102,.4)}
 .qrow:hover,.qrow.on{background:rgba(255,159,28,.08)}.qpts{display:flex;align-items:center;gap:8px;color:var(--muted);font-weight:700;font-size:13px}
 .schart{border:1px solid var(--line);border-radius:16px;padding:12px;background:rgba(255,255,255,.015)}.schart svg{width:100%;height:auto;display:block}
 .sleg{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:6px}.sleg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+html.cardmode #hdr,html.cardmode #bnav,html.cardmode footer,html.cardmode #gbar,html.cardmode #livepill,html.cardmode .cookiebar,html.cardmode #pre,html.cardmode .stars,html.cardmode #totop{display:none!important}
+html.cardmode main,html.cardmode main.wrap{padding:22px 24px 18px!important;max-width:1360px}
+html.cardmode .mside .mpl,html.cardmode .mcenter,html.cardmode .aw,html.cardmode .rv{animation:none!important;opacity:1!important;transform:none!important}
+.cardfoot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;color:var(--dim);font:700 13px Inter,sans-serif;letter-spacing:1px}
+.cardfoot b{font:900 20px Inter,sans-serif;color:#fff}.cardfoot b span{background:var(--accent);color:#111;border-radius:6px;padding:0 6px;margin-left:3px}
 .ahead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px;padding:22px 24px;border-radius:22px;border:1px solid rgba(255,209,102,.22);
   background:radial-gradient(600px 200px at 0% 0%,rgba(255,209,102,.12),transparent 70%),linear-gradient(180deg,#15130e,#0f1015)}
 .ahk{display:flex;gap:10px;flex-wrap:wrap}.ahk span{display:flex;flex-direction:column;align-items:center;min-width:86px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--line);font-size:11.5px;color:var(--dim)}
@@ -1003,7 +1008,8 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 <body>
 <div id="pre"><div class="ld"><div class="logo bigl"><span class="cw">CW</span><span class="hub">hub</span></div><div class="bar"><i></i></div><b>CWHUB · LOADING</b><div id="presnd"><button type="button" id="presndb" title="SFX">🔊</button><input type="range" id="presvol" min="0" max="100" step="1" value="70" aria-label="SFX"><span id="presv">70</span></div></div></div>
 <audio id="introAud" src="/sfx/intro.mp3" preload="auto"></audio>
-<script>/* kirish ovozi — yuklanish ekrani chiqishi bilan, kechikishsiz */try{var V=localStorage.getItem("cw_sfx_vol");V=V==null?(localStorage.getItem("cw_sfx")==="off"?0:70):+V;if(V>0){var A=document.getElementById("introAud");A.volume=V/100;var P=A.play();if(P&&P.catch)P.catch(function(){})}}catch(e){}</script>
+<script>/* Telegram kartasi */if(/[?&]card=1/.test(location.search))document.documentElement.classList.add("cardmode");</script>
+<script>/* kirish ovozi — yuklanish ekrani chiqishi bilan, kechikishsiz */try{if(document.documentElement.classList.contains("cardmode"))throw 0;var V=localStorage.getItem("cw_sfx_vol");V=V==null?(localStorage.getItem("cw_sfx")==="off"?0:70):+V;if(V>0){var A=document.getElementById("introAud");A.volume=V/100;var P=A.play();if(P&&P.catch)P.catch(function(){})}}catch(e){}</script>
 <div class="bgfx" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grid"></div><div class="noise"></div></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div id="prog"></div>
@@ -1528,13 +1534,20 @@ function livePill(){
   el.innerHTML = `<i></i>LIVE <b>${L.sa || 0}:${L.sb || 0}</b> <span>${esc(D.server.map || "")}</span>`;
 }
 function pageMatch(ts){
-  const m = IDX.matches.find(x => String(x.t) === ts);
+  const m = ts === "latest" ? IDX.matches[0] : IDX.matches.find(x => String(x.t) === ts);
   if (!m) return `<div class="card empty">${t("notFound")}<br><br><a class="btn" href="/matches">${t("back")}</a></div>`;
   const X = m.rows.filter(r => r.team === "X");
   const real = m.rows.filter(r => !r.left), by = f => real.slice().sort((a, b) => f(b) - f(a))[0];
   const dm = by(r => r.dmg), hs = by(r => r.hs), bk = by(r => r.k / Math.max(r.d, 1));
   const res = side => m.winner === "D" ? `<span class="D">${t("draw")}</span>` : m.winner === side ? `<span class="W">${t("win")}</span>` : `<span class="L">${t("loss")}</span>`;
   void res;
+  const awards = real.length ? `<div class="awards mt">
+    <div class="aw"><span>⭐ ${t("mvp")}</span><b>${esc(m.mvp?.name)}</b><span class="sub">${t("rt")} ${m.mvp?.rating.toFixed(2)}</span></div>
+    <div class="aw"><span>💥 ${t("mostDmg")}</span><b>${esc(dm.name)}</b><span class="sub">${dm.dmg} · ADR ${Math.round(dm.dmg / Math.max(dm.r, 1))}</span></div>
+    <div class="aw"><span>🎯 ${t("mostHs")}</span><b>${esc(hs.name)}</b><span class="sub">${hs.hs} HS</span></div>
+    <div class="aw"><span>⚔ ${t("bestKd")}</span><b>${esc(bk.name)}</b><span class="sub">${bk.k}–${bk.d}</span></div></div>` : "";
+  if (document.documentElement.classList.contains("cardmode"))
+    return `<div id="cardroot" data-t="${m.t}">${matchBoard(m)}${awards}<div class="cardfoot"><b>CW<span>hub</span></b><span>cwhub.uz</span></div></div>`;
   return `<div class="btns" style="justify-content:space-between"><a class="btn sm ghost" href="/matches">${t("back")}</a>
     <span id="demobtn" data-t="${m.t}" data-map="${esc(m.map)}">${demoBtn(m)}</span></div>
   ${matchBoard(m)}
@@ -3325,15 +3338,17 @@ document.addEventListener("click", e => {
 });
 load(false);
 function logVisit(){
-  if (consentGet() !== "all") return;          // statistika — faqat rozilik bilan
+  if (consentGet() !== "all" || document.documentElement.classList.contains("cardmode")) return;          // statistika — faqat rozilik bilan
   let v = null; try { v = localStorage.getItem("cw_vid"); if (!v) { v = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()); localStorage.setItem("cw_vid", v); } } catch (e) {}
   if (sb && v) sb.rpc("log_visit", {p_vid: v}).then(() => {}, () => {});
 }
 logVisit();
-setTimeout(() => showConsent(false), 1800);
+if (!CARD) setTimeout(() => showConsent(false), 1800);
 // Kirish ovozi: har kirishda yuklanish ekranida chalinadi, tugagach sayt ochiladi.
 // Brauzer ovozni o'zi yoqishga ruxsat bermasa — sayt darhol ochiladi, ovoz birinchi bosishda chalinadi.
+const CARD = document.documentElement.classList.contains("cardmode");
 (function introGate(){
+  if (CARD) { $("#pre").classList.add("done"); window.preReady = () => {}; return; }
   const pre = $("#pre"), box = $("#presnd"), sw = $("#presndb"), sl = $("#presvol"), out = $("#presv");
   let vol = 70; try { const v = localStorage.getItem("cw_sfx_vol"); vol = v == null ? (localStorage.getItem("cw_sfx") === "off" ? 0 : 70) : +v; } catch (e) {}
   let last = vol || 70, off = vol <= 0;

@@ -105,7 +105,6 @@ html.sndask #pre .sndq{display:flex}html.sndask #pre .bar{visibility:hidden}
 header{position:sticky;top:0;z-index:30;transition:background .3s,border-color .3s,backdrop-filter .3s;border-bottom:1px solid transparent}
 header.scrolled{background:rgba(6,7,10,.78);backdrop-filter:blur(16px) saturate(1.4);border-bottom-color:var(--line)}
 .bar{display:flex;align-items:center;gap:16px;height:72px;transition:height .3s var(--ease)}
-header.scrolled .bar{height:60px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 24px Rajdhani,sans-serif;letter-spacing:.5px;white-space:nowrap}
 .logo svg{width:30px;height:30px;transition:transform .6s var(--ease)}
 .logo:hover svg{transform:rotate(180deg)}
@@ -182,7 +181,22 @@ tr.banold td{opacity:.6}
 .dmbox .dmm{max-width:78%;padding:8px 12px;border-radius:14px;background:var(--panel2);font-size:14px;line-height:1.4;word-wrap:break-word;align-self:flex-start}
 .dmbox .dmm.me{align-self:flex-end;background:rgba(255,159,28,.16);border-bottom-right-radius:4px}
 .dmbox .dmm:not(.me){border-bottom-left-radius:4px}
-.dmbox .dmm small{display:block;font-size:10.5px;color:var(--dim);margin-top:3px;text-align:right}
+.dmbox .dmm small{display:flex;justify-content:flex-end;align-items:center;gap:4px;font-size:10.5px;color:var(--dim);margin-top:3px}
+.dmbox .dmm{position:relative}
+.dmbox .dmm .rd{font-style:normal;font-weight:800;letter-spacing:-2px;color:var(--dim)}.dmbox .dmm .rd.on{color:#38bdf8}
+.dmbox .dmm .drp{position:absolute;top:50%;transform:translateY(-50%);right:-34px;width:28px;height:28px;border-radius:9px;border:1px solid var(--line);background:#171a21;color:var(--muted);cursor:pointer;font-size:13px;opacity:0;transition:opacity .2s}
+.dmbox .dmm.me .drp{right:auto;left:-34px}
+.dmbox .dmm:hover .drp{opacity:1}.dmbox .dmm .drp:hover{color:var(--text);border-color:var(--accent)}
+@media(hover:none){.dmbox .dmm .drp{opacity:.75}}
+.dmbox .db{padding-left:42px;padding-right:42px}
+.dmbox .dq{display:block;border-left:3px solid var(--accent);background:rgba(255,255,255,.05);border-radius:7px;padding:4px 8px;margin:-2px 0 5px;font-size:12px;color:var(--muted);cursor:pointer;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dmbox .dq b{display:block;font-size:11px;color:var(--accent)}
+.dmbox .dh .dbg{font-size:16px!important;opacity:.8}.dmbox .dh .dbg:hover{opacity:1}
+.dmbox .dh b{display:flex;align-items:center;gap:6px;min-width:0}
+.bgpick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 4px}
+.bgpick button{height:78px;border-radius:14px;border:2px solid var(--line);cursor:pointer;background:#121419;color:var(--muted);font:700 12px Inter,sans-serif;transition:border-color .2s,transform .2s}
+.bgpick button:hover{transform:translateY(-2px)}.bgpick button.on{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,159,28,.2)}
+.gb.ann{background:linear-gradient(90deg,rgba(56,189,248,.14),rgba(56,189,248,.05));border:1px solid rgba(56,189,248,.45);font-size:14.5px}
 .dmbox form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
 .dmbox input{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px 12px;font:14px Inter,sans-serif;outline:none}
 .dmbox input:focus{border-color:var(--accent)}
@@ -786,20 +800,32 @@ html.cardmode .mside .mpl,html.cardmode .mcenter,html.cardmode .aw,html.cardmode
 .lst{padding:4px 10px;border-radius:99px;font:800 10.5px Inter,sans-serif;letter-spacing:.6px;text-transform:uppercase;white-space:nowrap;border:1px solid}
 .lst.done{color:#4ade80;background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.3)}.lst.error{color:#f87171;background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.3)}
 .lst.pending,.lst.running{color:#ffd166;background:rgba(255,209,102,.1);border-color:rgba(255,209,102,.3);animation:pulse 1.4s ease-in-out infinite}
-.ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-top:14px}
+.ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:14px}
 .ucard{--tone:#38bdf8;position:relative;display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:20px;
   background:radial-gradient(260px 130px at 50% 0%,color-mix(in srgb,var(--tone) 15%,transparent),transparent 70%),linear-gradient(180deg,#15171e,#0f1116);
   border:1px solid color-mix(in srgb,var(--tone) 26%,transparent);transition:transform .3s var(--ease),box-shadow .3s,border-color .3s}
 .ucard:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--tone) 55%,transparent);box-shadow:0 18px 40px rgba(0,0,0,.45)}
 .ucard.adm{--tone:#ffb547}.ucard.prem{--tone:#c084fc}.ucard.blk{--tone:#f87171}
-.ucard .uhd{display:flex;gap:12px;align-items:center;min-width:0}.ucard .uhd .av{width:48px;height:48px;flex:none}
+.ucard{padding:18px!important;border-radius:22px!important;gap:12px!important;overflow:hidden}
+.ucard:before{content:"";position:absolute;left:18%;right:18%;top:0;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--tone),transparent)}
+.ucard .uhd{display:flex;gap:14px;align-items:center;min-width:0}.ucard .uhd .av{width:56px;height:56px;flex:none;border-radius:16px;box-shadow:0 0 0 2px color-mix(in srgb,var(--tone) 45%,transparent),0 8px 22px rgba(0,0,0,.4)}
 .ucard .uhd b{display:block;font:700 17px Rajdhani,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ucard .uhd small{display:block;color:var(--dim);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .uchips{display:flex;flex-wrap:wrap;gap:6px}.uchips span{padding:3px 9px;border-radius:99px;font:700 11px Inter,sans-serif;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted)}
 .uchips .c-adm{color:#ffb547;border-color:rgba(255,181,71,.35)}.uchips .c-prem{color:#c084fc;border-color:rgba(192,132,252,.35)}.uchips .c-blk{color:#f87171;border-color:rgba(248,113,113,.4)}.uchips .c-warn{color:#fbbf24;border-color:rgba(251,191,36,.35)}.uchips .c-ok{color:#4ade80;border-color:rgba(74,222,128,.3)}
-.ucard .umeta{font-size:12px;color:var(--dim);display:flex;justify-content:space-between;gap:8px}
-.ucard .uact{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:auto}.ucard .uact .btn{padding:8px 6px;font-size:12.5px;justify-content:center}
+.ucard .umeta{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ucard .umeta div{padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid var(--line);min-width:0}
+.ucard .umeta small{display:block;font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--dim)}.ucard .umeta b{display:block;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ucard .uact{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}.ucard .uact .btn{padding:9px 8px;font-size:13px;justify-content:center;white-space:nowrap}.ucard .uact .btn:last-child{grid-column:1/-1}
 .btn.danger{background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.4);color:#fca5a5}.btn.danger:hover{background:rgba(248,113,113,.22)}
+.uamodal{max-width:560px!important;padding:30px 28px 26px!important;background:radial-gradient(420px 180px at 50% 0%,color-mix(in srgb,var(--tone) 16%,transparent),transparent 70%),linear-gradient(180deg,#171b25,#0d0f14)!important;border-color:color-mix(in srgb,var(--tone) 35%,transparent)!important}
+.uamodal:before{content:"";position:absolute;left:20%;right:20%;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--tone),transparent)}
+.uato{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid var(--line);margin-bottom:16px}
+.uato .av{width:44px;height:44px;flex:none}.uato b{display:block;font:700 17px Rajdhani,sans-serif}.uato small{display:block;color:var(--dim);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.uaform{display:grid;gap:12px}.uaform label{display:grid;gap:7px;font-size:13px;font-weight:600;color:var(--muted)}
+.uaform textarea,.uaform input,.uaform select{width:100%;box-sizing:border-box;background:#0d0f14;border:1px solid var(--line2);border-radius:14px;color:var(--text);padding:13px 14px;font:14.5px/1.5 Inter,sans-serif;outline:none;resize:vertical;transition:border-color .2s,box-shadow .2s}
+.uaform textarea{min-height:130px}.uaform textarea:focus,.uaform input:focus,.uaform select:focus{border-color:var(--tone);box-shadow:0 0 0 3px color-mix(in srgb,var(--tone) 18%,transparent)}
+.uacount{font-size:11.5px;color:var(--dim);text-align:right;margin-top:-6px}
 .alertbox{display:grid;gap:10px;margin:6px 0 16px}.alertbox div{padding:12px 14px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);font-size:14px;line-height:1.5}
 .alertbox .warn{border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.07)}.alertbox .block{border-color:rgba(248,113,113,.45);background:rgba(248,113,113,.08)}
 .alertbox small{display:block;color:var(--dim);font-size:11.5px;margin-top:4px}
@@ -1039,7 +1065,7 @@ tr.elite.bH{--el:34,197,94} tr.elite.bP{--el:251,146,60}
 .mstat .leg button i{width:10px;height:10px;border-radius:50%}
 .awards .aw{background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.01));border:1px solid var(--line2);border-radius:18px;animation:mcIn .6s var(--ease) both}
 .awards .aw:first-child{border-color:rgba(255,184,77,.5);box-shadow:0 0 24px rgba(255,170,60,.12)}
-.cmsg .cact{display:flex;gap:4px;margin-top:4px;opacity:.55;transition:opacity .2s}
+.cmsg .cact{display:flex;gap:4px;margin-top:4px;opacity:.85;transition:opacity .2s}
 .cmsg:hover .cact,.cmsg .cact:focus-within{opacity:1}
 .cmsg.mine .cact{justify-content:flex-end}
 .cmsg .cact button{border:0;background:none;color:var(--muted);cursor:pointer;font:600 12px Inter,sans-serif;padding:2px 6px;border-radius:6px}
@@ -1856,9 +1882,9 @@ async function loadNotif(){
     }
   } catch (e) {}
   try {
-    const o = await sb.from("premium_orders").select("kind,status,created_at").eq("user_id", ME.id).neq("status", "pending").order("id", {ascending: false}).limit(5);
-    (o.data || []).forEach(r => out.push({ts: Date.parse(r.created_at), ic: r.status === "approved" ? "ok" : "no", href: "/me",
-      tx: `${r.kind === "prefix" ? (ru ? "Префикс" : "Prefiks") : "Premium"}: <b>${r.status === "approved" ? (ru ? "одобрено" : "tasdiqlandi") : (ru ? "отклонено" : "rad etildi")}</b>`}));
+    const o = await sb.from("premium_orders").select("kind,status,created_at,decided_at").eq("user_id", ME.id).neq("status", "pending").order("id", {ascending: false}).limit(5);
+    (o.data || []).forEach(r => out.push({ts: Date.parse(r.decided_at || r.created_at), ic: r.status === "approved" ? "ok" : "no", href: "/me",
+      tx: `${r.kind === "prefix" ? (ru ? "Префикс" : "Prefiks") : r.kind === "color" ? (ru ? "Цвет ника" : "Nik rangi") : "Premium"}: <b>${r.status === "approved" ? (ru ? "одобрено" : "tasdiqlandi") : (ru ? "отклонено" : "rad etildi")}</b>`}));
   } catch (e) {}
   (FR || []).filter(f => f.status === "pending" && f.addressee === ME.id).forEach(() => out.push({ts: Date.now(), ic: "fr", href: "/me", tx: ru ? "Новая заявка в друзья" : "Yangi do'stlik so'rovi"}));
   const me = mySteam() && IDX?.byId?.[mySteam()];
@@ -2008,17 +2034,58 @@ let FR = [];   // do'stlik qatorlari
 async function loadFriends(){ if (!sb || !ME) return; const r = await sb.from("friendships").select("requester,addressee,status"); FR = r.data || []; }
 const profByUid = uid => Object.values(PROF).find(x => x.user_id === uid) || {nick: "—"};
 // Do'stlar bilan shaxsiy chat (direct_messages, faqat qabul qilingan do'stlar)
-let DM = {uid: null, list: [], sub: null};
+let DM = {uid: null, list: [], sub: null, reply: null};
+const DM_COLS = "id,sender,receiver,body,created_at,read,reply_to,reply_body";
+// Premium: chat foni (tayyor fonlar yoki o'z rasmi)
+const CHAT_BGS = {
+  bg1: "radial-gradient(600px 300px at 0% 0%,rgba(255,159,28,.18),transparent 60%),radial-gradient(500px 300px at 100% 100%,rgba(234,88,12,.16),transparent 60%),#101217",
+  bg2: "radial-gradient(600px 320px at 100% 0%,rgba(56,189,248,.2),transparent 60%),radial-gradient(500px 300px at 0% 100%,rgba(99,102,241,.18),transparent 60%),#0d1118",
+  bg3: "radial-gradient(600px 320px at 50% 0%,rgba(192,132,252,.22),transparent 60%),radial-gradient(500px 300px at 50% 100%,rgba(236,72,153,.14),transparent 60%),#110e17",
+  bg4: "radial-gradient(600px 320px at 0% 100%,rgba(74,222,128,.18),transparent 60%),radial-gradient(500px 300px at 100% 0%,rgba(20,184,166,.16),transparent 60%),#0d1412",
+  bg5: "linear-gradient(135deg,rgba(255,255,255,.03) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.03) 50%,rgba(255,255,255,.03) 75%,transparent 75%) 0 0/28px 28px,#121419",
+  bg6: "radial-gradient(rgba(255,181,71,.16) 1.2px,transparent 1.4px) 0 0/18px 18px,linear-gradient(180deg,#14161d,#0d0f13)",
+  bg7: "linear-gradient(160deg,#1a1033,#0b1a2e 55%,#09131d)",
+  bg8: "linear-gradient(160deg,#2a1205,#120a06 50%,#0b0b0d)"};
+const chatBgCss = v => !v ? "" : CHAT_BGS[v] ? `background:${CHAT_BGS[v]}` : /^https:\/\//.test(v) ? `background:linear-gradient(rgba(8,9,12,.55),rgba(8,9,12,.55)),url('${esc(v)}') center/cover` : "";
+function openChatBg(){
+  const ru = LANG === "ru", cur = ME?.prem?.chat_bg || "";
+  if (!ME?.prem?.active) { toast(ru ? "Фон чата — только для Premium 👑" : "Chat foni — faqat Premium uchun 👑"); return go("/premium"); }
+  $("#modal").innerHTML = `<div class="modal" onclick="if(event.target===this)closeUserAct()"><div class="mbox" role="dialog" aria-modal="true" style="max-width:560px">
+    <button class="mclose" onclick="closeUserAct()" aria-label="close">✕</button>
+    <div class="eyebrow" style="color:var(--gold)">👑 PREMIUM</div><h2 class="title" style="font-size:26px">🎨 ${ru ? "Фон чата" : "Chat foni"}</h2>
+    <div class="bgpick"><button type="button" class="${!cur ? "on" : ""}" onclick="setChatBg('')"><span>${ru ? "Обычный" : "Oddiy"}</span></button>${Object.keys(CHAT_BGS).map(k => `<button type="button" class="${cur === k ? "on" : ""}" style="background:${CHAT_BGS[k]}" onclick="setChatBg('${k}')"></button>`).join("")}</div>
+    <label class="btn wide mt">🖼 ${ru ? "Своя картинка (до 3 МБ)" : "O'z rasmim (3 MB gacha)"}<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden onchange="uploadChatBg(this)"></label></div></div>`;
+}
+async function setChatBg(v){
+  const r = await sb.rpc("set_my_chat_bg", {p_bg: v});
+  if (r.error || !r.data?.ok) return toast("✕ " + (r.error?.message || r.data?.err || ""));
+  ME.prem.chat_bg = v || null; closeUserAct(); const b = $("#dmb"); if (b) b.setAttribute("style", chatBgCss(v)); toast("✓");
+}
+async function uploadChatBg(input){
+  const f = input.files[0]; if (!f) return;
+  if (f.size > 3 * 1024 * 1024) return toast(mt("tooBig"));
+  const ext = (f.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z]/g, "");
+  const path = `${ME.id}/chatbg-${Date.now()}.${ext}`;
+  const up = await sb.storage.from("avatars").upload(path, f, {contentType: f.type});
+  if (up.error) return toast(up.error.message);
+  setChatBg(sb.storage.from("avatars").getPublicUrl(path).data.publicUrl);
+}
+function dmReply(id){
+  const m = DM.list.find(x => x.id === id); DM.reply = m ? {id: m.id, body: m.body.slice(0, 140), mine: m.sender === ME.id} : null;
+  const rb = $("#dmrb"); if (rb) rb.innerHTML = dmReplyBar(); if (m) $("#dmin")?.focus();
+}
+const dmReplyBar = () => DM.reply ? `<div class="replybar"><span>↩</span><span class="q"><b>${DM.reply.mine ? (LANG === "ru" ? "Вы" : "Siz") : esc(profByUid(DM.uid).nick || "")}</b> ${esc(DM.reply.body)}</span><button type="button" onclick="dmReply(null)">✕</button></div>` : "";
 async function openDM(uid){
   if (!sb || !ME) return;
   DM.uid = uid; const pr = profByUid(uid), ru = LANG === "ru";
   const inline = $("#fchat");      // Do'stlar sahifasida — chat sahifaning o'zida
   if (inline) { FSEL = uid; document.querySelectorAll(".fitem").forEach(b => b.classList.toggle("on", b.dataset.uid === uid)); const fl = $("#dmbox:not(#fchat)"); if (fl) fl.remove(); }
   let el = inline || $("#dmbox"); if (!el) { el = document.createElement("div"); el.id = "dmbox"; el.className = "dmbox"; document.body.appendChild(el); }
-  el.innerHTML = `<div class="dh">${avatar(pr.nick || "?", false, pr.avatar_url)}<b>${esc(pr.nick || "—")}</b><button type="button" onclick="closeDM()">✕</button></div>
-    <div class="db" id="dmb"><div class="skel" style="height:40px"></div></div>
-    <form onsubmit="sendDM(event)"><input id="dmin" maxlength="500" autocomplete="off" placeholder="${ru ? "Сообщение…" : "Xabar…"}"><button class="btn main sm" type="submit">➤</button></form>`;
-  const r = await sb.from("direct_messages").select("id,sender,receiver,body,created_at")
+  DM.reply = null;
+  el.innerHTML = `<div class="dh">${avatar(pr.nick || "?", false, pr.avatar_url)}<b><span style="${pr.steam ? nickStyle(pr.steam) : ""}">${esc(pr.nick || "—")}</span>${pr.steam ? premCrown(pr.steam) : ""}</b><button type="button" class="dbg" title="${ru ? "Фон чата (Premium)" : "Chat foni (Premium)"}" onclick="openChatBg()">🎨</button><button type="button" onclick="closeDM()">✕</button></div>
+    <div class="db" id="dmb" style="${chatBgCss(ME.prem?.chat_bg)}"><div class="skel" style="height:40px"></div></div>
+    <div id="dmrb"></div><form onsubmit="sendDM(event)"><input id="dmin" maxlength="500" autocomplete="off" placeholder="${ru ? "Сообщение…" : "Xabar…"}"><button class="btn main sm" type="submit">➤</button></form>`;
+  const r = await sb.from("direct_messages").select(DM_COLS)
     .or(`and(sender.eq.${ME.id},receiver.eq.${uid}),and(sender.eq.${uid},receiver.eq.${ME.id})`).order("id", {ascending: false}).limit(80);
   if (DM.uid !== uid) return;
   DM.list = (r.data || []).reverse(); drawDM();
@@ -2030,14 +2097,18 @@ async function openDM(uid){
     if (DM.uid === other && $("#dmbox")) { if (!DM.list.some(x => x.id === m.id)) { DM.list.push(m); drawDM(); }
       if (m.receiver === ME.id) sb.from("direct_messages").update({read: true}).eq("id", m.id).then(() => {}); }
     else if (m.receiver === ME.id) { toast("✉ " + (profByUid(m.sender).nick || "") + ": " + m.body.slice(0, 50)); refreshNotif(); }
+  }).on("postgres_changes", {event: "UPDATE", schema: "public", table: "direct_messages"}, p => {   // o'qildi belgisi
+    const m = p.new, x = DM.list.find(q => q.id === m.id); if (x && x.read !== m.read) { x.read = m.read; drawDM(true); }
   }).subscribe();
   setTimeout(() => $("#dmin")?.focus(), 50);
 }
-function drawDM(){
+function drawDM(keep){
   const b = $("#dmb"); if (!b) return;
-  b.innerHTML = DM.list.length ? DM.list.map(m => `<div class="dmm ${m.sender === ME.id ? "me" : ""}">${esc(m.body)}<small>${new Date(m.created_at).toTimeString().slice(0, 5)}</small></div>`).join("")
-    : `<div class="empty">${LANG === "ru" ? "Напишите первое сообщение" : "Birinchi xabarni yozing"}</div>`;
-  b.scrollTop = b.scrollHeight;
+  const ru = LANG === "ru", oth = esc(profByUid(DM.uid).nick || ""), top = b.scrollTop, atEnd = b.scrollHeight - b.scrollTop - b.clientHeight < 40;
+  b.innerHTML = DM.list.length ? DM.list.map(m => { const me = m.sender === ME.id, q = m.reply_to ? DM.list.find(x => x.id === m.reply_to) : null;
+    return `<div class="dmm ${me ? "me" : ""}" id="dm${m.id}">${m.reply_body ? `<span class="dq" onclick="document.getElementById('dm${m.reply_to}')?.scrollIntoView({block:'center',behavior:'smooth'})"><b>${q ? (q.sender === ME.id ? (ru ? "Вы" : "Siz") : oth) : "↩"}</b>${esc(m.reply_body)}</span>` : ""}${esc(m.body)}<small>${new Date(m.created_at).toTimeString().slice(0, 5)}${me ? `<i class="rd ${m.read ? "on" : ""}" title="${m.read ? (ru ? "Прочитано" : "O'qildi") : (ru ? "Доставлено" : "Yetkazildi")}">${m.read ? "✓✓" : "✓"}</i>` : ""}</small><button type="button" class="drp" title="${ru ? "Ответить" : "Javob berish"}" onclick="dmReply(${m.id})">↩</button></div>`; }).join("")
+    : `<div class="empty">${ru ? "Напишите первое сообщение" : "Birinchi xabarni yozing"}</div>`;
+  b.scrollTop = keep && !atEnd ? top : b.scrollHeight;
 }
 function closeDM(){ DM.uid = null; const f = $("#fchat"); if (f) { FSEL = null; f.innerHTML = fEmpty(); document.querySelectorAll(".fitem").forEach(b => b.classList.remove("on")); return; } const el = $("#dmbox"); if (el) el.remove(); }
 let FSEL = null, FUNREAD = {};
@@ -2053,7 +2124,7 @@ function pageFriends(){
   const inc = FR.filter(f => f.status === "pending" && f.addressee === ME.id), acc = FR.filter(f => f.status === "accepted");
   const item = uid => { const pr = profByUid(uid), n = FUNREAD[uid] || 0;
     return `<button type="button" class="fitem ${FSEL === uid ? "on" : ""}" data-uid="${uid}" onclick="openDM('${uid}')">${avatar(pr.nick || "?", false, pr.avatar_url)}
-      <span class="fn"><b style="${pr.steam ? nickStyle(pr.steam) : ""}">${esc(pr.nick || "—")}</b><small>${pr.steam && IDX.byId[pr.steam] ? IDX.byId[pr.steam].pts + " PTS" : ""}</small></span>${n ? `<em>${n}</em>` : ""}</button>`; };
+      <span class="fn"><b><span style="${pr.steam ? nickStyle(pr.steam) : ""}">${esc(pr.nick || "—")}</span>${pr.steam ? premCrown(pr.steam) : ""}</b><small>${pr.steam && IDX.byId[pr.steam] ? IDX.byId[pr.steam].pts + " PTS" : ""}</small></span>${n ? `<em>${n}</em>` : ""}</button>`; };
   return `<h2 class="title">👥 ${ru ? "Друзья" : "Do'stlar"}</h2>
   <div class="fwrap">
     <aside class="fside card">
@@ -2076,8 +2147,10 @@ async function sendDM(ev){
   ev.preventDefault();
   const inp = $("#dmin"), body = (inp.value || "").trim(); if (!body || !DM.uid) return;
   inp.value = "";
-  const r = await sb.from("direct_messages").insert({sender: ME.id, receiver: DM.uid, body}).select("id,sender,receiver,body,created_at").single();
-  if (r.error) { inp.value = body; return toast(r.error.message); }
+  const row = {sender: ME.id, receiver: DM.uid, body}; if (DM.reply) { row.reply_to = DM.reply.id; row.reply_body = DM.reply.body; }
+  const r = await sb.from("direct_messages").insert(row).select(DM_COLS).single();
+  if (r.error) { inp.value = body; return toast(r.error.message === "blocked" ? (LANG === "ru" ? "⛔ Ваш аккаунт заблокирован" : "⛔ Akkauntingiz bloklangan") : r.error.message); }
+  DM.reply = null; const rb = $("#dmrb"); if (rb) rb.innerHTML = "";
   if (!DM.list.some(x => x.id === r.data.id)) { DM.list.push(r.data); drawDM(); }
 }
 function friendsCard(){
@@ -2429,21 +2502,29 @@ function statsHTML(){
   const kp = [[today.v || 0, ru ? "посетителей сегодня" : "bugun tashrif"], [sum(w, "v"), ru ? "за 7 дней" : "7 kunda"], [sum(d, "v"), ru ? "за 30 дней" : "30 kunda"],
     [sum(d, "r"), ru ? "регистраций (30 дн.)" : "ro'yxatdan o'tgan (30 kun)"], [money(sum(d, "s")), ru ? `продаж (${sum(d, "n")} шт.)` : `sotuv (${sum(d, "n")} ta)`],
     [STATS.users ?? "—", ru ? "всего аккаунтов" : "jami akkaunt"], [STATS.linked ?? "—", ru ? "привязали SteamID" : "SteamID ulagan"], [STATS.premium ?? "—", ru ? "активный Premium" : "faol Premium"]];
-  const W = 760, H = 210, P = 30, n = Math.max(d.length, 1), mx = Math.max(5, ...d.map(x => +x.v || 0)), bw = (W - 2 * P) / n;
-  const X = i => P + i * bw, Y = v => H - P - v / mx * (H - 2 * P);
-  const bars = d.map((x, i) => `<rect x="${X(i) + 2}" y="${Y(+x.v || 0)}" width="${Math.max(2, bw - 4)}" height="${H - P - Y(+x.v || 0)}" rx="3" fill="url(#gv)"><title>${x.d}: ${x.v} ${ru ? "посет." : "tashrif"}, ${x.r} ${ru ? "рег." : "ro'yxat"}, ${money(x.s)}</title></rect>`).join("");
+  const dd = v => { const t2 = new Date(v); return isNaN(t2) ? String(v).slice(5, 10) : String(t2.getDate()).padStart(2, "0") + "." + String(t2.getMonth() + 1).padStart(2, "0"); };
+  const W = 760, H = 240, P = 34, PB = 30, n = Math.max(d.length, 1), mx = Math.max(4, ...d.map(x => Math.max(+x.v || 0, +x.r || 0))), bw = (W - 2 * P) / n;
+  const X = i => P + i * bw, Y = v => H - PB - v / mx * (H - PB - 22);
+  const grid = [0, .25, .5, .75, 1].map(f => { const v = Math.round(mx * f), y = Y(mx * f);
+    return `<line x1="${P}" x2="${W - 8}" y1="${y}" y2="${y}" stroke="rgba(255,255,255,${f ? .06 : .14})" ${f ? 'stroke-dasharray="3 5"' : ""}/><text x="${P - 8}" y="${y + 3.5}" text-anchor="end" font-size="10" fill="var(--dim)">${v}</text>`; }).join("");
+  const bars = d.map((x, i) => { const v = +x.v || 0;
+    return `<rect x="${X(i) + 2}" y="${Y(v)}" width="${Math.max(2, bw - 4)}" height="${H - PB - Y(v)}" rx="3" fill="url(#gv)"><title>${dd(x.d)}: ${v} ${ru ? "посет." : "tashrif"}, ${x.r || 0} ${ru ? "рег." : "ro'yxat"}, ${money(x.s)}</title></rect>${v ? `<text x="${X(i) + bw / 2}" y="${Y(v) - 5}" text-anchor="middle" font-size="10" font-weight="700" fill="#ffb547">${v}</text>` : ""}`; }).join("");
   const reg = d.map((x, i) => `${i ? "L" : "M"}${(X(i) + bw / 2).toFixed(1)} ${Y(+x.r || 0).toFixed(1)}`).join(" ");
-  const lbl = d.map((x, i) => i % 5 === 0 || i === n - 1 ? `<text x="${X(i) + bw / 2}" y="${H - 10}" text-anchor="middle" font-size="10" fill="var(--dim)">${String(x.d).slice(5)}</text>` : "").join("");
-  const sm = Math.max(1, ...d.map(x => +x.s || 0)), sales = d.map((x, i) => `<rect x="${X(i) + 3}" y="${70 - (+x.s || 0) / sm * 56}" width="${Math.max(2, bw - 6)}" height="${(+x.s || 0) / sm * 56}" rx="2" fill="#ffd166"><title>${x.d}: ${money(x.s)}</title></rect>`).join("");
+  const dots = d.map((x, i) => +x.r ? `<circle cx="${X(i) + bw / 2}" cy="${Y(+x.r)}" r="3.5" fill="#0f1116" stroke="#38bdf8" stroke-width="2"/><text x="${X(i) + bw / 2}" y="${Y(+x.r) - 8}" text-anchor="middle" font-size="10" font-weight="700" fill="#7dd3fc">${x.r}</text>` : "").join("");
+  const step = n > 20 ? 5 : n > 10 ? 2 : 1;
+  const lbl = d.map((x, i) => i % step === 0 || i === n - 1 ? `<text x="${X(i) + bw / 2}" y="${H - 10}" text-anchor="middle" font-size="10" fill="var(--dim)">${dd(x.d)}</text>` : "").join("");
+  const sm = Math.max(1, ...d.map(x => +x.s || 0)), sales = d.map((x, i) => { const v = +x.s || 0, h = v / sm * 50;
+    return `<rect x="${X(i) + 3}" y="${74 - h}" width="${Math.max(2, bw - 6)}" height="${h}" rx="2" fill="#ffd166"><title>${dd(x.d)}: ${money(v)}</title></rect>${v ? `<text x="${X(i) + bw / 2}" y="${70 - h}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#ffd166">${v >= 1000 ? Math.round(v / 1000) + "k" : v}</text>` : ""}`; }).join("")
+    + d.map((x, i) => i % step === 0 || i === n - 1 ? `<text x="${X(i) + bw / 2}" y="92" text-anchor="middle" font-size="10" fill="var(--dim)">${dd(x.d)}</text>` : "").join("");
   const since = Date.now() / 1000 - 30 * 86400;
   const act = (IDX?.ranked || []).map(p => ({p, n: p.ms.filter(m => m.t > since).length})).filter(x => x.n).sort((a, b) => b.n - a.n).slice(0, 8);
   return `<div class="kpis">${kp.map(k => `<div class="tile"><b>${k[0]}</b><span>${k[1]}</span></div>`).join("")}</div>
     <h3 class="mt2">${ru ? "Посетители и регистрации — 30 дней" : "Tashrif va ro'yxatdan o'tish — 30 kun"}</h3>
     <div class="schart"><svg viewBox="0 0 ${W} ${H}"><defs><linearGradient id="gv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9f1c"/><stop offset="1" stop-color="#ff9f1c" stop-opacity=".25"/></linearGradient></defs>
-      <line x1="${P}" x2="${W - P}" y1="${H - P}" y2="${H - P}" stroke="rgba(255,255,255,.1)"/>${bars}<path d="${reg}" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linejoin="round"/>${lbl}</svg>
+      ${grid}${bars}<path d="${reg}" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linejoin="round"/>${dots}${lbl}</svg>
       <div class="sleg"><span><i style="background:#ff9f1c"></i>${ru ? "посетители" : "tashriflar"}</span><span><i style="background:#38bdf8"></i>${ru ? "регистрации" : "ro'yxatdan o'tganlar"}</span></div></div>
     <h3 class="mt2">${ru ? "Продажи по дням" : "Kunlik sotuvlar"} · ${money(sum(d, "s"))}</h3>
-    <div class="schart"><svg viewBox="0 0 ${W} 80">${sales}</svg></div>
+    <div class="schart"><svg viewBox="0 0 ${W} 100">${sales}</svg></div>
     <h3 class="mt2">${ru ? "Самые активные игроки (30 дней)" : "Eng faol o'yinchilar (30 kun)"}</h3>
     ${act.length ? `<div class="flist">${act.map((x, i) => `<a class="frow" href="/p/${slug(x.p.id)}" style="text-decoration:none"><span class="pcell"><b style="width:22px;color:var(--dim)">${i + 1}</b>${pcell(x.p)}</span><span class="sub">${x.n} ${ru ? "матчей" : "match"} · ${x.p.pts} PTS</span></a>`).join("")}</div>` : `<div class="empty">—</div>`}
     <p class="sub" style="font-size:12px;margin-top:12px">${ru ? "Посетитель считается один раз в день на устройство (без IP)." : "Tashrif har qurilmadan kuniga bir marta hisoblanadi (IP saqlanmaydi)."}</p>`;
@@ -2695,7 +2776,7 @@ document.addEventListener("pointerdown", e => {
 // header, progress, yuqoriga tugmasi
 function onScroll(){
   const y = scrollY, h = document.documentElement.scrollHeight - innerHeight;
-  $("#hdr").classList.toggle("scrolled", y > 10);
+  const hd = $("#hdr"); if (y > 24) hd.classList.add("scrolled"); else if (y < 4) hd.classList.remove("scrolled");   // balandlik o'zgarmaydi — qisqa sahifalarda titramaydi
   $("#prog").style.width = (h > 0 ? y / h * 100 : 0) + "%";
   $("#totop").classList.toggle("show", y > 600);
 }
@@ -2838,7 +2919,7 @@ function renderBanners(){
   if (bu && (bu === "infinity" || Date.parse(bu) > Date.now()))
     out.push(`<div class="gb warn" style="border-color:rgba(248,113,113,.5)"><span>⛔ <b>${LANG === "ru" ? "Ваш аккаунт заблокирован" : "Akkauntingiz bloklangan"}</b> · ${bu === "infinity" ? (LANG === "ru" ? "навсегда" : "abadiy") : new Date(bu).toLocaleDateString() + (LANG === "ru" ? "" : " gacha")}${ME.acc.block_reason ? ` · ${esc(ME.acc.block_reason)}` : ""}</span><a class="btn sm" href="/support">${LANG === "ru" ? "Поддержка" : "Yordam"}</a></div>`);
   const ann = SET.announce?.text;
-  if (ann) out.push(`<div class="gb info"><span>📣 ${esc(ann)}</span></div>`);
+  if (ann) out.push(`<div class="gb info ann"><span>📣 <b>${LANG === "ru" ? "Объявление" : "E'lon"}:</b> ${esc(ann)}</span></div>`);
   const p = discountPct();
   if (p && (curRoute() || "#/") !== "#/premium") out.push(`<div class="gb warn"><span><span class="sale">-${p}%</span> ${esc(SET.discount?.label || "Premium")}${discLevelName() ? ` · <b>${esc(discLevelName())}</b>` : ""}</span><a class="btn sm gold" href="/premium">👑 ${pt("nav")} →</a></div>`);
   if (ME && !ME.acc?.steam && !["#/me", "#/login", "#/register"].includes(curRoute() || "#/"))
@@ -3009,7 +3090,7 @@ function userCard(u){
     <div class="uhd">${avatar(nm, false, u.avatar_url)}<div style="min-width:0"><b>${esc(nm)}</b><small>${esc(u.email || "")}</small><small>${u.steam ? esc(u.steam) : "—"}</small></div></div>
     <div class="uchips">${u.is_admin ? `<span class="c-adm">🛡 ${ut("adm")}</span>` : ""}${prem ? `<span class="c-prem">👑 Premium</span>` : ""}${u.steam ? `<span class="c-ok">✓ Steam</span>` : ""}${u.warns ? `<span class="c-warn">⚠ ${u.warns} ${ut("warns")}</span>` : ""}${blk ? `<span class="c-blk">⛔ ${ut("blocked")} · ${blkTill(u.blocked_until)}</span>` : ""}</div>
     ${blk && u.block_reason ? `<div class="sub" style="font-size:12px;margin:-4px 0 0">${esc(u.block_reason)}</div>` : ""}
-    <div class="umeta"><span>${ut("joined")}: ${u.created_at ? new Date(u.created_at).toLocaleDateString() : "—"}</span><span>${ut("seen")}: ${u.last_sign_in_at ? nAgo(Date.parse(u.last_sign_in_at)) : "—"}</span></div>
+    <div class="umeta"><div><small>${ut("joined")}</small><b>${u.created_at ? new Date(u.created_at).toLocaleDateString() : "—"}</b></div><div><small>${ut("seen")}</small><b>${u.last_sign_in_at ? nAgo(Date.parse(u.last_sign_in_at)) + (LANG === "ru" ? " назад" : " oldin") : "—"}</b></div></div>
     <div class="uact"><button class="btn sm ghost" onclick="openUserAct('${u.user_id}','warn')">⚠ ${ut("warn")}</button><button class="btn sm ghost" onclick="openUserAct('${u.user_id}','msg')">✉ ${ut("msg")}</button>
       ${u.is_admin ? `<button class="btn sm ghost" disabled title="${ut("admErr")}">🛡</button>` : blk ? `<button class="btn sm main" onclick="blockUser('${u.user_id}',0)">✓ ${ut("unblock")}</button>` : `<button class="btn sm danger" onclick="openUserAct('${u.user_id}','block')">🚫 ${ut("block")}</button>`}</div></div>`;
 }
@@ -3031,11 +3112,13 @@ function openUserAct(uid, mode){
     ? `<label>${ut("days")}<select id="uad">${[1, 3, 7, 30, -1].map((d, i) => `<option value="${d}" ${d === 7 ? "selected" : ""}>${ut("d")[i]}</option>`).join("")}</select></label>
        <label>${ut("reason")}<input id="uat" maxlength="200" placeholder="${LANG === "ru" ? "Оскорбления в чате" : "Chatda haqorat"}"></label>
        <button class="btn danger wide" type="submit">🚫 ${ut("block")}</button>`
-    : `<label>${ut("text")}<textarea id="uat" rows="4" maxlength="500" required></textarea></label><button class="btn ${mode === "warn" ? "gold" : "main"} wide" type="submit">${mode === "warn" ? "⚠" : "✉"} ${ut("send")}</button>`;
-  $("#modal").innerHTML = `<div class="modal" onclick="if(event.target===this)closeUserAct()"><div class="mbox" role="dialog" aria-modal="true">
+    : `<label>${ut("text")}<textarea id="uat" rows="5" maxlength="500" required placeholder="${mode === "warn" ? (LANG === "ru" ? "Например: не оскорбляйте игроков в чате, иначе блокировка." : "Masalan: chatda o'yinchilarni haqoratlamang, aks holda bloklanasiz.") : (LANG === "ru" ? "Текст сообщения…" : "Xabar matni…")}" oninput="$('#uac').textContent=this.value.length+' / 500'"></textarea></label><div class="uacount" id="uac">0 / 500</div><button class="btn ${mode === "warn" ? "gold" : "main"} wide" type="submit">${mode === "warn" ? "⚠" : "✉"} ${ut("send")}</button>`;
+  const tone = mode === "warn" ? "#fbbf24" : mode === "block" ? "#f87171" : "#38bdf8";
+  $("#modal").innerHTML = `<div class="modal" onclick="if(event.target===this)closeUserAct()"><div class="mbox uamodal" role="dialog" aria-modal="true" style="--tone:${tone}">
     <button class="mclose" onclick="closeUserAct()" aria-label="close">✕</button>
-    <div class="eyebrow">${esc(nm)} · ${esc(u.email || "")}</div><h2 class="title" style="font-size:26px">${ut(mode === "warn" ? "wT" : mode === "msg" ? "mT" : "bT")}</h2>
-    <form class="authbox" style="margin:0;max-width:none" onsubmit="event.preventDefault();${mode === "block" ? `blockUser('${uid}',+$('#uad').value,$('#uat').value)` : `sendUserAlert('${uid}','${mode === "warn" ? "warn" : "info"}',$('#uat').value)`}">${form}</form></div></div>`;
+    <h2 class="title" style="font-size:26px;margin:0 0 14px">${ut(mode === "warn" ? "wT" : mode === "msg" ? "mT" : "bT")}</h2>
+    <div class="uato">${avatar(nm, false, u.avatar_url)}<div style="min-width:0"><b>${esc(nm)}</b><small>${esc(u.email || "")}${u.steam ? " · " + esc(u.steam) : ""}</small></div></div>
+    <form class="uaform" onsubmit="event.preventDefault();${mode === "block" ? `blockUser('${uid}',+$('#uad').value,$('#uat').value)` : `sendUserAlert('${uid}','${mode === "warn" ? "warn" : "info"}',$('#uat').value)`}">${form}</form></div></div>`;
   setTimeout(() => $("#uat")?.focus(), 60);
 }
 async function blockUser(uid, days, reason){
@@ -3143,8 +3226,10 @@ function pageAdmin(){
       <div id="prz" class="form2">${pr.map(p => prizeRow(p)).join("")}</div>
       <div class="btns"><button class="btn ghost" type="button" onclick="$('#prz').insertAdjacentHTML('beforeend',prizeRow({place:'',prize:''}))">${x("addRow")}</button><button class="btn main" type="submit">${x("save")}</button></div></form>`,
     () => `<div class="split"><div><div id="atl">${ticketList(true)}</div></div><div class="card flat" id="atv">${threadHTML(true)}</div></div>`,
-    () => `<form class="form2" onsubmit="event.preventDefault();saveSetting('announce',{text:$('#an').value.trim()})">
-      <div class="field"><label>${x("ann")}<textarea id="an" rows="2" maxlength="200">${esc(SET.announce?.text || "")}</textarea></label></div><button class="btn main" type="submit">${x("save")}</button></form>
+    () => `<form class="form2" onsubmit="event.preventDefault();const v=$('#an').value.trim();if(!v){$('#an').focus();return}saveSetting('announce',{text:v}).then(()=>{render(false);window.scrollTo({top:0,behavior:'smooth'})})">
+      <div class="field"><label>${x("ann")}<textarea id="an" rows="2" maxlength="200" placeholder="${ru ? "Например: Турнир в субботу в 20:00!" : "Masalan: Shanba kuni 20:00 da turnir!"}">${esc(SET.announce?.text || "")}</textarea></label></div>
+      <div class="sub" style="font-size:12.5px;margin:-4px 0 10px">${SET.announce?.text ? `✓ ${ru ? "Сейчас на сайте:" : "Hozir saytda:"} <b style="color:var(--text)">📣 ${esc(SET.announce.text)}</b>` : `⚪ ${ru ? "Объявления нет — напишите текст и нажмите «Сохранить»" : "E'lon yo'q — matn yozib «Saqlash» ni bosing"}`}</div>
+      <div class="btns"><button class="btn main" type="submit">${x("save")}</button>${SET.announce?.text ? `<button class="btn ghost" type="button" onclick="saveSetting('announce',{text:''}).then(()=>render(false))">✕ ${ru ? "Убрать" : "Olib tashlash"}</button>` : ""}</div></form>
       <form class="form2 mt2" onsubmit="event.preventDefault();act('say',{text:$('#sy').value.trim()})"><div class="field"><label>${x("annSay")}<input id="sy" maxlength="120" required></label></div><button class="btn" type="submit">${x("sendSrv")}</button></form>`
 ,
     () => `<div class="btns"><button class="btn main" onclick="loadBanList()">🔄 ${x("loadBans")}</button></div><div id="banl" class="mt">${banListHTML()}</div>`

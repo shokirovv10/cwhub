@@ -3355,7 +3355,7 @@ const CARD = document.documentElement.classList.contains("cardmode");
   if (CARD) { pre.classList.add("done"); window.preReady = () => {}; return; }
   const a = $("#introAud");
   let soundDone = false, dataReady = false, closed = false;
-  if (!document.documentElement.classList.contains("introsnd")) soundDone = true;   // ovoz faqat bosh sahifada
+  if (!document.documentElement.classList.contains("introsnd")) { soundDone = true; setTimeout(() => close(), 2500); }   // ovoz faqat bosh sahifada; boshqa sahifalar tez ochiladi
   const close = () => { if (closed) return; closed = true; pre.classList.add("done"); };
   const tryClose = () => { if (soundDone && dataReady) close(); };
   const finish = () => { if (soundDone) return; soundDone = true; tryClose(); setTimeout(close, 3000); };   // ma'lumot sekin bo'lsa ham ochiladi

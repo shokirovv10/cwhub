@@ -871,6 +871,12 @@ html.cardmode .mside .mpl,html.cardmode .mcenter,html.cardmode .aw,html.cardmode
 .uaform textarea,.uaform input,.uaform select{width:100%;box-sizing:border-box;background:#0d0f14;border:1px solid var(--line2);border-radius:14px;color:var(--text);padding:13px 14px;font:14.5px/1.5 Inter,sans-serif;outline:none;resize:vertical;transition:border-color .2s,box-shadow .2s}
 .uaform textarea{min-height:130px}.uaform textarea:focus,.uaform input:focus,.uaform select:focus{border-color:var(--tone);box-shadow:0 0 0 3px color-mix(in srgb,var(--tone) 18%,transparent)}
 .uacount{font-size:11.5px;color:var(--dim);text-align:right;margin-top:-6px}
+.rpchips{display:flex;flex-wrap:wrap;gap:6px}.rpchip{cursor:pointer}.rpchip input{display:none}
+.rpchip span{display:inline-block;padding:7px 12px;border-radius:99px;border:1px solid var(--line2);background:#0d0f14;font:600 12.5px Inter,sans-serif;color:var(--muted);transition:.15s}
+.rpchip input:checked+span{border-color:#f87171;color:#fca5a5;background:rgba(248,113,113,.1)}
+.rpcard .rpbody{font-size:13px;color:var(--text);line-height:1.45;padding:9px 11px;border-radius:12px;background:rgba(255,255,255,.03);border-left:3px solid var(--tone);overflow-wrap:anywhere}
+.rpcard.done,.rpcard.rejected{opacity:.7}.rpcard .uact{grid-template-columns:1fr 1fr 1fr}.rpcard .uact .btn:last-child{grid-column:auto}
+.repbtn{color:#fca5a5}
 .alertbox{display:grid;gap:10px;margin:6px 0 16px}.alertbox div{padding:12px 14px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);font-size:14px;line-height:1.5}
 .alertbox .warn{border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.07)}.alertbox .block{border-color:rgba(248,113,113,.45);background:rgba(248,113,113,.08)}
 .alertbox small{display:block;color:var(--dim);font-size:11.5px;margin-top:4px}
@@ -1685,7 +1691,7 @@ function pageMatch(ts){
   if (document.documentElement.classList.contains("cardmode"))
     return `<div id="cardroot" data-t="${m.t}">${matchBoard(m)}${awards}<div class="cardfoot"><b>CW<span>hub</span></b><span>cwhub.uz</span></div></div>`;
   return `<div class="btns" style="justify-content:space-between"><a class="btn sm ghost" href="/matches">${t("back")}</a>
-    <span id="demobtn" data-t="${m.t}" data-map="${esc(m.map)}">${demoBtn(m)}</span></div>
+    <span class="btns" style="margin:0"><button class="btn sm ghost repbtn" onclick="openReport(null,${m.t})">🚩 ${LANG === "ru" ? "Пожаловаться" : "Shikoyat"}</button><span id="demobtn" data-t="${m.t}" data-map="${esc(m.map)}">${demoBtn(m)}</span></span></div>
   ${matchBoard(m)}
   ${real.length ? `<div class="awards mt">
     <div class="aw"><span>⭐ ${t("mvp")}</span><b>${esc(m.mvp?.name)}</b><span class="sub">${t("rt")} ${m.mvp?.rating.toFixed(2)}</span></div>
@@ -1804,7 +1810,7 @@ function pageProfile(id){
       <div class="prog ${tier(p.pts)}"><i style="width:${(frac * 100).toFixed(1)}%"></i></div>
       <div class="sub" style="font-size:13px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">${next ? t("nextRank")([next[0] - p.pts, next[1]]) : t("maxRank")} ${formDots(p.form)}</div>
     </div>
-    <div class="btns" style="flex-direction:column">${connectBtns(false)}<a class="btn" href="/vs/${slug(p.id)}">⇄ ${t("compare")}</a>${friendBtn(p.id)}</div>
+    <div class="btns" style="flex-direction:column">${connectBtns(false)}<a class="btn" href="/vs/${slug(p.id)}">⇄ ${t("compare")}</a>${friendBtn(p.id)}${mySteam() !== p.id ? `<button class="btn ghost repbtn" onclick="openReport('${esc(p.id)}')">🚩 ${LANG === "ru" ? "Пожаловаться" : "Shikoyat"}</button>` : ""}</div>
   </div>
   <div class="tiles">
     <div class="tile"><b>${p.matches}</b><span>${t("matches")}</span></div>
@@ -2914,7 +2920,7 @@ const X = {
     myT: "Murojaatlarim", noT: "Hali murojaat yo'q", needLogin: "Yordam uchun avval akkauntga kiring.", reply: "Javob yozing…", close: "Yopish", closed: "Yopilgan",
     stt: {open: "ochiq", answered: "javob berildi", closed: "yopilgan"}, admin: "Admin", you: "Siz", pick: "Chapdan murojaatni tanlang",
     aT: "Admin panel", aL: "Chegirma, huquq berish, ban, sovrinlar, support va e'lon.", noAccess: "Bu sahifa faqat sayt adminlari uchun.",
-    tabs: ["Panel", "Tariflar va to'lov", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati", "Sayt adminlari", "Premium buyurtmalar", "Statistika", "Reklama", "Foydalanuvchilar"],
+    tabs: ["Panel", "Tariflar va to'lov", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati", "Sayt adminlari", "Premium buyurtmalar", "Statistika", "Reklama", "Foydalanuvchilar", "Shikoyatlar"],
     loadBans: "Banlarni yuklash", rebans: "Qayta ban", noBansA: "Faol ban yo'q", accs: "Saytdagi akkauntlar", pend: "Kutilayotgan buyruqlar",
     disc: "Chegirma (%)", until: "Tugash sanasi", label: "Yozuv (masalan: Sezon ochilishi!)", save: "Saqlash", saved: "Saqlandi", off: "Chegirmani o'chirish",
     steam: "SteamID", level: "Daraja", days: "Kun (0 = abadiy)", nick: "Nik", grant: "Huquq berish", remove: "Huquqni olish", list: "Adminlar ro'yxati",
@@ -2928,7 +2934,7 @@ const X = {
     myT: "Мои обращения", noT: "Обращений пока нет", needLogin: "Чтобы написать в поддержку, войдите в аккаунт.", reply: "Напишите ответ…", close: "Закрыть", closed: "Закрыто",
     stt: {open: "открыто", answered: "есть ответ", closed: "закрыто"}, admin: "Админ", you: "Вы", pick: "Выберите обращение слева",
     aT: "Админ-панель", aL: "Скидки, выдача прав, баны, призы, поддержка и объявления.", noAccess: "Страница только для админов сайта.",
-    tabs: ["Панель", "Тарифы и оплата", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов", "Админы сайта", "Premium заказы", "Статистика", "Реклама", "Пользователи"],
+    tabs: ["Панель", "Тарифы и оплата", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов", "Админы сайта", "Premium заказы", "Статистика", "Реклама", "Пользователи", "Жалобы"],
     loadBans: "Загрузить баны", rebans: "Перебанить", noBansA: "Активных банов нет", accs: "Аккаунтов на сайте", pend: "Ожидают выполнения",
     disc: "Скидка (%)", until: "Действует до", label: "Подпись (например: Открытие сезона!)", save: "Сохранить", saved: "Сохранено", off: "Выключить скидку",
     steam: "SteamID", level: "Уровень", days: "Дней (0 = навсегда)", nick: "Ник", grant: "Выдать права", remove: "Снять права", list: "Список админов",
@@ -3335,13 +3341,83 @@ function pwaBar(){
 }
 if ("serviceWorker" in navigator && !document.documentElement.classList.contains("cardmode")) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
 setTimeout(pwaBar, 7000);
+// shikoyatlar: o'yinchi profilidan yoki matchdan yuboriladi, admin panelda ko'rib chiqiladi
+const REP_R = {uz: {cheat: "Chit (WH, aim, speed)", toxic: "Haqorat / so'kinish", grief: "Jamoaga zarar (o'ldirish, AFK)", nick: "Nojo'ya nik", other: "Boshqa"},
+  ru: {cheat: "Читы (WH, аим, спид)", toxic: "Оскорбления / мат", grief: "Вредительство (тимкилл, AFK)", nick: "Недопустимый ник", other: "Другое"}};
+let RPT = {list: null, open: 0, f: "open"};
+function openReport(steam, mt){
+  const ru = LANG === "ru";
+  if (!sb || !ME) { toast(ru ? "Войдите, чтобы отправить жалобу" : "Shikoyat uchun akkauntga kiring"); return go("/login"); }
+  const m = mt ? IDX.matches.find(q => q.t === mt) : null;
+  const cand = m ? m.rows.filter(r => r.id !== mySteam()) : [];
+  const who = steam ? (IDX.byId[steam]?.name || PROF[steam]?.nick || steam) : "";
+  $("#modal").innerHTML = `<div class="modal" onclick="if(event.target===this)closeUserAct()"><div class="mbox uamodal" role="dialog" aria-modal="true" style="--tone:#f87171">
+    <button class="mclose" onclick="closeUserAct()" aria-label="close">✕</button>
+    <h2 class="title" style="font-size:26px;margin:0 0 6px">🚩 ${ru ? "Жалоба на игрока" : "O'yinchiga shikoyat"}</h2>
+    <p class="sub" style="margin:0 0 14px;font-size:13px">${ru ? "Админы проверят демо и статистику. Ложные жалобы — нарушение правил." : "Adminlar demo va statistikani tekshiradi. Yolg'on shikoyat — qoidabuzarlik."}</p>
+    <form class="uaform" onsubmit="event.preventDefault();sendReport(${mt || "null"})">
+      ${steam ? `<div class="uato">${avatar(who, false, photoOf(steam))}<div style="min-width:0"><b>${esc(who)}</b><small>${esc(steam)}</small></div></div><input type="hidden" id="rps" value="${esc(steam)}">`
+        : `<label>${ru ? "Игрок" : "O'yinchi"}<select id="rps" required><option value="">— ${ru ? "выберите" : "tanlang"} —</option>${cand.map(r => `<option value="${esc(r.id)}">${esc(r.name)}</option>`).join("")}</select></label>`}
+      <label>${ru ? "Причина" : "Sabab"}<div class="rpchips">${Object.entries(REP_R[LANG]).map(([k, v], i) => `<label class="rpchip"><input type="radio" name="rpr" value="${k}" ${i ? "" : "checked"}><span>${v}</span></label>`).join("")}</div></label>
+      <label>${ru ? "Подробности (раунд, что видели)" : "Tafsilot (qaysi raund, nima ko'rdingiz)"}<textarea id="rpb" rows="4" maxlength="500" placeholder="${ru ? "Например: 2-й тайм, 5 раунд — стрелял сквозь стену на B" : "Masalan: 2-taym, 5-raund — B'da devor orqali otdi"}"></textarea></label>
+      <button class="btn danger wide" type="submit">🚩 ${ru ? "Отправить жалобу" : "Shikoyat yuborish"}</button></form></div></div>`;
+}
+async function sendReport(mt){
+  const ru = LANG === "ru", steam = $("#rps").value, reason = (document.querySelector("input[name=rpr]:checked") || {}).value;
+  if (!steam || !reason) return;
+  const name = IDX.byId[steam]?.name || PROF[steam]?.nick || "";
+  const r = await sb.from("reports").insert({target_steam: steam, target_name: name.slice(0, 40), match_t: mt || null, reason, body: ($("#rpb").value || "").trim() || null});
+  if (r.error) { const e = r.error.message;
+    return toast("✕ " + (/self/.test(e) ? (ru ? "Нельзя жаловаться на себя" : "O'zingizga shikoyat qilib bo'lmaydi") : /rate/.test(e) ? (ru ? "Слишком много жалоб — подождите час" : "Juda ko'p shikoyat — 1 soat kuting")
+      : /dup/.test(e) ? (ru ? "Вы уже жаловались на этого игрока" : "Bu o'yinchiga allaqachon shikoyat qilgansiz") : /blocked/.test(e) ? (ru ? "Аккаунт заблокирован" : "Akkaunt bloklangan") : e)); }
+  closeUserAct(); toast(ru ? "✓ Жалоба отправлена админам" : "✓ Shikoyat adminlarga yuborildi");
+}
+async function loadReports(){
+  if (!sb || !ME?.admin) return;
+  const r = await sb.rpc("admin_reports", {p_status: RPT.f === "all" ? "" : RPT.f});
+  RPT.list = r.data || [];
+  const c = await sb.from("reports").select("id", {count: "exact", head: true}).eq("status", "open"); RPT.open = c.count || 0;
+  const el = $("#rplist"); if (el) el.innerHTML = reportsListHTML();
+}
+function reportsListHTML(){
+  const ru = LANG === "ru";
+  if (RPT.list == null) return `<div class="skel" style="height:120px;border-radius:18px"></div>`;
+  if (!RPT.list.length) return `<div class="empty">${ru ? "Жалоб нет 🎉" : "Shikoyat yo'q 🎉"}</div>`;
+  const tone = {cheat: "#f87171", toxic: "#fbbf24", grief: "#fb923c", nick: "#a78bfa", other: "#94a3b8"};
+  return `<div class="ugrid">${RPT.list.map(r => { const p = IDX.byId[r.target_steam];
+    return `<div class="ucard rpcard ${r.status}" style="--tone:${tone[r.reason] || "#94a3b8"}">
+      <div class="uhd">${avatar(r.target_name || "?", false, photoOf(r.target_steam))}<div style="min-width:0"><b>${p ? `<a href="/p/${slug(r.target_steam)}" style="color:inherit;text-decoration:none">${esc(r.target_name || p.name)}</a>` : esc(r.target_name || "—")}</b><small>${esc(r.target_steam)}</small>${p ? `<small>${p.pts} PTS · K/D ${(p.kills / Math.max(p.deaths, 1)).toFixed(2)}</small>` : ""}</div></div>
+      <div class="uchips"><span style="color:var(--tone);border-color:color-mix(in srgb,var(--tone) 45%,transparent)">🚩 ${esc(REP_R[LANG][r.reason] || r.reason)}</span>${r.same_target > 1 ? `<span class="c-blk">×${r.same_target} ${ru ? "за 30 дн." : "30 kunda"}</span>` : ""}<span class="${r.status === "open" ? "c-warn" : r.status === "done" ? "c-ok" : ""}">${r.status === "open" ? (ru ? "новая" : "yangi") : r.status === "done" ? (ru ? "решено" : "hal qilindi") : (ru ? "отклонена" : "rad etildi")}</span></div>
+      ${r.body ? `<div class="rpbody">“${esc(r.body)}”</div>` : ""}
+      <div class="umeta"><div><small>${ru ? "От" : "Kimdan"}</small><b>${esc(r.reporter_nick || (r.reporter_email || "").split("@")[0] || "—")}</b></div><div><small>${ru ? "Когда" : "Qachon"}</small><b>${nAgo(Date.parse(r.created_at))}${ru ? " назад" : " oldin"}</b></div></div>
+      ${r.match_t ? `<a class="btn sm ghost" href="/m/${r.match_t}">🎮 ${ru ? "Открыть матч" : "Matchni ochish"}</a>` : ""}
+      ${r.status === "open" ? `<div class="uact"><button class="btn sm danger" onclick="reportBan(${r.id})">⛔ ${ru ? "Бан" : "Ban"}</button><button class="btn sm main" onclick="decideReport(${r.id},'done')">✓ ${ru ? "Решено" : "Hal qilindi"}</button><button class="btn sm ghost" onclick="decideReport(${r.id},'rejected')">✕ ${ru ? "Отклонить" : "Rad etish"}</button></div>` : ""}
+    </div>`; }).join("")}</div>`;
+}
+function reportsAdminHTML(){
+  const ru = LANG === "ru", f = [["open", ru ? "Новые" : "Yangi"], ["done", ru ? "Решённые" : "Hal qilingan"], ["rejected", ru ? "Отклонённые" : "Rad etilgan"], ["all", ru ? "Все" : "Hammasi"]];
+  return `<p class="sub" style="margin-top:0">${ru ? "Жалобы игроков из профилей и матчей. Откройте матч/демо, проверьте и примите решение — автор получит уведомление." : "O'yinchilar profil va matchlardan yuborgan shikoyatlar. Match/demoni ochib tekshiring va qaror qiling — shikoyatchiga xabar boradi."}</p>
+    <div class="pmon" style="max-width:520px">${f.map(([k, v]) => `<button type="button" class="${RPT.f === k ? "on" : ""}" onclick="RPT.f='${k}';RPT.list=null;render(false);loadReports()">${v}</button>`).join("")}</div>
+    <div id="rplist">${reportsListHTML()}</div>`;
+}
+async function decideReport(id, st, note){
+  const r = await sb.from("reports").update({status: st, admin_note: note || null}).eq("id", id);
+  if (r.error) return toast("✕ " + r.error.message);
+  toast("✓"); loadReports();
+}
+function reportBan(id){
+  const r = (RPT.list || []).find(x => x.id === id); if (!r) return;
+  decideReport(id, "done", LANG === "ru" ? "Игрок забанен" : "O'yinchi ban qilindi");
+  aTab = 3; render(false); bindAdmin();
+  setTimeout(() => { const s2 = $("#bs"), rr = $("#br"); if (s2) s2.value = r.target_steam; if (rr) rr.value = (REP_R.ru[r.reason] || "").split(" (")[0]; s2?.scrollIntoView({block: "center"}); }, 80);
+}
 function pageAdmin(){
   if (!sb || !ME) return `<div class="card auth"><div class="big">🛡</div><h2 class="title">${x("aT")}</h2><p class="lead" style="margin:0 auto 16px">${x("needLogin")}</p><a class="btn main" href="/me">${t("login")}</a></div>`;
   if (!ME.admin) return `<div class="card empty">${x("noAccess")}</div>`;
   const ru = LANG === "ru", names = x("tabs"), openT = TK.list.filter(t2 => t2.status === "open").length;
-  const ICO = ["📊", "🛒", "🛡", "⛔", "🏆", "💬", "📢", "📋", "👤", "👑", "📈", "🪧", "👥"];
-  const GROUPS = [[ru ? "Обзор" : "Umumiy", [0, 10]], [ru ? "Сервер" : "Server", [2, 3, 7, 6]], [ru ? "Сайт" : "Sayt", [12, 1, 9, 11, 4, 8]], [ru ? "Поддержка" : "Yordam", [5]]];
-  const side = `<aside class="aside">${GROUPS.map(([g, ids]) => `<div class="ag">${g}</div>${ids.map(i => `<button type="button" class="${i === aTab ? "on" : ""}" onclick="aTab=${i};render(false);bindAdmin()"><i>${ICO[i]}</i><span>${names[i]}</span>${i === 5 && openT ? `<em>${openT}</em>` : ""}</button>`).join("")}`).join("")}</aside>`;
+  const ICO = ["📊", "🛒", "🛡", "⛔", "🏆", "💬", "📢", "📋", "👤", "👑", "📈", "🪧", "👥", "🚩"];
+  const GROUPS = [[ru ? "Обзор" : "Umumiy", [0, 10]], [ru ? "Сервер" : "Server", [13, 2, 3, 7, 6]], [ru ? "Сайт" : "Sayt", [12, 1, 9, 11, 4, 8]], [ru ? "Поддержка" : "Yordam", [5]]];
+  const side = `<aside class="aside">${GROUPS.map(([g, ids]) => `<div class="ag">${g}</div>${ids.map(i => `<button type="button" class="${i === aTab ? "on" : ""}" onclick="aTab=${i};render(false);bindAdmin()"><i>${ICO[i]}</i><span>${names[i]}</span>${i === 5 && openT ? `<em>${openT}</em>` : ""}${i === 13 && RPT.open ? `<em>${RPT.open}</em>` : ""}</button>`).join("")}`).join("")}</aside>`;
   const d = SET.discount || {}, pr = (SET.prizes && SET.prizes.length ? SET.prizes : PRIZES_DEFAULT[LANG]);
   const steamIn = id => `<div class="field"><label>${x("steam")}<input id="${id}" placeholder="STEAM_0:1:123456789" required title="STEAM_0:1:123 · STEAM_1:… · [U:1:…] · 7656119…"></label></div>`;
   const body = [
@@ -3386,7 +3462,8 @@ function pageAdmin(){
       <div id="promol" class="mt">${promoListHTML()}</div>`,
     () => `<div id="astat">${statsHTML()}</div>`,
     () => adsAdminHTML(),
-    () => usersAdminHTML()
+    () => usersAdminHTML(),
+    () => reportsAdminHTML()
   ][aTab]();
   return `<div class="ahead"><div><div class="eyebrow" style="color:var(--gold)">CWHUB · ADMIN</div><h2 class="title" style="margin:6px 0 2px">🛡 ${x("aT")}</h2><p class="sub" style="margin:0">${x("aL")}</p></div>
       <div class="ahk"><span><b>${D?.server?.count || 0}</b>${ru ? "онлайн" : "onlayn"}</span><span><b>${openT}</b>${ru ? "обращений" : "murojaat"}</span><span><b>${ALOG.filter(a => a.status === "pending").length}</b>${ru ? "в очереди" : "navbatda"}</span></div></div>
@@ -3539,6 +3616,7 @@ async function bindAdmin(){
   if (aTab === 9) { loadPremOrders(); loadPromos(); }
   if (aTab === 10) loadStats();
   if (aTab === 12) loadUsers();
+  loadReports();
 }
 async function bindSupport(){ if (!sb || !ME) return; await myChat(); render(false); scrollThread(); }
 

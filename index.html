@@ -818,6 +818,10 @@ html.cardmode .mside .mpl,html.cardmode .mcenter,html.cardmode .aw,html.cardmode
 .ucard .umeta small{display:block;font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--dim)}.ucard .umeta b{display:block;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ucard .uact{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}.ucard .uact .btn{padding:9px 8px;font-size:13px;justify-content:center;white-space:nowrap}.ucard .uact .btn:last-child{grid-column:1/-1}
 .btn.danger{background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.4);color:#fca5a5}.btn.danger:hover{background:rgba(248,113,113,.22)}
+.emcard .emhd{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.emcard .emhd>div:nth-child(2){flex:1;min-width:0}
+.emcard .sic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:21px;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.3)}
+.emform{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.emform input{flex:1;min-width:200px;background:#0d0f14;border:1px solid var(--line2);border-radius:12px;color:var(--text);padding:11px 13px;font:14px Inter,sans-serif;outline:none}
+.emform input:focus{border-color:var(--accent)}
 .acb{--tone:#4ade80;position:relative;max-width:560px;margin:40px auto 20px;padding:40px 34px 26px;border-radius:28px;text-align:center;overflow:hidden;
   background:radial-gradient(460px 220px at 50% 0%,color-mix(in srgb,var(--tone) 18%,transparent),transparent 70%),linear-gradient(180deg,#171b25,#0d0f14);
   border:1px solid color-mix(in srgb,var(--tone) 35%,transparent);box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 50px color-mix(in srgb,var(--tone) 10%,transparent);animation:fadeUp .6s var(--ease)}
@@ -2218,7 +2222,27 @@ function pageMe(){
     <div><b>${mt("gT")}</b><div class="sub" style="font-size:13px">${gOk ? mt("gL") : mt("gLock")(G_MIN, gp)}</div></div>
     ${gOk ? `<button class="btn ${gOn ? "ghost" : "main"} sw" onclick="setBadge(${!gOn})">${gOn ? mt("gOff") : mt("gOn")}</button>` : ""}</div></div>`;
   if (MYORD == null) loadMyOrders().then(() => { if ((curRoute() || "") === "#/me") render(false); });
-  return `${head}${link}${premCard()}${badge}<div class="mt">${friendsCard()}</div>`;
+  return `${head}${link}${emailCard()}${premCard()}${badge}<div class="mt">${friendsCard()}</div>`;
+}
+// email o'zgartirish — faqat bir marta (server ham tekshiradi)
+function emailCard(){
+  const ru = LANG === "ru", used = !!ME.acc?.email_changed_at, pend = ME.newEmail;
+  return `<div class="card mt emcard"><div class="emhd"><div class="sic">📧</div><div><h3 style="margin:0">${ru ? "Email" : "Email manzil"}</h3>
+      <div class="sub" style="font-size:13px">${esc(ME.email)}</div></div>
+      <span class="st ${used ? "closed" : "answered"}">${used ? (ru ? "уже изменён" : "o'zgartirilgan") : (ru ? "можно изменить 1 раз" : "1 marta o'zgartirish mumkin")}</span></div>
+    ${used ? `<p class="sub" style="margin:10px 0 0;font-size:13px">🔒 ${ru ? "Email уже менялся " + new Date(ME.acc.email_changed_at).toLocaleDateString() + ". Повторная смена — только через Поддержку." : "Email " + new Date(ME.acc.email_changed_at).toLocaleDateString() + " da o'zgartirilgan. Qayta o'zgartirish — faqat Yordam markazi orqali."}</p>`
+      : pend ? `<div class="msg ok" style="margin-top:12px">✉ ${ru ? `Письма отправлены на <b>${esc(pend)}</b> и на старый адрес — подтвердите в обоих.` : `<b>${esc(pend)}</b> va eski pochtangizga xat yuborildi — ikkalasida ham tasdiqlang.`}</div>`
+      : `<form class="emform" onsubmit="event.preventDefault();changeEmail()"><input id="newem" type="email" required placeholder="${ru ? "Новый email (лучше Gmail)" : "Yangi email (Gmail tavsiya)"}" autocomplete="email">
+        <button class="btn main" type="submit">${ru ? "Изменить" : "O'zgartirish"}</button></form>
+        <p class="sub" style="margin:8px 0 0;font-size:12px">⚠ ${ru ? "Email можно изменить только один раз. Придут письма на старый и новый адрес — подтвердите оба." : "Emailni faqat bir marta o'zgartirish mumkin. Eski va yangi pochtaga xat keladi — ikkalasini tasdiqlang."}</p>`}</div>`;
+}
+async function changeEmail(){
+  const ru = LANG === "ru", em = ($("#newem").value || "").trim().toLowerCase();
+  if (!em || em === (ME.email || "").toLowerCase()) return;
+  if (!confirm(ru ? `Изменить email на ${em}? Это можно сделать только один раз.` : `Emailni ${em} ga o'zgartiraymi? Buni faqat bir marta qilish mumkin.`)) return;
+  const r = await sb.auth.updateUser({email: em}, {emailRedirectTo: location.origin + "/auth"});
+  if (r.error) return toast("✕ " + (/email_once|Database error/i.test(r.error.message) ? (ru ? "Email уже менялся" : "Email allaqachon o'zgartirilgan") : r.error.message));
+  ME.newEmail = em; render(false); toast(ru ? "✉ Письма отправлены" : "✉ Xatlar yuborildi");
 }
 async function setBadge(on){
   const r = await sb.rpc("set_badge", {p_on: on});
@@ -3174,7 +3198,7 @@ async function readMyAlerts(ids, keep){ if (!keep) closeUserAct(); try { await s
 let AUTHCB = {done: null};
 function authCbInfo(){
   const q = new URLSearchParams(String(window.__authHash || "").replace(/^#/, "").replace(/\?/g, "&"));
-  return {type: q.get("type") || "", err: q.get("error_description") || q.get("error") || "", code: q.get("error_code") || ""};
+  return {type: q.get("type") || "", err: q.get("error_description") || q.get("error") || "", code: q.get("error_code") || "", msg: q.get("message") || ""};
 }
 function pageAuthCb(){
   const ru = LANG === "ru", i = authCbInfo();
@@ -3187,6 +3211,9 @@ function pageAuthCb(){
       `<p class="lead">${expired ? (ru ? "Ссылка из письма действует ограниченное время и только один раз. Запросите новую — это займёт минуту." : "Xatdagi havola cheklangan vaqt va faqat bir marta ishlaydi. Yangisini so'rang — bir daqiqa ichida keladi.") : esc(i.err)}</p>`,
       `<a class="btn main" href="/login">🔑 ${ru ? "Войти / новая ссылка" : "Kirish / yangi havola"}</a><a class="btn ghost" href="/">${ru ? "На главную" : "Bosh sahifa"}</a>`);
   }
+  if (i.msg) return card("#38bdf8", "📨", ru ? "СМЕНА EMAIL" : "EMAIL ALMASHTIRISH", ru ? "Половина пути" : "Yarim yo'l bosildi",
+    `<p class="lead">${ru ? "Одна ссылка подтверждена. Откройте письмо на втором адресе (старом или новом) и подтвердите тоже." : "Bitta havola tasdiqlandi. Endi ikkinchi pochtadagi (eski yoki yangi) xatni ochib, uni ham tasdiqlang."}</p>`,
+    `<a class="btn main" href="/me">👤 ${ru ? "Мой профиль" : "Profilim"}</a>`);
   if (!ME) return card("#ffb547", `<span class="acbspin"></span>`, "CWHUB", ru ? "Проверяем ссылку…" : "Havola tekshirilmoqda…",
     `<p class="lead">${ru ? "Секунду, входим в ваш аккаунт." : "Bir soniya, akkauntingizga kiryapmiz."}</p>`, "");
   const nick = esc(myNick()), code = esc(ME.acc?.code || "····");
@@ -3199,6 +3226,9 @@ function pageAuthCb(){
        <label>${t("password2")}<input id="np2" type="password" minlength="6" required autocomplete="new-password"></label>
        <div class="msg err" id="npe" style="display:none"></div>
        <button class="btn main wide" type="submit">💾 ${ru ? "Сохранить пароль" : "Parolni saqlash"}</button></form>`, "");
+  if (i.type === "email_change") return card("#4ade80", "📧", ru ? "ГОТОВО" : "TAYYOR", ru ? "Email изменён" : "Email o'zgartirildi",
+    `<p class="lead">${ru ? "Теперь входите с новым адресом:" : "Endi yangi manzil bilan kirasiz:"} <b style="color:var(--text)">${esc(ME.email)}</b></p>`,
+    `<a class="btn main" href="/me">👤 ${ru ? "Мой профиль" : "Profilim"}</a>`);
   return card("#4ade80", "✅", ru ? "EMAIL ПОДТВЕРЖДЁН" : "EMAIL TASDIQLANDI", ru ? `Добро пожаловать, ${nick}!` : `Xush kelibsiz, ${nick}!`,
     `<p class="lead">${ru ? "Аккаунт активирован. Остался один шаг — привяжите игровой профиль:" : "Akkaunt faollashdi. Bitta qadam qoldi — o'yin profilingizni ulang:"}</p>
      ${ME.acc?.steam ? `<div class="acbcode ok">✓ ${ru ? "Профиль привязан" : "Profil ulangan"} · ${esc(ME.acc.steam)}</div>`

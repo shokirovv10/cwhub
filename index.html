@@ -220,6 +220,8 @@ nav.bottom{display:none}
   nav.bottom a.prem{color:var(--gold)}
   body{padding-bottom:96px}
 }
+nav.top a,nav.top .more>button{padding:9px 7px;font-size:13.5px}
+@media(max-width:1300px){nav.top .nsoon{display:none}}
 /* o'rta kenglikda (900–1180px) sarlavha sig'masin: oraliqlar kichrayadi, do'kon faqat 👑 */
 @media(max-width:1180px){nav.top a,nav.top .more>button{padding:9px 7px;font-size:13px}nav.top a.prem .pl{display:none}.hright{gap:6px}.lang button{padding:4px 7px}}
 main,main.wrap{padding:34px 18px 90px;min-height:60vh}   /* .wrap padding'ini bosib ketmasin — oxirgi element footerga yopishmaydi */
@@ -751,6 +753,7 @@ a.adbox:hover img{transform:scale(1.025)}
 .pmon{display:flex;gap:4px;padding:3px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
 .pmon button{flex:1;border:0;background:none;color:var(--muted);padding:6px 4px;border-radius:9px;font:700 12px Inter,sans-serif;cursor:pointer}
 .pmon button.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c1300}
+.nsoon{margin-left:5px;padding:1px 6px;border-radius:99px;font:800 9px Inter,sans-serif;letter-spacing:.4px;background:rgba(255,159,28,.18);color:var(--accent);text-transform:uppercase;vertical-align:2px}
 .soon{margin-left:6px;padding:1px 7px;border-radius:99px;font:800 10px Inter,sans-serif;background:rgba(255,159,28,.18);color:var(--accent);text-transform:uppercase}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .qsr{position:fixed;inset:0;z-index:120;background:rgba(5,6,9,.6);backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:flex-start;padding:90px 16px 16px;animation:fadeIn .15s}
@@ -3575,12 +3578,12 @@ function renderNav(){
   // asosiylari ko'rinib turadi, qolgani — "Ko'proq" menyusida (sarlavha bir qatorga sig'sin)
   const link = (href, label, on) => `<a href="${href}" class="${on ? "on" : ""}">${label}</a>`;
   const extra = [link("/rules", t("nav")[4], isOn(4)), link("/bans", t("nav")[5], isOn(5)),
-    link("/lobby", `🎮 Lobby <span class="soon">${LANG === "ru" ? "скоро" : "tez orada"}</span>`, h === "#/lobby"),
     link("/support", LANG === "ru" ? "Поддержка" : "Yordam", h === "#/support"), link("/privacy", LANG === "ru" ? "Конфиденциальность" : "Maxfiylik", h === "#/privacy")]
     .concat(ME?.admin ? [link("/admin", "🛡 Admin", h === "#/admin")] : []);
   const extraOn = isOn(4) || isOn(5) || h === "#/support" || h === "#/admin";
   $("#nav").innerHTML = [0, 1, 2, 3].map(i => link(ROUTES[i].slice(1), t("nav")[i], isOn(i))).join("")
     + link("/chat", "💬 Chat", h === "#/chat")
+    + link("/lobby", `🎮 Lobby<span class="nsoon" title="${LANG === "ru" ? "скоро" : "tez orada"}">${LANG === "ru" ? "скоро" : "soon"}</span>`, h === "#/lobby")
     + `<div class="more" onmouseleave="this.classList.remove('open')"><button type="button" class="${extraOn ? "on" : ""}" onclick="this.parentNode.classList.toggle('open')">${LANG === "ru" ? "Ещё" : "Ko'proq"}<i>▾</i></button><div class="menu">${extra.join("")}</div></div>`
     + `<a href="/premium" class="prem ${h === "#/premium" ? "on" : ""}">👑 <span class="pl">${pt("nav")}</span></a>`;
   const crown = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 7 4.5 4L12 4l4.5 7L21 7l-2 12H5Z"/></svg>';

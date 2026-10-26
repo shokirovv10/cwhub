@@ -678,6 +678,21 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .ppage .card h3{display:flex;align-items:center;gap:10px}
 .ppage .phero{border-radius:26px;border:1px solid rgba(255,209,102,.22)}
 .ppage .tiles .tile{border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid rgba(255,209,102,.14)}
+.pmon{display:flex;gap:4px;padding:3px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.pmon button{flex:1;border:0;background:none;color:var(--muted);padding:6px 4px;border-radius:9px;font:700 12px Inter,sans-serif;cursor:pointer}
+.pmon button.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c1300}
+.soon{margin-left:6px;padding:1px 7px;border-radius:99px;font:800 10px Inter,sans-serif;background:rgba(255,159,28,.18);color:var(--accent);text-transform:uppercase}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.qsr{position:fixed;inset:0;z-index:120;background:rgba(5,6,9,.6);backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:flex-start;padding:90px 16px 16px;animation:fadeIn .15s}
+.qbox{width:min(600px,100%);border-radius:18px;border:1px solid var(--line2);background:#121419;box-shadow:0 30px 80px rgba(0,0,0,.6);overflow:hidden}
+.qin{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);font-size:18px}
+.qin input{flex:1;background:none;border:0;outline:none;color:var(--text);font:500 17px Inter,sans-serif}
+.qin kbd{font:700 11px Inter,sans-serif;color:var(--dim);border:1px solid var(--line);border-radius:6px;padding:2px 6px}
+.qres{max-height:60vh;overflow:auto;padding:6px}
+.qrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;text-decoration:none;color:var(--text)}
+.qrow:hover,.qrow.on{background:rgba(255,159,28,.08)}.qpts{display:flex;align-items:center;gap:8px;color:var(--muted);font-weight:700;font-size:13px}
+.schart{border:1px solid var(--line);border-radius:16px;padding:12px;background:rgba(255,255,255,.015)}.schart svg{width:100%;height:auto;display:block}
+.sleg{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:6px}.sleg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
 .ahead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px;padding:22px 24px;border-radius:22px;border:1px solid rgba(255,209,102,.22);
   background:radial-gradient(600px 200px at 0% 0%,rgba(255,209,102,.12),transparent 70%),linear-gradient(180deg,#15130e,#0f1015)}
 .ahk{display:flex;gap:10px;flex-wrap:wrap}.ahk span{display:flex;flex-direction:column;align-items:center;min-width:86px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--line);font-size:11.5px;color:var(--dim)}
@@ -771,7 +786,9 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .ptable .pin:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,159,28,.15)}
 
 /* ---------------- umumiy chat */
-.gchat{max-width:900px;margin:0 auto;display:flex;flex-direction:column;height:min(76vh,720px);padding:0;overflow:hidden}
+.gchat{max-width:960px;margin:0 auto;display:flex;flex-direction:column;height:calc(100dvh - 190px);min-height:420px;padding:0;overflow:hidden}
+.gchat .chathead small{display:block;max-width:560px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:900px){.gchat{height:calc(100dvh - 230px)}}
 .gchat .chathead .live2{margin-left:auto;font-size:12px;color:var(--win);display:flex;align-items:center;gap:6px}
 .gchat .chathead .live2 i{width:7px;height:7px;border-radius:50%;background:var(--win);animation:pulse 1.8s infinite}
 .cmsg{display:flex;gap:10px;align-items:flex-start;animation:fadeUp .3s var(--ease)}
@@ -1171,10 +1188,12 @@ async function loadProfiles(){
 }
 const photoOf = steam => PROF[steam]?.avatar_url || null;
 // Sayt Premium: GIF banner, nik shrifti (3 xil), 👑 belgi
-const PREM_PRICE = {site: 49000, prefix: 7000};
+const PREM_PRICE = {site: 49000, site3: 129000, site6: 239000, prefix: 7000, color: 15000};
+const PREM_DAYS = {site: 30, site3: 90, site6: 180};
 const NFONTS = {f1: "'Orbitron',sans-serif", f2: "'Russo One',sans-serif", f3: "'Press Start 2P',monospace"};
 const isPrem = steam => !!PROF[steam]?.premium;
-const nickStyle = steam => { const f = PROF[steam]?.nick_font; return f && NFONTS[f] ? `font-family:${NFONTS[f]};${f === "f3" ? "font-size:.8em;" : ""}` : ""; };
+const nickStyle = steam => { const f = PROF[steam]?.nick_font, c = PROF[steam]?.nick_color;
+  return (f && NFONTS[f] ? `font-family:${NFONTS[f]};${f === "f3" ? "font-size:.8em;" : ""}` : "") + (c && /^#[0-9a-f]{6}$/i.test(c) ? `color:${c};-webkit-text-fill-color:${c};` : ""); };
 const premCrown = steam => isPrem(steam) ? `<span class="prem-crown" title="Premium">👑</span>` : "";
 // G yutug'i: G rank (3300+ PTS) va o'yinchi uni yoqqan bo'lsa — nik yonida porloq belgi
 const G_MIN = 1600;     // H rankdan boshlab (H, H+, P-, P, P+, G-, G, G+)
@@ -1762,11 +1781,31 @@ function toggleNotif(e){
 document.addEventListener("click", () => { const p = $(".npanel"); if (p) p.remove(); });
 async function refreshNotif(){ if (!ME) return; await Promise.all([loadNotif(), loadFUnread()]); renderAcct(); const b = $(".nbell"); if (b) b.outerHTML = bellHTML(); }
 setInterval(refreshNotif, 60000);
+function openSearch(){
+  if ($("#qsr")) return;
+  const el = document.createElement("div"); el.id = "qsr"; el.className = "qsr";
+  el.innerHTML = `<div class="qbox" onclick="event.stopPropagation()"><div class="qin">🔍<input id="qsi" placeholder="${LANG === "ru" ? "Ник или SteamID…" : "Nik yoki SteamID…"}" autocomplete="off"><kbd>Esc</kbd></div><div class="qres" id="qsres"></div></div>`;
+  el.onclick = () => el.remove();
+  document.body.appendChild(el);
+  const inp = $("#qsi"), res = $("#qsres");
+  const draw = () => { const q = inp.value.trim().toLowerCase();
+    const list = (IDX?.ranked || []).filter(p => !q || p.name.toLowerCase().includes(q) || p.id.toLowerCase().includes(q)).slice(0, 8);
+    res.innerHTML = list.length ? list.map((p, i) => `<a class="qrow ${i ? "" : "on"}" href="/p/${slug(p.id)}" onclick="$('#qsr').remove()">${pcell(p)}<span class="qpts">${p.pts} PTS ${shield(p.pts, p.matches)}</span></a>`).join("")
+      : `<div class="empty" style="padding:18px">${LANG === "ru" ? "Никого не найдено" : "Hech kim topilmadi"}</div>`; };
+  inp.oninput = draw; draw();
+  inp.onkeydown = e => { if (e.key === "Enter") { const a = res.querySelector(".qrow"); if (a) a.click(); } if (e.key === "Escape") el.remove(); };
+  setTimeout(() => inp.focus(), 30);
+}
+document.addEventListener("keydown", e => {
+  const tag = (e.target.tagName || "").toLowerCase();
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k" || (e.key === "/" && tag !== "input" && tag !== "textarea")) { e.preventDefault(); openSearch(); }
+  if (e.key === "Escape") { const q = $("#qsr"); if (q) q.remove(); }
+});
 function renderAcct(){
   const nm = ME ? myNick() : "";
   $("#acct").innerHTML = ME
-    ? `<a class="nbell" href="/friends" title="${LANG === "ru" ? "Друзья" : "Do'stlar"}">👥${Object.values(FUNREAD).reduce((a, b) => a + b, 0) ? `<em>${Object.values(FUNREAD).reduce((a, b) => a + b, 0)}</em>` : ""}</a>` + bellHTML() + `<a class="who" href="/me" title="${esc(ME.email)}">${avatar(nm, false, ME.acc?.avatar_url)}<span>${esc(nm)}</span></a>`
-    : `<a class="btn sm" href="/login">${I.user} ${t("login")}</a> <a class="btn sm main reg" style="padding:8px 13px;font-size:13px" href="/register">${t("signUp")}</a>`;
+    ? `<button type="button" class="nbell" onclick="openSearch()" title="${LANG === "ru" ? "Поиск игрока (Ctrl+K)" : "O'yinchi qidirish (Ctrl+K)"}">🔍</button><a class="nbell" href="/friends" title="${LANG === "ru" ? "Друзья" : "Do'stlar"}">👥${Object.values(FUNREAD).reduce((a, b) => a + b, 0) ? `<em>${Object.values(FUNREAD).reduce((a, b) => a + b, 0)}</em>` : ""}</a>` + bellHTML() + `<a class="who" href="/me" title="${esc(ME.email)}">${avatar(nm, false, ME.acc?.avatar_url)}<span>${esc(nm)}</span></a>`
+    : `<button type="button" class="nbell" onclick="openSearch()" title="Ctrl+K">🔍</button><a class="btn sm" href="/login">${I.user} ${t("login")}</a> <a class="btn sm main reg" style="padding:8px 13px;font-size:13px" href="/register">${t("signUp")}</a>`;
 }
 async function doAuth(ev){
   ev.preventDefault();
@@ -2086,7 +2125,7 @@ const SP = {
     noReceipt: "Chek rasmini tanlang", myT: "Premium va prefiks", active: d => `👑 Premium faol — ${d} gacha`, notActive: "Premium yo'q",
     fontT: "Nik shrifti", fontNone: "Oddiy", bannerT: "Profil banneri — tayyor GIF tanlang yoki o'zingiznikini yuklang (5 MB gacha)", bannerDel: "Bannerni olib tashlash", saved: "Saqlandi",
     preMine: "O'yindagi prefiksingiz", preSave: "Saqlash va serverga yuborish", preNone: "Prefiks sotib olinmagan", ordersT: "Buyurtmalarim",
-    st: {pending: "⏳ tekshirilmoqda", approved: "✅ tasdiqlandi", rejected: "❌ rad etildi"}, kind: {site: "Sayt Premium", prefix: "Prefiks"}},
+    st: {pending: "⏳ tekshirilmoqda", approved: "✅ tasdiqlandi", rejected: "❌ rad etildi"}, kind: {site: "Sayt Premium · 1 oy", site3: "Sayt Premium · 3 oy", site6: "Sayt Premium · 6 oy", prefix: "Prefiks", color: "Nik rangi"}},
   ru: {secT: "Украшения на сайте", secL: "Выделите свой профиль — оплата на карту, загружаете чек, админ подтверждает.",
     siteT: "Сайт Premium", siteH: "Premium профиль", sitePerks: ["GIF-баннер в профиле (анимированный фон)", "Ник одним из 3 шрифтов", "Значок 👑 Premium рядом с ником", "Золотой ник в чате", "Выделяетесь в рейтинге и списках игроков"],
     preT: "Личный префикс", preH: "Префикс в игре", prePerks: ["Свой префикс перед ником в чате сервера: [ТЕКСТ]", "До 14 символов, меняете на сайте в любое время", "Одна оплата — навсегда"],
@@ -2096,7 +2135,7 @@ const SP = {
     noReceipt: "Выберите фото чека", myT: "Premium и префикс", active: d => `👑 Premium активен — до ${d}`, notActive: "Нет Premium",
     fontT: "Шрифт ника", fontNone: "Обычный", bannerT: "Баннер профиля — выберите готовый GIF или загрузите свой (до 5 МБ)", bannerDel: "Убрать баннер", saved: "Сохранено",
     preMine: "Ваш префикс в игре", preSave: "Сохранить и отправить на сервер", preNone: "Префикс не куплен", ordersT: "Мои заказы",
-    st: {pending: "⏳ проверяется", approved: "✅ подтверждён", rejected: "❌ отклонён"}, kind: {site: "Сайт Premium", prefix: "Префикс"}}
+    st: {pending: "⏳ проверяется", approved: "✅ подтверждён", rejected: "❌ отклонён"}, kind: {site: "Сайт Premium · 1 мес", site3: "Сайт Premium · 3 мес", site6: "Сайт Premium · 6 мес", prefix: "Префикс", color: "Цвет ника"}}
 };
 const sp = k => SP[LANG][k];
 const money = n => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} ${LANG === "ru" ? "сум" : "so'm"}`;
@@ -2105,15 +2144,25 @@ function openSiteBuy(kind){
   const S = SHOP();
   $("#modal").innerHTML = `<div class="modal" onclick="if(event.target===this)closeSiteBuy()"><div class="mbox" role="dialog" aria-modal="true">
     <button class="mclose" onclick="closeSiteBuy()" aria-label="close">✕</button>
-    <div class="eyebrow">${kind === "site" ? "👑 " + sp("siteT") : "🏷 " + sp("preT")}</div>
+    <div class="eyebrow">${PREM_DAYS[kind] ? "👑 " + sp("siteT") + " · " + PREM_DAYS[kind] + (LANG === "ru" ? " дней" : " kun") : kind === "color" ? "🎨 " + (LANG === "ru" ? "Цвет ника" : "Nik rangi") : "🏷 " + sp("preT")}</div>
     <h2 class="title" style="font-size:28px">${sp("payTo")}</h2>
-    <div class="sumrow" style="border-color:rgba(255,209,102,.35)"><span class="sub">${sp("sum")}</span><b style="font:700 24px Rajdhani,sans-serif;color:var(--gold)">${money(PREM_PRICE[kind])}</b></div>
+    <div class="sumrow" style="border-color:rgba(255,209,102,.35)"><span class="sub">${sp("sum")}</span><b id="ssum" style="font:700 24px Rajdhani,sans-serif;color:var(--gold)">${money(PREM_PRICE[kind])}</b></div>
     ${S.card ? `<div class="ccard"><div style="display:flex;justify-content:space-between;align-items:center"><span class="chip"></span><b style="font:700 16px Rajdhani,sans-serif;letter-spacing:2px;color:#ffe9b0">CWHUB</b></div>
       <div class="num">${esc(fmtCard(S.card))}</div><div class="own"><div>${pt("owner")}<b>${esc(S.owner || "—")}</b></div><div style="text-align:right">${sp("sum")}<b>${money(PREM_PRICE[kind])}</b></div></div></div>
       <button class="btn wide" onclick="copy('${esc(String(S.card).replace(/\D/g, ""))}', pt('cardCopied'))">${I.copy} ${pt("copyCard")}</button>` : `<p class="hint">${pt("noCard")}</p>`}
     ${kind === "prefix" ? `<div class="field mt"><label>${sp("prefixL")}<input id="spx" maxlength="14" placeholder="BOSS"></label></div>` : ""}
+    ${kind === "color" ? `<div class="field mt"><label>${LANG === "ru" ? "Цвет ника" : "Nik rangi"}<div style="display:flex;gap:10px;align-items:center"><input id="scol" type="color" value="#ff9f1c" style="width:56px;height:40px;padding:2px;border-radius:10px" oninput="$('#scolp').style.color=this.value"><b id="scolp" style="color:#ff9f1c;font-size:18px">${esc(myNick())}</b></div></label></div>` : ""}
+    <div class="field mt"><label>${LANG === "ru" ? "Промокод (если есть)" : "Promo-kod (bo'lsa)"}<div style="display:flex;gap:8px"><input id="spromo" maxlength="24" placeholder="CWHUB10" style="text-transform:uppercase"><button type="button" class="btn sm" onclick="applyPromo('${kind}')">${LANG === "ru" ? "Применить" : "Qo'llash"}</button></div></label></div>
     <div class="field mt"><label>${sp("receipt")}<input id="srec" type="file" accept="image/png,image/jpeg,image/webp"></label></div>
     <button class="btn gold wide mt" id="sbtn" onclick="sendSiteOrder('${kind}')">${sp("send")}</button></div></div>`;
+}
+async function applyPromo(kind){
+  const code = ($("#spromo")?.value || "").trim().toUpperCase(); if (!code) return;
+  const r = await sb.rpc("check_promo", {p_code: code});
+  if (!r.data?.ok) return toast(LANG === "ru" ? "Промокод не найден или истёк" : "Promo-kod topilmadi yoki muddati o'tgan");
+  const sum = Math.round(PREM_PRICE[kind] * (100 - r.data.percent) / 100 / 100) * 100;
+  $("#ssum").innerHTML = `<s style="color:var(--dim);font-size:15px;margin-right:6px">${money(PREM_PRICE[kind])}</s>${money(sum)}`;
+  toast(`✓ -${r.data.percent}%`);
 }
 function closeSiteBuy(){ const m = $("#modal .modal"); if (!m) return; m.classList.add("out"); setTimeout(() => { $("#modal").innerHTML = ""; }, 240); }
 async function sendSiteOrder(kind){
@@ -2121,11 +2170,14 @@ async function sendSiteOrder(kind){
   if (f.size > 5 * 1024 * 1024) return toast(mt("tooBig"));
   const b = $("#sbtn"); b.disabled = true;
   const ext = (f.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z]/g, "");
-  const path = `${ME.id}/receipt-${Date.now()}.${ext}`;
-  const up = await sb.storage.from("avatars").upload(path, f, {contentType: f.type});
+  // chek yopiq "receipts" bucket'ga; admin va bot uchun 30 kunlik maxfiy havola
+  const path = `${ME.id}/${crypto.randomUUID ? crypto.randomUUID() : Date.now()}.${ext}`;
+  const up = await sb.storage.from("receipts").upload(path, f, {contentType: f.type});
   if (up.error) { b.disabled = false; return toast(up.error.message); }
-  const url = sb.storage.from("avatars").getPublicUrl(path).data.publicUrl;
-  const row = {kind, amount: PREM_PRICE[kind], receipt_url: url};
+  const sg = await sb.storage.from("receipts").createSignedUrl(path, 60 * 60 * 24 * 30);
+  if (sg.error) { b.disabled = false; return toast(sg.error.message); }
+  const row = {kind, amount: PREM_PRICE[kind], receipt_url: sg.data.signedUrl, promo: ($("#spromo")?.value || "").trim().toUpperCase() || null};
+  if (kind === "color") row.color = $("#scol")?.value || "#ff9f1c";
   if (kind === "prefix") row.prefix_text = ($("#spx")?.value || "").trim().slice(0, 14);
   const r = await sb.from("premium_orders").insert(row);
   if (r.error) { b.disabled = false; return toast(r.error.message); }
@@ -2151,7 +2203,15 @@ function premCard(){
   const preBody = pr.prefix_paid ? `<form class="btns" onsubmit="event.preventDefault();saveMyPrefix()" style="align-items:flex-end"><div class="field" style="flex:1;min-width:160px"><label>${sp("preMine")}<input id="mypx" maxlength="14" value="${esc(pr.prefix_text || "")}"></label></div><button class="btn main" type="submit">${sp("preSave")}</button></form>${steam ? "" : `<p class="sub" style="font-size:12px">${x("notLinked")}</p>`}`
     : `<div class="btns"><span class="sub">${sp("preNone")}</span><a class="btn sm" href="/premium">🏷 ${money(PREM_PRICE.prefix)}</a></div><p class="sub" style="font-size:12px;margin-top:8px">${sp("freeAdm")}</p>`;
   const ord = (MYORD || []).slice(0, 5).map(o => `<div class="orow"><span><b>${sp("kind")[o.kind]}</b> · ${money(o.amount)}</span><span class="sub">${sp("st")[o.status]}</span></div>`).join("");
-  return `<div class="card mt"><h3>👑 ${sp("myT")}</h3>${premBody}<h3 class="mt2">🏷 ${sp("preT")}</h3>${preBody}${ord ? `<h4 class="mt2" style="margin-bottom:8px">${sp("ordersT")}</h4>${ord}` : ""}</div>`;
+  const colBody = pr.color_paid ? `<form class="btns" onsubmit="event.preventDefault();saveMyColor()" style="align-items:center"><input id="mycol" type="color" value="${esc(pr.nick_color || "#ff9f1c")}" style="width:56px;height:40px;padding:2px;border-radius:10px" oninput="$('#mycolp').style.color=this.value"><b id="mycolp" style="color:${esc(pr.nick_color || "#ff9f1c")};font-size:18px">${esc(myNick())}</b><button class="btn main" type="submit">${sp("preSave")}</button><button class="btn ghost" type="button" onclick="$('#mycol').value='';saveMyColor('')">✕</button></form>`
+    : `<div class="btns"><span class="sub">${LANG === "ru" ? "Цвет ника не куплен" : "Nik rangi sotib olinmagan"}</span><a class="btn sm" href="/premium">🎨 ${money(PREM_PRICE.color)}</a></div>`;
+  return `<div class="card mt"><h3>👑 ${sp("myT")}</h3>${premBody}<h3 class="mt2">🏷 ${sp("preT")}</h3>${preBody}<h3 class="mt2">🎨 ${LANG === "ru" ? "Цвет ника" : "Nik rangi"}</h3>${colBody}${ord ? `<h4 class="mt2" style="margin-bottom:8px">${sp("ordersT")}</h4>${ord}` : ""}</div>`;
+}
+async function saveMyColor(v){
+  const c = v != null ? v : ($("#mycol")?.value || "");
+  const r = await sb.rpc("set_my_color", {p_color: c});
+  if (r.error || !r.data?.ok) return toast(r.error?.message || r.data?.err || "✕");
+  afterPrem();
 }
 async function loadMyOrders(){ if (!sb || !ME) return; const r = await sb.from("premium_orders").select("kind,amount,status,created_at").eq("user_id", ME.id).order("id", {ascending: false}).limit(5); MYORD = r.data || []; }
 async function afterPrem(){ await refreshMe(); await loadProfiles(); buildIndex(); render(false); toast("✓ " + sp("saved")); }
@@ -2178,6 +2238,58 @@ async function givePremium(){
   toast(`✓ ${r.data.nick}: ${r.data.until ? (LANG === "ru" ? "Premium до " : "Premium ") + new Date(r.data.until).toLocaleDateString() : (LANG === "ru" ? "Premium снят" : "Premium olindi")}`);
   await loadProfiles(); buildIndex();
 }
+// admin: promo-kodlar
+let PROMOS = null;
+function promoListHTML(){
+  if (PROMOS == null) return `<div class="skel" style="height:44px"></div>`;
+  if (!PROMOS.length) return `<div class="empty">—</div>`;
+  const ru = LANG === "ru";
+  return PROMOS.map(p => `<div class="orow"><span><b style="font-family:ui-monospace,monospace">${esc(p.code)}</b> · -${p.percent}% · ${p.uses_left == null ? "∞" : p.uses_left + (ru ? " исп." : " marta")} · ${p.expires ? (ru ? "до " : "") + esc(p.expires) : (ru ? "бессрочно" : "muddatsiz")}</span>
+    <span class="btns"><button class="btn sm ${p.active ? "ghost" : "main"}" onclick="togglePromo('${esc(p.code)}')">${p.active ? (ru ? "Выключить" : "O'chirish") : (ru ? "Включить" : "Yoqish")}</button></span></div>`).join("");
+}
+async function loadPromos(){ const r = await sb.rpc("admin_promo_list"); PROMOS = r.data || []; const el = $("#promol"); if (el) el.innerHTML = promoListHTML(); }
+async function savePromo(){
+  const code = ($("#pcd").value || "").trim().toUpperCase();
+  if (!/^[A-Z0-9_-]{3,24}$/.test(code)) return toast(LANG === "ru" ? "Код: 3–24 символа A-Z, 0-9" : "Kod: 3–24 belgi, A-Z, 0-9");
+  const us = $("#pus").value, ex = $("#pex").value;
+  const r = await sb.rpc("admin_promo_save", {p_code: code, p_percent: +$("#ppc").value, p_uses: us === "" ? null : +us, p_expires: ex || null, p_active: true});
+  if (r.error || !r.data?.ok) return toast(r.error?.message || r.data?.err || "✕");
+  toast("✓ " + code); loadPromos();
+}
+async function togglePromo(code){
+  const p = (PROMOS || []).find(x => x.code === code); if (!p) return;
+  const r = await sb.rpc("admin_promo_save", {p_code: p.code, p_percent: p.percent, p_uses: p.uses_left, p_expires: p.expires, p_active: !p.active});
+  if (r.error || !r.data?.ok) return toast(r.error?.message || "✕"); loadPromos();
+}
+// admin: statistika (tashrif, ro'yxatdan o'tish, sotuv, faol o'yinchilar)
+let STATS = null;
+async function loadStats(){ const r = await sb.rpc("admin_stats", {p_days: 30}); STATS = r.data?.ok ? r.data : {days: []}; const el = $("#astat"); if (el) el.innerHTML = statsHTML(); }
+function statsHTML(){
+  if (STATS == null) return `<div class="skel" style="height:240px"></div>`;
+  const ru = LANG === "ru", d = STATS.days || [], sum = (a, k) => a.reduce((q, x) => q + (+x[k] || 0), 0);
+  const today = d[d.length - 1] || {}, w = d.slice(-7);
+  const kp = [[today.v || 0, ru ? "посетителей сегодня" : "bugun tashrif"], [sum(w, "v"), ru ? "за 7 дней" : "7 kunda"], [sum(d, "v"), ru ? "за 30 дней" : "30 kunda"],
+    [sum(d, "r"), ru ? "регистраций (30 дн.)" : "ro'yxatdan o'tgan (30 kun)"], [money(sum(d, "s")), ru ? `продаж (${sum(d, "n")} шт.)` : `sotuv (${sum(d, "n")} ta)`],
+    [STATS.users ?? "—", ru ? "всего аккаунтов" : "jami akkaunt"], [STATS.linked ?? "—", ru ? "привязали SteamID" : "SteamID ulagan"], [STATS.premium ?? "—", ru ? "активный Premium" : "faol Premium"]];
+  const W = 760, H = 210, P = 30, n = Math.max(d.length, 1), mx = Math.max(5, ...d.map(x => +x.v || 0)), bw = (W - 2 * P) / n;
+  const X = i => P + i * bw, Y = v => H - P - v / mx * (H - 2 * P);
+  const bars = d.map((x, i) => `<rect x="${X(i) + 2}" y="${Y(+x.v || 0)}" width="${Math.max(2, bw - 4)}" height="${H - P - Y(+x.v || 0)}" rx="3" fill="url(#gv)"><title>${x.d}: ${x.v} ${ru ? "посет." : "tashrif"}, ${x.r} ${ru ? "рег." : "ro'yxat"}, ${money(x.s)}</title></rect>`).join("");
+  const reg = d.map((x, i) => `${i ? "L" : "M"}${(X(i) + bw / 2).toFixed(1)} ${Y(+x.r || 0).toFixed(1)}`).join(" ");
+  const lbl = d.map((x, i) => i % 5 === 0 || i === n - 1 ? `<text x="${X(i) + bw / 2}" y="${H - 10}" text-anchor="middle" font-size="10" fill="var(--dim)">${String(x.d).slice(5)}</text>` : "").join("");
+  const sm = Math.max(1, ...d.map(x => +x.s || 0)), sales = d.map((x, i) => `<rect x="${X(i) + 3}" y="${70 - (+x.s || 0) / sm * 56}" width="${Math.max(2, bw - 6)}" height="${(+x.s || 0) / sm * 56}" rx="2" fill="#ffd166"><title>${x.d}: ${money(x.s)}</title></rect>`).join("");
+  const since = Date.now() / 1000 - 30 * 86400;
+  const act = (IDX?.ranked || []).map(p => ({p, n: p.ms.filter(m => m.t > since).length})).filter(x => x.n).sort((a, b) => b.n - a.n).slice(0, 8);
+  return `<div class="kpis">${kp.map(k => `<div class="tile"><b>${k[0]}</b><span>${k[1]}</span></div>`).join("")}</div>
+    <h3 class="mt2">${ru ? "Посетители и регистрации — 30 дней" : "Tashrif va ro'yxatdan o'tish — 30 kun"}</h3>
+    <div class="schart"><svg viewBox="0 0 ${W} ${H}"><defs><linearGradient id="gv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9f1c"/><stop offset="1" stop-color="#ff9f1c" stop-opacity=".25"/></linearGradient></defs>
+      <line x1="${P}" x2="${W - P}" y1="${H - P}" y2="${H - P}" stroke="rgba(255,255,255,.1)"/>${bars}<path d="${reg}" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linejoin="round"/>${lbl}</svg>
+      <div class="sleg"><span><i style="background:#ff9f1c"></i>${ru ? "посетители" : "tashriflar"}</span><span><i style="background:#38bdf8"></i>${ru ? "регистрации" : "ro'yxatdan o'tganlar"}</span></div></div>
+    <h3 class="mt2">${ru ? "Продажи по дням" : "Kunlik sotuvlar"} · ${money(sum(d, "s"))}</h3>
+    <div class="schart"><svg viewBox="0 0 ${W} 80">${sales}</svg></div>
+    <h3 class="mt2">${ru ? "Самые активные игроки (30 дней)" : "Eng faol o'yinchilar (30 kun)"}</h3>
+    ${act.length ? `<div class="flist">${act.map((x, i) => `<a class="frow" href="/p/${slug(x.p.id)}" style="text-decoration:none"><span class="pcell"><b style="width:22px;color:var(--dim)">${i + 1}</b>${pcell(x.p)}</span><span class="sub">${x.n} ${ru ? "матчей" : "match"} · ${x.p.pts} PTS</span></a>`).join("")}</div>` : `<div class="empty">—</div>`}
+    <p class="sub" style="font-size:12px;margin-top:12px">${ru ? "Посетитель считается один раз в день на устройство (без IP)." : "Tashrif har qurilmadan kuniga bir marta hisoblanadi (IP saqlanmaydi)."}</p>`;
+}
 // admin panel: Premium buyurtmalari
 let PORD = null;
 async function loadPremOrders(){ const r = await sb.from("premium_orders").select("*").order("status", {ascending: false}).order("id", {ascending: false}).limit(40); PORD = r.data || []; const el = $("#pord"); if (el) el.innerHTML = premOrdersHTML(); }
@@ -2190,12 +2302,12 @@ function premOrdersHTML(){
 }
 async function decideOrder(id, ok){ const r = await sb.rpc("admin_decide_order", {p_id: id, p_ok: ok}); if (r.error || !r.data?.ok) return toast(r.error?.message || r.data?.err || "✕"); toast("✓"); loadPremOrders(); }
 // Do'kon: barcha mahsulotlar bir xil premium kartalarda (huquqlar + sayt Premium + prefiks)
-let shopCat = "all";
+let shopCat = "all", premMonths = 1;
 function shopCard(o){
   return `<div class="scard ${o.hot ? "hot" : ""}" data-cat="${o.cat}" style="--tone:${o.tone}">
     ${o.badge ? `<span class="sbadge">${o.badge}</span>` : ""}
     <div class="shd"><div class="sic">${o.icon}</div><div><div class="scat">${o.catName}</div><h3>${o.name}</h3></div></div>
-    <div class="sprice">${o.old ? `<s>${esc(o.old)}</s>` : ""}<b data-price>${esc(o.price)}</b><small>${o.per}</small></div>
+    ${o.top || ""}<div class="sprice">${o.old ? `<s>${esc(o.old)}</s>` : ""}<b data-price>${esc(o.price)}</b><small>${o.per}</small></div>
     <ul>${o.perks.slice(0, 5).map(f => `<li>${f}</li>`).join("")}${(o.no || []).slice(0, 1).map(f => `<li class="no">${f}</li>`).join("")}</ul>
     <button class="btn ${o.hot ? "gold" : "main"} wide" onclick="${o.onclick}">${o.btn}</button>
     ${o.note ? `<p class="snote">${o.note}</p>` : ""}</div>`;
@@ -2210,11 +2322,26 @@ function shopCards(){
       perks: lvl === "gladmin" ? pt("fGl") : lvl === "admin" ? pt("fAdm") : pt("fMod"), no: lvl === "gladmin" ? [] : lvl === "admin" ? pt("noAdmA") : pt("noAdm"),
       btn: pt("buy") + " →", onclick: `openBuy('${esc(p.id)}')`}));
   });
-  out.push(shopCard({cat: "site", catName: site, icon: "💎", tone: "#ffd166", name: sp("siteH"), price: money(PREM_PRICE.site), per: "/ 30 " + (ru ? "дней" : "kun"),
-    badge: "PREMIUM", perks: sp("sitePerks"), btn: "👑 " + sp("buy"), onclick: "openSiteBuy('site')"}));
+  const pk = premMonths === 6 ? "site6" : premMonths === 3 ? "site3" : "site", off = {site: 0, site3: 12, site6: 19}[pk];
+  out.push(shopCard({cat: "site", catName: site, icon: "💎", tone: "#ffd166", name: sp("siteH"), price: money(PREM_PRICE[pk]), per: "/ " + PREM_DAYS[pk] + (ru ? " дней" : " kun"),
+    old: off ? money(PREM_PRICE.site * premMonths) : "", badge: off ? `-${off}%` : "PREMIUM", perks: sp("sitePerks"), btn: "👑 " + sp("buy"), onclick: `openSiteBuy('${pk}')`,
+    top: `<div class="pmon">${[1, 3, 6].map(n => `<button type="button" class="${premMonths === n ? "on" : ""}" onclick="premMonths=${n};$('#sgrid').innerHTML=shopCards();fxBind($('#sgrid'),true)">${n} ${ru ? "мес" : "oy"}</button>`).join("")}</div>`}));
+  out.push(shopCard({cat: "site", catName: site, icon: "🎨", tone: "#f472b6", name: ru ? "Цвет ника" : "Nik rangi", price: money(PREM_PRICE.color), per: "/ " + sp("forever"),
+    perks: ru ? ["Любой цвет ника на всём сайте", "Рейтинг, матчи, чат, профиль", "Меняйте цвет когда угодно"] : ["Saytning hamma joyida o'zingiz tanlagan nik rangi", "Reyting, matchlar, chat va profilda", "Rangni istalgan vaqtda o'zgartirasiz"],
+    btn: "🎨 " + sp("buy"), onclick: "openSiteBuy('color')"}));
   out.push(shopCard({cat: "site", catName: site, icon: "🏷", tone: "#7dd3fc", name: sp("preH"), price: money(PREM_PRICE.prefix), per: "/ " + sp("forever"),
     perks: sp("prePerks"), btn: "🏷 " + sp("buy"), onclick: "openSiteBuy('prefix')", note: sp("freeAdm")}));
   return out.join("");
+}
+function pageLobby(){
+  const ru = LANG === "ru";
+  const steps = ru ? [["👥", "Соберитесь 10 человек", "Игроки заходят в лобби на сайте"], ["⚖️", "Баланс по PTS", "Команды делятся автоматически по силе"], ["🔑", "Пароль сервера", "Каждый получает пароль и подключается"], ["🏆", "Матч и PTS", "Результат и статистика — сразу на сайте"]]
+    : [["👥", "10 kishi yig'iladi", "O'yinchilar saytdagi lobbiga kiradi"], ["⚖️", "PTS bo'yicha muvozanat", "Jamoalar kuchiga qarab avtomatik bo'linadi"], ["🔑", "Server paroli", "Har kimga parol beriladi va ulanadi"], ["🏆", "Match va PTS", "Natija va statistika darhol saytda"]];
+  return `<section class="shero"><div class="shglow"></div><div class="eyebrow" style="color:var(--gold)">CWHUB · LOBBY</div>
+    <h2>Lobby <span class="grad">${ru ? "скоро" : "tez orada"}</span></h2>
+    <p class="lead">${ru ? "Как на FastCup: собираетесь на сайте, команды балансируются по PTS, сервер выдаёт пароль — и матч начинается." : "FastCup'dagi kabi: saytda yig'ilasiz, jamoalar PTS bo'yicha muvozanatlanadi, server parol beradi — match boshlanadi."}</p></section>
+    <div class="sgrid mt2">${steps.map(x => `<div class="scard" style="--tone:#ffb547"><div class="shd" style="margin-top:0"><div class="sic">${x[0]}</div><div><h3>${x[1]}</h3></div></div><p class="sub" style="margin:0">${x[2]}</p></div>`).join("")}</div>
+    <p class="sub" style="text-align:center;margin-top:18px">🔔 ${ru ? "Как только Lobby заработает — сообщим в Telegram @CwhubUZ." : "Lobby ishga tushishi bilan Telegram @CwhubUZ kanalida e'lon qilamiz."}</p>`;
 }
 function pagePremium(){
   const ru = LANG === "ru", both = [7, 30].every(d => SHOP().plans.some(p => +p.days === d));
@@ -2395,7 +2522,7 @@ const X = {
     myT: "Murojaatlarim", noT: "Hali murojaat yo'q", needLogin: "Yordam uchun avval akkauntga kiring.", reply: "Javob yozing…", close: "Yopish", closed: "Yopilgan",
     stt: {open: "ochiq", answered: "javob berildi", closed: "yopilgan"}, admin: "Admin", you: "Siz", pick: "Chapdan murojaatni tanlang",
     aT: "Admin panel", aL: "Chegirma, huquq berish, ban, sovrinlar, support va e'lon.", noAccess: "Bu sahifa faqat sayt adminlari uchun.",
-    tabs: ["Panel", "Tariflar va to'lov", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati", "Sayt adminlari", "Premium buyurtmalar"],
+    tabs: ["Panel", "Tariflar va to'lov", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati", "Sayt adminlari", "Premium buyurtmalar", "Statistika"],
     loadBans: "Banlarni yuklash", rebans: "Qayta ban", noBansA: "Faol ban yo'q", accs: "Saytdagi akkauntlar", pend: "Kutilayotgan buyruqlar",
     disc: "Chegirma (%)", until: "Tugash sanasi", label: "Yozuv (masalan: Sezon ochilishi!)", save: "Saqlash", saved: "Saqlandi", off: "Chegirmani o'chirish",
     steam: "SteamID", level: "Daraja", days: "Kun (0 = abadiy)", nick: "Nik", grant: "Huquq berish", remove: "Huquqni olish", list: "Adminlar ro'yxati",
@@ -2409,7 +2536,7 @@ const X = {
     myT: "Мои обращения", noT: "Обращений пока нет", needLogin: "Чтобы написать в поддержку, войдите в аккаунт.", reply: "Напишите ответ…", close: "Закрыть", closed: "Закрыто",
     stt: {open: "открыто", answered: "есть ответ", closed: "закрыто"}, admin: "Админ", you: "Вы", pick: "Выберите обращение слева",
     aT: "Админ-панель", aL: "Скидки, выдача прав, баны, призы, поддержка и объявления.", noAccess: "Страница только для админов сайта.",
-    tabs: ["Панель", "Тарифы и оплата", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов", "Админы сайта", "Premium заказы"],
+    tabs: ["Панель", "Тарифы и оплата", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов", "Админы сайта", "Premium заказы", "Статистика"],
     loadBans: "Загрузить баны", rebans: "Перебанить", noBansA: "Активных банов нет", accs: "Аккаунтов на сайте", pend: "Ожидают выполнения",
     disc: "Скидка (%)", until: "Действует до", label: "Подпись (например: Открытие сезона!)", save: "Сохранить", saved: "Сохранено", off: "Выключить скидку",
     steam: "SteamID", level: "Уровень", days: "Дней (0 = навсегда)", nick: "Ник", grant: "Выдать права", remove: "Снять права", list: "Список админов",
@@ -2629,8 +2756,8 @@ function pageAdmin(){
   if (!sb || !ME) return `<div class="card auth"><div class="big">🛡</div><h2 class="title">${x("aT")}</h2><p class="lead" style="margin:0 auto 16px">${x("needLogin")}</p><a class="btn main" href="/me">${t("login")}</a></div>`;
   if (!ME.admin) return `<div class="card empty">${x("noAccess")}</div>`;
   const ru = LANG === "ru", names = x("tabs"), openT = TK.list.filter(t2 => t2.status === "open").length;
-  const ICO = ["📊", "🛒", "🛡", "⛔", "🏆", "💬", "📢", "📋", "👤", "👑"];
-  const GROUPS = [[ru ? "Обзор" : "Umumiy", [0]], [ru ? "Сервер" : "Server", [2, 3, 7, 6]], [ru ? "Сайт" : "Sayt", [1, 9, 4, 8]], [ru ? "Поддержка" : "Yordam", [5]]];
+  const ICO = ["📊", "🛒", "🛡", "⛔", "🏆", "💬", "📢", "📋", "👤", "👑", "📈"];
+  const GROUPS = [[ru ? "Обзор" : "Umumiy", [0, 10]], [ru ? "Сервер" : "Server", [2, 3, 7, 6]], [ru ? "Сайт" : "Sayt", [1, 9, 4, 8]], [ru ? "Поддержка" : "Yordam", [5]]];
   const side = `<aside class="aside">${GROUPS.map(([g, ids]) => `<div class="ag">${g}</div>${ids.map(i => `<button type="button" class="${i === aTab ? "on" : ""}" onclick="aTab=${i};render(false);bindAdmin()"><i>${ICO[i]}</i><span>${names[i]}</span>${i === 5 && openT ? `<em>${openT}</em>` : ""}</button>`).join("")}`).join("")}</aside>`;
   const d = SET.discount || {}, pr = (SET.prizes && SET.prizes.length ? SET.prizes : PRIZES_DEFAULT[LANG]);
   const steamIn = id => `<div class="field"><label>${x("steam")}<input id="${id}" placeholder="STEAM_0:1:123456789" required title="STEAM_0:1:123 · STEAM_1:… · [U:1:…] · 7656119…"></label></div>`;
@@ -2663,7 +2790,16 @@ function pageAdmin(){
         <div class="field"><label>${LANG === "ru" ? "Дней (0 = снять Premium)" : "Kun (0 = Premium'ni olish)"}<input id="gpd" type="number" min="0" max="3650" value="30"></label></div></div>
       <label class="sub" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="gpp"> ${LANG === "ru" ? "+ личный префикс (навсегда)" : "+ shaxsiy prefiks (abadiy)"}</label>
       <div class="btns"><button class="btn gold" type="submit">👑 ${LANG === "ru" ? "Выдать" : "Berish"}</button></div></form>
-      <div class="btns"><button class="btn main" onclick="loadPremOrders()">🔄</button></div><div id="pord" class="mt">${premOrdersHTML()}</div>`
+      <div class="btns"><button class="btn main" onclick="loadPremOrders()">🔄</button></div><div id="pord" class="mt">${premOrdersHTML()}</div>
+      <h3 class="mt2">🎟 ${ru ? "Промокоды" : "Promo-kodlar"}</h3>
+      <form class="form2" onsubmit="event.preventDefault();savePromo()"><div class="row2">
+        <div class="field"><label>${ru ? "Код" : "Kod"}<input id="pcd" required maxlength="24" placeholder="CWHUB10" style="text-transform:uppercase"></label></div>
+        <div class="field"><label>${ru ? "Скидка %" : "Chegirma %"}<input id="ppc" type="number" min="1" max="90" value="10" required></label></div></div>
+        <div class="row2"><div class="field"><label>${ru ? "Кол-во использований (пусто = без лимита)" : "Necha marta (bo'sh = cheksiz)"}<input id="pus" type="number" min="0"></label></div>
+        <div class="field"><label>${ru ? "Действует до (пусто = бессрочно)" : "Amal qiladi (bo'sh = muddatsiz)"}<input id="pex" type="date"></label></div></div>
+        <div class="btns"><button class="btn gold" type="submit">🎟 ${ru ? "Сохранить" : "Saqlash"}</button></div></form>
+      <div id="promol" class="mt">${promoListHTML()}</div>`,
+    () => `<div id="astat">${statsHTML()}</div>`
   ][aTab]();
   return `<div class="ahead"><div><div class="eyebrow" style="color:var(--gold)">CWHUB · ADMIN</div><h2 class="title" style="margin:6px 0 2px">🛡 ${x("aT")}</h2><p class="sub" style="margin:0">${x("aL")}</p></div>
       <div class="ahk"><span><b>${D?.server?.count || 0}</b>${ru ? "онлайн" : "onlayn"}</span><span><b>${openT}</b>${ru ? "обращений" : "murojaat"}</span><span><b>${ALOG.filter(a => a.status === "pending").length}</b>${ru ? "в очереди" : "navbatda"}</span></div></div>
@@ -2812,7 +2948,8 @@ async function bindAdmin(){
   if (aTab === 7) { const b = $("#banl"); if (b) b.innerHTML = banListHTML(); }
   if (aTab === 8) loadSiteAdmins();
   if (aTab === 2) loadGrantUsers();
-  if (aTab === 9) loadPremOrders();
+  if (aTab === 9) { loadPremOrders(); loadPromos(); }
+  if (aTab === 10) loadStats();
 }
 async function bindSupport(){ if (!sb || !ME) return; await myChat(); render(false); scrollThread(); }
 
@@ -2844,8 +2981,7 @@ function pageChat(){
   const input = (sb && ME) ? `<div class="emo">${emo.map(e => `<button type="button" onclick="chatEmo('${e}')">${e}</button>`).join("")}</div>
     <div id="rbar">${replyBarHTML()}</div><form class="chatin" onsubmit="chatPost(event)"><textarea id="gmsg" maxlength="300" placeholder="${ct("ph")}" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();this.form.requestSubmit()}"></textarea><button class="btn main" type="submit">${ct("send")}</button></form>`
     : `<div class="chatin" style="justify-content:center;align-items:center;gap:12px"><span class="sub">${ct("need")}</span><a class="btn main" href="/login">${t("login")}</a><a class="btn" href="/register">${t("signUp")}</a></div>`;
-  return `<h2 class="title" style="text-align:center">${CHAT_BUBBLE} ${ct("t")}</h2><p class="lead" style="text-align:center;margin:0 auto 22px">${ct("l")}</p>
-    <div class="card gchat"><div class="chathead"><div class="ava">${CHAT_BUBBLE}</div><div><b>CWhub · ${ct("t")}</b><small>ClanWar 5x5</small></div><span class="live2"><i></i>${ct("live")}</span></div>
+  return `<div class="card gchat"><div class="chathead"><div class="ava">${CHAT_BUBBLE}</div><div><b>CWhub · ${ct("t")}</b><small>${ct("l")}</small></div><span class="live2"><i></i>${ct("live")}</span></div>
       <div class="chatbody" id="gbody">${CH.loaded ? chatListHTML() : `<div class="skel" style="height:60px"></div><div class="skel" style="height:60px;width:70%"></div>`}</div>${input}</div>`;
 }
 function chatScroll(){ const b = $("#gbody"); if (b) b.scrollTop = b.scrollHeight; }
@@ -2902,6 +3038,7 @@ function renderNav(){
   // asosiylari ko'rinib turadi, qolgani — "Ko'proq" menyusida (sarlavha bir qatorga sig'sin)
   const link = (href, label, on) => `<a href="${href}" class="${on ? "on" : ""}">${label}</a>`;
   const extra = [link("/rules", t("nav")[4], isOn(4)), link("/bans", t("nav")[5], isOn(5)),
+    link("/lobby", `🎮 Lobby <span class="soon">${LANG === "ru" ? "скоро" : "tez orada"}</span>`, h === "#/lobby"),
     link("/support", LANG === "ru" ? "Поддержка" : "Yordam", h === "#/support")]
     .concat(ME?.admin ? [link("/admin", "🛡 Admin", h === "#/admin")] : []);
   const extraOn = isOn(4) || isOn(5) || h === "#/support" || h === "#/admin";
@@ -2935,7 +3072,7 @@ function render(scroll = true){
   else if (h.startsWith("#/m/")) html = pageMatch(h.slice(4));
   else if (h === "#/live") html = pageLive();
   else if (h.startsWith("#/vs/")) { const [a, b] = h.slice(5).split("/").map(decodeURIComponent); html = pageVs(a, b); }
-  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/friends": pageFriends, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
+  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/lobby": pageLobby, "#/friends": pageFriends, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat}[h] || pageHome)();
   setTimeout(livePill, 0);
   const app = $("#app");
   app.innerHTML = html;
@@ -3036,6 +3173,10 @@ document.addEventListener("click", e => {
   e.preventDefault(); go(a2.getAttribute("href"));
 });
 load(false);
+(function logVisit(){
+  let v = null; try { v = localStorage.getItem("cw_vid"); if (!v) { v = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()); localStorage.setItem("cw_vid", v); } } catch (e) {}
+  if (sb && v) sb.rpc("log_visit", {p_vid: v}).then(() => {}, () => {});
+})();
 // Kirish ovozi: har kirishda yuklanish ekranida chalinadi, tugagach sayt ochiladi.
 // Brauzer ovozni o'zi yoqishga ruxsat bermasa — sayt darhol ochiladi, ovoz birinchi bosishda chalinadi.
 (function introGate(){

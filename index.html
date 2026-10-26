@@ -680,6 +680,12 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .prize .pl{font:700 13px Rajdhani,sans-serif;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-top:10px}
 .prize b{display:block;font:700 22px Rajdhani,sans-serif;margin-top:6px}
 .prize .who2{font-size:13px;color:var(--muted);margin-top:8px}
+.przcard h3 span{font:700 22px Rajdhani,sans-serif;letter-spacing:1.5px;text-transform:uppercase;background:linear-gradient(90deg,#fff3c4,#ffc94d,#ff9a00);-webkit-background-clip:text;background-clip:text;color:transparent}
+.prize .pl{font:800 11.5px Inter,sans-serif!important;letter-spacing:3.5px!important;margin-top:14px!important}
+.prize b{font:700 23px/1.15 Rajdhani,sans-serif!important;letter-spacing:.6px;text-transform:uppercase;margin-top:8px!important;background:linear-gradient(180deg,#fff 35%,color-mix(in srgb,var(--tone) 70%,#fff));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
+.prize .who2{font:600 12px Inter,sans-serif!important;letter-spacing:.3px;color:var(--dim)!important}
+.prize .who2 .pwho{font:700 13px Rajdhani,sans-serif;letter-spacing:.8px;color:var(--tone);text-decoration:none;margin:0 2px}
+.prize .who2 .pwho:hover{text-decoration:underline}
 .prize.p1{--tone:#ffb547}.prize.p2{--tone:#c9d1dd}.prize.p3{--tone:#d08b4a}.prize.pMVP{--tone:#c084fc}
 .prize .pl{color:var(--tone)!important}
 .prize .medal{width:64px;height:64px;display:grid!important;place-items:center;margin:0 auto;border-radius:20px;font-size:36px!important;background:color-mix(in srgb,var(--tone) 12%,#0d0e12);border:1px solid color-mix(in srgb,var(--tone) 35%,transparent)}
@@ -2950,11 +2956,11 @@ setInterval(tickCountdown, 1000);
 function prizesBlock(){
   const list = (SET.prizes && SET.prizes.length ? SET.prizes : PRIZES_DEFAULT[LANG]);
   const medal = pl => ({1: "🥇", 2: "🥈", 3: "🥉", MVP: "⭐"}[pl] || "🎁");
-  return `<div class="card mt2"><h3>🏆 ${x("prizesT")}</h3><p class="sub" style="margin:-6px 0 14px">${x("prizesL")}</p>
+  return `<div class="card mt2 przcard"><h3>🏆 <span>${x("prizesT")}</span></h3><p class="sub" style="margin:-6px 0 14px">${x("prizesL")}</p>
     ${SET.season?.ends ? `<div class="sub" style="text-align:center;font-size:13px">${x("endsIn")}</div>${countdownHTML()}` : ""}
     <div class="prizes">${list.map(p => { const lead = typeof p.place === "number" || /^\d+$/.test(p.place) ? IDX.sorted[+p.place - 1] : null;
       return `<div class="prize p${p.place}"><div class="medal">${medal(p.place)}</div><div class="pl">${x("place")(isNaN(+p.place) ? p.place : +p.place)}</div><b>${esc(p.prize)}</b>
-        ${lead ? `<div class="who2">${x("now")}: <a href="/p/${slug(lead.id)}"><b style="display:inline;font:inherit;color:var(--text)">${esc(lead.name)}</b></a> · ${lead.pts} PTS</div>` : ""}</div>`; }).join("")}</div></div>`;
+        ${lead ? `<div class="who2">${x("now")}: <a href="/p/${slug(lead.id)}" class="pwho">${esc(lead.name)}</a> · ${lead.pts} PTS</div>` : ""}</div>`; }).join("")}</div></div>`;
 }
 
 /* --- umumiy bannerlar: e'lon va "akkaunt ulanmagan" */

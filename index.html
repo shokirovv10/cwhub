@@ -685,6 +685,13 @@ ol.rules li b{margin-left:auto;white-space:nowrap}
 .cookiebar.out{opacity:0;transform:translate(-50%,10px);transition:.25s}
 .cookiebar b{font-size:15px}.cookiebar p{margin:4px 0 0;color:var(--muted);font-size:13px;max-width:470px;line-height:1.45}.cookiebar a{color:var(--accent)}
 @media(max-width:900px){.cookiebar{bottom:76px}}
+.adbox{position:relative;display:block;border-radius:18px;overflow:hidden;border:1px solid var(--line2);background:#0f1116;transition:transform .25s var(--ease),border-color .25s}
+.adbox img{display:block;width:100%;height:auto;max-height:300px;object-fit:cover}
+a.adbox:hover{transform:translateY(-2px);border-color:rgba(255,209,102,.4)}
+.adbox .adtag{position:absolute;top:8px;right:10px;padding:2px 8px;border-radius:99px;font:700 10px Inter,sans-serif;letter-spacing:.5px;text-transform:uppercase;background:rgba(0,0,0,.55);color:#ddd}
+.ad-top{border-radius:14px}.ad-top img{max-height:110px}
+.adlist{display:grid;gap:8px}.adrow{display:flex;align-items:center;gap:12px;padding:10px;border-radius:14px;background:var(--panel2);border:1px solid var(--line)}
+.adrow.off{opacity:.55}.adrow img{width:120px;height:44px;object-fit:cover;border-radius:8px;flex:none}.adrow small{display:block;color:var(--dim);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pmon{display:flex;gap:4px;padding:3px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
 .pmon button{flex:1;border:0;background:none;color:var(--muted);padding:6px 4px;border-radius:9px;font:700 12px Inter,sans-serif;cursor:pointer}
 .pmon button.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1c1300}
@@ -1288,6 +1295,7 @@ function pageHome(){
     <div class="ss"><div class="ic">${I.trophy}</div><div><b ${IDX.sorted[0] ? `data-count="${IDX.sorted[0].pts}"` : ""}>${IDX.sorted[0] ? 0 : "—"}</b><span>${t("sTop")}</span></div></div>
   </div>
   <div class="livewrap" id="livebox">${livePanel()}</div>
+  ${adHTML("home") ? `<div class="mt2">${adHTML("home")}</div>` : ""}
   <div class="grid2 mt2">
     <div class="card"><h3>${t("top")}</h3>
       ${top3.length ? `<div class="podium">${top3.map((p, i) => `<div class="pod p${i + 1}" onclick="go('#/p/${slug(p.id)}')">
@@ -1355,7 +1363,7 @@ function matchList(list){
     <div style="min-width:0"><b>${esc(m.na)} vs ${esc(m.nb)}</b><div class="sub" style="font-size:13px">${fmtDate(m.t)} · ${m.sa + m.sb} ${t("rounds")}${m.mvp ? ` · ⭐ ${esc(m.mvp.name)}` : ""}</div></div>
     <div class="mscore"><span class="${m.winner === "A" ? "W" : ""}">${m.sa}</span><span class="dim">:</span><span class="${m.winner === "B" ? "W" : ""}">${m.sb}</span></div></a>`).join("");
 }
-function pageMatches(){ return `<h2 class="title">${t("matchesT")}</h2><p class="lead">${t("matchesLead")}</p><div class="card">${matchList(IDX.matches)}</div>`; }
+function pageMatches(){ return `<h2 class="title">${t("matchesT")}</h2><p class="lead">${t("matchesLead")}</p>${adHTML("match") ? `<div style="margin-bottom:16px">${adHTML("match")}</div>` : ""}<div class="card">${matchList(IDX.matches)}</div>`; }
 
 function teamTable(rows){
   return `<div class="tw"><table><tr><th>${t("player")}</th><th class="num">K–D</th><th class="num">A</th><th class="num">ADR</th><th class="num">HS%</th><th class="num">${t("rt")}</th><th class="num">PTS</th></tr>
@@ -1516,6 +1524,7 @@ function pageMatch(ts){
     <div class="aw"><span>💥 ${t("mostDmg")}</span><b>${esc(dm.name)}</b><span class="sub">${dm.dmg} · ADR ${Math.round(dm.dmg / Math.max(dm.r, 1))}</span></div>
     <div class="aw"><span>🎯 ${t("mostHs")}</span><b>${esc(hs.name)}</b><span class="sub">${hs.hs} HS</span></div>
     <div class="aw"><span>⚔ ${t("bestKd")}</span><b>${esc(bk.name)}</b><span class="sub">${bk.k}–${bk.d}</span></div></div>` : ""}
+  ${adHTML("match") ? `<div class="mt2">${adHTML("match")}</div>` : ""}
   ${matchStats(m)}
   ${X.length ? `<p class="sub mt" style="font-size:13px">${t("left")}: ${X.map(r => `${esc(r.name)} (${r.k}–${r.d})`).join(", ")}</p>` : ""}`;
 }
@@ -2245,6 +2254,44 @@ async function givePremium(){
   toast(`✓ ${r.data.nick}: ${r.data.until ? (LANG === "ru" ? "Premium до " : "Premium ") + new Date(r.data.until).toLocaleDateString() : (LANG === "ru" ? "Premium снят" : "Premium olindi")}`);
   await loadProfiles(); buildIndex();
 }
+// admin: reklama bannerlari
+let ADED = null;   // tahrirlanayotgan reklama indeksi
+function adsAdminHTML(){
+  const ru = LANG === "ru", ads = SET.ads || [], e = ADED != null ? ads[ADED] || {} : {};
+  return `<p class="sub" style="margin-top:0">${ru ? "Баннер: картинка (рекомендуем 1200×200 для «вверху» и 1200×300 для главной), ссылка и место показа. Если в одном месте несколько баннеров — показываются по очереди случайно." : "Banner: rasm (tepada uchun 1200×200, bosh sahifa uchun 1200×300 tavsiya), havola va qayerda chiqishi. Bir joyda bir nechta banner bo'lsa — tasodifiy almashib chiqadi."}</p>
+    <form class="form2" onsubmit="event.preventDefault();saveAd()">
+      <div class="row2"><div class="field"><label>${ru ? "Название (для себя)" : "Nomi (o'zingiz uchun)"}<input id="adt" maxlength="60" value="${esc(e.title || "")}" required></label></div>
+        <div class="field"><label>${ru ? "Ссылка (https://…)" : "Havola (https://…)"}<input id="adu" maxlength="300" value="${esc(e.url || "")}" placeholder="https://t.me/…"></label></div></div>
+      <div class="row2"><div class="field"><label>${ru ? "Картинка (URL)" : "Rasm (URL)"}<input id="adi" maxlength="500" value="${esc(e.img || "")}" placeholder="https://…/banner.gif"></label></div>
+        <div class="field"><label>${ru ? "…или загрузить файл (до 5 МБ)" : "…yoki fayl yuklash (5 MB gacha)"}<input id="adf" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label></div></div>
+      <div class="row2"><div class="field"><label>${ru ? "Где показывать" : "Qayerda chiqsin"}<select id="adp">${AD_PLACES.map(pl => `<option value="${pl[0]}" ${(e.place || "home") === pl[0] ? "selected" : ""}>${ru ? pl[2] : pl[1]}</option>`).join("")}</select></label></div>
+        <div class="field"><label>${ru ? "Показывать до (пусто = всегда)" : "Qachongacha (bo'sh = doim)"}<input id="adx" type="date" value="${esc(e.until || "")}"></label></div></div>
+      <div class="btns"><button class="btn gold" type="submit">🪧 ${ADED != null ? (ru ? "Сохранить" : "Saqlash") : (ru ? "Добавить" : "Qo'shish")}</button>${ADED != null ? `<button class="btn ghost" type="button" onclick="ADED=null;render(false)">${ru ? "Отмена" : "Bekor"}</button>` : ""}</div></form>
+    <h3 class="mt2">${ru ? "Баннеры" : "Bannerlar"} · ${ads.length}</h3>
+    ${ads.length ? `<div class="adlist">${ads.map((a, i) => `<div class="adrow ${a.on ? "" : "off"}"><img src="${esc(a.img)}" alt=""><div style="min-width:0;flex:1"><b>${esc(a.title || "—")}</b>
+      <small>${esc((AD_PLACES.find(pl => pl[0] === a.place) || AD_PLACES[1])[ru ? 2 : 1])}${a.until ? " · " + (ru ? "до " : "") + esc(a.until) : ""}${a.url ? " · " + esc(a.url.replace(/^https:\/\//, "").slice(0, 40)) : ""}</small></div>
+      <div class="btns"><button class="btn sm ${a.on ? "ghost" : "main"}" onclick="toggleAd(${i})">${a.on ? (ru ? "Выкл" : "O'chirish") : (ru ? "Вкл" : "Yoqish")}</button><button class="btn sm ghost" onclick="ADED=${i};render(false)">✎</button><button class="btn sm ghost" onclick="removeAd(${i})">✕</button></div></div>`).join("")}</div>`
+      : `<div class="empty">${ru ? "Баннеров пока нет" : "Hozircha banner yo'q"}</div>`}`;
+}
+async function saveAd(){
+  const ru = LANG === "ru", ads = (SET.ads || []).slice();
+  let img = ($("#adi").value || "").trim(); const f = $("#adf").files?.[0], url = ($("#adu").value || "").trim();
+  if (url && !/^https:\/\//.test(url)) return toast(ru ? "Ссылка должна начинаться с https://" : "Havola https:// bilan boshlanishi kerak");
+  if (f) {
+    if (f.size > 5 * 1024 * 1024) return toast(mt("tooBig"));
+    const ext = (f.name.split(".").pop() || "png").toLowerCase().replace(/[^a-z]/g, "");
+    const path = `${ME.id}/ad-${Date.now()}.${ext}`;
+    const up = await sb.storage.from("avatars").upload(path, f, {contentType: f.type});
+    if (up.error) return toast(up.error.message);
+    img = sb.storage.from("avatars").getPublicUrl(path).data.publicUrl;
+  }
+  if (!/^https:\/\//.test(img)) return toast(ru ? "Нужна картинка (файл или https-ссылка)" : "Rasm kerak (fayl yoki https havola)");
+  const row = {title: $("#adt").value.trim(), url, img, place: $("#adp").value, until: $("#adx").value || "", on: ADED != null ? (ads[ADED]?.on ?? true) : true};
+  if (ADED != null) ads[ADED] = row; else ads.unshift(row);
+  ADED = null; await saveSetting("ads", ads); render(false);
+}
+async function toggleAd(i){ const ads = (SET.ads || []).slice(); if (!ads[i]) return; ads[i] = Object.assign({}, ads[i], {on: !ads[i].on}); await saveSetting("ads", ads); render(false); }
+async function removeAd(i){ const ru = LANG === "ru"; if (!confirm(ru ? "Убрать этот баннер?" : "Bu banner olib tashlansinmi?")) return; const ads = (SET.ads || []).slice(); ads.splice(i, 1); await saveSetting("ads", ads); render(false); }
 // admin: promo-kodlar
 let PROMOS = null;
 function promoListHTML(){
@@ -2348,7 +2395,7 @@ const PRIV = {
       ["🤝 Kimga beriladi", ["Ma'lumotlar <b>sotilmaydi</b> va reklama uchun uchinchi tomonga berilmaydi.", "Buyurtma cheki tekshirish uchun faqat CWhub to'lov adminlariga (Telegram bot orqali) ko'rsatiladi.", "Saqlash: Supabase (ma'lumotlar bazasi), Render (sayt hostingi), GitHub (sayt fayllari).", "Ochiq ko'rinadi: nik, avatar, statistika, ban sababi — bu reyting va adolatli o'yin uchun."]],
       ["🔒 Xavfsizlik", ["Parollar shifrlangan holda Supabase Auth'da saqlanadi — biz ularni ko'rmaymiz.", "Cheklar yopiq joyda saqlanadi, ularni faqat siz va adminlar ko'radi.", "Barcha ulanishlar HTTPS orqali."]],
       ["⏳ Qancha saqlanadi", ["Akkaunt ma'lumotlari — akkauntni o'chirmaguningizcha.", "Buyurtmalar va cheklar — hisob-kitob uchun 1 yilgacha.", "Tashrif statistikasi — kunlik umumiy sonlar ko'rinishida."]],
-      ["🍪 Cookie va brauzer xotirasi", ["Sayt reklama yoki kuzatuvchi cookie ishlatmaydi. Brauzer xotirasida (localStorage) faqat quyidagilar saqlanadi:", "<b>Zarur:</b> kirish sessiyasi (Supabase), til tanlovi, ovoz balandligi, bildirishnomalar holati, cookie tanlovingiz.", "<b>Statistika (ixtiyoriy):</b> tashriflarni sanash uchun tasodifiy identifikator.", "Shriftlar Google Fonts'dan yuklanadi — bu jarayonda Google brauzeringiz manzilini ko'radi."]],
+      ["🍪 Cookie va brauzer xotirasi", ["Sayt kuzatuvchi cookie ishlatmaydi. Reklama bannerlari oddiy rasm va havola — ular sizni kuzatmaydi. Brauzer xotirasida (localStorage) faqat quyidagilar saqlanadi:", "<b>Zarur:</b> kirish sessiyasi (Supabase), til tanlovi, ovoz balandligi, bildirishnomalar holati, cookie tanlovingiz.", "<b>Statistika (ixtiyoriy):</b> tashriflarni sanash uchun tasodifiy identifikator.", "Shriftlar Google Fonts'dan yuklanadi — bu jarayonda Google brauzeringiz manzilini ko'radi."]],
       ["⚖️ Sizning huquqlaringiz", ["Profil ma'lumotlarini istalgan vaqtda o'zgartirish (Mening profilim).", "Akkaunt va ma'lumotlarni o'chirishni so'rash — Yordam bo'limiga yozing.", "Statistika rozligini istalgan vaqtda bekor qilish — pastdagi tugma orqali."]],
       ["📬 Aloqa", ["Savollar bo'yicha: saytdagi Yordam bo'limi yoki Telegram @CwhubUZ."]]],
     consentT: "🍪 Sayt brauzer xotirasidan foydalanadi", consentL: "Kirish, til va sozlamalar uchun zarur ma'lumotlar saqlanadi. Ixtiyoriy ravishda — anonim tashrif statistikasi (IP saqlanmaydi).",
@@ -2359,7 +2406,7 @@ const PRIV = {
       ["🤝 Кому передаются", ["Данные <b>не продаются</b> и не передаются третьим лицам для рекламы.", "Чек заказа видят только платёжные админы CWhub (через Telegram-бота) для проверки.", "Хранение: Supabase (база данных), Render (хостинг сайта), GitHub (файлы сайта).", "Публично видны: ник, аватар, статистика, причина бана — для рейтинга и честной игры."]],
       ["🔒 Безопасность", ["Пароли хранятся в зашифрованном виде в Supabase Auth — мы их не видим.", "Чеки хранятся в закрытом хранилище, их видите только вы и админы.", "Все соединения — по HTTPS."]],
       ["⏳ Сроки хранения", ["Данные аккаунта — пока вы не удалите аккаунт.", "Заказы и чеки — до 1 года для учёта.", "Статистика посещений — в виде общих дневных чисел."]],
-      ["🍪 Cookie и память браузера", ["Сайт не использует рекламные и следящие cookie. В памяти браузера (localStorage) хранится только:", "<b>Необходимое:</b> сессия входа (Supabase), язык, громкость звука, состояние уведомлений, ваш выбор по cookie.", "<b>Статистика (по желанию):</b> случайный идентификатор для подсчёта посещений.", "Шрифты загружаются с Google Fonts — при этом Google видит адрес вашего браузера."]],
+      ["🍪 Cookie и память браузера", ["Сайт не использует следящие cookie. Рекламные баннеры — обычная картинка со ссылкой, они вас не отслеживают. В памяти браузера (localStorage) хранится только:", "<b>Необходимое:</b> сессия входа (Supabase), язык, громкость звука, состояние уведомлений, ваш выбор по cookie.", "<b>Статистика (по желанию):</b> случайный идентификатор для подсчёта посещений.", "Шрифты загружаются с Google Fonts — при этом Google видит адрес вашего браузера."]],
       ["⚖️ Ваши права", ["Изменять данные профиля в любой момент (Мой профиль).", "Запросить удаление аккаунта и данных — напишите в Поддержку.", "Отозвать согласие на статистику в любой момент — кнопкой ниже."]],
       ["📬 Контакты", ["По вопросам: раздел Поддержка на сайте или Telegram @CwhubUZ."]]],
     consentT: "🍪 Сайт использует память браузера", consentL: "Сохраняются необходимые данные для входа, языка и настроек. По желанию — анонимная статистика посещений (без IP).",
@@ -2389,6 +2436,16 @@ function setConsent(v){
   const el = $("#cookiebar"); if (el) { el.classList.add("out"); setTimeout(() => el.remove(), 250); }
   if (v === "all") logVisit();
   if (curRoute() === "#/privacy") render(false);
+}
+// Reklama: admin paneldan qo'shiladi (settings "ads"). Joylar: top — barcha sahifalar tepasida, home — bosh sahifa, match — matchlar.
+const AD_PLACES = [["top", "Har sahifa tepasida", "Вверху каждой страницы"], ["home", "Bosh sahifa", "Главная страница"], ["match", "Matchlar sahifalari", "Страницы матчей"]];
+const adsActive = place => (SET.ads || []).filter(a => a.on && a.img && (!a.place || a.place === place) && (!a.until || a.until >= new Date().toISOString().slice(0, 10)));
+function adHTML(place){
+  const list = adsActive(place); if (!list.length) return "";
+  const a = list[Math.floor(Math.random() * list.length)];
+  const img = `<img src="${esc(a.img)}" alt="${esc(a.title || "")}" loading="lazy">`;
+  const tag = `<span class="adtag">${LANG === "ru" ? "Реклама" : "Reklama"}</span>`;
+  return /^https:\/\//.test(a.url || "") ? `<a class="adbox ad-${place}" href="${esc(a.url)}" target="_blank" rel="noopener sponsored nofollow">${img}${tag}</a>` : `<div class="adbox ad-${place}">${img}${tag}</div>`;
 }
 function pageLobby(){
   const ru = LANG === "ru";
@@ -2579,7 +2636,7 @@ const X = {
     myT: "Murojaatlarim", noT: "Hali murojaat yo'q", needLogin: "Yordam uchun avval akkauntga kiring.", reply: "Javob yozing…", close: "Yopish", closed: "Yopilgan",
     stt: {open: "ochiq", answered: "javob berildi", closed: "yopilgan"}, admin: "Admin", you: "Siz", pick: "Chapdan murojaatni tanlang",
     aT: "Admin panel", aL: "Chegirma, huquq berish, ban, sovrinlar, support va e'lon.", noAccess: "Bu sahifa faqat sayt adminlari uchun.",
-    tabs: ["Panel", "Tariflar va to'lov", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati", "Sayt adminlari", "Premium buyurtmalar", "Statistika"],
+    tabs: ["Panel", "Tariflar va to'lov", "Huquq berish", "Ban", "Sovrinlar", "Support", "E'lon", "Banlar ro'yxati", "Sayt adminlari", "Premium buyurtmalar", "Statistika", "Reklama"],
     loadBans: "Banlarni yuklash", rebans: "Qayta ban", noBansA: "Faol ban yo'q", accs: "Saytdagi akkauntlar", pend: "Kutilayotgan buyruqlar",
     disc: "Chegirma (%)", until: "Tugash sanasi", label: "Yozuv (masalan: Sezon ochilishi!)", save: "Saqlash", saved: "Saqlandi", off: "Chegirmani o'chirish",
     steam: "SteamID", level: "Daraja", days: "Kun (0 = abadiy)", nick: "Nik", grant: "Huquq berish", remove: "Huquqni olish", list: "Adminlar ro'yxati",
@@ -2593,7 +2650,7 @@ const X = {
     myT: "Мои обращения", noT: "Обращений пока нет", needLogin: "Чтобы написать в поддержку, войдите в аккаунт.", reply: "Напишите ответ…", close: "Закрыть", closed: "Закрыто",
     stt: {open: "открыто", answered: "есть ответ", closed: "закрыто"}, admin: "Админ", you: "Вы", pick: "Выберите обращение слева",
     aT: "Админ-панель", aL: "Скидки, выдача прав, баны, призы, поддержка и объявления.", noAccess: "Страница только для админов сайта.",
-    tabs: ["Панель", "Тарифы и оплата", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов", "Админы сайта", "Premium заказы", "Статистика"],
+    tabs: ["Панель", "Тарифы и оплата", "Выдача прав", "Бан", "Призы", "Поддержка", "Объявление", "Список банов", "Админы сайта", "Premium заказы", "Статистика", "Реклама"],
     loadBans: "Загрузить баны", rebans: "Перебанить", noBansA: "Активных банов нет", accs: "Аккаунтов на сайте", pend: "Ожидают выполнения",
     disc: "Скидка (%)", until: "Действует до", label: "Подпись (например: Открытие сезона!)", save: "Сохранить", saved: "Сохранено", off: "Выключить скидку",
     steam: "SteamID", level: "Уровень", days: "Дней (0 = навсегда)", nick: "Ник", grant: "Выдать права", remove: "Снять права", list: "Список админов",
@@ -2671,6 +2728,7 @@ function prizesBlock(){
 function renderBanners(){
   const g = $("#gbar"); if (!g) return;
   const out = [];
+  const topAd = adHTML("top"); if (topAd) out.push(topAd);
   const ann = SET.announce?.text;
   if (ann) out.push(`<div class="gb info"><span>📣 ${esc(ann)}</span></div>`);
   const p = discountPct();
@@ -2815,8 +2873,8 @@ function pageAdmin(){
   if (!sb || !ME) return `<div class="card auth"><div class="big">🛡</div><h2 class="title">${x("aT")}</h2><p class="lead" style="margin:0 auto 16px">${x("needLogin")}</p><a class="btn main" href="/me">${t("login")}</a></div>`;
   if (!ME.admin) return `<div class="card empty">${x("noAccess")}</div>`;
   const ru = LANG === "ru", names = x("tabs"), openT = TK.list.filter(t2 => t2.status === "open").length;
-  const ICO = ["📊", "🛒", "🛡", "⛔", "🏆", "💬", "📢", "📋", "👤", "👑", "📈"];
-  const GROUPS = [[ru ? "Обзор" : "Umumiy", [0, 10]], [ru ? "Сервер" : "Server", [2, 3, 7, 6]], [ru ? "Сайт" : "Sayt", [1, 9, 4, 8]], [ru ? "Поддержка" : "Yordam", [5]]];
+  const ICO = ["📊", "🛒", "🛡", "⛔", "🏆", "💬", "📢", "📋", "👤", "👑", "📈", "🪧"];
+  const GROUPS = [[ru ? "Обзор" : "Umumiy", [0, 10]], [ru ? "Сервер" : "Server", [2, 3, 7, 6]], [ru ? "Сайт" : "Sayt", [1, 9, 11, 4, 8]], [ru ? "Поддержка" : "Yordam", [5]]];
   const side = `<aside class="aside">${GROUPS.map(([g, ids]) => `<div class="ag">${g}</div>${ids.map(i => `<button type="button" class="${i === aTab ? "on" : ""}" onclick="aTab=${i};render(false);bindAdmin()"><i>${ICO[i]}</i><span>${names[i]}</span>${i === 5 && openT ? `<em>${openT}</em>` : ""}</button>`).join("")}`).join("")}</aside>`;
   const d = SET.discount || {}, pr = (SET.prizes && SET.prizes.length ? SET.prizes : PRIZES_DEFAULT[LANG]);
   const steamIn = id => `<div class="field"><label>${x("steam")}<input id="${id}" placeholder="STEAM_0:1:123456789" required title="STEAM_0:1:123 · STEAM_1:… · [U:1:…] · 7656119…"></label></div>`;
@@ -2858,7 +2916,8 @@ function pageAdmin(){
         <div class="field"><label>${ru ? "Действует до (пусто = бессрочно)" : "Amal qiladi (bo'sh = muddatsiz)"}<input id="pex" type="date"></label></div></div>
         <div class="btns"><button class="btn gold" type="submit">🎟 ${ru ? "Сохранить" : "Saqlash"}</button></div></form>
       <div id="promol" class="mt">${promoListHTML()}</div>`,
-    () => `<div id="astat">${statsHTML()}</div>`
+    () => `<div id="astat">${statsHTML()}</div>`,
+    () => adsAdminHTML()
   ][aTab]();
   return `<div class="ahead"><div><div class="eyebrow" style="color:var(--gold)">CWHUB · ADMIN</div><h2 class="title" style="margin:6px 0 2px">🛡 ${x("aT")}</h2><p class="sub" style="margin:0">${x("aL")}</p></div>
       <div class="ahk"><span><b>${D?.server?.count || 0}</b>${ru ? "онлайн" : "onlayn"}</span><span><b>${openT}</b>${ru ? "обращений" : "murojaat"}</span><span><b>${ALOG.filter(a => a.status === "pending").length}</b>${ru ? "в очереди" : "navbatda"}</span></div></div>

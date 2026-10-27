@@ -1740,11 +1740,12 @@ const XP_FIN = 50, XP_WIN = 30, XP_MVP = 20;
 const UNV_N = {uz: ["Bronza 1", "Bronza 2", "Bronza 3", "Bronza 4", "Kumush 1", "Kumush 2", "Kumush 3", "Kumush 4", "Oltin 1", "Oltin 2", "Oltin 3", "Platina 1", "Platina 2", "Platina 3", "Legend"],
   ru: ["Бронза 1", "Бронза 2", "Бронза 3", "Бронза 4", "Серебро 1", "Серебро 2", "Серебро 3", "Серебро 4", "Золото 1", "Золото 2", "Золото 3", "Платина 1", "Платина 2", "Платина 3", "Легенда"],
   en: ["Bronze 1", "Bronze 2", "Bronze 3", "Bronze 4", "Silver 1", "Silver 2", "Silver 3", "Silver 4", "Gold 1", "Gold 2", "Gold 3", "Platinum 1", "Platinum 2", "Platinum 3", "Legend"]};
-const UNV_OVERRIDE = {"STEAM_0:1:886626610": 14};   // Frogi — Marshal (server egasi)
+const UNV_OVERRIDE = {"STEAM_0:1:886626610": 14};   // Frogi — Legend (server egasi)
+const UNV_BONUS = {"STEAM_0:1:886626610": 29840};   // Frogi: 160 + 29840 = 30 000 XP, yangi matchlar bilan o'sib boradi
 const unvName = i => UNV_N[LANG][i];
 function unvXP(p){
   if (!p) return 0;
-  return Math.round((p.ms || []).reduce((a, s2) => { const m = IDX.matches.find(q => q.t === s2.t);
+  return (UNV_BONUS[p.id] || 0) + Math.round((p.ms || []).reduce((a, s2) => { const m = IDX.matches.find(q => q.t === s2.t);
     if (s2.left) return a;
     return a + XP_FIN + (s2.res === "W" ? XP_WIN : 0) + (m?.mvp && m.mvp.id === p.id ? XP_MVP : 0); }, 0));
 }

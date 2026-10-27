@@ -848,6 +848,73 @@ html.cardmode .mside .mpl,html.cardmode .mcenter,html.cardmode .aw,html.cardmode
 .emcard .sic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:21px;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.3)}
 .emform{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.emform input{flex:1;min-width:200px;background:#0d0f14;border:1px solid var(--line2);border-radius:12px;color:var(--text);padding:11px 13px;font:14px Inter,sans-serif;outline:none}
 .emform input:focus{border-color:var(--accent)}
+.unvchip{--c:#c98b55;display:inline-flex;align-items:center;gap:5px;flex:none;height:24px;padding:0 9px 0 3px;margin-left:6px;border-radius:99px;vertical-align:middle;
+  background:color-mix(in srgb,var(--c) 12%,#0d0e11);border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
+.unvchip svg{width:20px;height:20px;overflow:visible;filter:drop-shadow(0 0 3px color-mix(in srgb,var(--c) 70%,transparent))}
+.unvchip b{font:700 11px Rajdhani,sans-serif;letter-spacing:1.2px;text-transform:uppercase;color:var(--c);white-space:nowrap}
+.unvchip.jr{--c:#c9d1dc}.unvchip.sr{--c:#e6b94c}.unvchip.gen{--c:#ffd36b}.unvchip.gen svg{width:24px;height:24px}
+.unvchip.mar{--c:#ffd36b;padding-right:11px;background:linear-gradient(90deg,rgba(255,180,60,.22),rgba(224,69,46,.14));border-color:rgba(255,211,107,.7);box-shadow:0 0 14px rgba(255,190,80,.35);position:relative;overflow:hidden}
+.unvchip.mar svg{width:26px;height:26px;animation:mglow 2.4s ease-in-out infinite}
+.unvchip.mar b{background:linear-gradient(90deg,#fff3c4,#ffc94d,#ff9a00);-webkit-background-clip:text;background-clip:text;color:transparent}
+.unvchip.mar:after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-100%);animation:unvsweep 2.8s ease-in-out infinite}
+@keyframes unvsweep{0%,30%{transform:translateX(-100%)}70%,100%{transform:translateX(100%)}}
+.unvcol{white-space:nowrap}
+.unvcell{--c:#c98b55;display:inline-flex;align-items:center;gap:10px}.unvcell svg{width:38px;height:38px;flex:none;overflow:visible;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--c) 60%,transparent))}
+.unvcell b{font:700 14px Rajdhani,sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:var(--c)}
+.unvcell.jr{--c:#c9d1dc}.unvcell.sr{--c:#e6b94c}.unvcell.gen{--c:#ffd36b}.unvcell.gen svg{width:46px;height:46px}
+.unvcell.mar svg{width:54px;height:54px;animation:mglow 2.4s ease-in-out infinite}
+.unvcell.mar b{font-size:17px;background:linear-gradient(90deg,#fff3c4,#ffc94d,#ff9a00);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 8px rgba(255,190,80,.45))}
+@media(max-width:700px){.unvcell b{display:none}}
+.unvchip{height:auto!important;padding:0!important;background:none!important;border:0!important;box-shadow:none!important;margin-left:6px}
+.unvchip:after{display:none!important}
+.unvchip svg{width:30px!important;height:30px!important;filter:drop-shadow(0 0 2px rgba(255,200,100,.45))!important}.unvchip.gen svg{width:36px!important;height:36px!important}.unvchip.mar svg{width:40px!important;height:40px!important}
+.unvcell svg{width:56px!important;height:56px!important}.unvcell.gen svg{width:64px!important;height:64px!important}.unvcell.mar svg{width:76px!important;height:76px!important}
+.unvcol{text-align:center}
+@media(max-width:700px){.unvchip svg{width:24px!important;height:24px!important}.unvcell svg{width:40px!important;height:40px!important}.unvcell.mar svg{width:52px!important;height:52px!important}}
+.pcell .unvchip b{display:inline}@media(max-width:700px){.unvchip b{display:none}.unvchip{padding:0 3px}}
+.unvcard{position:relative;display:grid;grid-template-columns:180px 1fr;gap:26px;align-items:center;margin-top:16px;padding:22px 26px;border-radius:18px;
+  background:linear-gradient(180deg,#0f1012,#09090a);border:1px solid rgba(217,178,90,.22)}
+.unvcard .unvstage{position:relative;display:grid;place-items:center;height:170px}
+.unvcard .unvstage:before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(255,206,110,.3),transparent 68%);animation:unvbreathe 3.6s ease-in-out infinite}
+.unvcard svg{position:relative;width:170px;overflow:visible;filter:drop-shadow(0 0 12px rgba(255,200,100,.5)) drop-shadow(0 10px 16px rgba(0,0,0,.8))}
+.unvcard .unvrk{font:700 11px Inter,sans-serif;letter-spacing:4px;color:#d9b25a;text-transform:uppercase}
+.unvcard h2{font:700 40px/1.05 Rajdhani,sans-serif;letter-spacing:3px;text-transform:uppercase;margin:6px 0;color:#f6f1e1;text-shadow:0 0 20px rgba(255,200,100,.25)}
+.unvcard .unvxp{font-size:13px;color:var(--muted)}.unvcard .unvxp b{color:#e6c15e}
+.unvbar{height:6px;margin:10px 0 8px;max-width:460px;background:#1a1a1a;border:1px solid rgba(255,255,255,.06)}.unvbar i{display:block;height:100%;background:linear-gradient(90deg,#8a6a20,#e6c15e,#fff1c2);box-shadow:0 0 10px rgba(230,193,94,.7)}
+.unvcard.mar{border-color:rgba(255,201,77,.55);box-shadow:0 0 50px rgba(255,180,60,.18)}.unvcard.mar svg,.unvtile.mar svg{animation:mglow 2.4s ease-in-out infinite}
+/* profil + unvon karta yonma-yon (premium karta uslubi) */
+.prow{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:stretch}
+.unvcard.side{margin-top:0;grid-template-columns:1fr;gap:6px;text-align:center;align-content:center;padding:22px 20px;overflow:hidden;
+  background:radial-gradient(260px 200px at 50% 0%,rgba(255,200,90,.16),transparent 70%),linear-gradient(180deg,#14120d,#09090a);border:1px solid rgba(255,201,77,.4);
+  box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 40px rgba(255,180,60,.1),inset 0 1px 0 rgba(255,236,170,.15)}
+.unvcard.side:after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,240,190,.12),transparent);animation:unvshine 5s ease-in-out infinite;pointer-events:none}
+.unvcard.side .unvstage{height:150px}.unvcard.side svg{width:150px}.unvcard.side h2{font-size:32px}.unvcard.side .unvbar{margin:10px auto 8px}
+.unvown{font:700 12px Inter,sans-serif;color:#ffd166;margin-bottom:4px}
+@keyframes unvshine{0%,60%{left:-60%}100%{left:130%}}
+@media(max-width:900px){.prow{grid-template-columns:1fr}}
+.unvprize{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:18px}
+.unvgift{display:flex;gap:16px;align-items:center;padding:18px 20px;border-radius:16px;background:linear-gradient(180deg,#14120d,#09090a);border:1px solid rgba(255,201,77,.35)}
+.unvgift.mar{border-color:rgba(255,120,60,.55);box-shadow:0 0 40px rgba(255,140,60,.15)}
+.unvgst svg{width:84px;overflow:visible;filter:drop-shadow(0 0 10px rgba(255,200,100,.5))}.unvgift.mar .unvgst svg{animation:mglow 2.4s ease-in-out infinite}
+.unvgift small{font:700 10.5px Inter,sans-serif;letter-spacing:3px;text-transform:uppercase;color:#d9b25a}.unvgift b{display:block;font:700 22px Rajdhani,sans-serif;letter-spacing:2px;text-transform:uppercase;margin:2px 0 6px}
+.unvgift ul{list-style:none;margin:0;padding:0;display:grid;gap:3px;font-size:13.5px;color:var(--text)}
+.unvsec{display:flex;align-items:center;gap:14px;font:700 12px Inter,sans-serif;letter-spacing:4px;text-transform:uppercase;color:#d9b25a;margin:28px 0 14px}.unvsec:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(217,178,90,.35),transparent)}
+.unvgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+.unvtile{text-align:center;padding:22px 10px 16px;border-radius:14px;background:linear-gradient(180deg,#0e0f11,#09090a);border:1px solid rgba(255,255,255,.07);transition:border-color .3s,transform .3s}
+.unvtile:hover{border-color:rgba(217,178,90,.45);transform:translateY(-3px)}
+.unvtile .unvst{position:relative;height:150px;display:grid;place-items:center}.unvtile .unvst:before{content:"";position:absolute;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(255,206,110,.16),transparent 68%)}
+.unvtile svg{position:relative;width:118px;overflow:visible;filter:drop-shadow(0 0 8px rgba(255,200,100,.35)) drop-shadow(0 8px 12px rgba(0,0,0,.85))}
+.unvtile.gen svg{width:140px}.unvtile.mar{grid-column:span 2}.unvtile.mar .unvst{height:190px}.unvtile.mar svg{width:180px}
+.unvtile b{display:block;font:700 15px Rajdhani,sans-serif;letter-spacing:2px;text-transform:uppercase;margin-top:10px}.unvtile small{display:block;color:var(--dim);font-size:11px;letter-spacing:1.5px;margin-top:3px}
+.unvwho{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-top:10px}.unvwho a,.unvwho span{font:600 11.5px Inter,sans-serif;padding:2px 8px;border-radius:99px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--text);text-decoration:none}
+.glint{animation:glint 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:center;opacity:0}
+.rays{transform-origin:60px 60px;animation:unvspin 40s linear infinite}.mspin{transform-origin:60px 58px;animation:unvspin 9s linear infinite}
+.mpulse{transform-origin:60px 60px;animation:mpulse 2.4s ease-in-out infinite}
+@keyframes unvspin{to{transform:rotate(360deg)}}@keyframes unvbreathe{0%,100%{opacity:.75;transform:scale(.96)}50%{opacity:1;transform:scale(1.05)}}
+@keyframes glint{0%,82%,100%{opacity:0;transform:scale(.3) rotate(0)}88%{opacity:1;transform:scale(1) rotate(45deg)}94%{opacity:0;transform:scale(.4) rotate(90deg)}}
+@keyframes mpulse{0%,100%{opacity:.7;transform:scale(.92)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes mglow{0%,100%{filter:drop-shadow(0 0 10px rgba(255,201,77,.75)) drop-shadow(0 0 28px rgba(224,69,46,.45))}50%{filter:drop-shadow(0 0 24px rgba(255,230,150,1)) drop-shadow(0 0 60px rgba(255,180,60,.9))}}
+@media(max-width:640px){.unvcard{grid-template-columns:1fr;text-align:center}.unvbar{margin:10px auto 8px}.unvtile.mar{grid-column:span 1}}
 .acb{--tone:#4ade80;position:relative;max-width:560px;margin:40px auto 20px;padding:40px 34px 26px;border-radius:28px;text-align:center;overflow:hidden;
   background:radial-gradient(460px 220px at 50% 0%,color-mix(in srgb,var(--tone) 18%,transparent),transparent 70%),linear-gradient(180deg,#171b25,#0d0f14);
   border:1px solid color-mix(in srgb,var(--tone) 35%,transparent);box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 50px color-mix(in srgb,var(--tone) 10%,transparent);animation:fadeUp .6s var(--ease)}
@@ -1175,6 +1242,254 @@ setTimeout(function(){if(document.documentElement.classList.contains("sndask"))r
 <div id="modal"></div>
 <div class="toast" id="toast"></div>
 
+<script>/* unvonlar: gerb va yulduzlar (SVG) */
+(function(){
+let UID = 0;
+// hajmli metall yulduz: 10 ta qirra (yorug'/soya navbatma-navbat) + chaqnash
+function star(cx, cy, r, metal){
+  const pal = metal === "silver" ? ["#ffffff", "#cfd5dc", "#7d8691", "#3e444c"] : ["#fff4cf", "#f0c860", "#a8761c", "#5a3a08"];
+  const pts = []; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .40 : r; pts.push([cx + rr * Math.cos(a), cy + rr * Math.sin(a)]); }
+  let s = `<g>`;
+  for (let i = 0; i < 10; i++) { const p = pts[i], q = pts[(i + 1) % 10];
+    s += `<path d="M${cx} ${cy}L${p[0].toFixed(2)} ${p[1].toFixed(2)}L${q[0].toFixed(2)} ${q[1].toFixed(2)}Z" fill="${i % 2 ? pal[2] : pal[1]}"/>`; }
+  s += `<path d="M${pts.map(p => p[0].toFixed(2) + " " + p[1].toFixed(2)).join("L")}Z" fill="none" stroke="${pal[3]}" stroke-width="${(r * .06).toFixed(2)}"/>`;
+  s += `<circle cx="${cx - r * .15}" cy="${cy - r * .2}" r="${r * .16}" fill="${pal[0]}" opacity=".55"/>`;
+  s += `<path class="glint" style="animation-delay:${(Math.random() * 4).toFixed(2)}s" d="M${pts[0][0]} ${pts[0][1] - r * .35}l${r * .07} ${r * .28} ${r * .28} ${r * .07} ${-r * .28} ${r * .07} ${-r * .07} ${r * .28} ${-r * .07} ${-r * .28} ${-r * .28} ${-r * .07} ${r * .28} ${-r * .07}z" fill="#fff"/>`;
+  return s + `</g>`;
+}
+// faqat yulduzlar: metall darajasi + soni + joylashuvi
+const MET = {
+  bronze: ["#ffe2c2", "#d08a4e", "#7a4520", "#3d1f0b"], silver: ["#ffffff", "#d7dde4", "#7f8893", "#3a4048"],
+  gold: ["#fff4cf", "#f0c860", "#a8761c", "#5a3a08"], gen: ["#fffbe8", "#ffd76a", "#c4870f", "#6b4300"], dia: ["#ffffff", "#bfeaff", "#5aa9d6", "#1d4f73"]};
+function mstar(cx, cy, r, m){
+  const pal = MET[m], pts = []; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .40 : r; pts.push([cx + rr * Math.cos(a), cy + rr * Math.sin(a)]); }
+  let s = "";
+  for (let i = 0; i < 10; i++) { const p = pts[i], q = pts[(i + 1) % 10]; s += `<path d="M${cx} ${cy}L${p[0].toFixed(2)} ${p[1].toFixed(2)}L${q[0].toFixed(2)} ${q[1].toFixed(2)}Z" fill="${i % 2 ? pal[2] : pal[1]}"/>`; }
+  s += `<path d="M${pts.map(p => p[0].toFixed(2) + " " + p[1].toFixed(2)).join("L")}Z" fill="none" stroke="${pal[3]}" stroke-width="${(r * .05).toFixed(2)}"/>`;
+  s += `<path class="glint" style="animation-delay:${(Math.random() * 4).toFixed(2)}s" d="M${pts[0][0]} ${pts[0][1] - r * .3}l${r * .07} ${r * .26} ${r * .26} ${r * .07} ${-r * .26} ${r * .07} ${-r * .07} ${r * .26} ${-r * .07} ${-r * .26} ${-r * .26} ${-r * .07} ${r * .26} ${-r * .07}z" fill="#fff"/>`;
+  return s;
+}
+// joylashuv: 1 — markaz, 2 — yonma-yon, 3 — uchburchak, 4 — romb
+const LAY = {1: [[60, 60, 1]], 2: [[34, 60, .8], [86, 60, .8]], 3: [[60, 34, .72], [32, 80, .72], [88, 80, .72]], 4: [[60, 24, .62], [24, 60, .62], [96, 60, .62], [60, 96, .62]]};
+// gerb elementlari: dafna gulchambari, qalqon, qilichlar
+const GDEF = `<linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2c0"/><stop offset=".45" stop-color="#e2b13e"/><stop offset="1" stop-color="#7a520c"/></linearGradient>
+  <linearGradient id="gSteel" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5b636d"/><stop offset=".5" stop-color="#f4f7fa"/><stop offset="1" stop-color="#6b737d"/></linearGradient>
+  <linearGradient id="gShield" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a1d10"/><stop offset="1" stop-color="#0b0806"/></linearGradient>
+  <linearGradient id="gRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9b1c1c"/><stop offset="1" stop-color="#3f0808"/></linearGradient>
+  <radialGradient id="gGem" cx=".35" cy=".3"><stop offset="0" stop-color="#ffffff"/><stop offset=".4" stop-color="#9be7ff"/><stop offset="1" stop-color="#0b4a78"/></radialGradient>`;
+function laurel(cx, cy, r, n, lw){
+  let s = "";
+  [-1, 1].forEach(side => { for (let i = 0; i < n; i++) {
+    const a = (100 + i * (150 / n)) * Math.PI / 180, x = cx + side * r * Math.cos(a - Math.PI / 2 + Math.PI), y = cy + r * Math.sin(a - Math.PI / 2 + Math.PI);
+    const rot = side * ((100 + i * (150 / n)) - 90) + (side > 0 ? 180 : 0) + side * 35;
+    s += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${lw}" ry="${(lw * .42).toFixed(1)}" transform="rotate(${rot.toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})" fill="url(#gGold)" stroke="#5a3a08" stroke-width=".5"/>`; } });
+  return `<path d="M${cx - r * .2} ${cy + r} Q${cx - r * 1.08} ${cy} ${cx - r * .35} ${cy - r * .95}" fill="none" stroke="#8d6519" stroke-width="1.6"/><path d="M${cx + r * .2} ${cy + r} Q${cx + r * 1.08} ${cy} ${cx + r * .35} ${cy - r * .95}" fill="none" stroke="#8d6519" stroke-width="1.6"/>` + s
+    + `<path d="M${cx - 9} ${cy + r + 2} q9 -7 18 0 l-3 6 q-6 -4 -12 0z" fill="url(#gRed)" stroke="url(#gGold)" stroke-width="1"/>`;
+}
+const swords = `<g opacity=".95"><g transform="rotate(-42 60 62)"><path d="M60 -16 L64 -6 L64 98 L56 98 L56 -6 Z" fill="url(#gSteel)" stroke="#2b3036" stroke-width=".6"/><line x1="60" y1="-8" x2="60" y2="96" stroke="#fff" stroke-opacity=".5" stroke-width=".8"/><rect x="50" y="98" width="20" height="4" rx="1.5" fill="url(#gGold)"/><rect x="58" y="102" width="4" height="12" fill="#3b2208"/><circle cx="60" cy="116" r="3" fill="url(#gGold)"/></g>
+  <g transform="rotate(42 60 62)"><path d="M60 -16 L64 -6 L64 98 L56 98 L56 -6 Z" fill="url(#gSteel)" stroke="#2b3036" stroke-width=".6"/><line x1="60" y1="-8" x2="60" y2="96" stroke="#fff" stroke-opacity=".5" stroke-width=".8"/><rect x="50" y="98" width="20" height="4" rx="1.5" fill="url(#gGold)"/><rect x="58" y="102" width="4" height="12" fill="#3b2208"/><circle cx="60" cy="116" r="3" fill="url(#gGold)"/></g></g>`;
+const shield = `<path d="M60 16 L92 26 V58 Q92 86 60 104 Q28 86 28 58 V26 Z" fill="url(#gShield)" stroke="url(#gGold)" stroke-width="2.6"/><path d="M60 22 L87 30 V58 Q87 81 60 97 Q33 81 33 58 V30 Z" fill="none" stroke="#e2b13e" stroke-opacity=".35" stroke-width="1"/>`;
+// orden uslubi: qirrali nurlar (yorug'/soya), emal disk, eman shoxlari
+function orderRays(n, R, r, light, dark, rot = 0){
+  let s = "";
+  for (let i = 0; i < n; i++) { const a = rot + i * 2 * Math.PI / n - Math.PI / 2, w = Math.PI / n * .55;
+    const tip = [60 + R * Math.cos(a), 60 + R * Math.sin(a)], l = [60 + r * Math.cos(a - w), 60 + r * Math.sin(a - w)], rr = [60 + r * Math.cos(a + w), 60 + r * Math.sin(a + w)];
+    s += `<path d="M60 60L${l[0].toFixed(1)} ${l[1].toFixed(1)}L${tip[0].toFixed(1)} ${tip[1].toFixed(1)}Z" fill="${light}"/><path d="M60 60L${rr[0].toFixed(1)} ${rr[1].toFixed(1)}L${tip[0].toFixed(1)} ${tip[1].toFixed(1)}Z" fill="${dark}"/>`; }
+  return s;
+}
+function oak(){
+  let s = "";
+  [-1, 1].forEach(sd => {
+    s += `<path d="M60 104 Q${60 + sd * 30} 100 ${60 + sd * 40} 76" fill="none" stroke="#8d6519" stroke-width="2"/>`;
+    [[.25, 101, 30], [.5, 96, 45], [.72, 88, 60], [.9, 79, 75]].forEach(([t, y, ang]) => { const x = 60 + sd * (6 + t * 34);
+      s += `<path d="M${x} ${y} q${sd * 5} -9 ${sd * 13} -6 q-3 3 -1 6 q-4 1 -5 5 q-3 -2 -7 0z" transform="rotate(${-sd * (ang - 40)} ${x} ${y})" fill="url(#gGold)" stroke="#5a3a08" stroke-width=".5"/>`;
+      s += `<ellipse cx="${x + sd * 3}" cy="${y + 4}" rx="2.2" ry="3" fill="#a8761c" stroke="#5a3a08" stroke-width=".4"/>`; }); });
+  return s;
+}
+// qurollar: o'ng tomonga qaragan, markaz (0,0), uzunligi ~112
+const AK = `<g>
+  <path d="M-56 -3 L-34 -6 L-30 4 L-54 10 Z" fill="#6b3a17" stroke="#2a1608" stroke-width=".6"/>
+  <path d="M-56 -3 L-34 -6 L-33 -3 L-55 1 Z" fill="#8a4f22" opacity=".8"/>
+  <rect x="-34" y="-7" width="40" height="9" rx="1" fill="#2b2e33" stroke="#0e0f11" stroke-width=".6"/>
+  <rect x="-30" y="-9" width="30" height="3" rx="1" fill="#3d4148"/>
+  <path d="M-18 2 L-12 2 L-15 14 L-21 13 Z" fill="#1d1f22"/>
+  <path d="M-6 2 Q-4 14 4 22 L10 19 Q3 12 2 2 Z" fill="#1f2125" stroke="#0e0f11" stroke-width=".5"/>
+  <rect x="6" y="-6" width="22" height="7" rx="2" fill="#7a4520" stroke="#2a1608" stroke-width=".6"/>
+  <rect x="6" y="-10" width="20" height="3" rx="1" fill="#6b3a17"/>
+  <rect x="28" y="-4" width="26" height="2.6" fill="#1b1d20"/><rect x="26" y="-8" width="16" height="2" fill="#2b2e33"/>
+  <rect x="50" y="-7" width="2" height="5" fill="#1b1d20"/><rect x="54" y="-4.6" width="4" height="3.6" fill="#1b1d20"/></g>`;
+const M4 = `<g>
+  <path d="M-56 -6 L-44 -6 L-44 6 L-56 8 Z" fill="#1c1e21" stroke="#060708" stroke-width=".6"/><rect x="-44" y="-4" width="12" height="4" fill="#26292d"/>
+  <rect x="-32" y="-7" width="34" height="9" rx="1" fill="#2a2d31" stroke="#0e0f11" stroke-width=".6"/>
+  <rect x="-30" y="-12" width="30" height="4" rx="1" fill="#33373c"/><rect x="-26" y="-14" width="22" height="2" fill="#1c1e21"/>
+  <path d="M-24 2 L-18 2 L-21 13 L-27 12 Z" fill="#1a1c1f"/>
+  <rect x="-12" y="2" width="7" height="17" rx="1" fill="#22252a" stroke="#0e0f11" stroke-width=".5"/>
+  <rect x="2" y="-8" width="26" height="10" rx="1.5" fill="#26292d" stroke="#0e0f11" stroke-width=".6"/>
+  <path d="M4 -8 h22 M4 2 h22" stroke="#4a4f56" stroke-width=".8" stroke-dasharray="1.5 1.5"/>
+  <rect x="28" y="-4" width="24" height="2.6" fill="#16181b"/><path d="M40 -4 L42 -12 L44 -12 L45 -4 Z" fill="#1c1e21"/>
+  <rect x="52" y="-5" width="6" height="4.6" rx="1" fill="#16181b"/></g>`;
+const guns = `<g opacity=".97" style="filter:drop-shadow(0 2px 2px rgba(0,0,0,.8))">
+  <g transform="translate(60 58) rotate(-36) scale(1.5)">${AK}</g>
+  <g transform="translate(60 58) rotate(36) scale(-1.5 1.5)">${M4}</g></g>`;
+const ribbon = `<g>
+  <path d="M20 104 L30 100 L30 116 L20 120 L24 110 Z" fill="#5c0b0b"/><path d="M100 104 L90 100 L90 116 L100 120 L96 110 Z" fill="#5c0b0b"/>
+  <path d="M28 98 Q60 108 92 98 L92 114 Q60 124 28 114 Z" fill="url(#gRed)" stroke="url(#gGold)" stroke-width="1.6"/>
+  <text x="60" y="114" text-anchor="middle" font-family="Rajdhani,Inter,sans-serif" font-weight="700" font-size="12" letter-spacing="2.5" fill="url(#gGold)" stroke="#2a1608" stroke-width=".35">CWHUB</text></g>`;
+function genBadge(o){
+  return genCore(o).replace("<!--GUNS-->", guns) + ribbon;
+}
+function genCore(o){
+  const L = {1: [[60, 60, 19]], 2: [[47, 60, 13], [73, 60, 13]], 3: [[60, 47, 11.5], [47, 69, 11.5], [73, 69, 11.5]], 4: [[60, 43, 10.5], [43, 60, 10.5], [77, 60, 10.5], [60, 77, 10.5]]}[o.n];
+  const silver = ["#7d8691", "#2c3137"], gold = ["#a8822c", "#4d3810"];
+  let s = `<defs>${GDEF}<radialGradient id="gShadow"><stop offset="0" stop-color="#000" stop-opacity=".85"/><stop offset=".7" stop-color="#000" stop-opacity=".5"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="gEnamel" cx=".4" cy=".35"><stop offset="0" stop-color="#22406e"/><stop offset=".7" stop-color="#0f2140"/><stop offset="1" stop-color="#07101f"/></radialGradient></defs>`;
+  s += `<circle cx="60" cy="60" r="58" fill="url(#halo_gen)"/><!--GUNS-->`;
+  if (o.n >= 2) s += orderRays(8, 38, 20, ...(o.n >= 3 ? gold : silver), Math.PI / 8);
+  s += orderRays(8, 44, 22, ...(o.n === 4 ? gold : silver));
+  s += `<circle cx="60" cy="60" r="31" fill="url(#gShadow)"/>`;
+  L.forEach(([x, y, r]) => s += mstar(x, y, r, "gen"));
+  return s;
+}
+function genBadgeOld(o){
+  const L = {1: [[60, 58, 15]], 2: [[46, 58, 12], [74, 58, 12]], 3: [[60, 42, 11], [46, 68, 11], [74, 68, 11]], 4: [[60, 36, 10], [44, 58, 10], [76, 58, 10], [60, 80, 10]]}[o.n];
+  let s = `<defs>${GDEF}</defs><circle cx="60" cy="60" r="58" fill="url(#halo_gen)"/>`;
+  if (o.n >= 3) s += swords;
+  s += laurel(60, 62, 46, 9, 7) + shield;
+  if (o.n === 4) s += `<path d="M44 14 L50 4 L55 11 L60 2 L65 11 L70 4 L76 14 Z" fill="url(#gGold)" stroke="#5a3a08" stroke-width=".8"/><circle cx="60" cy="4" r="2" fill="#ff5a5a"/>`;
+  L.forEach(([x, y, r]) => s += mstar(x, y, r, "gen"));
+  return s;
+}
+function starD(cx, cy, r, k = .4){ const p = []; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * k : r; p.push((cx + rr * Math.cos(a)).toFixed(2) + " " + (cy + rr * Math.sin(a)).toFixed(2)); } return "M" + p.join("L") + "Z"; }
+function marBadge(){
+  let s = `<defs>${GDEF}<radialGradient id="mGlow"><stop offset="0" stop-color="#fff3c4" stop-opacity=".95"/><stop offset=".3" stop-color="#ffc94d" stop-opacity=".55"/><stop offset=".6" stop-color="#e0452e" stop-opacity=".18"/><stop offset="1" stop-color="#e0452e" stop-opacity="0"/></radialGradient>
+    <linearGradient id="mShine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".95"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <radialGradient id="mRuby" cx=".35" cy=".3"><stop offset="0" stop-color="#ffd0d0"/><stop offset=".35" stop-color="#e0263a"/><stop offset="1" stop-color="#4a0610"/></radialGradient>
+    <clipPath id="mClip"><path d="${starD(60, 60, 40, .42)}"/></clipPath></defs>`;
+  s += `<circle class="mpulse" cx="60" cy="60" r="60" fill="url(#mGlow)"/>`;
+  let rays = ""; for (let i = 0; i < 32; i++) { const a = i * Math.PI / 16, w = i % 2 ? .025 : .05, L = i % 2 ? 52 : 62;
+    rays += `<path d="M60 60 L${(60 + L * Math.cos(a - w)).toFixed(1)} ${(60 + L * Math.sin(a - w)).toFixed(1)} L${(60 + L * Math.cos(a + w)).toFixed(1)} ${(60 + L * Math.sin(a + w)).toFixed(1)}Z"/>`; }
+  s += `<g class="rays" fill="#fff4cf" opacity=".4">${rays}</g>` + guns;
+  s += orderRays(16, 50, 26, "#fff0b8", "#b8862a");
+  s += mstar(60, 60, 40, "gen");
+  s += `<path d="${starD(60, 60, 40, .42)}" fill="none" stroke="#fff6d8" stroke-width="1.2" stroke-opacity=".8"/>`;
+  s += `<g clip-path="url(#mClip)"><rect x="-60" y="-10" width="120" height="140" fill="url(#mShine)" transform="rotate(20 60 60)"><animateTransform attributeName="transform" type="translate" values="-90 0;150 0" dur="2.6s" repeatCount="indefinite" additive="sum"/></rect></g>`;
+  s += `<circle cx="60" cy="60" r="10" fill="url(#mRuby)" stroke="url(#gGold)" stroke-width="2"/><circle cx="57" cy="57" r="2.4" fill="#fff" opacity=".8"/>`;
+  [[60, 18], [96, 46], [84, 88], [36, 88], [24, 46]].forEach(([x, y], i) => s += `<path class="glint" style="animation-delay:${i * .5}s" d="M${x} ${y - 6}l1.5 4.5 4.5 1.5 -4.5 1.5 -1.5 4.5 -1.5 -4.5 -4.5 -1.5 4.5 -1.5z" fill="#fff"/>`);
+  return s + ribbon;
+}
+// --- realistik gerb: dafna shoxlari (barg + o'rta tomir), kesishgan qilichlar, lenta tugun
+const HDEF = `<linearGradient id="hLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1bd"/><stop offset=".35" stop-color="#e7b94c"/><stop offset=".75" stop-color="#9c6d17"/><stop offset="1" stop-color="#5a3c08"/></linearGradient>
+  <linearGradient id="hBlade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4e555e"/><stop offset=".45" stop-color="#eef2f6"/><stop offset=".55" stop-color="#ffffff"/><stop offset="1" stop-color="#6a727c"/></linearGradient>
+  <linearGradient id="hGuard" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset=".5" stop-color="#c99a32"/><stop offset="1" stop-color="#5a3c08"/></linearGradient>
+  <linearGradient id="hRib" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f1b1b"/><stop offset="1" stop-color="#3a0606"/></linearGradient>
+  <radialGradient id="hShade"><stop offset="0" stop-color="#000" stop-opacity=".8"/><stop offset=".65" stop-color="#000" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>`;
+function qpt(p0, p1, p2, t){ const u = 1 - t; return [u * u * p0[0] + 2 * u * t * p1[0] + t * t * p2[0], u * u * p0[1] + 2 * u * t * p1[1] + t * t * p2[1]]; }
+function branch(p0, p1, p2, n, size, side){
+  let s = `<path d="M${p0[0]} ${p0[1]} Q${p1[0]} ${p1[1]} ${p2[0]} ${p2[1]}" fill="none" stroke="#7a560f" stroke-width="1.6" stroke-linecap="round"/>`;
+  for (let i = 1; i <= n; i++) {
+    const t = i / (n + .6), p = qpt(p0, p1, p2, t), q = qpt(p0, p1, p2, Math.min(1, t + .02));
+    const ang = Math.atan2(q[1] - p[1], q[0] - p[0]) * 180 / Math.PI, k = size * (1 - t * .35);
+    [-1, 1].forEach(dir => {
+      const rot = ang + dir * 42;
+      s += `<g transform="translate(${p[0].toFixed(1)} ${p[1].toFixed(1)}) rotate(${rot.toFixed(0)}) scale(${k.toFixed(2)})"><path d="M0 0 Q5 -3.2 12 0 Q5 3.2 0 0Z" fill="url(#hLeaf)" stroke="#4d3307" stroke-width=".35"/><path d="M.6 0 L11 0" stroke="#5a3c08" stroke-width=".35" opacity=".8"/></g>`;
+    });
+  }
+  const tip = p2; s += `<g transform="translate(${tip[0]} ${tip[1]}) rotate(${side < 0 ? -70 : -110}) scale(${(size * .7).toFixed(2)})"><path d="M0 0 Q5 -3 12 0 Q5 3 0 0Z" fill="url(#hLeaf)" stroke="#4d3307" stroke-width=".35"/></g>`;
+  return s;
+}
+function wreath(full){
+  let s = branch([56, 108], [20, 92], [24, full ? 22 : 30], 9, 1.15, -1) + branch([64, 108], [100, 92], [96, full ? 22 : 30], 9, 1.15, 1);
+  s += `<path d="M50 104 Q60 112 70 104 L72 110 Q60 118 48 110Z" fill="url(#hRib)" stroke="url(#hGuard)" stroke-width=".8"/><path d="M52 109 L46 118 L52 115 L54 120Z M68 109 L74 118 L68 115 L66 120Z" fill="url(#hRib)" stroke="#2a0404" stroke-width=".5"/>`;
+  return s;
+}
+function saber(rot){
+  return `<g transform="translate(60 64) rotate(${rot})"><path d="M-1.6 22 Q-4 -12 4 -54 Q.4 -14 1.8 22Z" fill="url(#hBlade)" stroke="#2b3036" stroke-width=".5"/><path d="M0 20 Q-1.8 -10 3.2 -48" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width=".5"/>
+    <path d="M-9 23 Q0 19 9 23 L8 26 Q0 22.5 -8 26Z" fill="url(#hGuard)" stroke="#4d3307" stroke-width=".4"/><rect x="-1.8" y="25" width="3.6" height="11" rx="1" fill="#2a1a0a"/><path d="M-1.8 27 h3.6 M-1.8 30 h3.6 M-1.8 33 h3.6" stroke="#c99a32" stroke-width=".5"/><circle cx="0" cy="37.5" r="2.4" fill="url(#hGuard)"/></g>`;
+}
+function genBadge(o){
+  const L = {1: [[60, 60, 19]], 2: [[47, 60, 13], [73, 60, 13]], 3: [[60, 47, 12], [46, 70, 12], [74, 70, 12]], 4: [[60, 42, 10.5], [42, 60, 10.5], [78, 60, 10.5], [60, 78, 10.5]]}[o.n];
+  let s = `<defs>${GDEF}${HDEF}</defs><circle cx="60" cy="60" r="58" fill="url(#halo_gen)"/>`;
+  // 3+: tepada oltin nur toji
+  if (o.n >= 3) { let r = ""; for (let i = 0; i < 13; i++) { const a = (-160 + i * 140 / 12) * Math.PI / 180, L2 = i % 2 ? 50 : 58;
+      r += `<path d="M60 58 L${(60 + L2 * Math.cos(a - .035)).toFixed(1)} ${(58 + L2 * Math.sin(a - .035)).toFixed(1)} L${(60 + L2 * Math.cos(a + .035)).toFixed(1)} ${(58 + L2 * Math.sin(a + .035)).toFixed(1)}Z"/>`; }
+    s += `<g fill="url(#hGuard)" opacity=".85">${r}</g>`; }
+  s += saber(-34) + saber(34);
+  // 4: tashqi eman shoxlari (ikki qavat gulchambar)
+  if (o.n >= 3) s += branch([54, 112], [8, 96], [16, 18], 10, 1.25, -1) + branch([66, 112], [112, 96], [104, 18], 10, 1.25, 1);
+  s += wreath(false);
+  // 2+: oltin munchoq halqa
+  if (o.n >= 2) { s += `<circle cx="60" cy="60" r="29" fill="none" stroke="url(#hGuard)" stroke-width="1.4"/>`;
+    for (let i = 0; i < 36; i++) { const a = i * Math.PI / 18; s += `<circle cx="${(60 + 29 * Math.cos(a)).toFixed(1)}" cy="${(60 + 29 * Math.sin(a)).toFixed(1)}" r="1.1" fill="#fff0b8"/>`; } }
+  s += `<circle cx="60" cy="60" r="${o.n >= 2 ? 27 : 32}" fill="url(#hShade)"/>`;
+  L.forEach(([x, y, r]) => s += mstar(x, y, r, "gen"));
+  // 4: lentada qimmatbaho toshlar
+  if (o.n >= 3) [[54, 108], [60, 110], [66, 108]].forEach(([x, y]) => s += `<circle cx="${x}" cy="${y}" r="1.6" fill="url(#gGem)" stroke="#fff0b8" stroke-width=".4"/>`);
+  return s;
+}
+// Marshal: platina-olmos yulduz, oltin quyosh nurlari, to'liq gulchambar, sirpanuvchi yorug'lik
+function marBadge(){
+  const PL = {plat: ["#ffffff", "#e9edf2", "#9aa3ad", "#4a525b"]};
+  let s = `<defs>${GDEF}${HDEF}<radialGradient id="mGlow"><stop offset="0" stop-color="#fff8e0" stop-opacity=".95"/><stop offset=".32" stop-color="#ffd36b" stop-opacity=".55"/><stop offset=".65" stop-color="#ff9f1c" stop-opacity=".16"/><stop offset="1" stop-color="#ff9f1c" stop-opacity="0"/></radialGradient>
+    <linearGradient id="mShine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".46" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".95"/><stop offset=".54" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <clipPath id="mClip"><path d="${starD(60, 58, 34, .42)}"/></clipPath></defs>`;
+  s += `<circle class="mpulse" cx="60" cy="60" r="60" fill="url(#mGlow)"/>`;
+  let rays = ""; for (let i = 0; i < 40; i++) { const a = i * Math.PI / 20, w = i % 2 ? .02 : .04, L = i % 2 ? 54 : 63;
+    rays += `<path d="M60 58 L${(60 + L * Math.cos(a - w)).toFixed(1)} ${(58 + L * Math.sin(a - w)).toFixed(1)} L${(60 + L * Math.cos(a + w)).toFixed(1)} ${(58 + L * Math.sin(a + w)).toFixed(1)}Z"/>`; }
+  s += `<g class="rays" fill="#fff4cf" opacity=".45">${rays}</g>`;
+  s += wreath(true);
+  // oltin quyosh: 24 qirrali
+  const P = []; for (let i = 0; i < 48; i++) { const a = -Math.PI / 2 + i * Math.PI / 24, r = i % 2 ? 26 : (i % 4 ? 36 : 42); P.push([60 + r * Math.cos(a), 58 + r * Math.sin(a)]); }
+  for (let i = 0; i < 48; i++) { const p = P[i], q = P[(i + 1) % 48]; s += `<path d="M60 58L${p[0].toFixed(1)} ${p[1].toFixed(1)}L${q[0].toFixed(1)} ${q[1].toFixed(1)}Z" fill="${i % 2 ? "#a8761c" : "#f6d77a"}"/>`; }
+  s += `<g class="mspin">`;
+  // platina-olmos yulduz (har qirra alohida)
+  const S = []; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? 34 * .42 : 34; S.push([60 + rr * Math.cos(a), 58 + rr * Math.sin(a)]); }
+  for (let i = 0; i < 10; i++) { const p = S[i], q = S[(i + 1) % 10]; s += `<path d="M60 58L${p[0].toFixed(2)} ${p[1].toFixed(2)}L${q[0].toFixed(2)} ${q[1].toFixed(2)}Z" fill="${i % 2 ? PL.plat[2] : PL.plat[1]}"/>`; }
+  s += `<path d="${starD(60, 58, 34, .42)}" fill="none" stroke="url(#hGuard)" stroke-width="2"/>`;
+  for (let i = 0; i < 5; i++) { const p = S[i * 2]; s += `<line x1="60" y1="58" x2="${p[0].toFixed(1)}" y2="${p[1].toFixed(1)}" stroke="#fff" stroke-opacity=".65" stroke-width=".7"/>`; }
+  s += `<g clip-path="url(#mClip)"><rect x="-60" y="-10" width="120" height="140" fill="url(#mShine)" transform="rotate(20 60 60)"><animateTransform attributeName="transform" type="translate" values="-90 0;150 0" dur="2.6s" repeatCount="indefinite" additive="sum"/></rect></g>`;
+  S.filter((_, i) => i % 2 === 0).forEach((p, i) => s += `<path class="glint" style="animation-delay:${i * .55}s" d="M${p[0]} ${p[1] - 7}l1.6 5 5 1.6 -5 1.6 -1.6 5 -1.6 -5 -5 -1.6 5 -1.6z" fill="#fff"/>`);
+  return s + `</g>`;
+}
+
+function badge(o){
+  if (o.m === "gen") return genBadge(o);
+  if (o.m === "dia") return marBadge();
+  const R0 = {bronze: 30, silver: 32, gold: 38, gen: 40, dia: 50}[o.m];
+  let s = `<circle cx="60" cy="60" r="56" fill="url(#halo_${o.m})"/>`;
+  if (o.m === "gen" || o.m === "dia") { let rays = ""; for (let i = 0; i < 24; i++) { const a = i * Math.PI / 12; rays += `<path d="M60 60 L${(60 + 62 * Math.cos(a - .05)).toFixed(1)} ${(60 + 62 * Math.sin(a - .05)).toFixed(1)} L${(60 + 62 * Math.cos(a + .05)).toFixed(1)} ${(60 + 62 * Math.sin(a + .05)).toFixed(1)}Z"/>`; }
+    s += `<g class="rays" fill="${o.m === "dia" ? "#bfeaff" : "#ffd76a"}" opacity=".16">${rays}</g>`; }
+  (LAY[o.n] || []).forEach(([x, y, k]) => s += mstar(x, y, R0 * k, o.m));
+  return `<defs>${Object.entries({bronze: "#d08a4e", silver: "#d7dde4", gold: "#f0c860", gen: "#ffd76a", dia: "#7dd3fc"}).map(([k, c]) => `<radialGradient id="halo_${k}"><stop offset="0" stop-color="${c}" stop-opacity=".35"/><stop offset=".55" stop-color="${c}" stop-opacity=".08"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>`).join("")}</defs>` + s;
+}
+// pogon: k — sol (askar), jr (kichik ofitser), sr (katta ofitser), gen (general), mar (marshal)
+function pogon(o){
+  const id = "p" + (UID++);
+  const shape = "M12 224 V44 Q12 16 50 6 Q88 16 88 44 V224 Z";
+  const fabric = o.k === "gen" || o.k === "mar" ? ["#c99a3c", "#8d6519"] : ["#2a2d22", "#14160f"];
+  let s = `<defs>
+    <linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${fabric[1]}"/><stop offset=".5" stop-color="${fabric[0]}"/><stop offset="1" stop-color="${fabric[1]}"/></linearGradient>
+    <pattern id="${id}w" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="3" height="3" fill="none"/><rect width="1" height="3" fill="#000" opacity=".22"/></pattern>
+    <pattern id="${id}z" width="12" height="8" patternUnits="userSpaceOnUse"><path d="M0 8 L6 0 L12 8" fill="none" stroke="#6e4e10" stroke-width="1.4" opacity=".55"/></pattern>
+    <linearGradient id="${id}g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dc8a"/><stop offset=".5" stop-color="#b8892c"/><stop offset="1" stop-color="#f0cf72"/></linearGradient>
+    <radialGradient id="${id}b" cx=".35" cy=".35"><stop offset="0" stop-color="#fff2c4"/><stop offset=".6" stop-color="#c08f2e"/><stop offset="1" stop-color="#6b4810"/></radialGradient>
+  </defs>`;
+  s += `<path d="${shape}" fill="url(#${id}f)"/><path d="${shape}" fill="url(#${id}w)"/>`;
+  if (o.k === "gen" || o.k === "mar") s += `<path d="${shape}" fill="url(#${id}z)"/>`;
+  s += `<path d="${shape}" fill="none" stroke="url(#${id}g)" stroke-width="3.2"/><path d="M17 222 V45 Q17 21 50 11 Q83 21 83 45 V222" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1"/>`;
+  if (o.k === "jr") s += `<rect x="47.5" y="46" width="5" height="178" fill="#7a1414"/><rect x="47.5" y="46" width="5" height="178" fill="url(#${id}w)"/>`;
+  if (o.k === "sr") [36, 61].forEach(x => s += `<rect x="${x}" y="46" width="5" height="178" fill="#7a1414"/><rect x="${x}" y="46" width="5" height="178" fill="url(#${id}w)"/>`);
+  if (o.k === "sol") for (let i = 0; i < (o.n || 0); i++) { const y = 196 - i * 15;
+    s += `<path d="M14 ${y} L50 ${y - 10} L86 ${y} L86 ${y + 6} L50 ${y - 4} L14 ${y + 6} Z" fill="url(#${id}g)" stroke="#5a3a08" stroke-width=".6"/>`; }
+  s += `<circle cx="50" cy="31" r="8.5" fill="url(#${id}b)" stroke="#4d3308" stroke-width=".8"/>` + star(50, 31, 5, "gold");
+  (o.stars || []).forEach(([x, y, r]) => s += star(x, y, r, o.k === "gen" ? "silver" : "gold"));
+  if (o.k === "mar") s += `<circle cx="50" cy="118" r="34" fill="none" stroke="url(#${id}g)" stroke-width="2.4"/>` + star(50, 118, 30, "silver") + star(50, 186, 12, "gold");
+  return s;
+}
+const B = [{m: "bronze", n: 1}, {m: "bronze", n: 2}, {m: "bronze", n: 3}, {m: "bronze", n: 4},
+  {m: "silver", n: 1}, {m: "silver", n: 2}, {m: "silver", n: 3}, {m: "silver", n: 4},
+  {m: "gold", n: 1}, {m: "gold", n: 2}, {m: "gold", n: 3},
+  {m: "gen", n: 1}, {m: "gen", n: 2}, {m: "gen", n: 3}, {m: "dia", n: 1}];
+window.UNVSVG = i => badge(B[i]);
+})();</script>
 <script>
 /* ===================================================================== sozlamalar */
 const ADDRESS = "90.156.195.108:27045";
@@ -1403,6 +1718,58 @@ async function sha(s){
 const botName = () => D?.bot || BOT_DEFAULT;
 const verifiedSteam = steam => !!PROF[steam] || (D?.accounts || []).some(a => a.steam === steam);
 const mySteam = () => ME?.acc?.steam || null;
+// unvonlar: XP = match oxirigacha o'ynash +50, g'alaba +30, MVP +20 (o'rtada chiqsa 0). Unvon faqat oshadi.
+// ~65 XP/match: Kumush ~20, Oltin ~75, Platina ~160, Legend ~380 match — kam odam chiqadi.
+const UNV_XP = [0, 150, 400, 800, 1300, 2000, 2800, 3800, 5000, 6500, 8200, 10500, 13500, 17500, 25000];
+const XP_FIN = 50, XP_WIN = 30, XP_MVP = 20;
+const UNV_N = {uz: ["Bronza 1", "Bronza 2", "Bronza 3", "Bronza 4", "Kumush 1", "Kumush 2", "Kumush 3", "Kumush 4", "Oltin 1", "Oltin 2", "Oltin 3", "Platina 1", "Platina 2", "Platina 3", "Legend"],
+  ru: ["Бронза 1", "Бронза 2", "Бронза 3", "Бронза 4", "Серебро 1", "Серебро 2", "Серебро 3", "Серебро 4", "Золото 1", "Золото 2", "Золото 3", "Платина 1", "Платина 2", "Платина 3", "Легенда"],
+  en: ["Bronze 1", "Bronze 2", "Bronze 3", "Bronze 4", "Silver 1", "Silver 2", "Silver 3", "Silver 4", "Gold 1", "Gold 2", "Gold 3", "Platinum 1", "Platinum 2", "Platinum 3", "Legend"]};
+const UNV_OVERRIDE = {"STEAM_0:1:886626610": 14};   // Frogi — Marshal (server egasi)
+const unvName = i => UNV_N[LANG][i];
+function unvXP(p){
+  if (!p) return 0;
+  return Math.round((p.ms || []).reduce((a, s2) => { const m = IDX.matches.find(q => q.t === s2.t);
+    if (s2.left) return a;
+    return a + XP_FIN + (s2.res === "W" ? XP_WIN : 0) + (m?.mvp && m.mvp.id === p.id ? XP_MVP : 0); }, 0));
+}
+// Legend'dan keyin XP yig'ilaveradi: 25k dan oshgan sari raqam qizarib boradi (50k da to'liq qizil)
+function unvXpColor(xp){
+  if (xp < UNV_XP[14]) return "";
+  const f = Math.min(1, (xp - UNV_XP[14]) / 50000), h = Math.round(45 - 45 * f);
+  return `color:hsl(${h},100%,${Math.round(62 - 10 * f)}%);text-shadow:0 0 ${8 + 14 * f}px hsla(${h},100%,50%,${(.35 + .5 * f).toFixed(2)})`;
+}
+function unvOf(p){
+  const xp = unvXP(p); let i = 0; UNV_XP.forEach((v, k) => { if (xp >= v) i = k; });
+  if (p && UNV_OVERRIDE[p.id] != null) i = Math.max(i, UNV_OVERRIDE[p.id]);
+  return {i, xp, next: UNV_XP[i + 1] ?? null};
+}
+const unvMini = p => { if (!p?.id) return ""; const u = unvOf(p), cls = u.i === 14 ? "mar" : u.i >= 11 ? "gen" : u.i >= 8 ? "sr" : u.i >= 4 ? "jr" : "sol";
+  return `<span class="unvchip ${cls}" title="${esc(unvName(u.i))}">${unvSvg(u.i)}</span>`; };
+const unvSvg = i => `<svg viewBox="${i < 11 ? "16 16 88 88" : "0 0 120 120"}" class="${i === 14 ? "unvmar" : ""}">${window.UNVSVG ? window.UNVSVG(i) : ""}</svg>`;
+const unvCell = p => { const u = unvOf(p), cls = u.i === 14 ? "mar" : u.i >= 11 ? "gen" : u.i >= 8 ? "sr" : u.i >= 4 ? "jr" : "sol";
+  return `<span class="unvcell ${cls}" title="${esc(unvName(u.i))}">${unvSvg(u.i)}</span>`; };
+function unvCard(p){
+  const ru = LANG === "ru", u = unvOf(p), lo = UNV_XP[u.i], f = u.next ? Math.max(0, Math.min(1, (u.xp - lo) / (u.next - lo))) : 1;
+  return `<section class="unvcard side ${u.i === 14 ? "mar" : u.i >= 11 ? "gen" : ""}"><div class="unvstage">${unvSvg(u.i)}</div>
+    <div style="min-width:0"><div class="unvrk">${ru ? "Звание" : LANG === "en" ? "Rank" : "Unvon"}</div><h2>${esc(unvName(u.i))}</h2>
+      <div class="unvxp">${UNV_OVERRIDE[p.id] != null ? `<div class="unvown">👑 ${ru ? "Особое звание владельца сервера" : LANG === "en" ? "Server owner's special rank" : "Server egasining maxsus unvoni"}</div>` : ""}<b style="${unvXpColor(u.xp)}">${u.xp.toLocaleString("ru-RU")} XP</b>${u.i === 14 ? "" : `${u.next ? ` · ${ru ? "до звания" : LANG === "en" ? "to" : ""} «${esc(unvName(u.i + 1))}»${ru ? "" : LANG === "en" ? "" : "gacha"} ${(u.next - u.xp).toLocaleString("ru-RU")} XP` : ` · ${ru ? "высшее звание" : LANG === "en" ? "highest rank" : "eng oliy unvon"}`}`}</div>
+      <div class="unvbar"><i style="width:${(f * 100).toFixed(1)}%"></i></div>
+      <a class="sub" href="/unvonlar" style="font-size:12.5px">${ru ? "Все звания →" : LANG === "en" ? "All ranks →" : "Barcha unvonlar →"}</a></div></section>`;
+}
+function pageUnvon(){
+  const ru = LANG === "ru", groups = [[ru ? "Бронза" : LANG === "en" ? "Bronze" : "Bronza", [0, 1, 2, 3]], [ru ? "Серебро" : LANG === "en" ? "Silver" : "Kumush", [4, 5, 6, 7]], [ru ? "Золото" : LANG === "en" ? "Gold" : "Oltin", [8, 9, 10]], [ru ? "Платина" : LANG === "en" ? "Platinum" : "Platina", [11, 12, 13]], [ru ? "Легенда" : LANG === "en" ? "Legend" : "Legend", [14]]];
+  const cnt = {}; Object.values(IDX.byId || {}).forEach(p => { const i = unvOf(p).i; (cnt[i] = cnt[i] || []).push(p); });
+  return `<section class="shero"><div class="shglow"></div><div class="eyebrow" style="color:var(--gold)">CWHUB · ${ru ? "ЗВАНИЯ" : LANG === "en" ? "RANKS" : "UNVONLAR"}</div>
+    <h2>${ru ? "Звания" : LANG === "en" ? "Ranks" : "Unvonlar"}</h2><p class="lead">${ru ? `XP: матч до конца +${XP_FIN}, победа +${XP_WIN}, MVP +${XP_MVP}. Кто вышел посреди матча — XP не получает. Звание только растёт, после Легенды XP продолжает копиться.` : LANG === "en" ? `XP: play the match to the end +${XP_FIN}, win +${XP_WIN}, MVP +${XP_MVP}. Leaving mid-match gives no XP. The rank only goes up; after Legend, XP keeps growing.` : `XP: matchni oxirigacha o'ynash +${XP_FIN}, g'alaba +${XP_WIN}, MVP +${XP_MVP}. Match o'rtasida chiqib ketgan XP olmaydi. Unvon faqat oshadi, Legend'dan keyin ham XP yig'ilaveradi.`}</p></section>
+    <div class="unvprize">${[[13, ru ? ["1 месяц Premium", "2 месяца Админ", "1 месяц цвет ника"] : LANG === "en" ? ["1 month Premium", "2 months Admin", "1 month nick color"] : ["1 oylik Premium", "2 oy Admin", "1 oy nik rangi"]],
+      [14, ru ? ["2 месяца Premium", "3 месяца Админ", "2 месяца цвет ника"] : LANG === "en" ? ["2 months Premium", "3 months Admin", "2 months nick color"] : ["2 oylik Premium", "3 oy Admin", "2 oy nik rangi"]]]
+      .map(([i, gifts]) => `<div class="unvgift ${i === 14 ? "mar" : "gen"}"><div class="unvgst">${unvSvg(i)}</div><div><small>${ru ? "Награда за звание" : LANG === "en" ? "Reward for reaching" : "Unvon mukofoti"}</small><b>${esc(unvName(i))}</b>
+        <ul>${gifts.map(g => `<li>🎁 ${g}</li>`).join("")}</ul></div></div>`).join("")}</div>
+    ${groups.map(([g, ids]) => `<div class="unvsec">${g}</div><div class="unvgrid">${ids.map(i => { const who = (cnt[i] || []).sort((a, b) => unvXP(b) - unvXP(a));
+      return `<div class="unvtile ${i === 14 ? "mar" : i >= 11 ? "gen" : ""}"><div class="unvst">${unvSvg(i)}</div><b>${esc(unvName(i))}</b><small>${UNV_XP[i].toLocaleString("ru-RU")} XP</small>
+        ${who.length ? `<div class="unvwho">${who.slice(0, 4).map(p => `<a href="/p/${slug(p.id)}">${esc(p.name)}</a>`).join("")}${who.length > 4 ? `<span>+${who.length - 4}</span>` : ""}</div>` : ""}</div>`; }).join("")}</div>`).join("")}`;
+}
 
 async function loadProfiles(){
   try { const r = await sb.rpc("public_profiles"); if (!r.error) { PROF = {}; (r.data || []).forEach(x => { if (x.steam) PROF[x.steam] = x; }); } } catch (e) {}
@@ -1465,7 +1832,7 @@ function buildIndex(){
   const ranked = Object.values(byId).filter(p => p.matches > 0 || p.hist.length || p.ms.length || HIDDEN_STEAM.includes(p.id)).sort((a, b) => b.pts - a.pts || b.matches - a.matches);
   IDX = {byId, sorted, ranked, matches: Object.values(matches).sort((a, b) => b.t - a.t)};
 }
-const pcell = (p, name) => `<span class="pcell ${hasG(p) ? "gn " + badgeTier(p) : ""}">${avatar(name || p.name, false, photoOf(p?.id))}<span class="nm" style="${nickStyle(p?.id)}">${esc(name || p.name)}</span>${premCrown(p?.id)}${gBadge(p)}${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
+const pcell = (p, name, noUnv) => `<span class="pcell ${hasG(p) ? "gn " + badgeTier(p) : ""}">${avatar(name || p.name, false, photoOf(p?.id))}<span class="nm" style="${nickStyle(p?.id)}">${esc(name || p.name)}</span>${premCrown(p?.id)}${noUnv ? "" : unvMini(p)}${gBadge(p)}${p?.verified ? `<span class="verified" title="${t("verified")}">${I.check}</span>` : ""}</span>`;
 
 /* ===================================================================== sahifalar */
 function radar(n){
@@ -1836,7 +2203,7 @@ function pageProfile(id){
   const games = (p.hist.length ? p.hist : p.ms).slice().reverse().slice(0, 15), pp = people(p);
   return `<div class="ppage">
   ${isMe ? `<div class="banner"><b>👋 ${t("thisIsYou")}</b><span class="verified">${I.check} ${t("verified")}</span></div>` : ""}
-  <section class="phero ${PROF[p.id]?.banner_url ? "hasbanner" : ""}" style="--glow:${c[1]}55;${PROF[p.id]?.banner_url ? `background-image:url('${esc(safeUrl(PROF[p.id].banner_url))}')` : ""}"><div class="prof">
+  <div class="prow"><section class="phero ${PROF[p.id]?.banner_url ? "hasbanner" : ""}" style="--glow:${c[1]}55;${PROF[p.id]?.banner_url ? `background-image:url('${esc(safeUrl(PROF[p.id].banner_url))}')` : ""}"><div class="prof">
     <div style="display:flex;gap:16px;align-items:center">${photoOf(p.id) ? avatar(p.name, true, photoOf(p.id)) : ""}${shield(p.pts, p.matches, true)}</div>
     <div style="min-width:0">
       <div class="eyebrow">${HIDDEN_STEAM.includes(p.id) ? `👑 ${LANG === "ru" ? "Владелец сервера" : LANG === "en" ? "Server owner" : "Server egasi"}` : cal ? t("calLeft")(CAL - p.matches) : `#${p.place} ${t("place")} · ${t("season")} ${SEASON}`}</div>
@@ -1860,7 +2227,7 @@ function pageProfile(id){
     <div class="tile"><b>${p.adr}</b><span>ADR</span></div>
     <div class="tile"><b>${p.mvps}</b><span>MVP</span></div>
     <div class="tile"><b>${p.streak}</b><span>${t("streak")}</span></div>
-  </div></section>
+  </div></section>${unvCard(p)}</div>
   <div class="grid2 mt"><div class="card"><h3>${t("ptsHistory")}</h3>${chart(p.hist, p.id) || `<div class="empty">—</div>`}${profStats(p)}</div><div class="card"><div class="achhead"><h3>${t("ach")}</h3><span class="cnt">🏅 ${achCount(p)}/${t("achs").length} ${t("achOf")}</span></div>${achievements(p)}</div></div>
   <div class="card mt"><h3>${t("recent")}</h3>
     ${games.length ? `<div class="tw"><table><tr><th>${t("map")}</th><th></th><th class="num">K–D</th><th class="num">PTS</th><th class="num"></th></tr>
@@ -1893,7 +2260,8 @@ function pageRanks(){
   const rows = IDX.ranked.map(p => { const own = HIDDEN_STEAM.includes(p.id), pl = own ? "👑" : ++n;
     return `<tr class="click ${hasG(p) ? "elite " + badgeTier(p) : ""}" onclick="go('#/p/${slug(p.id)}')">
       <td class="place ${!own && pl <= 3 ? "g" + pl : ""}">${pl}</td>
-      <td style="width:100%">${pcell(p)}</td>
+      <td style="width:100%">${pcell(p, null, true)}</td>
+      <td class="unvcol">${unvCell(p)}</td>
       <td class="num"><b>${p.pts}</b></td>
       <td class="num" style="padding-left:18px">${shield(p.pts, p.matches)}</td></tr>`; }).join("");
   const myPts = IDX.byId[mySteam()]?.pts, myR = myPts != null ? rankName(myPts) : null;
@@ -1902,8 +2270,8 @@ function pageRanks(){
       <div><b>${RANKD[LANG][i]}</b><span>PTS: ${r[0]}${RANKS[i + 1] ? "–" + (RANKS[i + 1][0] - 1) : "+"}</span></div></div>`; }).join("");
   return `<h2 class="title">${t("ranksT")}</h2><p class="lead">${t("ranksLead")}</p>
     <div class="card"><div class="tw"><table>
-      <tr><th>#</th><th>${ru ? "Ник" : LANG === "en" ? "Nick" : "Nik"}</th><th class="num">PTS</th><th class="num" style="padding-left:18px">Skill</th></tr>
-      ${rows || `<tr><td colspan="4" class="empty">${t("noRank")}</td></tr>`}</table></div></div>
+      <tr><th>#</th><th>${ru ? "Ник" : LANG === "en" ? "Nick" : "Nik"}</th><th>${ru ? "Звание" : LANG === "en" ? "Rank" : "Unvon"}</th><th class="num">PTS</th><th class="num" style="padding-left:18px">Skill</th></tr>
+      ${rows || `<tr><td colspan="5" class="empty">${t("noRank")}</td></tr>`}</table></div></div>
     <div class="card mt"><h3>${ru ? "Шкала рангов" : LANG === "en" ? "Rank scale" : "Rank shkalasi"}</h3><div class="rlad">${legend}</div>
       <p class="sub" style="line-height:1.7;margin:16px 0 0">${t("ranksNote")}</p></div>`;
 }
@@ -3822,7 +4190,7 @@ function renderNav(){
   const isOn = i => h === ROUTES[i] || (i === 1 && /^#\/(p|vs)\//.test(h)) || (i === 2 && h.startsWith("#/m/"));
   // asosiylari ko'rinib turadi, qolgani — "Ko'proq" menyusida (sarlavha bir qatorga sig'sin)
   const link = (href, label, on) => `<a href="${href}" class="${on ? "on" : ""}">${label}</a>`;
-  const extra = [link("/rules", t("nav")[4], isOn(4)), link("/bans", t("nav")[5], isOn(5)),
+  const extra = [link("/unvonlar", `🎖 ${LANG === "ru" ? "Звания" : LANG === "en" ? "Ranks" : "Unvonlar"}`, h === "#/unvonlar"), link("/rules", t("nav")[4], isOn(4)), link("/bans", t("nav")[5], isOn(5)),
     link("/support", LANG === "ru" ? "Поддержка" : LANG === "en" ? "Support" : "Yordam", h === "#/support"), link("/privacy", LANG === "ru" ? "Конфиденциальность" : LANG === "en" ? "Privacy" : "Maxfiylik", h === "#/privacy")]
     .concat(ME?.admin ? [link("/admin", "🛡 Admin", h === "#/admin")] : []);
   const extraOn = isOn(4) || isOn(5) || h === "#/support" || h === "#/admin";
@@ -3869,7 +4237,7 @@ function render(scroll = true){
   else if (h.startsWith("#/m/")) html = pageMatch(h.slice(4));
   else if (h === "#/live") html = pageLive();
   else if (h.startsWith("#/vs/")) { const [a, b] = h.slice(5).split("/").map(decodeURIComponent); html = pageVs(a, b); }
-  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/lobby": pageLobby, "#/privacy": pagePrivacy, "#/friends": pageFriends, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat, "#/auth": pageAuthCb}[h] || pageHome)();
+  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/lobby": pageLobby, "#/unvonlar": pageUnvon, "#/privacy": pagePrivacy, "#/friends": pageFriends, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat, "#/auth": pageAuthCb}[h] || pageHome)();
   setTimeout(livePill, 0);
   const app = $("#app");
   app.innerHTML = html;

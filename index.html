@@ -1677,7 +1677,7 @@ function mstatPick(i){
   document.querySelectorAll(".mstat .ln").forEach(g => g.classList.toggle("dim", g.id !== "mln" + i));
 }
 // Ketayotgan match: server har ~20 soniyada yuboradigan jonli holatdan (cw_feed server) quriladi
-const LIVE_STATES = ["knife", "knife_vote", "lo3", "live", "halftime"];
+const LIVE_STATES = ["lo3", "live", "halftime"];   // pichoq raund saytda ko'rsatilmaydi
 const liveActive = () => LIVE_STATES.includes(D?.server?.live?.state);
 function liveMatch(){
   const S = D?.server || {}, L = S.live || {};
@@ -3079,7 +3079,7 @@ function livePanel(){
   const active = ["knife", "knife_vote", "lo3", "live", "halftime"].includes(L.state);
   const sideA = L.sideA === "CT" ? "CT" : "T", sideB = sideA === "T" ? "CT" : "T";
   const na = L.na || (sideA === "T" ? "TERRORIST" : "CT"), nb = L.nb || (sideB === "T" ? "TERRORIST" : "CT");
-  const badge = active ? `<span class="onair"><i></i>${x("liveT")}</span>` : `<span class="onair idle"><i></i>${on ? (L.state === "warmup" || !L.state ? x("warm") : x("idle")) : t("offline")}</span>`;
+  const badge = active ? `<span class="onair"><i></i>${x("liveT")}</span>` : `<span class="onair idle"><i></i>${on ? (L.state === "warmup" || L.state === "knife" || L.state === "knife_vote" || !L.state ? x("warm") : x("idle")) : t("offline")}</span>`;
   return `<div class="live">
     <div class="lhead">${badge}<span class="sub" style="font-size:13px;font-weight:600">${esc(s.map || "—")}</span></div>
     <div class="lscore">

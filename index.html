@@ -1278,7 +1278,7 @@ const T = {
 const store = { get(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v){ try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
 let LANG = store.get("lang") || "uz";
 { const pb = document.querySelector("#pre b"); if (pb) pb.textContent = LANG === "ru" ? "CWHUB · ЗАГРУЗКА" : "CWHUB · YUKLANMOQDA";
-  if (LANG === "ru") { $("#sndqt").textContent = "🔊 Включать звук при входе на сайт?"; $("#sndy").textContent = "Да, со звуком"; $("#sndn").textContent = "Нет"; } }
+  if (LANG === "ru") { const q = id => document.getElementById(id); if (q("sndqt")) { q("sndqt").textContent = "🔊 Включать звук при входе на сайт?"; q("sndy").textContent = "Да, со звуком"; q("sndn").textContent = "Нет"; } } }
 const t = k => T[LANG][k];
 
 /* ===================================================================== yordamchilar */

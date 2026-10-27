@@ -882,6 +882,21 @@ html.cardmode .mside .mpl,html.cardmode .mcenter,html.cardmode .aw,html.cardmode
 .unvcard .unvxp{font-size:13px;color:var(--muted)}.unvcard .unvxp b{color:#e6c15e}
 .unvbar{height:6px;margin:10px 0 8px;max-width:460px;background:#1a1a1a;border:1px solid rgba(255,255,255,.06)}.unvbar i{display:block;height:100%;background:linear-gradient(90deg,#8a6a20,#e6c15e,#fff1c2);box-shadow:0 0 10px rgba(230,193,94,.7)}
 .unvcard.mar{border-color:rgba(255,201,77,.55);box-shadow:0 0 50px rgba(255,180,60,.18)}.unvcard.mar svg,.unvtile.mar svg{animation:mglow 2.4s ease-in-out infinite}
+/* nik yonidagi unvon: qutisiz — porloq emblema + oltin matn */
+.unvnick{position:relative;display:inline-flex;align-items:center;gap:8px;vertical-align:middle;margin-left:14px;text-decoration:none;-webkit-text-fill-color:initial;font-family:Inter,sans-serif;letter-spacing:0}
+.unvnick .unvns{position:relative;display:grid;place-items:center}
+.unvnick .unvns:before{content:"";position:absolute;width:86px;height:86px;border-radius:50%;background:radial-gradient(circle,rgba(255,206,110,.28),transparent 66%);animation:unvbreathe 3.6s ease-in-out infinite}
+.unvnick .unvns svg{position:relative;display:block;width:64px;height:64px;overflow:visible;filter:drop-shadow(0 0 10px rgba(255,200,100,.6)) drop-shadow(0 6px 10px rgba(0,0,0,.85));transition:transform .3s}
+.unvnick:hover .unvns svg{transform:scale(1.08) rotate(-4deg)}
+.unvnick.mar .unvns svg{width:74px;height:74px;animation:mglow 2.4s ease-in-out infinite}
+.unvnt{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+.unvnt small{display:none}
+.unvnt b{font:700 24px Rajdhani,sans-serif;letter-spacing:3px;text-transform:uppercase;background:linear-gradient(180deg,#fff4cf,#e6c15e 55%,#a87a22);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 10px rgba(255,190,80,.35))}
+.unvnick.mar .unvnt b{background:linear-gradient(90deg,#fff4cf,#ffc94d,#ff8a3d,#ffc94d,#fff4cf);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;animation:unvflow 4s linear infinite}
+.unvnt em{font:600 11.5px Inter,sans-serif;font-style:normal;color:#c9a54e;margin-top:3px;letter-spacing:.5px}
+.unvnb{display:none}
+@keyframes unvflow{to{background-position:-200% 0}}
+@media(max-width:640px){.unvnick{margin:8px 0 0;display:flex;width:max-content}.unvnick .unvns svg{width:48px;height:48px}.unvnt b{font-size:19px}}
 /* profil + unvon karta yonma-yon (premium karta uslubi) */
 .prow{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:stretch}
 .unvcard.side{margin-top:0;grid-template-columns:1fr;gap:6px;text-align:center;align-content:center;padding:22px 20px;overflow:hidden;
@@ -1749,6 +1764,13 @@ const unvMini = p => { if (!p?.id) return ""; const u = unvOf(p), cls = u.i === 
 const unvSvg = i => `<svg viewBox="${i < 11 ? "16 16 88 88" : "0 0 120 120"}" class="${i === 14 ? "unvmar" : ""}">${window.UNVSVG ? window.UNVSVG(i) : ""}</svg>`;
 const unvCell = p => { const u = unvOf(p), cls = u.i === 14 ? "mar" : u.i >= 11 ? "gen" : u.i >= 8 ? "sr" : u.i >= 4 ? "jr" : "sol";
   return `<span class="unvcell ${cls}" title="${esc(unvName(u.i))}">${unvSvg(u.i)}</span>`; };
+// profilda nik yonidagi premium unvon belgisi
+function unvNick(p){
+  const ru = LANG === "ru", u = unvOf(p), cls = u.i === 14 ? "mar" : u.i >= 11 ? "gen" : "";
+  const lo = UNV_XP[u.i], f = u.next ? Math.max(0, Math.min(1, (u.xp - lo) / (u.next - lo))) : 1;
+  const tip = u.next ? `${(u.next - u.xp).toLocaleString("ru-RU")} XP → ${unvName(u.i + 1)}` : (ru ? "Высшее звание" : LANG === "en" ? "Highest rank" : "Eng oliy unvon");
+  return `<a class="unvnick ${cls}" href="/unvonlar" title="${esc(tip)}"><span class="unvns">${unvSvg(u.i)}</span><span class="unvnt"><small>${ru ? "Звание" : LANG === "en" ? "Rank" : "Unvon"}</small><b>${esc(unvName(u.i))}</b><em style="${unvXpColor(u.xp)}">${u.xp.toLocaleString("ru-RU")} XP</em><i class="unvnb"><i style="width:${(f * 100).toFixed(1)}%"></i></i></span></a>`;
+}
 function unvCard(p){
   const ru = LANG === "ru", u = unvOf(p), lo = UNV_XP[u.i], f = u.next ? Math.max(0, Math.min(1, (u.xp - lo) / (u.next - lo))) : 1;
   return `<section class="unvcard side ${u.i === 14 ? "mar" : u.i >= 11 ? "gen" : ""}"><div class="unvstage">${unvSvg(u.i)}</div>
@@ -2203,11 +2225,11 @@ function pageProfile(id){
   const games = (p.hist.length ? p.hist : p.ms).slice().reverse().slice(0, 15), pp = people(p);
   return `<div class="ppage">
   ${isMe ? `<div class="banner"><b>👋 ${t("thisIsYou")}</b><span class="verified">${I.check} ${t("verified")}</span></div>` : ""}
-  <div class="prow"><section class="phero ${PROF[p.id]?.banner_url ? "hasbanner" : ""}" style="--glow:${c[1]}55;${PROF[p.id]?.banner_url ? `background-image:url('${esc(safeUrl(PROF[p.id].banner_url))}')` : ""}"><div class="prof">
+  <section class="phero ${PROF[p.id]?.banner_url ? "hasbanner" : ""}" style="--glow:${c[1]}55;${PROF[p.id]?.banner_url ? `background-image:url('${esc(safeUrl(PROF[p.id].banner_url))}')` : ""}"><div class="prof">
     <div style="display:flex;gap:16px;align-items:center">${photoOf(p.id) ? avatar(p.name, true, photoOf(p.id)) : ""}${shield(p.pts, p.matches, true)}</div>
     <div style="min-width:0">
       <div class="eyebrow">${HIDDEN_STEAM.includes(p.id) ? `👑 ${LANG === "ru" ? "Владелец сервера" : LANG === "en" ? "Server owner" : "Server egasi"}` : cal ? t("calLeft")(CAL - p.matches) : `#${p.place} ${t("place")} · ${t("season")} ${SEASON}`}</div>
-      <h1 style="font-size:44px;word-break:break-word;margin:6px 0;${nickStyle(p.id)}">${esc(p.name)}${premCrown(p.id)}${gBadge(p)}</h1>
+      <h1 style="font-size:44px;word-break:break-word;margin:6px 0;${nickStyle(p.id)}">${esc(p.name)}${premCrown(p.id)}${gBadge(p)}${unvNick(p)}</h1>
       <div class="sub" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
         ${p.verified ? `<span class="verified">${I.check} ${t("verified")}</span>` : ""}
         ${online ? `<span class="pill live"><span class="dot"></span>${t("serverHere")}</span>` : ""}
@@ -2227,7 +2249,7 @@ function pageProfile(id){
     <div class="tile"><b>${p.adr}</b><span>ADR</span></div>
     <div class="tile"><b>${p.mvps}</b><span>MVP</span></div>
     <div class="tile"><b>${p.streak}</b><span>${t("streak")}</span></div>
-  </div></section>${unvCard(p)}</div>
+  </div></section>
   <div class="grid2 mt"><div class="card"><h3>${t("ptsHistory")}</h3>${chart(p.hist, p.id) || `<div class="empty">—</div>`}${profStats(p)}</div><div class="card"><div class="achhead"><h3>${t("ach")}</h3><span class="cnt">🏅 ${achCount(p)}/${t("achs").length} ${t("achOf")}</span></div>${achievements(p)}</div></div>
   <div class="card mt"><h3>${t("recent")}</h3>
     ${games.length ? `<div class="tw"><table><tr><th>${t("map")}</th><th></th><th class="num">K–D</th><th class="num">PTS</th><th class="num"></th></tr>

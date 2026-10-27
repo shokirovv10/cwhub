@@ -206,7 +206,8 @@ tr.banold td{opacity:.6}
 .who{display:flex;align-items:center;gap:9px;text-decoration:none;padding:4px 12px 4px 4px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);font-weight:600;font-size:14px;max-width:190px;transition:.2s}
 .who:hover{border-color:var(--accent)}
 .who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-@media(max-width:900px){nav.top{display:none}.who span{display:none}.who{padding:4px}}
+@media(max-width:900px){nav.top{display:none}.who>span:not(.av){display:none}.who{padding:3px}#hdr .bar{justify-content:space-between}.hright{margin-left:auto}}
+@media(max-width:460px){.hright{gap:5px}.nbell{width:33px;height:33px;font-size:14px}.lang{padding:2px}.lang button{padding:3px 6px;font-size:11px}.logo{font-size:19px!important}.who .av{width:30px;height:30px}#acct{gap:5px}}
 @media(max-width:600px){#acct .reg{display:none}#acct .btn{padding:8px 11px}.bar{gap:10px}.logo{font-size:21px}.lang button{padding:4px 7px}
   .gb{flex-wrap:wrap;gap:8px}.gb .sub{display:none}}
 

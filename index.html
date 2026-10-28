@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="uz">
 <head>
+<script>try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light")}catch(e){}</script>
 <link rel="preload" href="/sfx/intro.mp3" as="audio">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -913,6 +914,53 @@ html.cardmode .mside .mpl,html.cardmode .mcenter,html.cardmode .aw,html.cardmode
 .unvgst svg{width:84px;overflow:visible;filter:drop-shadow(0 0 10px rgba(255,200,100,.5))}.unvgift.mar .unvgst svg{animation:mglow 2.4s ease-in-out infinite}
 .unvgift small{font:700 10.5px Inter,sans-serif;letter-spacing:3px;text-transform:uppercase;color:#d9b25a}.unvgift b{display:block;font:700 22px Rajdhani,sans-serif;letter-spacing:2px;text-transform:uppercase;margin:2px 0 6px}
 .unvgift ul{list-style:none;margin:0;padding:0;display:grid;gap:3px;font-size:13.5px;color:var(--text)}
+
+/* ---- adminlar sahifasi: premium kartalar ---- */
+.admgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.admc{--lc:#ff9f1c;position:relative;display:flex;gap:14px;align-items:center;padding:16px 18px;border-radius:16px;overflow:hidden;text-decoration:none;color:var(--text);
+  background:radial-gradient(220px 120px at 0% 0%,color-mix(in srgb,var(--lc) 18%,transparent),transparent 70%),linear-gradient(180deg,#14151a,#0b0c0f);
+  border:1px solid color-mix(in srgb,var(--lc) 40%,transparent);box-shadow:0 14px 34px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06);transition:transform .25s,box-shadow .25s}
+.admc:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.5),0 0 26px color-mix(in srgb,var(--lc) 30%,transparent)}
+.admc:after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.08),transparent);animation:unvshine 5.5s ease-in-out infinite;pointer-events:none}
+.admav{position:relative;flex:none;width:54px;height:54px;border-radius:14px;overflow:visible;display:grid;place-items:center;background:color-mix(in srgb,var(--lc) 22%,#111);border:2px solid var(--lc)}
+.admav img{width:100%;height:100%;object-fit:cover;border-radius:12px}.admav span{font:800 22px Rajdhani,sans-serif;color:var(--lc)}
+.admon{position:absolute;right:-4px;bottom:-4px;width:14px;height:14px;border-radius:50%;background:var(--win);border:3px solid #0b0c0f;box-shadow:0 0 10px var(--win)}
+.admi{min-width:0;display:flex;flex-direction:column;gap:2px}.admi b{font:700 17px Inter,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admlv{align-self:flex-start;font:800 10.5px Inter,sans-serif;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:99px;color:#0b0c0f;background:var(--lc);box-shadow:0 0 14px color-mix(in srgb,var(--lc) 45%,transparent)}
+.admi small{color:var(--muted);font-size:12px}.admi small em{font-style:normal;color:var(--win)}
+.adminfo{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:26px}
+.admbox{--bc:#ffd166;position:relative;padding:22px;border-radius:18px;background:radial-gradient(260px 160px at 100% 0%,color-mix(in srgb,var(--bc) 14%,transparent),transparent 70%),linear-gradient(180deg,#14151a,#0b0c0f);border:1px solid color-mix(in srgb,var(--bc) 35%,transparent)}
+.admbox.red{--bc:#ff4d5a}.admbox.blue{--bc:#38bdf8}.admbox.green{--bc:#3ddc84}
+.admbox h3{margin:6px 0 8px}.admbox p,.admbox li{color:var(--muted);font-size:14px}.admbox ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.admic{font-size:26px;filter:drop-shadow(0 0 10px color-mix(in srgb,var(--bc) 60%,transparent))}
+
+/* ===== Kun (light) rejimi ===== */
+html.light{--bg:#eef0f5;--bg2:#e6e9f0;--panel:rgba(255,255,255,.9);--panel-s:#ffffff;--panel2:#f3f5f9;--panel3:#e8ebf2;
+  --line:rgba(15,20,35,.09);--line2:rgba(15,20,35,.16);--text:#141821;--muted:#5b6377;--dim:#8a91a3;--shadow:0 14px 40px rgba(20,30,60,.12)}
+html.light body{background:radial-gradient(900px 500px at 10% -10%,rgba(255,159,28,.12),transparent 60%),radial-gradient(900px 600px at 110% 10%,rgba(56,189,248,.10),transparent 60%),var(--bg)}
+html.light .bgfx,html.light #fx{opacity:.18}
+html.light header.scrolled{background:rgba(255,255,255,.82)}
+html.light .card,html.light .shero,html.light .phero:not(.hasbanner){background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(245,247,251,.95));box-shadow:var(--shadow)}
+html.light .tile{background:#fff}
+html.light .lead,html.light .sub{color:var(--muted)}
+html.light input,html.light select,html.light textarea{background:#fff;color:var(--text);border-color:var(--line2)}
+html.light .logo .cw{color:#141821}
+/* qorong'i premium kartalar kun rejimida ham qorong'i qoladi — matni ochiq */
+.admc,.admbox{color:#f1f3f7}.admc .admi small,.admbox p,.admbox li{color:#9aa3b5}
+html.light footer{background:linear-gradient(180deg,rgba(255,255,255,.6),var(--bg2))}
+.admbox .btn.ghost{color:#f1f3f7;border-color:rgba(255,255,255,.18)}
+.admbox .mono{background:rgba(255,255,255,.05);color:#cfd5e2;border-radius:10px;padding:10px 12px}
+/* kun rejimida ham qorong'i qoladigan bloklar — ichida tun ranglari */
+html.light .hero,html.light .phero.hasbanner,html.light .admc,html.light .admbox,html.light .unvgift,html.light .unvcard,html.light .unvtile,html.light .acb{--text:#f1f3f7;--muted:#8b93a7;--dim:#5b6276;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.13);--panel:rgba(18,21,29,.72);--panel-s:#12151d;--panel2:#171b25;--panel3:#1f2430;color:#f1f3f7}
+/* premium tugma: quyosh / oy */
+.thm{position:relative;width:62px;height:32px;flex:none;border-radius:99px;border:1px solid var(--line2);cursor:pointer;padding:0;overflow:hidden;
+  background:linear-gradient(135deg,#0d1424,#1b2440);box-shadow:inset 0 2px 6px rgba(0,0,0,.45),0 0 16px rgba(120,140,255,.18);transition:background .4s,box-shadow .4s}
+.thm:before{content:"";position:absolute;inset:0;background:radial-gradient(2px 2px at 18px 9px,#fff,transparent),radial-gradient(1.5px 1.5px at 30px 20px,#cfd8ff,transparent),radial-gradient(1px 1px at 24px 14px,#fff,transparent);opacity:.9;transition:opacity .4s}
+.thm i{position:absolute;top:3px;left:33px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:13px;
+  background:radial-gradient(circle at 35% 35%,#fdfdff,#c9cfe6);box-shadow:0 0 12px rgba(200,210,255,.7);transition:left .45s var(--ease),background .4s,box-shadow .4s}
+html.light .thm{background:linear-gradient(135deg,#ffd27a,#ff9f1c);box-shadow:inset 0 2px 6px rgba(160,80,0,.35),0 0 18px rgba(255,170,40,.45)}
+html.light .thm:before{opacity:0}
+html.light .thm i{left:3px;background:radial-gradient(circle at 35% 35%,#fff7cf,#ffc533);box-shadow:0 0 16px rgba(255,200,60,.95)}
 .unvsec{display:flex;align-items:center;gap:14px;font:700 12px Inter,sans-serif;letter-spacing:4px;text-transform:uppercase;color:#d9b25a;margin:28px 0 14px}.unvsec:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(217,178,90,.35),transparent)}
 .unvgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
 .unvtile{text-align:center;padding:22px 10px 16px;border-radius:14px;background:linear-gradient(180deg,#0e0f11,#09090a);border:1px solid rgba(255,255,255,.07);transition:border-color .3s,transform .3s}
@@ -1238,7 +1286,7 @@ setTimeout(function(){if(document.documentElement.classList.contains("sndask"))r
 <header id="hdr"><div class="wrap bar">
   <a class="logo" href="/"><span class="cw">CW</span><span class="hub">hub</span></a>
   <nav class="top" id="nav"></nav>
-  <div class="hright"><div class="lang"><button data-l="uz">UZ</button><button data-l="ru">RU</button><button data-l="en">EN</button></div><span id="acct"></span></div>
+  <div class="hright"><button class="thm" id="thm" type="button" aria-label="Kun / tun" title="Kun / tun"><i></i></button><div class="lang"><button data-l="uz">UZ</button><button data-l="ru">RU</button><button data-l="en">EN</button></div><span id="acct"></span></div>
 </div></header>
 <div class="wrap"><div id="gbar"></div></div>
 <noscript><div class="wrap" style="padding:30px 18px"><h1>CWhub.uz — CS 1.6 ClanWar server (O'zbekiston)</h1><p>CS 1.6 ClanWar 5x5 server, Toshkent: 90.156.195.108:27045. PTS reyting, match statistikasi, ranklar, o'yinchi profillari va Premium.</p>
@@ -1792,6 +1840,59 @@ function pageUnvon(){
     ${groups.map(([g, ids]) => `<div class="unvsec">${g}</div><div class="unvgrid">${ids.map(i => { const who = (cnt[i] || []).sort((a, b) => unvXP(b) - unvXP(a));
       return `<div class="unvtile ${i === 14 ? "mar" : i >= 11 ? "gen" : ""}"><div class="unvst">${unvSvg(i)}</div><b>${esc(unvName(i))}</b><small>${UNV_XP[i].toLocaleString("ru-RU")} XP</small>
         ${who.length ? `<div class="unvwho">${who.slice(0, 4).map(p => `<a href="/p/${slug(p.id)}">${esc(p.name)}</a>`).join("")}${who.length > 4 ? `<span>+${who.length - 4}</span>` : ""}</div>` : ""}</div>`; }).join("")}</div>`).join("")}`;
+}
+
+/* ---------------- Serverdagi adminlar (cw_bans -> cw_feed bans/admins) ---------------- */
+const ADM_LV = {owner: ["Владелец", "Ega", "Owner", "#ffd166"], gladmin: ["Гл.Админ", "Gl.Admin", "Head Admin", "#ff4d5a"], admin: ["Админ", "Admin", "Admin", "#ff9f1c"], moder: ["Модер", "Moder", "Moder", "#38bdf8"]};
+const admLv = l => { const v = ADM_LV[l] || ADM_LV.moder; return [LANG === "ru" ? v[0] : LANG === "en" ? v[2] : v[1], v[3]]; };
+function pageAdmins(){
+  const ru = LANG === "ru", en = LANG === "en", L3 = (u, r, e) => ru ? r : en ? e : u;
+  const order = {owner: 0, gladmin: 1, admin: 2, moder: 3};
+  // nik: profil (SteamID) nomi ustun; loopback yashiriladi; bir odam bir necha yozuvda bo'lsa — eng yuqori daraja qoladi
+  const seen = new Map();
+  (D.admins || []).forEach(a0 => {
+    const a = Object.assign({}, a0), pn = a.steam ? IDX.byId?.[a.steam]?.name : "";
+    a.name = pn || a.name || a.steam;
+    if (!a.name || /^(loopback|127\.0\.0\.1)$/i.test(a.name)) return;
+    const key = String(a.name).toLowerCase(), old = seen.get(key);
+    if (!old || (order[a.level] ?? 9) < (order[old.level] ?? 9) || ((order[a.level] ?? 9) === (order[old.level] ?? 9) && (!a.exp || (old.exp && a.exp > old.exp))))
+      seen.set(key, Object.assign(a, {steam: a.steam || old?.steam || ""}));
+  });
+  const list = [...seen.values()].sort((a, b) => (order[a.level] ?? 9) - (order[b.level] ?? 9) || String(a.name).localeCompare(String(b.name)));
+  const onl = new Set((D.server?.players || []).map(p => String(p.name || p.n || "").toLowerCase()));
+  const now = Date.now() / 1000;
+  const card = a => {
+    const p = a.steam ? IDX.byId?.[a.steam] : null, nm = a.name || p?.name || a.steam || "—", [lv, col] = admLv(a.level);
+    const on = onl.has(String(p?.name || nm).toLowerCase());
+    const left = a.exp ? Math.max(0, Math.ceil((a.exp - now) / 86400)) : 0;
+    const ph = a.steam ? photoOf(a.steam) : null;
+    return `<${a.steam ? `a href="/p/${slug(a.steam)}"` : "div"} class="admc lv-${esc(a.level)}" style="--lc:${col}">
+      <div class="admav">${ph ? `<img src="${esc(safeUrl(ph))}" alt="">` : `<span>${esc(String(nm).slice(0, 1).toUpperCase())}</span>`}${on ? `<i class="admon" title="online"></i>` : ""}</div>
+      <div class="admi"><b style="${a.steam ? nickStyle(a.steam) : ""}">${esc(nm)}</b>${a.steam ? premCrown(a.steam) : ""}
+        <span class="admlv">${a.level === "owner" ? "👑 " : ""}${esc(lv)}</span>
+        <small>${a.exp ? `⏳ ${left} ${L3("kun qoldi", "дн. осталось", "days left")}` : `∞ ${L3("muddatsiz", "бессрочно", "permanent")}`}${on ? ` · <em>${L3("serverda", "на сервере", "on server")}</em>` : ""}</small></div></${a.steam ? "a" : "div"}>`;
+  };
+  const groups = ["owner", "gladmin", "admin", "moder"].map(l => [l, list.filter(a => a.level === l)]).filter(([, a]) => a.length);
+  return `<section class="shero"><div class="shglow"></div><div class="eyebrow" style="color:var(--gold)">CWHUB · ${L3("ADMINLAR", "АДМИНИСТРАЦИЯ", "STAFF")}</div>
+    <h2>${L3("Serverdagi adminlar", "Администрация сервера", "Server staff")}</h2>
+    <p class="lead">${L3("Adminlar o'yinda ustunlik olmaydi — ular faqat tartibni saqlaydi. Muammo bo'lsa, shu yerdan topib yozing.", "Админы не получают преимуществ в игре — они следят за порядком. Если есть проблема — найдите нужного админа здесь.", "Admins get no in-game advantage — they keep order. If something is wrong, find the right admin here.")}</p></section>
+    ${list.length ? groups.map(([l, a]) => `<div class="unvsec">${esc(admLv(l)[0])} · ${a.length}</div><div class="admgrid">${a.map(card).join("")}</div>`).join("")
+      : `<div class="card empty mt">${L3("Ro'yxat yuklanmoqda — server har 10 daqiqada yangilaydi.", "Список загружается — сервер обновляет его каждые 10 минут.", "Loading — the server updates the list every 10 minutes.")}</div>`}
+    <div class="adminfo">
+      <div class="admbox gold"><div class="admic">👑</div><h3>${L3("Admin olish", "Как получить админку", "Get admin")}</h3>
+        <p>${L3("Moder, Admin yoki Gl.Admin huquqlarini do'kondan sotib olish mumkin. To'lovdan keyin huquq serverga avtomatik beriladi.", "Права Модера, Админа или Гл.Админа можно купить в магазине. После оплаты права выдаются на сервер автоматически.", "Moder, Admin or Head Admin rights are sold in the shop. After payment they are granted on the server automatically.")}</p>
+        <div class="btns"><a class="btn main" href="/premium">🛒 ${L3("Do'konga o'tish", "В магазин", "Open shop")}</a><a class="btn ghost" href="https://t.me/CwhubUZ" target="_blank" rel="noopener">Telegram</a></div></div>
+      <div class="admbox red"><div class="admic">⚠️</div><h3>${L3("Ogohlantirish", "Предупреждение", "Warning")}</h3>
+        <ul><li>${L3("Huquqni shaxsiy maqsadda ishlatish — huquq qaytarilmasdan olinadi.", "Злоупотребление правами — снятие без возврата.", "Abusing rights — removed without refund.")}</li>
+          <li>${L3("Asossiz ban yoki mute — huquq olinadi.", "Необоснованный бан или мут — снятие прав.", "Unjustified ban or mute — rights removed.")}</li>
+          <li>${L3("Har bir ban uchun demo yoki skrinshot saqlansin.", "Для каждого бана храните демо или скрин.", "Keep a demo or screenshot for every ban.")}</li>
+          <li>${L3("Razban — faqat Gl.Admin.", "Разбан — только Гл.Админ.", "Unban — Head Admin only.")}</li></ul></div>
+      <div class="admbox blue"><div class="admic">🚩</div><h3>${L3("Adminga shikoyat", "Жалоба на админа", "Report an admin")}</h3>
+        <p>${L3("Admin qoidani buzsa — Yordam bo'limiga demo va vaqt bilan yozing. Shikoyatni Gl.Admin ko'rib chiqadi.", "Если админ нарушает правила — напишите в Поддержку с демо и временем. Жалобу рассмотрит Гл.Админ.", "If an admin breaks the rules — write to Support with a demo and time. A Head Admin will review it.")}</p>
+        <div class="btns"><a class="btn" href="/support">💬 ${L3("Yordam", "Поддержка", "Support")}</a></div></div>
+      <div class="admbox green"><div class="admic">🛡</div><h3>${L3("Admin buyruqlari", "Команды админа", "Admin commands")}</h3>
+        <p class="mono" style="font-size:13px;line-height:1.9">N / amxmodmenu — ${L3("menyu", "меню", "menu")}<br>/ban · /kick · /gag · /spec<br>fb_offban · fb_unban<br>/pw · /dpw · /hud · amx_vote</p></div>
+    </div>`;
 }
 
 async function loadProfiles(){
@@ -4213,7 +4314,7 @@ function renderNav(){
   const isOn = i => h === ROUTES[i] || (i === 1 && /^#\/(p|vs)\//.test(h)) || (i === 2 && h.startsWith("#/m/"));
   // asosiylari ko'rinib turadi, qolgani — "Ko'proq" menyusida (sarlavha bir qatorga sig'sin)
   const link = (href, label, on) => `<a href="${href}" class="${on ? "on" : ""}">${label}</a>`;
-  const extra = [link("/unvonlar", `🎖 ${LANG === "ru" ? "Звания" : LANG === "en" ? "Ranks" : "Unvonlar"}`, h === "#/unvonlar"), link("/rules", t("nav")[4], isOn(4)), link("/bans", t("nav")[5], isOn(5)),
+  const extra = [link("/unvonlar", `🎖 ${LANG === "ru" ? "Звания" : LANG === "en" ? "Ranks" : "Unvonlar"}`, h === "#/unvonlar"), link("/adminlar", `🛡 ${LANG === "ru" ? "Админы" : LANG === "en" ? "Staff" : "Adminlar"}`, h === "#/adminlar"), link("/rules", t("nav")[4], isOn(4)), link("/bans", t("nav")[5], isOn(5)),
     link("/support", LANG === "ru" ? "Поддержка" : LANG === "en" ? "Support" : "Yordam", h === "#/support"), link("/privacy", LANG === "ru" ? "Конфиденциальность" : LANG === "en" ? "Privacy" : "Maxfiylik", h === "#/privacy")]
     .concat(ME?.admin ? [link("/admin", "🛡 Admin", h === "#/admin")] : []);
   const extraOn = isOn(4) || isOn(5) || h === "#/support" || h === "#/admin";
@@ -4260,7 +4361,7 @@ function render(scroll = true){
   else if (h.startsWith("#/m/")) html = pageMatch(h.slice(4));
   else if (h === "#/live") html = pageLive();
   else if (h.startsWith("#/vs/")) { const [a, b] = h.slice(5).split("/").map(decodeURIComponent); html = pageVs(a, b); }
-  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/lobby": pageLobby, "#/unvonlar": pageUnvon, "#/privacy": pagePrivacy, "#/friends": pageFriends, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat, "#/auth": pageAuthCb}[h] || pageHome)();
+  else html = ({"#/top": pageTop, "#/matches": pageMatches, "#/ranks": pageRanks, "#/bans": pageBans, "#/rules": pageRules, "#/me": pageMe, "#/login": () => { authTab = 0; return ME ? pageMe() : authPage(); }, "#/register": () => { authTab = 1; return ME ? pageMe() : authPage(); }, "#/premium": pagePremium, "#/lobby": pageLobby, "#/unvonlar": pageUnvon, "#/adminlar": pageAdmins, "#/privacy": pagePrivacy, "#/friends": pageFriends, "#/support": pageSupport, "#/admin": pageAdmin, "#/chat": pageChat, "#/auth": pageAuthCb}[h] || pageHome)();
   setTimeout(livePill, 0);
   const app = $("#app");
   app.innerHTML = html;
@@ -4295,7 +4396,7 @@ async function loadFeed(){
   sb.from("match_demos").select("t,map,url,size").order("t", {ascending: false}).limit(300).then(r => { DEMOS = r.data || []; const el = $("#demobtn"); if (el) el.innerHTML = demoBtn({t: +el.dataset.t, map: el.dataset.map}); });
   const q = (kind, n) => sb.from("cw_feed").select("row,t").eq("kind", kind).order("t", {ascending: false}).limit(n);
   sb.from("cw_feed").select("row").eq("kind", "banlog").order("t", {ascending: false}).limit(300).then(r => { D.banlog = (r.data || []).map(x => x.row); if (curRoute() === "#/bans") render(false); });
-  const [pl, hi, ms, rs, sv] = await Promise.all([q("player", 2000), q("hist", 2000), q("mstat", 2000), q("result", 30), sb.from("cw_feed").select("kind,row,t").in("kind", ["server", "bans"])]);
+  const [pl, hi, ms, rs, sv] = await Promise.all([q("player", 2000), q("hist", 2000), q("mstat", 2000), q("result", 30), sb.from("cw_feed").select("kind,k,row,t").in("kind", ["server", "bans"])]);
   if (pl.error) return;
   const rows = r => (r.data || []).map(x => x.row);
   if (pl.data?.length) D.players = rows(pl);
@@ -4303,7 +4404,8 @@ async function loadFeed(){
   if (ms.data?.length) D.mstats = rows(ms).reverse();
   if (rs.data?.length) D.results = rows(rs).reverse();
   (sv.data || []).forEach(x => {
-    if (x.kind === "bans") D.bans = x.row.list || [];
+    if (x.kind === "bans" && x.k === "admins") D.admins = x.row.admins || [];
+    else if (x.kind === "bans") D.bans = x.row.list || [];
     if (x.kind === "server") D.server = feedServer(x.row);
   });
   D.updated = Math.max(D.updated || 0, ...(sv.data || []).map(x => x.t || 0));
@@ -4359,6 +4461,11 @@ if (sb) sb.auth.onAuthStateChange((ev) => {
   if (ev === "PASSWORD_RECOVERY") window.__recov = true;
   setTimeout(async () => { await refreshMe(); renderAcct(); renderNav(); renderBanners(); if (curRoute() === "#/auth") { render(false); return; } if (window.__recov && ME) openNewPw(); else if (ev === "SIGNED_IN") showMyAlerts(); const hh = curRoute() || "#/"; if (hh === "#/me" || hh === "#/login" || hh === "#/register") render(false); }, 0);
 });
+// kun / tun rejimi
+(function(){ const b = document.getElementById("thm"); if (!b) return;
+  const set = on => { document.documentElement.classList.toggle("light", on); b.querySelector("i").textContent = on ? "☀" : "☾"; try { localStorage.setItem("theme", on ? "light" : "dark"); } catch (e) {} };
+  b.querySelector("i").textContent = document.documentElement.classList.contains("light") ? "☀" : "☾";
+  b.onclick = () => set(!document.documentElement.classList.contains("light")); })();
 document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { LANG = b.dataset.l; store.set("lang", LANG); render(false); });
 // toza manzillar (/top, /me): ichki yo'nalish "#/..." ko'rinishida qoladi, URL'da esa "#" yo'q
 window.addEventListener("popstate", () => render());

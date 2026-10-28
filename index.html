@@ -934,33 +934,41 @@ html.cardmode .mside .mpl,html.cardmode .mcenter,html.cardmode .aw,html.cardmode
 .admbox h3{margin:6px 0 8px}.admbox p,.admbox li{color:var(--muted);font-size:14px}.admbox ul{margin:0;padding-left:18px;display:grid;gap:4px}
 .admic{font-size:26px;filter:drop-shadow(0 0 10px color-mix(in srgb,var(--bc) 60%,transparent))}
 
-/* ===== Kun (light) rejimi ===== */
-html.light{--bg:#eef0f5;--bg2:#e6e9f0;--panel:rgba(255,255,255,.9);--panel-s:#ffffff;--panel2:#f3f5f9;--panel3:#e8ebf2;
-  --line:rgba(15,20,35,.09);--line2:rgba(15,20,35,.16);--text:#141821;--muted:#5b6377;--dim:#8a91a3;--shadow:0 14px 40px rgba(20,30,60,.12)}
-html.light body{background:radial-gradient(900px 500px at 10% -10%,rgba(255,159,28,.12),transparent 60%),radial-gradient(900px 600px at 110% 10%,rgba(56,189,248,.10),transparent 60%),var(--bg)}
-html.light .bgfx,html.light #fx{opacity:.18}
-html.light header.scrolled{background:rgba(255,255,255,.82)}
-html.light .card,html.light .shero,html.light .phero:not(.hasbanner){background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(245,247,251,.95));box-shadow:var(--shadow)}
-html.light .tile{background:#fff}
+/* ===== Kun (light) rejimi — premium oltin uslub ===== */
+html.light{--bg:#f5f1ea;--bg2:#efe9df;--panel:rgba(255,255,255,.92);--panel-s:#fffdf9;--panel2:#f7f2e9;--panel3:#efe7da;
+  --line:rgba(150,110,40,.16);--line2:rgba(150,110,40,.28);--text:#1a1611;--muted:#6d6252;--dim:#9a8f7e;--shadow:0 16px 40px rgba(120,80,20,.13)}
+html.light body{background:radial-gradient(1000px 520px at 8% -12%,rgba(255,180,60,.20),transparent 60%),radial-gradient(900px 600px at 112% 6%,rgba(255,140,40,.12),transparent 60%),linear-gradient(180deg,#f8f4ed,#f1ebe1)}
+html.light .bgfx,html.light #fx{opacity:.14}
+html.light header.scrolled{background:rgba(255,251,244,.84);border-bottom-color:rgba(200,150,60,.25)}
+html.light .logo .cw{color:#1a1611}
+/* premium kartalar: oq -> iliq krem, oltin hoshiya, yumshoq soya, tepada oltin chiziq */
+html.light .card,html.light .shero,html.light .phero:not(.hasbanner),html.light .tile,html.light .ach,html.light .aw{
+  background:linear-gradient(180deg,#fffefb,#fbf6ee)!important;border:1px solid rgba(214,160,60,.32)!important;
+  box-shadow:0 14px 34px rgba(120,80,20,.10),inset 0 1px 0 #fff!important}
+html.light .card:after,html.light .shero:after,html.light .phero:not(.hasbanner):after{content:"";position:absolute;left:24px;right:24px;top:0;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,rgba(230,160,40,.75),transparent);pointer-events:none}
+html.light .tile:hover,html.light .card:hover{border-color:rgba(230,150,30,.55)!important}
+html.light h1,html.light h2,html.light .title{color:#1a1611}
+html.light .hero h1,html.light .hero h2,html.light .phero.hasbanner h1,html.light .unvcard h2,html.light .admbox h3{color:#f6f1e1}
 html.light .lead,html.light .sub{color:var(--muted)}
-html.light input,html.light select,html.light textarea{background:#fff;color:var(--text);border-color:var(--line2)}
-html.light .logo .cw{color:#141821}
-/* qorong'i premium kartalar kun rejimida ham qorong'i qoladi — matni ochiq */
+html.light input,html.light select,html.light textarea{background:#fffdf8;color:var(--text);border-color:var(--line2)}
+html.light footer{background:linear-gradient(180deg,rgba(255,250,242,.7),#efe7da)}
+html.light table tr:hover td{background:rgba(255,190,80,.08)}
+/* kun rejimida ham qorong'i qoladigan premium bloklar — ichida tun ranglari */
+html.light .hero,html.light .phero.hasbanner,html.light .admc,html.light .admbox,html.light .unvgift,html.light .unvcard,html.light .unvtile,html.light .acb{
+  --text:#f1f3f7;--muted:#8b93a7;--dim:#5b6276;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.13);--panel:rgba(18,21,29,.72);--panel-s:#12151d;--panel2:#171b25;--panel3:#1f2430;color:#f1f3f7}
 .admc,.admbox{color:#f1f3f7}.admc .admi small,.admbox p,.admbox li{color:#9aa3b5}
-html.light footer{background:linear-gradient(180deg,rgba(255,255,255,.6),var(--bg2))}
 .admbox .btn.ghost{color:#f1f3f7;border-color:rgba(255,255,255,.18)}
 .admbox .mono{background:rgba(255,255,255,.05);color:#cfd5e2;border-radius:10px;padding:10px 12px}
-/* kun rejimida ham qorong'i qoladigan bloklar — ichida tun ranglari */
-html.light .hero,html.light .phero.hasbanner,html.light .admc,html.light .admbox,html.light .unvgift,html.light .unvcard,html.light .unvtile,html.light .acb{--text:#f1f3f7;--muted:#8b93a7;--dim:#5b6276;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.13);--panel:rgba(18,21,29,.72);--panel-s:#12151d;--panel2:#171b25;--panel3:#1f2430;color:#f1f3f7}
-/* premium tugma: quyosh / oy */
-.thm{position:relative;width:62px;height:32px;flex:none;border-radius:99px;border:1px solid var(--line2);cursor:pointer;padding:0;overflow:hidden;
-  background:linear-gradient(135deg,#0d1424,#1b2440);box-shadow:inset 0 2px 6px rgba(0,0,0,.45),0 0 16px rgba(120,140,255,.18);transition:background .4s,box-shadow .4s}
-.thm:before{content:"";position:absolute;inset:0;background:radial-gradient(2px 2px at 18px 9px,#fff,transparent),radial-gradient(1.5px 1.5px at 30px 20px,#cfd8ff,transparent),radial-gradient(1px 1px at 24px 14px,#fff,transparent);opacity:.9;transition:opacity .4s}
-.thm i{position:absolute;top:3px;left:33px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:13px;
-  background:radial-gradient(circle at 35% 35%,#fdfdff,#c9cfe6);box-shadow:0 0 12px rgba(200,210,255,.7);transition:left .45s var(--ease),background .4s,box-shadow .4s}
-html.light .thm{background:linear-gradient(135deg,#ffd27a,#ff9f1c);box-shadow:inset 0 2px 6px rgba(160,80,0,.35),0 0 18px rgba(255,170,40,.45)}
-html.light .thm:before{opacity:0}
-html.light .thm i{left:3px;background:radial-gradient(circle at 35% 35%,#fff7cf,#ffc533);box-shadow:0 0 16px rgba(255,200,60,.95)}
+/* ixcham premium tugma (qidiruv tugmasi kabi yumaloq): tunda oy, kunduzi quyosh */
+.thm{position:relative;width:38px;height:38px;flex:none;border-radius:50%;cursor:pointer;padding:0;display:grid;place-items:center;
+  border:1px solid rgba(140,160,255,.35);background:radial-gradient(circle at 30% 30%,#28335a,#0d1324 70%);
+  box-shadow:0 0 14px rgba(120,140,255,.25),inset 0 1px 0 rgba(255,255,255,.12);transition:transform .25s,box-shadow .35s,background .35s}
+.thm:hover{transform:translateY(-1px) rotate(-12deg);box-shadow:0 0 20px rgba(140,160,255,.45)}
+.thm i{font-style:normal;font-size:17px;line-height:1;color:#dfe5ff;text-shadow:0 0 10px rgba(200,210,255,.9)}
+html.light .thm{border-color:rgba(255,170,40,.55);background:radial-gradient(circle at 30% 30%,#fff3c4,#ffb02e 75%);box-shadow:0 0 18px rgba(255,170,40,.55),inset 0 1px 0 #fff}
+html.light .thm i{color:#8a4b00;text-shadow:0 0 8px rgba(255,255,255,.9)}
+@media(max-width:460px){.thm{width:33px;height:33px}.thm i{font-size:15px}}
 .unvsec{display:flex;align-items:center;gap:14px;font:700 12px Inter,sans-serif;letter-spacing:4px;text-transform:uppercase;color:#d9b25a;margin:28px 0 14px}.unvsec:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(217,178,90,.35),transparent)}
 .unvgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
 .unvtile{text-align:center;padding:22px 10px 16px;border-radius:14px;background:linear-gradient(180deg,#0e0f11,#09090a);border:1px solid rgba(255,255,255,.07);transition:border-color .3s,transform .3s}

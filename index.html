@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="uz">
 <head>
-<script>try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light")}catch(e){}</script>
 <link rel="preload" href="/sfx/intro.mp3" as="audio">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -934,41 +933,9 @@ html.cardmode .mside .mpl,html.cardmode .mcenter,html.cardmode .aw,html.cardmode
 .admbox h3{margin:6px 0 8px}.admbox p,.admbox li{color:var(--muted);font-size:14px}.admbox ul{margin:0;padding-left:18px;display:grid;gap:4px}
 .admic{font-size:26px;filter:drop-shadow(0 0 10px color-mix(in srgb,var(--bc) 60%,transparent))}
 
-/* ===== Kun (light) rejimi — premium oltin uslub ===== */
-html.light{--bg:#f5f1ea;--bg2:#efe9df;--panel:rgba(255,255,255,.92);--panel-s:#fffdf9;--panel2:#f7f2e9;--panel3:#efe7da;
-  --line:rgba(150,110,40,.16);--line2:rgba(150,110,40,.28);--text:#1a1611;--muted:#6d6252;--dim:#9a8f7e;--shadow:0 16px 40px rgba(120,80,20,.13)}
-html.light body{background:radial-gradient(1000px 520px at 8% -12%,rgba(255,180,60,.20),transparent 60%),radial-gradient(900px 600px at 112% 6%,rgba(255,140,40,.12),transparent 60%),linear-gradient(180deg,#f8f4ed,#f1ebe1)}
-html.light .bgfx,html.light #fx{opacity:.14}
-html.light header.scrolled{background:rgba(255,251,244,.84);border-bottom-color:rgba(200,150,60,.25)}
-html.light .logo .cw{color:#1a1611}
-/* premium kartalar: oq -> iliq krem, oltin hoshiya, yumshoq soya, tepada oltin chiziq */
-html.light .card,html.light .shero,html.light .phero:not(.hasbanner),html.light .tile,html.light .ach,html.light .aw{
-  background:linear-gradient(180deg,#fffefb,#fbf6ee)!important;border:1px solid rgba(214,160,60,.32)!important;
-  box-shadow:0 14px 34px rgba(120,80,20,.10),inset 0 1px 0 #fff!important}
-html.light .card:after,html.light .shero:after,html.light .phero:not(.hasbanner):after{content:"";position:absolute;left:24px;right:24px;top:0;height:2px;border-radius:2px;
-  background:linear-gradient(90deg,transparent,rgba(230,160,40,.75),transparent);pointer-events:none}
-html.light .tile:hover,html.light .card:hover{border-color:rgba(230,150,30,.55)!important}
-html.light h1,html.light h2,html.light .title{color:#1a1611}
-html.light .hero h1,html.light .hero h2,html.light .phero.hasbanner h1,html.light .unvcard h2,html.light .admbox h3{color:#f6f1e1}
-html.light .lead,html.light .sub{color:var(--muted)}
-html.light input,html.light select,html.light textarea{background:#fffdf8;color:var(--text);border-color:var(--line2)}
-html.light footer{background:linear-gradient(180deg,rgba(255,250,242,.7),#efe7da)}
-html.light table tr:hover td{background:rgba(255,190,80,.08)}
-/* kun rejimida ham qorong'i qoladigan premium bloklar — ichida tun ranglari */
-html.light .hero,html.light .phero.hasbanner,html.light .admc,html.light .admbox,html.light .unvgift,html.light .unvcard,html.light .unvtile,html.light .acb{
-  --text:#f1f3f7;--muted:#8b93a7;--dim:#5b6276;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.13);--panel:rgba(18,21,29,.72);--panel-s:#12151d;--panel2:#171b25;--panel3:#1f2430;color:#f1f3f7}
 .admc,.admbox{color:#f1f3f7}.admc .admi small,.admbox p,.admbox li{color:#9aa3b5}
 .admbox .btn.ghost{color:#f1f3f7;border-color:rgba(255,255,255,.18)}
 .admbox .mono{background:rgba(255,255,255,.05);color:#cfd5e2;border-radius:10px;padding:10px 12px}
-/* ixcham premium tugma (qidiruv tugmasi kabi yumaloq): tunda oy, kunduzi quyosh */
-.thm{position:relative;width:38px;height:38px;flex:none;border-radius:50%;cursor:pointer;padding:0;display:grid;place-items:center;
-  border:1px solid rgba(140,160,255,.35);background:radial-gradient(circle at 30% 30%,#28335a,#0d1324 70%);
-  box-shadow:0 0 14px rgba(120,140,255,.25),inset 0 1px 0 rgba(255,255,255,.12);transition:transform .25s,box-shadow .35s,background .35s}
-.thm:hover{transform:translateY(-1px) rotate(-12deg);box-shadow:0 0 20px rgba(140,160,255,.45)}
-.thm i{font-style:normal;font-size:17px;line-height:1;color:#dfe5ff;text-shadow:0 0 10px rgba(200,210,255,.9)}
-html.light .thm{border-color:rgba(255,170,40,.55);background:radial-gradient(circle at 30% 30%,#fff3c4,#ffb02e 75%);box-shadow:0 0 18px rgba(255,170,40,.55),inset 0 1px 0 #fff}
-html.light .thm i{color:#8a4b00;text-shadow:0 0 8px rgba(255,255,255,.9)}
-@media(max-width:460px){.thm{width:33px;height:33px}.thm i{font-size:15px}}
 .unvsec{display:flex;align-items:center;gap:14px;font:700 12px Inter,sans-serif;letter-spacing:4px;text-transform:uppercase;color:#d9b25a;margin:28px 0 14px}.unvsec:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(217,178,90,.35),transparent)}
 .unvgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
 .unvtile{text-align:center;padding:22px 10px 16px;border-radius:14px;background:linear-gradient(180deg,#0e0f11,#09090a);border:1px solid rgba(255,255,255,.07);transition:border-color .3s,transform .3s}
@@ -1294,7 +1261,7 @@ setTimeout(function(){if(document.documentElement.classList.contains("sndask"))r
 <header id="hdr"><div class="wrap bar">
   <a class="logo" href="/"><span class="cw">CW</span><span class="hub">hub</span></a>
   <nav class="top" id="nav"></nav>
-  <div class="hright"><button class="thm" id="thm" type="button" aria-label="Kun / tun" title="Kun / tun"><i></i></button><div class="lang"><button data-l="uz">UZ</button><button data-l="ru">RU</button><button data-l="en">EN</button></div><span id="acct"></span></div>
+  <div class="hright"><div class="lang"><button data-l="uz">UZ</button><button data-l="ru">RU</button><button data-l="en">EN</button></div><span id="acct"></span></div>
 </div></header>
 <div class="wrap"><div id="gbar"></div></div>
 <noscript><div class="wrap" style="padding:30px 18px"><h1>CWhub.uz — CS 1.6 ClanWar server (O'zbekiston)</h1><p>CS 1.6 ClanWar 5x5 server, Toshkent: 90.156.195.108:27045. PTS reyting, match statistikasi, ranklar, o'yinchi profillari va Premium.</p>
@@ -4469,11 +4436,6 @@ if (sb) sb.auth.onAuthStateChange((ev) => {
   if (ev === "PASSWORD_RECOVERY") window.__recov = true;
   setTimeout(async () => { await refreshMe(); renderAcct(); renderNav(); renderBanners(); if (curRoute() === "#/auth") { render(false); return; } if (window.__recov && ME) openNewPw(); else if (ev === "SIGNED_IN") showMyAlerts(); const hh = curRoute() || "#/"; if (hh === "#/me" || hh === "#/login" || hh === "#/register") render(false); }, 0);
 });
-// kun / tun rejimi
-(function(){ const b = document.getElementById("thm"); if (!b) return;
-  const set = on => { document.documentElement.classList.toggle("light", on); b.querySelector("i").textContent = on ? "☀" : "☾"; try { localStorage.setItem("theme", on ? "light" : "dark"); } catch (e) {} };
-  b.querySelector("i").textContent = document.documentElement.classList.contains("light") ? "☀" : "☾";
-  b.onclick = () => set(!document.documentElement.classList.contains("light")); })();
 document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { LANG = b.dataset.l; store.set("lang", LANG); render(false); });
 // toza manzillar (/top, /me): ichki yo'nalish "#/..." ko'rinishida qoladi, URL'da esa "#" yo'q
 window.addEventListener("popstate", () => render());
